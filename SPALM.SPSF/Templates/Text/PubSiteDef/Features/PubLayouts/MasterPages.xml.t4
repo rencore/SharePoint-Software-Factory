@@ -1,0 +1,27 @@
+﻿<#@ template language="C#" #><Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <Module Name="OSGMasterPages" Url="_catalogs/masterpage" Path="" RootWebOnly="TRUE"> 
+    	<File Url="<#= MasterPageFileName #>" IgnoreIfAlreadyExists="TRUE" Type="GhostableInLibrary">
+    		<#
+    			if(AutoCreateResxFiles)
+    			{
+    				#>
+    				<Property Name="Title" Value="$Resources:<#= ResourceFilename#>,<#= ResourceKeyPrefix #>_MasterPageTitle" /> 
+					<Property Name="MasterPageDescription" Value="$Resources:<#= ResourceFilename#>,<#= ResourceKeyPrefix #>_MasterPageDescription" />
+					<#
+    			}
+    			else
+    			{
+    				#>
+    				<Property Name="Title" Value="<#= MasterPageTitle #>" /> 
+					<Property Name="MasterPageDescription" Value="<#= MasterPageDescription #>" />
+					<#
+    			}
+				#>			
+				<Property Name="ContentType" Value="$Resources:cmscore,contenttype_masterpage_name;" />
+				<Property Name="PublishingPreviewImage" Value="~SiteCollection/_catalogs/masterpage/$Resources:core,Culture;/Preview Images/<#= MasterPageNameImage #>, ~SiteCollection/_catalogs/masterpage/$Resources:core,Culture;/Preview Images/<#= MasterPageNameImage #>" />
+			</File> 			         
+    </Module>
+    <Module Name="MasterPagesPreviewImages" Url="_catalogs/masterpage" IncludeFolders="??-??" Path="" RootWebOnly="TRUE">
+      <File Url="<#= MasterPageNameImage #>" IgnoreIfAlreadyExists="TRUE" Name="Preview Images/<#= MasterPageNameImage #>" Type="GhostableInLibrary"></File>
+	</Module>    
+</Elements>

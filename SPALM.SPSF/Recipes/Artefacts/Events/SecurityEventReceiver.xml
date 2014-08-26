@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="SecurityEventReceiver"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+	<DocumentationLinks>
+		<xi:include href="BaseEventsDocumentation.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:DocumentationLinks/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	</DocumentationLinks>
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Security Event Receivers</Caption>
+	<Description>Adds a event receivers to react of events like GroupAdded, InheritanceBreaking, RoleAssignmentAdded, RoleDefinitionAdded etc.</Description>
+	<HostData Priority="10">
+		<Icon File="Help/Icons/icon_Events.ico" />
+    <CommandBar Menu="SPSFProjectEvents"/>
+    <CommandBar Menu="SPSFFolderEvents"/>
+		<spsf:MetaData
+		  Visible="false"
+		  BindingType="ElementManifestReference"
+		  BindingTypeTemplate="ElementManifestReferenceTemplate"
+		  TestType="BaseWebFeatureRecipeRunner"
+		  Enabled="false"
+      SharePointVersions="15"
+		  CreateVSTemplate="true"
+		  FeatureScopes="Web;Site"
+		  Category="Events" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+				<spsf:Author>Matthias Einig</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[Creates a SecurityEventReceiver.]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<Argument Name="EventReceiverTypes" Type="NameValueItemArray" Required="true" >
+			<Converter XPath="/RecipeParameters/SPEventReceivers/SPSecurityEventReceiver" Type="RecipeParametersConverter" />
+			<ValueProvider Type="DefaultNameValueCollectionProvider"  />
+		</Argument>
+
+		<Argument Name="TemplatePathFeatureCode" Type="System.String">
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="Text\Events\FeatureReceiverCode.xml.t4"/>
+		</Argument>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="BaseEventsArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Arguments>
+
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+				<xi:include href="BaseEventsPages.include"  parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-wizards) xpointer(/p:Pages/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+
+	<xi:include href="BaseEventsActions.include" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</Recipe>
+
+

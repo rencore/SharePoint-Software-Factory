@@ -1,0 +1,122 @@
+<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<CustomAction
+		Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>"
+		Location="<#= CustomActionLocation #>"
+		Title="<#= RibbonActionTitle #>"	
+		<# 
+		if(CustomActionRegistrationId != null && CustomActionRegistrationId.ToString() != "None")
+		{
+			#>
+			RegistrationType="<#= CustomActionRegistrationType #>"
+			RegistrationId="<#= CustomActionRegistrationId.ToString() #>"
+			<#
+		}
+		#>	
+		<#
+		if(CustomActionRights.Length > 0)
+		{
+			#>
+			Rights="<#
+			bool showcomma = false;
+			foreach(NameValueItem right in CustomActionRights)
+			{		
+				if(showcomma)
+				{
+					#>,<#
+				}
+				showcomma = true;
+				#><#= right.Value #><#
+			}
+			#>" <#
+		}
+		if(CustomActionRequireSiteAdministrator)
+		{
+			#>
+			RequireSiteAdministrator="<#= CustomActionRequireSiteAdministrator #>"
+			<#
+		}
+		#>>
+		<CommandUIExtension>
+			<CommandUIDefinitions>
+				<CommandUIDefinition
+					Location="<#= RibbonCommandUIDefinitionLocation #>.Controls._children">
+					<#		
+					if(RibbonControlType == "Label")
+					{
+					#>
+						<Label
+						Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.<#= RibbonControlType #>"
+						Command="<#= AppName #>.<#= RibbonActionName #>.<#= RibbonControlType #>Command"
+						Sequence="<#= RibbonActionSequence #>"
+						<#
+						if(AutoCreateResxFiles)
+						{
+							#>
+							LabelText="$Resources:<#= ResourceKeyPrefix #>_Title;"
+							<#
+						}
+						else
+						{
+							#>
+							LabelText="<#= RibbonActionTitle #>"
+							<#
+						}
+						#>
+						TemplateAlias="o2" />
+						<#
+					}
+					else
+					{
+					#>							
+					<<#= RibbonControlType #>
+						Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.<#= RibbonControlType #>"
+						Command="<#= AppName #>.<#= RibbonActionName #>.<#= RibbonControlType #>Command"
+						Sequence="<#= RibbonActionSequence #>"
+						<#
+						if(RibbonControlType == "Button")
+						{
+							#>
+							Image16by16="/_layouts<#= VersionedFolderName #>/images/<#= SafeAppName #>/<#= RibbonControlImage16 #>"
+							Image32by32="/_layouts<#= VersionedFolderName #>/images/<#= SafeAppName #>/<#= RibbonControlImage32 #>"
+							<#
+						}
+						if(AutoCreateResxFiles)
+						{
+							#>
+							LabelText="$Resources:<#= ResourceKeyPrefix #>_Title;"
+							ToolTipTitle="$Resources:<#= ResourceKeyPrefix #>_Title;"
+							ToolTipDescription="$Resources:<#= ResourceKeyPrefix #>_Description;"
+							<#
+						}
+						else
+						{
+							#>
+							LabelText="<#= RibbonActionTitle #>"
+							ToolTipTitle="<#= RibbonActionTitle #>"
+							ToolTipDescription="<#= RibbonActionDescription #>"
+							<#
+						}
+						#>					
+						TemplateAlias="o2" />
+					<#
+					}
+					#>
+				</CommandUIDefinition>
+			</CommandUIDefinitions>
+			<#
+			if(RibbonControlType == "Button")
+			{
+			#>
+			<CommandUIHandlers>
+				<CommandUIHandler
+					Command="<#= AppName #>.<#= RibbonActionName #>.<#= RibbonControlType #>Command"
+					CommandAction="javascript:alert('Hello, world');" />
+			</CommandUIHandlers>
+			<#
+			}
+			#>
+		</CommandUIExtension>
+	</CustomAction>
+</Elements>
+

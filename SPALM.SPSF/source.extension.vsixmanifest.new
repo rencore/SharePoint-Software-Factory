@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="SPALM.SPSF" Version="4.1.3.2705" Language="en-US" Publisher="Torsten Mandelkow and Matthias Einig" />
+    <DisplayName>SharePoint Software Factory</DisplayName>
+    <Description xml:space="preserve">The SharePoint Software Factory is a guidance package with a comprehensive set of templates, code snippets and code samples for all kinds of SharePoint development artifacts.  
+    SPSF provides wizards which help to develop SharePoint solutions standardized, faster and easier.
+This version supports SharePoint 2010/2013 in Visual Studio 2012.
+For Visual Studio 2008/2010 and SharePoint 2007 support please download a previous release from http://spsf.codeplex.com</Description>
+    <MoreInfo>http://spsf.codeplex.com</MoreInfo>
+    <License>GNULicense.rtf</License>
+    <GettingStartedGuide>http://spsf.codeplex.com/documentation</GettingStartedGuide>
+    <ReleaseNotes>ReleaseNotes.txt</ReleaseNotes>
+    <Icon>spsf.ico</Icon>
+    <PreviewImage>spsf.jpg</PreviewImage>
+    <Tags>SharePoint, SP2010, SP2013, VS2012, GAX, Guidance Automation Extensions, Factory</Tags>
+  </Metadata>
+  <Installation AllUsers="true">
+    <InstallationTarget Version="11.0" Id="Microsoft.VisualStudio.Pro" />
+    <InstallationTarget Version="11.0" Id="Microsoft.VisualStudio.Ultimate" />
+    <InstallationTarget Version="11.0" Id="Microsoft.VisualStudio.Premium" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="4.5" d:InstallSource="Download" />
+    <Dependency d:Source="Installed" Id="OpenGAX" DisplayName="GAX 2010 For Visual Studio 2012" Version="[3.0,4.0)" d:InstallSource="Download" Location="http://visualstudiogallery.msdn.microsoft.com/1412659a-622c-47a4-af1e-a3f75afdd79b" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    <CustomExtension xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010" Type="GuidancePackage">SPALM.SPSF.xml</CustomExtension>
+  </Assets>
+</PackageManifest>

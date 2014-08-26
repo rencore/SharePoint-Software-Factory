@@ -1,0 +1,23 @@
+﻿<#@ template language="C#" #><?xml version="1.0" encoding="utf-8" ?>
+<Templates xmlns:ows="Microsoft SharePoint">
+	<Template 
+		Name="<#= SiteDefinitionName #>" 
+		ID="<#= SiteDefinitionID #>">
+		<Configuration ID="0" 	      
+			Title="<#= SiteDefinitionTitle #>" 
+			Description="<#= SiteDefinitionDescription #>"
+			DisplayCategory="<#= SiteDefinitionCategory #>"        
+			Hidden="<#= SiteDefinitionHidden #>"
+			ImageUrl="<#= SiteDefinitionImageFolder #>/<#= SiteDefinitionImage #>"
+			RootWebOnly="<#= SiteDefinitionRootWebOnly #>"			
+<# if(SiteDefinitionVisibilityFeatureDependency != null)
+{
+#>
+			VisibilityFeatureDependency="<#= SiteDefinitionVisibilityFeatureDependency.Value #>"
+<#
+}
+#>			
+		/>  
+    </Template>
+</Templates>
+

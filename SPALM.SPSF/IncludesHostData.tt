@@ -1,0 +1,57 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="xml" hostspecific="true" #>
+<#@ assembly name="EnvDTE" #>
+<#@ include file="T4Functions.tt" #><?xml version="1.0" encoding="utf-8" ?>
+<HostData xmlns="http://schemas.microsoft.com/pag/gax-core">
+    <Icon File="SPSF.ico" />
+	<# 
+
+	SPSFBase spsfbase = new SPSFBase(Host as IServiceProvider, Host.TemplateFile);
+
+	RecipeIndex recipeIndex = new RecipeIndex(spsfbase, 2);
+	foreach(RecipeCategory category in recipeIndex.GetCategories())
+	{
+		#>				
+		<!-- <#= category.Title #> -->
+		<Menu Name="SPSFProject<#= category.Name #>" Text="<#= category.Title #>" Priority="<#= category.Sort #>">
+		  <CommandBar Name="Project"/>
+		</Menu>
+		<Menu Name="SPSFSolution<#= category.Name #>" Text="<#= category.Title #>" Priority="<#= category.Sort #>">
+		  <CommandBar Name="Solution" />
+		</Menu>
+		<Menu Name="SPSFSolutionFolder<#= category.Name #>" Text="<#= category.Title #>" Priority="<#= category.Sort #>">
+		  <CommandBar Name="Solution Folder"/>
+		</Menu>
+		<Menu Name="SPSFFolder<#= category.Name #>" Text="<#= category.Title #>" Priority="<#= category.Sort #>">
+		  <CommandBar Name="Folder"/>
+		</Menu>
+		<Menu Name="SPSFItem<#= category.Name #>" Text="<#= category.Title #>" Priority="<#= category.Sort #>">
+		  <CommandBar Name="Item"/>
+		</Menu>	
+		<#
+
+		foreach(RecipeCategory childCategory in category.GetChildCategories())
+		{
+			#>				
+			<!-- <#= childCategory.Title #> -->
+			<Menu Name="SPSFProject<#= childCategory.Name #>" Text="<#= childCategory.Title #>" Priority="<#= childCategory.Sort #>">
+			  <CommandBar Menu="SPSFProject<#= category.Name #>"/>
+			</Menu>
+			<Menu Name="SPSFSolution<#= childCategory.Name #>" Text="<#= childCategory.Title #>" Priority="<#= childCategory.Sort #>">
+			  <CommandBar Menu="SPSFSolution<#= category.Name #>"/>
+			</Menu>
+			<Menu Name="SPSFSolutionFolder<#= childCategory.Name #>" Text="<#= childCategory.Title #>" Priority="<#= childCategory.Sort #>">
+			  <CommandBar Menu="SPSFSolutionFolder<#= category.Name #>"/>
+			</Menu>
+			<Menu Name="SPSFFolder<#= childCategory.Name #>" Text="<#= childCategory.Title #>" Priority="<#= childCategory.Sort #>">
+			  <CommandBar Menu="SPSFFolder<#= category.Name #>"/>
+			</Menu>
+			<Menu Name="SPSFItem<#= childCategory.Name #>" Text="<#= childCategory.Title #>" Priority="<#= childCategory.Sort #>">
+			  <CommandBar Menu="SPSFItem<#= category.Name #>"/>
+			</Menu>	
+			<#
+		}		
+	}	
+#>  
+</HostData>  
+  

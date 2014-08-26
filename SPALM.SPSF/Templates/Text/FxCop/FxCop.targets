@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- This file contains targets to integrate FxCop -->
+  <!-- Author: Matthias Einig -->
+  <!-- SPSF Version: 4.1.3.2705 -->
+
+  <PropertyGroup>
+    <ProgramFiles32 Condition="Exists('$(PROGRAMFILES) (x86)')">$(PROGRAMFILES) (x86)</ProgramFiles32>
+    <ProgramFiles32 Condition="$(ProgramFiles32) == ''">$(PROGRAMFILES)</ProgramFiles32>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <BuildDependsOn>$(BuildDependsOn);FxCop</BuildDependsOn>
+  </PropertyGroup>
+
+  <!-- Define FxCopEnabled property. -->
+  <PropertyGroup Condition="'$(FxCopEnabled)' == ''">
+    <FxCopEnabled>true</FxCopEnabled>
+  </PropertyGroup>
+
+  <!-- Define FxCop commanline location -->
+  <PropertyGroup>
+    <FxCopCmdExePath>$(ProgramFiles32)\Microsoft Fxcop 10.0\FxCopCmd.exe</FxCopCmdExePath>
+    <FxCopCmdExePath Condition="!Exists('$(FxCopCmdExePath)')">$(ProgramFiles32)\Microsoft Visual Studio 11.0\Team Tools\Static Analysis Tools\FxCop\FxCopCmd.exe</FxCopCmdExePath>
+    <FxCopCmdExePath Condition="!Exists('$(FxCopCmdExePath)')">$(ProgramFiles32)\Microsoft FxCop 1.36\FxCopCmd.exe</FxCopCmdExePath>
+  </PropertyGroup>
+
+  <!-- Define where to search for assemblies -->
+  <PropertyGroup>
+    <FxCopSearchAssemblies>/d:&quot;$(ProgramFiles32)\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0&quot; /d:&quot;$(ProgramFiles32)\Microsoft SDKs\Silverlight\v4.0\Libraries\Client&quot; /d:&quot;$(ProgramW6432)\Common Files\Microsoft Shared\Web Server Extensions\14\TEMPLATE\LAYOUTS\ClientBin&quot; /d:&quot;$(ProgramW6432)\Common Files\Microsoft Shared\Web Server Extensions\15\TEMPLATE\LAYOUTS\ClientBin&quot;</FxCopSearchAssemblies>
+  </PropertyGroup>
+
+  <!-- Define SettingsFile property. -->
+  <PropertyGroup Condition="'$(FxCopSettingsFile)' != ''">
+    <FxCopProject>/p:&quot;$(FxCopSettingsFile)&quot;</FxCopProject>
+  </PropertyGroup>
+  <!-- Define XSLFile property. -->
+  <PropertyGroup Condition="'$(FxCopXSLFile)' != ''">
+    <FxCopXSL>/cxsl:&quot;$(FxCopXSLFile)&quot;</FxCopXSL>
+  </PropertyGroup>
+
+  <!-- Define custom project dictonary property. -->
+  <PropertyGroup Condition="'$(FxCopDictionaryFile)' != '' And Exists($(FxCopDictionaryFile))">
+    <FxCopDictionary>/dictionary:&quot;$(FxCopDictionaryFile)&quot;</FxCopDictionary>
+  </PropertyGroup>
+
+  <!-- Define Outputfile properties -->
+  <PropertyGroup>
+    <CodeAnalysisResultsFolder Condition="'$(CodeAnalysisResultsFolder)' == ''">$(IntermediateOutputPath)</CodeAnalysisResultsFolder>
+    <FxCopOutputFile Condition="'$(FxCopOutputFile)' == ''">$(CodeAnalysisResultsFolder)\FxCopViolations.xml</FxCopOutputFile>
+  </PropertyGroup>
+ 
+  <!-- Target which runs FxCopCmd if enabled -->
+  <Target Name="FxCop" Condition="'$(FxCopEnabled)' == 'true'">
+    <Message Text="**************************************" Importance="High" />
+    <Message Text="Running FxCop" Importance="High" />
+
+    <ItemGroup Condition="@(FxCopFiles) == ''">
+      <FxCopFiles Include="$(TargetPath)" />
+    </ItemGroup>
+
+    <MakeDir Condition="!Exists('$(CodeAnalysisResultsFolder)')" Directories="$(CodeAnalysisResultsFolder)" />
+    
+    <Message Text="Analyzing @(FxCopFiles)" Importance="High" />
+    <Message Text="Error: FxCop not installed at '$(ProgramFiles32)\Microsoft Fxcop 10.0\', '$(ProgramFiles32)\Microsoft Visual Studio 11.0\Team Tools\Static Analysis Tools\FxCop\' or '$(ProgramFiles32)\Microsoft FxCop 1.36\'" Condition="!Exists('$(FxCopCmdExePath)')" Importance="High" />
+    <Exec Condition="Exists('$(FxCopCmdExePath)')"
+          Command="&quot;$(FxCopCmdExePath)&quot; /file:&quot;%(FxCopFiles.FullPath)&quot; $(FxCopProject)  /o:&quot;$(FxCopOutputFile)&quot; $(FxCopXSL) $(FxCopDictionary) /console /q /searchgac $(FxCopSearchAssemblies)"
+          ContinueOnError="false" 
+          IgnoreExitCode="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+    </Exec>
+    
+    <Error Text="FxCopCmd exited with Code $(ErrorCode), for details about FxCop ExitCodes visit http://msdn.microsoft.com/en-us/library/bb164705(v=VS.90).aspx" Condition="'$(ErrorCode)' != '' and '$(ErrorCode)' > '0'" />
+    <Message Text="Finished Running FxCop" Importance="High" />
+    <Message Text="**************************************" Importance="High" />
+
+  </Target>
+
+</Project>

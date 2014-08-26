@@ -1,0 +1,7 @@
+﻿<#@ template language="C#" #>
+  <data name="<#= ResourceKeyPrefix #>_Title">
+    <value><#= ListInstanceTitle #></value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_Description">
+    <value><#= ListInstanceDescription #></value>
+  </data> 

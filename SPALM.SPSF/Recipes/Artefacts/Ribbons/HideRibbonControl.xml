@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="HideRibbonControl"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+	<DocumentationLinks>
+		<Link Caption="MSDN: Walkthrough: Remove a Button from the Server Ribbon" Url="http://msdn.microsoft.com/en-us/library/ff408060.aspx" Kind="Documentation"/>
+		<Link Caption="MSDN: Server Ribbon XML" Url="http://msdn.microsoft.com/en-us/library/ff407290.aspx" Kind="Documentation"/>
+		<Link Caption="MSDN: Default Server Ribbon Customization Locations" Url="http://msdn.microsoft.com/en-us/library/ee537543.aspx" Kind="Documentation"/>
+	</DocumentationLinks>
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Hide Ribbon Control</Caption>
+	<Description>Hides an existing ribbon control (e.g. button, label)</Description>
+	<HostData Priority="5000">
+		<Icon File="Help/Icons/icon_Ribbon.ico" />
+		<CommandBar Menu="SPSFProjectCustomActions"/>
+		<CommandBar Menu="SPSFFolderCustomActions"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="ElementManifestReference"
+		  BindingTypeTemplate="ElementManifestReferenceTemplate"
+		  TestType="BaseSiteFeatureRecipeRunner"
+		  Enabled="true"
+		  CreateVSTemplate="true"
+		  SharePointVersions="14;15"
+      FeatureScopes="Web;Site;WebApplication;Farm"
+		  Category="CustomActions" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[]]>
+			</spsf:WebPageContent>
+			<spsf:Test>
+				<spsf:TestCases>
+					<spsf:TestCase Name="DefaultRibbonControl" Type="SyntaxTestCase">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="RibbonActionName">HideRibbonControl</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+					<spsf:TestCase Name="Hide" Type="SolutionTestCase">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="RibbonActionName">HideLibraryCreateView</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="RibbonCommandUIDefinitionLocation">Ribbon.Library.CustomViews.CreateView;Ribbon.Library.CustomViews.CreateView;Ribbon.Library.CustomViews.CreateView</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+						<spsf:TestExpectedDeployResults>
+							<spsf:TestExpectedDeployResult Type="ManualCheck">In tab 'Library' button 'CreateView' is not visible in document library page http://demo2010a/Shared%20Documents/Forms/AllItems.aspx</spsf:TestExpectedDeployResult>
+						</spsf:TestExpectedDeployResults>
+					</spsf:TestCase>
+				</spsf:TestCases>
+			</spsf:Test>
+		</spsf:MetaData>		
+	</HostData>
+	<Arguments>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<Argument Name="ElementsCategory">
+			<ValueProvider Type="Evaluator" Expression="Ribbons" />
+		</Argument>
+		<Argument Name="AllowedScopes" Type="System.String">
+			<ValueProvider Type="Evaluator" Expression="Web;Site;WebApplication;Farm" />
+		</Argument>
+
+		<Argument Name="RibbonActionName" Required="true" >
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="VisualStudioCreateItemName" DefaultValue="HideRibbonButton1" MakeSafe="true" />
+		</Argument>
+		<Argument Name="RibbonCommandUIDefinitionLocation" Type="NameValueItem" Required="true" >
+			<ValueProvider Type="DefaultNameValueItemProvider" Name="Ribbon.Library.Share.AlertMe" Value="Ribbon.Library.Share.AlertMe" />
+		</Argument>
+
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+				<Page Width="600" Height="400">
+					<Title>Location settings</Title>
+					<Fields>
+						<Field PanelType="SPALM.SPSF.Library.NameValueItemPanel, SPALM.SPSF.Library" ValueName="RibbonCommandUIDefinitionLocation" Label="Parent Group" >
+							<Help>Required Text. Specifies the existing ribbon control which should be hidden.</Help>
+							<Editor Type="SPALM.SPSF.Library.RibbonControlEditor, SPALM.SPSF.Library" />
+						</Field>
+					</Fields>
+				</Page>
+				</Pages>
+		</Wizard>
+	</GatheringServiceData>
+
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+		<xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<!-- elements.xml-->
+		<Action
+		  Name="CreateElementsXml"
+		  Type="AddElementsDefinitionAction"
+		  ParentFeatureName="$(ParentFeatureName)"
+		  ElementsName="$(RibbonActionName)"
+		  ElementsCategory="$(ElementsCategory)"
+		  TemplateFileName="Text\Ribbons\HideRibbonControl\elements.xml.t4"
+		  SPDataTemplate="Text\Ribbons\SharePointProjectItem.spdata.t4"
+		  Open="true">
+			<Output Name="CreatedElementFolder" />
+			<Output Name="CreatedElementFile" />
+		</Action>
+
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+	</Actions>
+
+
+</Recipe>

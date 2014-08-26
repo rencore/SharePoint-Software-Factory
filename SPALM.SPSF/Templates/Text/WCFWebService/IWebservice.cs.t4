@@ -1,0 +1,16 @@
+﻿<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System.ServiceModel;
+
+  [ServiceContract]
+  public interface I<#= WebServiceName #>
+  {
+    [OperationContract]
+    string HelloWorld();
+  } 
+}

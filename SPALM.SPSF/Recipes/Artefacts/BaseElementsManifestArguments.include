@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains standard arguments which are necessary for element manifest related recipes -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+  <!-- returns the current selected file which is normally the elements.xml -->
+  <Argument Name="ParentManifestFile" Type="EnvDTE.ProjectItem, EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Required="false">
+    <ValueProvider Type="ParentManifestFileProvider" />
+  </Argument>
+ 
+  <!-- returns the current selected folder in which the elements.xml is located -->
+  <Argument Name="ParentManifestFolder" Type="EnvDTE.ProjectItem, EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Required="false">
+    <ValueProvider Type="ParentManifestFolderProvider" />
+  </Argument>  
+
+</Arguments>

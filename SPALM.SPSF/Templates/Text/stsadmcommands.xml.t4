@@ -1,0 +1,9 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="STSADMCommandName" #>
+<#@ property processor="PropertyProcessor" name="STSADMClassName" #>
+<#@ property processor="PropertyProcessor" name="STSADMNamespace" #>
+<#@ property processor="PropertyProcessor" name="STSADMAssembly" #>
+<#@ assembly name="System.dll" #>
+<command
+	  name="<#= STSADMCommandName #>"
+	  class="<#= STSADMNamespace #>.<#= STSADMClassName #>,<#= STSADMAssembly #>" />

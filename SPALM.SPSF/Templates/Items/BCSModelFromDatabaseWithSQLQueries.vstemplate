@@ -1,0 +1,28 @@
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Import Model from Database as SQL Queries</Name>
+    <Description>Add a BCS model from a database and generates the necessary SQL queries to retrieve and change the data. This recipe will create C# code to retrieve data from the external data source.</Description>
+    <DefaultName>BCSModel</DefaultName>
+    <SortOrder>15</SortOrder>
+    <Icon>../../Help/Icons/icon_BCS.ico</Icon>
+    <CreateNewFolder>false</CreateNewFolder>
+    <LocationField>Hidden</LocationField>
+    <ProjectType>CSharp</ProjectType>  
+	<TemplateGroupID>SharePointItemTemplateGroupID</TemplateGroupID>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <ShowByDefault>false</ShowByDefault>
+    <FrameworkVersion>3.5</FrameworkVersion>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ReplaceParameters="true" TargetFileName="dummy.txt">dummy.txt</ProjectItem>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.Practices.RecipeFramework.VisualStudio</Assembly>
+    <FullClassName>Microsoft.Practices.RecipeFramework.VisualStudio.Templates.UnfoldTemplate</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <Template xmlns="http://schemas.microsoft.com/pag/gax-template"
+      SchemaVersion="1.0"
+      Recipe="BCSModelFromDatabaseWithSQLQueries" />
+  </WizardData>
+</VSTemplate>

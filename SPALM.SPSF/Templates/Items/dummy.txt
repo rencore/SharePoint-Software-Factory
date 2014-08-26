@@ -1,0 +1,5 @@
+This is a temporary file of the SharePoint Software Factory. It will be deleted automatically.
+**********************************************************************************************
+For issues, ideas and discussions for SPSF or SPALM, visit http://spsf.codeplex.com
+**********************************************************************************************
+

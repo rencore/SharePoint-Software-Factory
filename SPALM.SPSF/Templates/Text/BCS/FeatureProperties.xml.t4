@@ -1,0 +1,5 @@
+﻿<#@ template language="C#" #><?xml version="1.0" encoding="utf-8"?>
+<Properties>
+    <Property Key="IncrementalUpdate" Value="true" />
+    <Property Key="ModelFileName" Value="<#= BCSModelName #>\\<#= BCSModelName #>.bdcm" />
+</Properties>

@@ -1,0 +1,28 @@
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Sample: Field Type with Status Choice</Name>
+    <Description>Sample to store an employee status</Description>
+    <DefaultName>ChoiceFieldType</DefaultName>
+    <SortOrder>32</SortOrder>
+    <Icon>../../Help/Icons/icon_FieldTypes.ico</Icon>
+    <CreateNewFolder>false</CreateNewFolder>
+    <LocationField>Hidden</LocationField>
+    <ProjectType>CSharp</ProjectType>  
+	<TemplateGroupID>SharePointItemTemplateGroupID</TemplateGroupID>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <ShowByDefault>false</ShowByDefault>
+    <FrameworkVersion>3.5</FrameworkVersion>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ReplaceParameters="true" TargetFileName="dummy.txt">dummy.txt</ProjectItem>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.Practices.RecipeFramework.VisualStudio</Assembly>
+    <FullClassName>Microsoft.Practices.RecipeFramework.VisualStudio.Templates.UnfoldTemplate</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <Template xmlns="http://schemas.microsoft.com/pag/gax-template"
+      SchemaVersion="1.0"
+      Recipe="FieldTypeChoice" />
+  </WizardData>
+</VSTemplate>

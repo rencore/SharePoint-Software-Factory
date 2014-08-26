@@ -1,0 +1,12 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="WorkflowNamespace" #>
+<#@ property processor="PropertyProcessor" name="WorkflowName" #>
+<#@ assembly name="System.dll" #>
+<<#= WorkflowName #>Approval>
+  <!-- Sample:
+  <Approver></Approver>
+  <ApprovalScope>Internal</ApprovalScope>
+  <Instructions></Instructions>
+  <Comments></Comments>
+  -->
+</<#= WorkflowName #>Approval>

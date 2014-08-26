@@ -1,0 +1,40 @@
+﻿
+<html>
+<head>
+    <title>How to (re-)activate SPSF on existing projects?</title>
+</head>
+<body>
+    <h3>How to (re-)activate SPSF on existing projects?</h3>
+
+In case you are adding SPSF to an existing project, or if you retrieve the solution from TFS the first time, SPSF has to be activated once.
+This step is required due to the fact that Visual Studios stores the activation of SPSF in the user settings of each solution. This file is usually not stored in source control and unique for each machine/download location.
+<h3>Activation Steps</h3>
+To activate SPSF open the solution in Visual Studio and choose "Tools -&gt; Guidance Package Manager"
+<br />
+<a href="./_img/GuidancePackageManagerMenu.png"><img alt="GuidancePackageManagerMenu" src="./_img/GuidancePackageManagerMenu.png" width="640" height="142" /></a>
+<br />
+If the following dialog window of the "Guidance Package Manager" shows the SPSF recipes then your are done!
+
+If the dialog is empty like in the picture below, then continue by clicking "Enable / Disable Packages…"
+<br />
+<a href="./_img/GuidancePackageManagerEmpty.png"><img alt="GuidancePackageManagerEmpty" src="./_img/GuidancePackageManagerEmpty.png" width="640" height="378" /></a>
+<br />
+The next dialog shows you all Guidance Packages which are installed in Visual Studio.
+
+Check "SharePoint Software Factory" and click Ok
+<br />
+<a href="./_img/EnableDisablePackages.png"><img alt="EnableDisablePackages" src="./_img/EnableDisablePackages.png" width="640" height="382" /></a>
+<br />
+The Guidance Navigator opens and a message will appear that you should update the VS Solution to the new version of SPSF (we will come to that soon). Click Ok.
+
+Now the "Guidance Package Manager" window shows all available SPSF recipes.
+<br />
+<a href="./_img/GuidancePackageManagerFull.png"><img alt="GuidancePackageManagerFull" src="./_img/GuidancePackageManagerFull.png" width="640" height="378" /></a>
+<br />
+Click Close.
+<h3>Verification</h3>
+To verify that SPSF is configured, right click on a SharePoint project and the following SPSF context menus should appear.
+<br />
+<a href="./_img/RunRecipes.jpg"><img alt="RunRecipes" src="./_img/RunRecipes.jpg" width="640" height="443" /></a><br />
+</body>
+</html>

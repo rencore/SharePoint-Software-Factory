@@ -1,0 +1,52 @@
+﻿<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #> 
+{
+  using System;  
+  using System.Globalization;  
+  using System.Runtime.InteropServices;
+  using System.Text;
+  using System.Web.UI;
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.WebControls;
+
+  /// <summary>
+  /// Custom field type <#= FieldTypeTypeName #>Control
+  /// </summary>  
+  [Guid("<#= System.Guid.NewGuid().ToString() #>")]
+  public class <#= FieldTypeTypeName #>Control : BaseFieldControl 
+  {
+    protected TextBox txtUserInput;
+    protected override string DefaultTemplateName 
+    {
+      get 
+      {
+        return "<#= FieldTypeRenderingTemplateId #>";
+      }
+    }
+    
+    protected override void CreateChildControls() 
+    {
+      base.CreateChildControls();
+      txtUserInput = (TextBox)this.TemplateContainer.FindControl("txtUserInput");      
+    }
+
+    public override object Value 
+    {
+      get 
+      {
+        this.EnsureChildControls();
+        return txtUserInput.Text;
+      }
+      set 
+      {
+        this.EnsureChildControls();
+        txtUserInput.Text = (string)this.ItemFieldValue;
+      }
+    }
+  }
+}

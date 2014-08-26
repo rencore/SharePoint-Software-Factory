@@ -1,0 +1,44 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ImportSiteURL" #>
+<#@ property processor="PropertyProcessor" name="ImportFilename" #>
+<#@ property processor="PropertyProcessor" name="ImportUpdateVersions" #>
+<#@ assembly name="System.dll" #>
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="DebugBuild" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<STSADM>"C:\Program Files\Common Files\Microsoft Shared\web server extensions\12\bin\stsadm.exe"</STSADM>
+		<ImportSiteURL><#= ImportSiteURL #></ImportSiteURL>
+		<ImportFilename><#= ImportFilename #>.cab</ImportFilename>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Computername)'=='DEV'">
+		<!-- Settings for Environment DEV -->
+	</PropertyGroup> 
+	
+	<!-- Itemgroup to identify the log file -->
+	<ItemGroup>
+        <LogFile Include="<#= ImportFilename #>.log"/>
+    </ItemGroup>
+    
+    <!-- Deployment via stsadm -->
+	<Target Name="Deploy">
+		<Message Text="Deploying content into site $(ImportSiteURL)" Importance="high" />
+		<Exec Command="$(STSADM) -o import -url $(ImportSiteURL) -filename $(ImportFilename) -updateversions 1" ContinueOnError="false"   />
+		<ReadLinesFromFile File="%(LogFile.Identity)">
+			<Output TaskParameter="LogLines" ItemName="lines"/>
+		</ReadLinesFromFile>
+		<Message Message="@(LogLines)" Importance="high" />
+	</Target>
+	
+	<Target Name="Redeploy" DependsOnTargets="Undeploy;Deploy">
+		<Message ContinueOnError="false" Text="Redeployment finished" Importance="high" />
+	</Target>
+	
+	<Target Name="Undeploy">
+		<Message Text="Warning: Undeployment of content is not supported by SharePoint" Importance="high" />
+	</Target>
+	
+	<Target Name="Upgrade" DependsOnTargets="Deploy">
+		<Message Text="Upgrading content into site $(ImportSiteURL)" Importance="high" />
+	</Target>
+</Project>

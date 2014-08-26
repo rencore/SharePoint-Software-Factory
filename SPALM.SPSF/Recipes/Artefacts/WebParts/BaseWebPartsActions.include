@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+  <!-- elements.xml-->
+  <Action
+    Name="CreateElementsXml"
+    Type="AddElementsDefinitionAction"
+    ParentFeatureName="$(ParentFeatureName)"
+    ElementsName="$(WebPartName)"
+    ElementsCategory="$(ElementsCategory)"
+    TemplateFileName="Text\WebPart\elements.xml.t4"
+    SPDataTemplate="Text\WebPart\SharePointProjectItem.spdata.t4"
+    Open="true">
+    <Output Name="CreatedElementFolder" />
+    <Output Name="CreatedElementFile" />
+  </Action>
+
+  <!-- Event web part code -->
+  <Action
+    Name="AddWebPartCode"
+    Type="AddTemplateToItemAction"
+    Open="true"
+    TemplateFileName="Text\WebPart\$(RecipeName)\WebPart.cs.t4"
+    TargetFileName="$(WebPartName).cs">
+    <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+  </Action>
+
+  <!-- Add webpart file TODO wegen deploymenttype: wo soll .webpart hin??? -->
+  <Action
+    Name="AddWebPartFile"
+    Type="AddTemplateToItemAction"
+    DeploymentType="ElementFile"
+    DeploymentPath="$(WebPartName)"
+    TemplateFileName="Text\WebPart\WebPart.webpart.t4"
+    TargetFileName="$(WebPartName).webpart">
+    <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+  </Action>
+
+  <!-- Resources for global usage-->
+  <Action
+    Condition="$(AutoCreateResxFiles)"
+    Name="AddResourcesGlobal"
+    Type="AddTemlateToResourcesFileAction"
+    TemplateFileName="Text\WebPart\ResourcesWebPart.resx.t4"
+    FeatureResources="False">
+    <Input Name="ExcludeCondition" RecipeArgument="ProjectIsSandboxedSolution" />
+  </Action>
+
+  <!-- Webpart icon for /_layouts/images/Applicationx/wp_XXX.gif -->
+  <Action
+    Name="AddWebPartIcon"
+    Type="AddFileToItemAction"
+    DeploymentType="TemplateFile"
+    DeploymentPath="Images\$(SafeAppName)"
+    SourceFileName="Text/WebPart/wp_icon.gif"
+    TargetFileName="$(WebPartIconName)">
+    <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+    <Input Name="ExcludeCondition" RecipeArgument="ProjectIsSandboxedSolution" />
+  </Action>
+
+
+</Actions>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="RibbonTab"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+	<DocumentationLinks>
+		<Link Caption="MSDN: Walkthrough: Add a Tab to the Server Ribbon" Url="http://msdn.microsoft.com/en-us/library/ff407250.aspx" Kind="Documentation"/>
+		<Link Caption="MSDN: Server Ribbon XML" Url="http://msdn.microsoft.com/en-us/library/ff407290.aspx" Kind="Documentation"/>
+		<Link Caption="MSDN: Default Server Ribbon Customization Locations" Url="http://msdn.microsoft.com/en-us/library/ee537543.aspx" Kind="Documentation"/>
+	</DocumentationLinks>
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Ribbon Tab</Caption>
+	<Description>Adds a new tab to the ribbons</Description>
+	<HostData Priority="2000">
+		<Icon File="Help/Icons/icon_Ribbon.ico" />
+		<CommandBar Menu="SPSFProjectCustomActions"/>
+		<CommandBar Menu="SPSFFolderCustomActions"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="ElementManifestReference"
+		  BindingTypeTemplate="ElementManifestReferenceTemplate"
+		  TestType="BaseSiteFeatureRecipeRunner"
+		  Enabled="true"
+		  CreateVSTemplate="true"
+		  SharePointVersions="14;15"
+      FeatureScopes="Web;Site;WebApplication;Farm"
+		  Category="CustomActions" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[]]>
+			</spsf:WebPageContent>
+			<spsf:Test>
+				<spsf:TestCases>
+					<spsf:TestCase Name="DefaultRibbonTab">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="RibbonActionName">RibbonTabDefault</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="RibbonActionTitle">Custom Tab 1</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+					<spsf:TestCase Name="RibbonTabWithPermissions">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="RibbonActionName">RibbonTabWithPermissions</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="RibbonActionTitle">Custom Tab With Permission</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="CustomActionRights">ManagePermissions;ManagePermissions;ManagePermissions|ViewLists;ViewLists;ViewLists</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+					<spsf:TestCase Name="RibbonTabForList">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="RibbonActionName">RibbonTabForList</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="RibbonActionTitle">DocLib Tab</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="CustomActionRegistrationType">List</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="CustomActionRegistrationId">101</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="CustomActionLocation">CommandUI.Ribbon.ListView</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+						<spsf:TestExpectedDeployResults>
+							<spsf:TestExpectedDeployResult Type="ManualCheck">In document library 'Shared Documents' a custom tab 'DocLib Tab' is available http://demo2010a/Shared%20Documents/Forms/AllItems.aspx</spsf:TestExpectedDeployResult>
+						</spsf:TestExpectedDeployResults>
+					</spsf:TestCase>
+				</spsf:TestCases>
+			</spsf:Test>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="BaseRibbonArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="BaseRibbonArgumentsComplete.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+ 
+    <Argument Name="RibbonControlImage16HelloWorld" Required="true" >
+      <ValueProvider Type="Evaluator" Expression="RibbonIcon_$(RibbonActionName)_HelloWorld_16.gif" />
+    </Argument>
+    <Argument Name="RibbonControlImage32HelloWorld" Required="true" >
+      <ValueProvider Type="Evaluator" Expression="RibbonIcon_$(RibbonActionName)_HelloWorld_32.gif" />
+    </Argument>
+    
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+				<xi:include href="BaseRibbonPages.include"  parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-wizards) xpointer(/p:Pages/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+		<xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="BaseRibbonActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    
+    <!-- add button icon 16-->
+    <Action
+		  Name="AddIcon16HelloWorld"
+		  Type="AddFileToItemAction"
+		  DeploymentType="TemplateFile"
+		  DeploymentPath="Images\$(SafeAppName)"
+		  SourceFileName="Text/Ribbons/CustomAction16.gif"
+		  TargetFileName="$(RibbonControlImage16HelloWorld)">
+      <Input Name="ExcludeCondition" RecipeArgument="ProjectIsSandboxedSolution" />
+      <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+    </Action>
+    <!-- add button icon 32-->
+    <Action
+		  Name="AddIcon32HelloWorld"
+		  Type="AddFileToItemAction"
+		  DeploymentType="TemplateFile"
+		  DeploymentPath="Images\$(SafeAppName)"
+		  SourceFileName="Text/Ribbons/CustomAction32.gif"
+		  TargetFileName="$(RibbonControlImage32HelloWorld)">
+      <Input Name="ExcludeCondition" RecipeArgument="ProjectIsSandboxedSolution" />
+      <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+    </Action>
+	</Actions>
+	
+</Recipe>

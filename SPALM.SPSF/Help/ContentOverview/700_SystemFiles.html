@@ -1,0 +1,48 @@
+﻿<html>
+<head>
+    <title>System Files</title>
+</head>
+<body>
+    <div class="introduction">SPSF contains several system files which play an important role during development and deployment.</div> 
+    <h2>Files used during development</h2>
+
+    <h3>SharePointConfiguration.xml</h3>
+    <div class="introduction">The file 'SharePointConfiguration.xml' is located in folder "Solution Items".
+          <br />
+    The file contains several standard SharePoint element like ContentTypes, Features, ListTemplates etc.
+          <br />
+    These elements are used during execution of a SPSF recipe within the dialogs to fill selection boxes and lists with these SharePoint artefacts. 
+          <br />
+    This file should not be changed and will be replaced automatically during an upgrade of SPSF.
+        </div>
+    <h2>Files used during build</h2>
+
+    <h3>SPSF.targets</h3>
+    <div class="introduction">The file 'SPSF.targets' is located in folder "Solution Items". 
+          <br />
+        The file is referenced by all projects in the VS solution to run task during the build of a project. This tasks includes 
+          <ul>
+              <li>Generation of web solution package file (.wsp)</li>
+              <li>Execution of code analysis tools</li>
+          </ul>
+    This file should not be changed and will be replaced automatically during an upgrade of SPSF.</div>
+    <h2>Files used during deployment</h2>
+    SPSF solutions in Visual Studio always contains a project with name &quot;Deployment&quot;. This project is used for the deployment of the WSP packages to one or multiple SharePoint farms.<br />
+    <h4>How it works:</h4>
+    <ul>
+        <li>After building a SPSF solution in Visual Studio a folder is created in the directory "Deployment/Package" based on the build configuration (typically "Debug" or "Release"). This folder contains the final deployable package and is the output folder for the whole Visual Studio solution.</li>
+        <li>Building a SharePoint project which uses the SPSF.targets (see above). will create a WSP file in the output directory (&quot;bin/Debug&quot; or &quot;bin/Release&quot;)</li>
+        <li>Building the "Deployment" project (which should depend on all SharePoint projects), it will collect all WSP files from the output folders of the same build configuration of all SharePoint projects, and also 3rd-party WSP files which you added to the "Deployment/Solutions" folder.</li>
+        <li>All WSP files are then copied together in the "Deployment/Package" folder</li>
+        <li>The environment configuration XML files in the &quot;Deployment/Environments&quot; folder define how and where the solutions should be deployed on each farm. These files are copied to the deployment package.</li>
+        <li>The project "Deployment" contains a folder "Batches" with several batch files (e.g. Deploy.bat) to start the deployment process later. During a build of project "Deployment" all contents of this folder are also copied to this final output folder.</li>
+        <li style="margin-top: 0px">Also the PowerShell scripts in the "Scripts" folder will be added to the package</li>
+    </ul>
+    <h4>Configuration of the deployment process:</h4>
+    The deployment process is defined in XML files. They describe the tasks and parameters which are used during the deployment of WSP files to SharePoint and which tasks must be executed before or after the deployment.
+        <p>
+            How to configure the deployment for multiple farms, re-use settings and set up deployment parameters is described in the project SPSD SharePoint Solution Deployer which you can find at <a href="http://spsd.codeplex.com" target="_blank">http://spsd.codeplex.com</a>
+    </p>
+
+</body>
+</html>

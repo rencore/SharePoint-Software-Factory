@@ -1,0 +1,125 @@
+﻿<#@ template language="C#" #>
+<#@ include file="Templates/Text/BCS/BCSFunctions.t4" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System.ServiceModel;
+  using System.Collections.Generic;
+
+  [ServiceContract]
+  public interface I<#= WebServiceName #>
+  {
+  <#
+
+int count = 0;
+foreach(BCSEntity entity in BCSModel.Entities)
+{
+	if(entity.CreateReadOperation)
+	{
+		#>
+		[OperationContract]
+		<#= entity.Name #> <#= entity.ReadItemOperationName #>(<#
+
+		count = 0;
+		foreach(BCSField field in entity.Fields)
+		{
+			if(field.IsKey)
+			{
+				if(count > 0)
+				{
+					#>, <#
+				}
+				#><#= field.DataType.ToString() #> <#= field.Name #><#
+				count++;
+			}
+		}
+			
+		#>);
+
+		[OperationContract]
+		List<<#= entity.Name #>> <#= entity.ReadListOperationName #>();
+
+		<#
+	}
+
+	if(entity.CreateCreateOperation)
+	{
+		#>
+
+		[OperationContract]
+		<#= entity.Name #> <#= entity.CreateOperationName #>(<#= entity.Name #> newentity);
+
+		<#
+	}
+	
+	if(entity.CreateDeleteOperation)
+	{
+		#>
+
+		[OperationContract]
+		void <#= entity.DeleteOperationName #>(<#
+
+		count = 0;
+		foreach(BCSField field in entity.Fields)
+		{
+			if(field.IsKey)
+			{
+				if(count > 0)
+				{
+					#> ,<#
+				}
+				#><#= field.DataType.ToString() #> <#= field.Name #><#
+				count++;
+			}
+		}
+			
+		#>);
+		<#
+	}
+
+	if(entity.CreateUpdateOperation)
+	{
+		#>
+
+		[OperationContract]
+		void <#= entity.UpdateOperationName #>(<#= entity.Name #> update<#= entity.Name #><#
+			//add all keys as preupdaterfields
+
+			if(!EntityHasKeyWithIdentity(entity))
+			{
+				//needs preupdaterfields
+				foreach(BCSField field in GetUpdateWhereClauseFieldsPreUpdate(entity))
+				{
+					#>, <#= field.DataType.ToString() #> preupdate<#= field.Name #><#		
+				}
+			}	
+
+			#>);
+		<#
+	}
+
+	foreach(BCSEntity entityWhichReferencesMe in GetAssocationsToMe(entity))
+	{
+		foreach(BCSField fieldWithReference in entityWhichReferencesMe.Fields)
+		{
+			if(fieldWithReference.ReferencedEntity == entity.Name)
+			{
+				if(BCSModel.IsValidAssociation(fieldWithReference))
+				{
+					#>
+
+					[OperationContract]
+					List<<#= entityWhichReferencesMe.Name #>> <#= fieldWithReference.AssociationName #>(<#= GetTypeNameClass(fieldWithReference) #> <#= fieldWithReference.Name #>);
+					<#
+				}
+			}
+		}
+	}
+}
+#>
+
+  } 
+}

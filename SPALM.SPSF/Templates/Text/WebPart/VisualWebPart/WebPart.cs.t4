@@ -1,0 +1,60 @@
+<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;
+  using System.Collections.Generic;
+  using System.Runtime.InteropServices;
+  using System.Security.Permissions;
+  using System.Text;
+  using System.Web;
+  using System.Web.UI;
+  using System.Web.UI.WebControls.WebParts;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.Security;
+
+  /// <summary>
+  /// TODO: Add comment for webpart <#= this.WebPartName #>
+  /// </summary>
+  [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+  [SharePointPermission(SecurityAction.InheritanceDemand, ObjectModel = true)]
+  public class <#= this.WebPartName #> : WebPart
+  {
+    private const string ASCXPATH = @"/_CONTROLTEMPLATES<#= VersionedFolderName #>/<#= SolutionSubFolder #>/<#= WebPartUserControl #>.ascx";
+
+    private UserControl userControl;
+    private System.Web.UI.WebControls.TextBox txtField;
+    private System.Web.UI.WebControls.Button showButton;
+
+    public <#= this.WebPartName #>()
+    {
+    }
+    
+    protected override void CreateChildControls()
+    {
+      userControl = (UserControl)this.Page.LoadControl(ASCXPATH);
+
+      txtField = (System.Web.UI.WebControls.TextBox)this.userControl.FindControl("TextBox1");
+      showButton = (System.Web.UI.WebControls.Button) this.userControl.FindControl("Button1");
+      showButton.Click += new EventHandler(ShowButton_Click);
+
+      Controls.Add(userControl);
+
+      base.CreateChildControls();
+    }
+
+    protected override void Render(HtmlTextWriter writer)
+    {
+      this.RenderContents(writer);
+    }
+
+    protected void ShowButton_Click(object sender, EventArgs e)
+    {
+      txtField.Text = "Hello World";
+    }
+  }
+}

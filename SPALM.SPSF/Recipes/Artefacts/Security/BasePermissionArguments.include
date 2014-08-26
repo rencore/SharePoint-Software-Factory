@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains standard arguments which are necessary for element manifest related recipes -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+  
+  <Argument Name="PermissionIsUnrestricted" Type="System.Boolean">
+    <ValueProvider Type="Evaluator" Expression="false" />
+  </Argument>
+
+</Arguments>

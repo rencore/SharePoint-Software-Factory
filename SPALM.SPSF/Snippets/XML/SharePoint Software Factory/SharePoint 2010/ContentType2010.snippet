@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>ContentType 2010</Title>
+      <Shortcut>contenttype2010xml</Shortcut>
+      <Description>XML code snippet for a ContentType (2010)</Description>
+      <Author>Torsten Mandelkow</Author>
+      <HelpUrl>http://msdn.microsoft.com/en-us/library/aa544268.aspx</HelpUrl>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>     
+    </Header>
+    <Snippet>
+      <Declarations>    
+        <Literal>
+          <ID>ID</ID>
+          <ToolTip>Required Text. Specifies the content type ID of the content type. A content type ID has a very specific format. If the value that you assign the ID attribute is not in the correct format, you will get an error when the Feature activates.</ToolTip>
+          <Default>0x01</Default>
+        </Literal>
+        <Literal>
+          <ID>Name</ID>
+          <ToolTip>Required Text. Specifies the content type name. The value can be a reference to a resource in the format $Resources:String. For more information, see Localizing SharePoint Solutions.The name itself cannot be longer than 128 characters. An error occurs if another content type with the same name exists in the collection where the content type is added.</ToolTip>
+          <Default>ContentType1</Default>
+        </Literal>
+        <Literal>
+          <ID>Description</ID>
+          <ToolTip>Optional Text. Provides a description for the content type, to display in the SharePoint Foundation user interface. The value can be a reference to a resource in the format $Resources:String.</ToolTip>
+          <Default></Default>
+        </Literal>
+        <Literal>
+          <ID>FeatureId</ID>
+          <ToolTip>Optional Text. Provides the ID of the feature with which the content type is associated. The value should be the string representation of a GUID structure, including braces.</ToolTip>
+          <Default>00000000-0000-0000-0000-000000000000</Default>
+        </Literal>
+        <Literal>
+          <ID>Group</ID>
+          <ToolTip>Optional Text. Specifies the content type group to which the content type is assigned. Content type groups are user-defined groups that help you organize content types into logical categories. The value can be a reference to a resource in the format $Resources:String.</ToolTip>
+          <Default></Default>
+        </Literal>
+        <Literal>
+          <ID>Hidden</ID>
+          <ToolTip>Optional Boolean. TRUE to define the content type as hidden. If you define a content type as hidden, SharePoint Foundation does not display that content type on the New button in list views. If you do not include this attribute, SharePoint Foundation treats the content type as if the attribute was set to FALSE.</ToolTip>
+          <Default>FALSE</Default>
+        </Literal>        
+        <Literal>
+          <ID>NewDocumentControl</ID>
+          <ToolTip>Optional Text. The programmatic identifier for the preferred application to create a new document of this content type.</ToolTip>
+          <Default></Default>
+        </Literal>
+        <Literal>
+          <ID>Overwrite</ID>
+          <ToolTip>Optional Boolean. TRUE to overwrite an existing content type with the same ID. The default is FALSE.</ToolTip>
+          <Default>FALSE</Default>
+        </Literal>
+        <Literal>
+          <ID>ProgId</ID>
+          <ToolTip>Optional Text. The programmatic identifier for the preferred application to open a document of this content type. This attribute distinguishes between applications that save files with a specified file extension.</ToolTip>
+          <Default></Default>
+        </Literal>
+        <Literal>
+          <ID>PushDownChangedResourceFilesOnly</ID>
+          <ToolTip>Optional Boolean. TRUE to copy only changed resource files to derived content types during a push down operation. The default is FALSE.</ToolTip>
+          <Default>FALSE</Default>
+        </Literal>
+        <Literal>
+          <ID>ReadOnly</ID>
+          <ToolTip>Optional Boolean. TRUE to specify that the content type cannot be edited without explicitly removing the read-only setting. This can be done either in the user interface or in code.</ToolTip>
+          <Default>FALSE</Default>
+        </Literal>
+        <Literal>
+          <ID>RequireClientRenderingOnNew</ID>
+          <ToolTip>Optional Text. The programmatic identifier for the preferred application to open a documentOptional Boolean. TRUE to require the browser to use the application specified by the ProgId attribute for creating a new item.</ToolTip>
+          <Default>FALSE</Default>
+        </Literal>
+        <Literal>
+          <ID>Sealed</ID>
+          <ToolTip>Optional Boolean. TRUE to prevent changes to this content type. You cannot change the value of this attribute through the user interface, but you can change it in code if you have sufficient rights. You must have site collection administrator rights to unseal a content type.</ToolTip>
+          <Default>FALSE</Default>
+        </Literal>
+        <Literal>
+          <ID>V2ListTemplateName</ID>
+          <ToolTip>Optional Text. Specifies the Windows SharePoint Services 2.0 list template type to which this content type maps. For example, the Document content type maps to the Document Library list template.</ToolTip>
+          <Default></Default>
+        </Literal>
+        <Literal>
+          <ID>Version</ID>
+          <ToolTip>Reserved for future use.</ToolTip>
+          <Default>0</Default>
+        </Literal>       
+      </Declarations>
+      <Code Language="XML">
+        <![CDATA[<ContentType          
+          ID="$ID$"
+          Name="$Name$"
+          Description="$Description$"
+          FeatureId="$FeatureId$"
+          Group="$Group$"
+          Hidden="$Hidden$"         
+          ProgId="$ProgId$"
+          NewDocumentControl="$NewDocumentControl$"
+          Overwrite="$Overwrite$"
+          PushDownChangedResourceFilesOnly="$PushDownChangedResourceFilesOnly$"
+          ReadOnly="$ReadOnly$"
+          RequireClientRenderingOnNew="$RequireClientRenderingOnNew$"
+          ResourceFolder="$ResourceFolder$"
+          Sealed="$Sealed$"
+          V2ListTemplateName="$V2ListTemplateName$"
+          Version="$Version$"
+        />]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

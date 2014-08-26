@@ -1,0 +1,27 @@
+﻿<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;
+  using System.Web.Services;
+  using Microsoft.SharePoint;
+
+  /// <summary>
+  /// TODO: Add commment for web service <#= WebServiceName #>
+  /// </summary>
+  [WebService(Namespace = "http://<#= CopyrightCompanyName.ToLower() #>.org/", Description="<#= WebServiceDescription #>", Name="<#= WebServiceName #>")]
+  public class <#= WebServiceName #> : System.Web.Services.WebService
+  {
+    /* Sample Code 
+    [WebMethod(Description="Description of SampleMethod")]
+    public string SampleMethod()
+    {
+			return "Hello World!";
+    }
+    */
+  }
+}

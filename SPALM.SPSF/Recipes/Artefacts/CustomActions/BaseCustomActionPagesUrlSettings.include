@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Pages xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+	<Page Width="600" Height="400">
+		<Title>Url Settings</Title>
+		<Fields>
+			<Field ValueName="CustomActionType" Label="Type of action">
+				<Help>Required. Select the type of action that should be performed after click.</Help>
+			</Field>
+			<Field ValueName="CustomActionUrlAction" Label="Url Page">
+				<Help>Optional Text. Select a page where the custom action should link to. Only required if field 'Type of action' is 'UrlAction'.</Help>
+				<Editor Type="SPALM.SPSF.Library.Editors.SelectLayoutFileEditor, SPALM.SPSF.Library" />
+			</Field>
+			<Field ValueName="CustomActionUrlActionPrefix" Label="Use URL Prefix">
+				<Help>Optional Text. Select the prefix which should be placed at the beginning of the url action.</Help>
+			</Field>
+		</Fields>
+	</Page>
+</Pages>

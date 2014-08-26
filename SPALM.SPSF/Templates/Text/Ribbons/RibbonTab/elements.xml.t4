@@ -1,0 +1,118 @@
+<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<CustomAction
+		Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>"
+		Location="<#= CustomActionLocation #>"
+		Title="<#= RibbonActionTitle #>"	
+		<# 
+		if(CustomActionRegistrationId != null && CustomActionRegistrationId.ToString() != "None")
+		{
+			#>
+			RegistrationType="<#= CustomActionRegistrationType #>"
+			RegistrationId="<#= CustomActionRegistrationId.ToString() #>"
+			<#
+		}
+		#>	
+		<#
+		if(CustomActionRights.Length > 0)
+		{
+			#>
+			Rights="<#
+			bool showcomma = false;
+			foreach(NameValueItem right in CustomActionRights)
+			{		
+				if(showcomma)
+				{
+					#>,<#
+				}
+				showcomma = true;
+				#><#= right.Value #><#
+			}
+			#>" <#
+		}
+		if(CustomActionRequireSiteAdministrator)
+		{
+			#>
+			RequireSiteAdministrator="<#= CustomActionRequireSiteAdministrator #>"
+			<#
+		}
+		#>>
+    <CommandUIExtension>
+      <CommandUIDefinitions>
+        <CommandUIDefinition
+          Location="Ribbon.Tabs._children">
+          <Tab
+            Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>"
+            <#
+				if(AutoCreateResxFiles)
+				{
+					#>
+					Title="$Resources:<#= ResourceKeyPrefix #>_Title;"
+					Description="$Resources:<#= ResourceKeyPrefix #>_Description;"
+					<#
+				}
+				else
+				{
+					#>
+					Title="<#= RibbonActionTitle #>"
+					Description="<#= RibbonActionDescription #>"
+					<#
+				}
+				#>
+              Sequence="<#= RibbonActionSequence #>">
+            <Scaling
+              Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.Scaling">
+              <MaxSize
+                Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.MaxSize"
+                GroupId="Ribbon.<#= AppName #>.<#= RibbonActionName #>.CustomGroupExample"
+                Size="OneLargeTwoMedium"/>
+              <Scale
+                Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.Scaling.CustomTabScaling"
+                GroupId="Ribbon.<#= AppName #>.<#= RibbonActionName #>.CustomGroupExample"
+                Size="OneLargeTwoMedium" />
+            </Scaling>
+            <Groups Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.Groups">
+              <Group
+                Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.CustomGroupExample"
+                Description="Custom Group Description"
+                Title="Custom Group"
+                Sequence="52"
+                Template="Ribbon.Templates.Flexible2">
+                <Controls Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.CustomGroupExample.Controls">
+                  <Button
+                    Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.CustomGroupExample.HelloWorld"
+                    Command="<#= AppName #>.<#= RibbonActionName #>.HelloWorldCommand"
+                    Sequence="15"
+                    Description="Says hello to the World!"
+                    LabelText="Hello, World!"
+					<#
+					if(!ProjectIsSandboxedSolution)
+					{
+					#>
+					Image16by16="/_layouts<#= VersionedFolderName #>/images/<#= SafeAppName #>/<#= RibbonControlImage16HelloWorld #>"
+					Image32by32="/_layouts<#= VersionedFolderName #>/images/<#= SafeAppName #>/<#= RibbonControlImage32HelloWorld #>"
+					<#
+					}
+					else
+					{
+					#>
+					Image16by16="/_layouts<#= VersionedFolderName #>/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+					Image32by32="/_layouts<#= VersionedFolderName #>/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+					<#
+					}
+					#>
+                    TemplateAlias="cust1"/>                 
+                </Controls>
+              </Group>
+            </Groups>
+          </Tab>
+        </CommandUIDefinition>        
+      </CommandUIDefinitions>
+      <CommandUIHandlers>
+        <CommandUIHandler
+          Command="<#= AppName #>.<#= RibbonActionName #>.HelloWorldCommand"
+          CommandAction="javascript:alert('Hello, world!');" />
+      </CommandUIHandlers>
+    </CommandUIExtension>
+  </CustomAction>
+</Elements>

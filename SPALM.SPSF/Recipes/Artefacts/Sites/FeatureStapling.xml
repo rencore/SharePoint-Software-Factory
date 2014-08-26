@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="FeatureStapling"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <DocumentationLinks>
+    <Link Caption="MSDN: Stapling Features to Site Definitions" Url="http://msdn.microsoft.com/en-us/library/dd206907.aspx" Kind="Documentation"/>
+    <Link Caption="Chris O'Brien: Feature Stapling " Url="http://www.sharepointnutsandbolts.com/2007/05/feature-stapling.html" Kind="Documentation"/>
+    <Link Caption="Chris Johnson: Feature Stapling in WSS V3" Url="http://blogs.msdn.com/cjohnson/archive/2006/11/01/feature-stapling-in-wss-v3.aspx" Kind="Documentation"/>
+    <Link Caption="MS SharePoint Team Blog: Customizing MOSS 2007 My Sites within the enterprise" Url="http://blogs.msdn.com/sharepoint/archive/2007/03/22/customizing-moss-2007-my-sites-within-the-enterprise.aspx" Kind="Documentation"/>
+    <Link Caption="Definition Schema" Url="http://msdn.microsoft.com/en-us/library/bb861862.aspx" Kind="Documentation"/>
+  </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Feature Stapling</Caption>
+  <Description>Adds a FeatureSitetemplateAssocation to the selected feature</Description>
+  <HostData Priority="200">
+    <Icon File="Help/Icons/icon_SiteDefinition.ico" />
+    <CommandBar Menu="SPSFProjectSites"/>
+    <CommandBar Menu="SPSFSolutionSites"/>
+    <spsf:MetaData
+    Visible="true"
+    BindingType="CustomizationReference"
+    BindingTypeTemplate="CustomizationReferenceTemplate"
+    TestType="BaseSiteFeatureRecipeRunner"
+    Enabled="true"
+    CreateVSTemplate="true"
+    FeatureScopes="Farm;Site;WebApplication"
+    Category="Sites" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+        <spsf:Author>Matthias Einig</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.1 Updated Documentation</spsf:VersionHistoryEntry>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[Stapling SharePoint features with site definitions, which relies on the FeatureSiteTemplateAssociation element, allows developers to attach features to both standard and custom site definitions without directly modifying them. 
+          Every new site that is based on a site definition with a stapled feature is created with that feature activated. 
+          Feature stapling is particularly useful when you want to add functionality to standard site definitions because editing standard site definition files is not a recommended practice. (Source: MSDN)]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="FeatureAssocation1" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="FeatureStaplingName">FeatureAssocation1</spsf:TestCaseArgument>
+              <spsf:TestCaseArgument Name="FeatureStaplingFeature">Asset Library;Asset Library;4BCCCD62-DCAF-46dc-A7D4-E38277EF33F4</spsf:TestCaseArgument>
+              <spsf:TestCaseArgument Name="FeatureStaplingSiteTemplates">SPS#0;SPS#0;SPS#0|SPS#1;SPS#1;SPS#1</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <Argument Name="AllowedScopes" Type="System.String">
+      <ValueProvider Type="Evaluator" Expression="Farm;Site;WebApplication" />
+    </Argument>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	  <Argument Name="FeatureStaplingName">
+		  <ValueProvider Type="VisualStudioCreateItemName" MakeSafe="true" DefaultValue="FeatureSiteTemplateAssociation1" />
+	  </Argument>
+	  
+    <Argument Name="ResourceKeyPrefix" Required="true">
+      <!-- provides the unique key with removed special chars -->
+      <ValueProvider Stage="OnBeforeActions" RecipeArgument="RecipeName" Type="ConvertedStringProvider" />
+    </Argument>
+
+    <Argument Name="ElementsCategory">
+      <ValueProvider Type="Evaluator" Expression="FeatureSiteTemplateAssociations" />
+    </Argument>
+
+    <Argument Name="FeatureStaplingFeature" Type="NameValueItem" Required="true" />
+    <Argument Name="FeatureStaplingSiteTemplates" Type="NameValueItemArray" Required="true" >
+      <ValueProvider Type="DefaultNameValueCollectionProvider"  />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>Feature Associations</Title>
+          <Fields>
+            <Field PanelType="SPALM.SPSF.Library.NameValueItemPanel, SPALM.SPSF.Library" ValueName="FeatureStaplingFeature" Label="Feature" >
+              <Help>Required Feature. Feature to which the previously selected feature should be stapled to.</Help>
+              <Editor Type="SPALM.SPSF.Library.FeatureEditor, SPALM.SPSF.Library" />
+            </Field>
+            <Field PanelType="SPALM.SPSF.Library.NameValueListPanel, SPALM.SPSF.Library" ValueName="FeatureStaplingSiteTemplates" Label="Site Template" >
+              <Help>Optional Site Definition. Site Definition to which the previously selected feature should be stapled to.</Help>
+              <Editor Type="SPALM.SPSF.Library.WebTemplateEditor, SPALM.SPSF.Library" />
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	  <!-- elements.xml-->
+	  <Action
+		Name="CreateElementsXml"
+		Type="AddElementsDefinitionAction"
+		ParentFeatureName="$(ParentFeatureName)"
+		ElementsName="$(FeatureStaplingName)"
+		ElementsCategory="$(ElementsCategory)"
+		TemplateFileName="Text\FeatureStapling\elements.xml.t4"
+		SPDataTemplate="Text\FeatureStapling\SharePointProjectItem.spdata.t4"
+		Open="true">
+		  <Output Name="CreatedElementFolder" />
+		  <Output Name="CreatedElementFile" />
+	  </Action>
+ 
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

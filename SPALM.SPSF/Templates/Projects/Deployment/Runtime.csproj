@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>$AppName$.Deployment</RootNamespace>
+    <AssemblyName>$AppName$.Deployment</AssemblyName>
+    <ProjectGuid>$ProjectID3$</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Batches\Deploy.bat" />
+    <None Include="Batches\Retract.bat" />
+    <None Include="Batches\Redeploy.bat" />
+    <None Include="Batches\Update.bat" />
+    <None Include="Scripts\SharePointVersions.xml" />
+    <None Include="Scripts\CustomTargets.ps1" />
+    <None Include="Scripts\SPSD_Base.ps1" />
+    <None Include="Scripts\SPSD_Deployment.ps1" />
+    <None Include="Scripts\SPSD_Main.ps1" />
+    <None Include="Scripts\SPSD_Utilities.ps1" />
+    <None Include="Environments\Default.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Package\" />
+    <Folder Include="Solutions\" />
+  </ItemGroup>
+  <!-- SPSD Targets and Properties -->
+  <PropertyGroup>
+    <SPSDPackageLocation>$(SolutionDir)$(ProjectName)\Package\$(Configuration)\$(BuildNumber)</SPSDPackageLocation>
+  </PropertyGroup>
+
+  <Target Name="CreateSPSDPackage" DependsOnTargets="CleanSPSDPackage">
+    <Message Text="SPSD: Creating SharePoint Solution Deployment Package at $(SPSDPackageLocation)" Importance="high" />
+    <!-- copy batches folder -->
+    <CreateItem Include="$(SolutionDir)$(ProjectName)\Batches\*.bat">
+      <Output TaskParameter="Include" ItemName="BatchFilesDefault" />
+    </CreateItem>
+    <Copy SourceFiles="@(BatchFilesDefault)" DestinationFolder="$(SPSDPackageLocation)\%(RecursiveDir)" SkipUnchangedFiles="false" />
+    <!-- copy scripts folder -->
+    <CreateItem Include="$(SolutionDir)$(ProjectName)\Scripts\*.*">
+      <Output TaskParameter="Include" ItemName="PSFilesDefault" />
+    </CreateItem>
+    <Copy SourceFiles="@(PSFilesDefault)" DestinationFolder="$(SPSDPackageLocation)\Scripts\%(RecursiveDir)" SkipUnchangedFiles="false" />
+    <!-- copy environments folder -->
+    <CreateItem Include="$(SolutionDir)$(ProjectName)\Environments\*.*">
+      <Output TaskParameter="Include" ItemName="EnvFiles" />
+    </CreateItem>
+    <Copy SourceFiles="@(EnvFiles)" DestinationFolder="$(SPSDPackageLocation)\Environments\%(RecursiveDir)" SkipUnchangedFiles="false" />
+    <!-- copy solutions from other projects-->
+    <CreateItem Include="$(SolutionDir)\**\$(Configuration)\**\*.wsp">
+      <Output TaskParameter="Include" ItemName="WSPFiles" />
+    </CreateItem>
+    <Copy SourceFiles="@(WSPFiles)" DestinationFolder="$(SPSDPackageLocation)\Solutions\" SkipUnchangedFiles="false" />
+    <!-- copy 3rd party solutions-->
+    <CreateItem Include="$(SolutionDir)$(ProjectName)\Solutions\**\*.wsp">
+      <Output TaskParameter="Include" ItemName="SolFiles" />
+    </CreateItem>
+    <Copy SourceFiles="@(SolFiles)" DestinationFolder="$(SPSDPackageLocation)\Solutions\" SkipUnchangedFiles="false" />
+    <Message Text="Deployment package location: $(SPSDPackageLocation)" Importance="high" />
+  </Target>
+
+  <Target Name="CleanSPSDPackage">
+    <Message Text="------ SPSD: Cleaning complete solution output in &quot;$(SPSDPackageLocation)&quot; ------" Importance="high" />
+    <RemoveDir Directories="$(SPSDPackageLocation)" ContinueOnError="true" />
+  </Target>
+
+  <Target Name="AfterBuild">
+    <CallTarget Targets="CreateSPSDPackage" />
+  </Target>
+  <Target Name="BeforeBuild">
+    <CallTarget Targets="CleanSPSDPackage" />
+  </Target>
+</Project>

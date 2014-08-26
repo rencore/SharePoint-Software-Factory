@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="IPGSchema.xslt" type="text/xsl"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/pag/gax-wizards" xmlns:gax="http://schemas.microsoft.com/pag/gax-wizards" version="1.0" targetNamespace="http://schemas.microsoft.com/pag/gax-wizards">
+  <xs:element name="Wizard">
+    <xs:annotation>
+      <xs:documentation>
+        <summary xmlns="">Defines a wizard that can be used to collect argument values from the user.</summary>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Types" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              <summary xmlns="">
+				A list of CLR type aliases, which can be referenced anywhere a type name is needed.
+				Can have an Include child element to include sets of reusable type definitions from an
+				external file. This external file must be an XML fragment containing one or more Alias elements.
+              </summary>
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" ref="TypeAlias" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Pages">
+          <xs:annotation>
+            <xs:documentation>
+              <summary xmlns="">
+                A list of the steps, or pages, the wizard will use to gather argument data. Each step should
+                be defined as an individual instance of the Page element.
+              </summary>
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="Page" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="Name" type="gax:DotFreeName">
+        <xs:annotation>
+          <xs:documentation>
+            <summary xmlns="">An optional name for the wizard.</summary>
+            <remarks xmlns="">Must not contain any dot characters (".").</remarks>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="SchemaVersion" type="xs:string" use="required" fixed="1.0">
+        <xs:annotation>
+          <xs:documentation>
+            A fixed version string indicating the version of the wizard schema being used. The value of 
+            this attribute must be the string "1.0".
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Help" type="xs:string" use="optional">
+        <xs:annotation>
+          <xs:documentation>
+            A link to a web page (http://) or help topic (ms-help://)that should be opened
+            when users click on the '?' icon displayed in the wizard dialog title bar.
+            Not providing this attribute will cause the '?' icon not to appear.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Page">
+    <xs:annotation>
+      <xs:documentation>
+        <summary xmlns="">Provides configuration data for a page</summary>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0">
+        <xs:element name="Title" type="xs:string" />
+        <xs:element name="LinkTitle" type="xs:string" minOccurs="0" />
+        <xs:element name="Help" type="xs:string" minOccurs="0" />
+        <xs:element name="Fields" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              <summary xmlns="">A list of the fields to display on the page. Each field should be defined 
+              as an individual instance of the Field element.</summary>
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="Field" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="Type" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            <summary xmlns="">
+              A wizard step can be implemented by a user-provided class or "constructed" by the
+              framework from page specification. Optionally this attribute specifies a user-provided CLR type
+              or class to implement the page. The class must implement a specific
+              interface provided by the framework. If the Type attribute is not present, the framework will use
+              the framework form specification to construct the page.
+            </summary>
+            <remarks xmlns="">If this attribute is present, automatic layout of fields on the page is not performed.</remarks>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Width" type="xs:int">
+        <xs:annotation>
+          <xs:documentation>
+            <summary xmlns="">The wdth of the form holding the wizard.</summary>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Height" type="xs:int">
+        <xs:annotation>
+          <xs:documentation>
+            <summary xmlns="">The height of the form holding the wizard.</summary>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Field">
+    <xs:annotation>
+      <xs:documentation>
+        <summary xmlns="">Defines a field that the wizard will use to collect data for an 
+        argument.</summary>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Tooltip" type="xs:string" minOccurs="0" />
+        <xs:element name="Help" type="xs:string" minOccurs="0" />
+        <xs:element ref="Editor" minOccurs="0" />
+      </xs:sequence>
+      <xs:attribute name="ValueName" type="gax:NonEmptyString" use="required">
+        <xs:annotation>
+          <xs:documentation>
+              A name that identifies the value that is collected by the field. After the field
+              value is collected, it is copied into the value-gathering dictionary.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Label" type="gax:NonEmptyString" use="required" />
+      <xs:attribute name="ReadOnly" type="xs:boolean" use="optional">
+        <xs:annotation>
+          <xs:documentation>
+						Whether the field will be editable manually by the user. If a converter or 
+						editor is attached to the field, it will be available for editing the field.
+					</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="InvalidValueMessage" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+              A message to display to the user when an invalid value is entered.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="PanelType" type="xs:string" use="optional">
+        <xs:annotation>
+          <xs:documentation>
+						Optional type of the panel that should be used for rendering the argument.
+					</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Editor">
+    <xs:annotation>
+      <xs:documentation>
+        Specifies a user interface component that aids the user in editing the field value.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="Type" use="required" type="gax:NonEmptyString">
+        <xs:annotation>
+          <xs:documentation>
+            The name of a CLR type, class, or alias that implements the IValueProvider interface.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:anyAttribute processContents="lax" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TypeAlias">
+    <xs:annotation>
+      <xs:documentation>
+        <summary xmlns="">
+          Defines an alias that can be used to represent a fully-qualified CLR type in the configuration file.
+        </summary>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="Name" type="gax:NonEmptyString" use="required" />
+      <xs:attribute name="Type" type="gax:NonEmptyString" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="DotFreeName">
+    <xs:annotation>
+      <xs:documentation>
+        <summary xmlns="">A type definition that doesn't allow dot (".") characters in a string.</summary>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[^.]+" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NonEmptyString">
+    <xs:annotation>
+      <xs:documentation>
+        A type definition that requires a string to contain at least one character.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

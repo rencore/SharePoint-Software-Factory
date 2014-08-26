@@ -1,0 +1,231 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	  <html xmlns="http://www.w3.org/1999/xhtml">
+	    <head>
+		    <link rel="stylesheet" type="text/css" href="Styles/branding.css"/>				
+		    		<title>Publishing Site Definition</title>
+				<meta name="Description" content="Adds a standard publishing site definition along with the required features." />
+		<style type="text/css">
+
+		.OH_TocResize
+		{	
+			top: 126px;
+		}
+
+		</style>
+	</head>	
+	<body class="primary-mtps-offline-document" 
+	 style="max-width: 1220px;" >		<table class="noSpace" style="width: 100%;"> 
+			<tr>
+			  <td colspan="2" style="background-color: #6685A2;">&nbsp;</td>
+			</tr>
+			<tr>
+			  <td>
+				<img src="./_img/header_left.jpg" height="66" style="margin-top: 10px; margin-bottom: 20px" />
+			  </td>
+			  <td align="right" valign="top" rowspan="2">
+				<img src="./_img/header_right.jpg" style="margin-top: 2px" height="72"/>
+			  </td>
+			</tr>			
+		</table>
+		  
+		<div class="OH_topic">		 
+     
+		  <div id="mainHeader">
+			<table>
+			  <tbody>
+				<tr>
+				  <td>
+					<h1>Publishing Site Definition</h1>
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+		<div id="mainSection">
+			<div id="mainBody">            
+				<div class="introduction"><p>Adds a standard publishing site definition along with the required features.</p></div>
+				                      <DIV class="OH_CollapsibleAreaRegion">
+					        <DIV class="OH_regiontitle">Recipe Description</DIV>
+					        <DIV class="OH_RegionToggle"></DIV>
+				        </DIV>
+				        <DIV class="OH_clear"></DIV>
+				        <p>
+                        The publishing site definition creates a site with the publishing infrastructure and publishing site feature enabled and provides functionalities for web content management.<br />It creates three features which are required to activate the several components of the publishing site.
+				        </p>
+				                   
+                           <DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">Arguments</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>
+				<p>
+				<div class="tableSection">
+                <table id="argumentTable" width="100%">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>							<tr>
+								<td class="name" colspan="2">Site Template settings</td>
+							</tr>                
+														<tr>
+								<td>Name</td>
+								<td>Required Text. Specify the name of the folder which will be created in folder SiteTemplates. Limited to 255 characters. The name has to be unique within the project of this solution. It should not contain whitespaces or special characters.</td>
+							</tr>                
+														<tr>
+								<td>Title</td>
+								<td>Required Text. Title of the site template as it appears in the selection of Create Site dialog. Limited to 255 characters.</td>
+							</tr>                
+														<tr>
+								<td>ID</td>
+								<td>Required Number. Id of the site template. Should be unique on the farm and greater than 10000.</td>
+							</tr>                
+														<tr>
+								<td>Description</td>
+								<td>Required Text. Longer description of the purpose of this site definition.</td>
+							</tr>                
+														<tr>
+								<td>Display Category</td>
+								<td>Required Text. Title of the cateogry in which the site definition should appear in the Create Site dialog. Limited to 255 characters.</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">Master Page Settings</td>
+							</tr>                
+														<tr>
+								<td>Name</td>
+								<td>Required Text. Name of the Master Page. Limited to 255 characters. The name has to be unique within the project of this solution. It should not contain whitespaces or special characters.</td>
+							</tr>                
+														<tr>
+								<td>Title</td>
+								<td>Required Text. Title (friendly name) of the Page Layout. Limited to 255 characters.</td>
+							</tr>                
+														<tr>
+								<td>Description</td>
+								<td>Optional Text. Description of the Master Page.</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">Page Layout Settings</td>
+							</tr>                
+														<tr>
+								<td>Page Layout Content Type</td>
+								<td>Required Content Type. Content Type of this Page Layout.</td>
+							</tr>                
+														<tr>
+								<td>Name</td>
+								<td>Required Text. Name of the Page Layout class file. Limited to 255 characters. The name has to be unique within the project of this solution. It should not contain whitespaces or special characters.</td>
+							</tr>                
+														<tr>
+								<td>Title</td>
+								<td>Required Text. Title (friendly name) of the Page Layout. Limited to 255 characters.</td>
+							</tr>                
+														<tr>
+								<td>Description</td>
+								<td>Optional Text. Description of the Page Layout.</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">Options</td>
+							</tr>                
+														<tr>
+								<td>Create Provisioning XML</td>
+								<td>Optional Boolean. If TRUE creates a file named Portal.XML with XML data for the creation of subsites after provisioning this site template.</td>
+							</tr>                
+														<tr>
+								<td>Create Provisioning Handler (.cs)</td>
+								<td>Optional Boolean. If TRUE creates a cs.file for handling the event of provisioning.</td>
+							</tr>                
+														<tr>
+								<td>Hidden</td>
+								<td>Optional Boolean. If TRUE hides the site definition from the Create Site dialog. Creation of sites with this definition through code will be still possible.</td>
+							</tr>                
+														<tr>
+								<td>Allow global Feature associations</td>
+								<td>Optional Boolean. If TRUE the site definition is allowed to be associated to global features.</td>
+							</tr>                
+														<tr>
+								<td>Root Web Only</td>
+								<td>Optional Boolean. If TRUE the site created from the configuration can only exist as the root Web site in a site collection. This attribute is not enforced in site templates (.stp files).</td>
+							</tr>                
+														<tr>
+								<td>Sub Web Only</td>
+								<td>Optional Boolean. If TRUE tthe site created from the configuration can only exist as a subsite within a site collection.</td>
+							</tr>                
+							                </table>
+				</div>
+				</p>
+                           
+				<DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">References</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>
+				<p>
+				<ul>
+				<li>
+						<a href="http://dotnet.sys-con.com/node/48162?page=0,0" target="_new">.Net Journal: Creating Custom Site Definitions in Microsoft Windows SharePoint Services</a>
+					</li>
+					<li>
+						<a href="http://msdn.microsoft.com/en-us/library/ee354191.aspx" target="_new">MSDN: Real World Branding with SharePoint Server 2007 Publishing Sites </a>
+					</li>
+					<li>
+						<a href="http://msdn.microsoft.com/en-us/library/ms476942.aspx" target="_new">MSDN: Configuration Node</a>
+					</li>
+					<li>
+						<a href="http://msdn.microsoft.com/en-us/library/ms474369.aspx" target="_new">MSDN: Schema Onet.xml</a>
+					</li>
+					                
+			   </ul></p>
+			              <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Authors</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+			<p>
+           <ul>
+           <li>Torsten Mandelkow</li><li>Matthias Einig</li>           </ul>
+           </p>
+           
+		   <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Version history</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+		   <p>
+           <ul>
+           <li>1.1 Updated Documentation</li><li>1.0 Initial Recipe</li>           </ul>
+		   </p>
+
+
+
+     
+				</div>			
+			</div>
+		</div>
+	</div>
+			<br />
+		<table width="100%">
+		<tr>
+			<td>
+				<div class="OH_feedbacklink">
+						<b>Disclaimer:</b> The views and opinions expressed in this documentation and in SPSF are those of the <a href="SPSF_OVERVIEW_110_AUTHORS.html">authors</a> and do not necessarily reflect the opinions and recommendations of Microsoft or any member of Microsoft. All trademarks, service marks, collective marks, copyrights, registered names, and marks used or cited by this documentation are the property of their respective owners.<br />
+						SharePoint Software Factory, Version 4.1.2.2904, <a href="SPSF_OVERVIEW_800_LICENSE.html">GPLv2</a>, see <a href="http://spsf.codeplex.com">http://spsf.codeplex.com</a> for more information
+				</div>
+				<br />
+			</td>
+		</tr>
+		</table>
+		<br />
+					<script type="text/javascript">
+			  var _gaq = _gaq || [];
+			  _gaq.push(['_setAccount', 'UA-6735734-1']);
+			  _gaq.push(['_trackPageview']);
+
+			  (function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			  })();
+			</script>
+			</body>
+</html>
+
+

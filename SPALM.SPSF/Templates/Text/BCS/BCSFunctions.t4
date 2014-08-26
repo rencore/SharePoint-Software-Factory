@@ -1,0 +1,717 @@
+﻿<#@ import namespace="System.Collections.Generic" #>
+<#+
+
+string GetTypeName(BCSField field)
+{
+	string typeName = field.DataType.ToString();
+
+	switch(field.DataType.ToString())
+	{
+		case "System.DateTime":
+	    case "System.Decimal":
+		case "System.Boolean":
+		case "System.Double":
+		case "System.Byte":
+		case "System.Int64":
+		case "System.Int16":
+		case "System.Int32":
+			if(field.IsNullAllowed)
+			{
+				typeName="System.Nullable`1[[" + field.DataType + ", mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]";
+			}			
+		  break;		
+		default:
+		  break;
+	}
+
+	return typeName;
+}
+
+void WriteValueAssignment(BCSField field, string source)
+{
+	string typeName = GetTypeNameClass(field);
+	if(typeName.StartsWith("System.Nullable"))
+	{
+		#><#= source #>["<#= field.Name #>"] as <#= typeName #><#+
+	}
+	else
+	{
+		if(field.IsNullAllowed && (field.DataType.ToString() == "System.String"))
+		{
+			//problem: Unable to cast object of type 'System.DBNull' to type 'System.String' for strings with null value
+			#>(<#= source #>["<#= field.Name #>"] == DBNull.Value) ? null : <#= source #>["<#= field.Name #>"].ToString()<#+
+		}
+		else
+		{
+			#>(<#= field.DataType #>)<#= source #>["<#= field.Name #>"]<#+
+		}
+	} 
+}
+
+void WriteCommandParameterAdd(BCSField field, string entityName)
+{
+	if(field.IsNullAllowed)
+	{
+		#>(<#= entityName #>.<#= field.Name #> == null) ? (object)DBNull.Value : <#= entityName #>.<#= field.Name #><#+
+	}
+	else
+	{
+		#><#= entityName #>.<#= field.Name #><#+
+	}
+}
+
+string GetTypeNameClass(BCSField field)
+{
+	string typeName = field.DataType.ToString();
+
+	switch(field.DataType.ToString())
+	{
+		case "System.DateTime":
+	    case "System.Decimal":
+		case "System.Boolean":
+		case "System.Double":
+		case "System.Byte":
+		case "System.Int64":
+		case "System.Int16":
+		case "System.Int32":
+			if(field.IsNullAllowed)
+			{
+				typeName="System.Nullable<" + field.DataType + ">";
+			}			
+		  break;		
+		default:
+		  break;
+	}
+
+	return typeName;
+}
+
+
+void WritePermissions(string permissions)
+{
+	char[] sep = new char[] { ';' };
+	string[] users = permissions.Split(sep);
+	if(users.Length > 0)
+	{
+		#><AccessControlList><#+
+		foreach(string user in users)
+		{
+            #><AccessControlEntry Principal="<#= user #>">
+              <Right BdcRight="Edit" />
+              <Right BdcRight="Execute" />
+              <Right BdcRight="SetPermissions" />
+              <Right BdcRight="SelectableInClients" />
+            </AccessControlEntry><#+
+		}
+        #></AccessControlList><#+
+	}
+	else
+	{
+		#><!-- add permissions e.g. with the following code -->
+		<!-- <AccessControlEntry Principal="domain\user">
+              <Right BdcRight="Edit" />
+              <Right BdcRight="Execute" />
+              <Right BdcRight="SetPermissions" />
+              <Right BdcRight="SelectableInClients" />
+            </AccessControlEntry>
+			--><#+
+	}
+}
+
+void WriteEntityProperties(BCSEntity entity, string defaultProperties)
+{
+	List<string> properties = new List<string>();
+
+	if(!string.IsNullOrEmpty(defaultProperties))
+	{
+		properties.Add(defaultProperties);
+	}
+
+	//search for a field which is used as title field
+	if(!string.IsNullOrEmpty(entity.TitleField))
+	{
+		properties.Add("<Property Name=\"Title\" Type=\"System.String\">" + entity.TitleField + "</Property>");
+	}
+	if(!string.IsNullOrEmpty(entity.OfficeItemType))
+	{	
+		properties.Add("<Property Name=\"OutlookItemType\" Type=\"System.String\">" + entity.OfficeItemType + "</Property>");
+	}
+
+	if(properties.Count > 0)
+	{
+		#><Properties><#+
+		foreach(string property in properties)
+		{
+			#><#= property #><#+
+		}
+
+		#></Properties><#+
+	}
+}
+
+void GetTypeDescriptor(BCSEntity entity, BCSField field, bool creatorField, bool updaterField, bool preupdateField, bool inParameter, string theNamespace)
+{
+	List<string> warnings = new List<string>();
+
+	string typeName = GetTypeName(field);
+
+	List<string> properties = new List<string>();
+	List<string> interpretation = new List<string>();
+
+	string requiredString = "<Property Name=\"RequiredInForms\" Type=\"System.Boolean\">true</Property>";
+
+	if(field.ShowInPicker && !creatorField && !updaterField && !inParameter)
+	{
+		properties.Add("<Property Name=\"ShowInPicker\" Type=\"System.Boolean\">true</Property>");
+	}
+	if(!string.IsNullOrEmpty(entity.OfficeItemType) && !string.IsNullOrEmpty(field.OfficeProperty))
+	{
+		properties.Add("<Property Name=\"OfficeProperty\" Type=\"System.String\">" + field.OfficeProperty + "</Property>");                              
+	}
+	
+
+	switch(field.DataType.ToString())
+	{
+		case "System.String":
+
+			if(!string.IsNullOrEmpty(field.DataTypeSize))
+			{
+				properties.Add("<Property Name=\"Size\" Type=\"System.Int32\">" + field.DataTypeSize + "</Property>");
+			}					  
+			if(!field.IsNullAllowed && !creatorField && !updaterField && !preupdateField && !inParameter)
+			{
+				properties.Add(requiredString);
+			}
+	
+			//interpretation
+			if(field.IsNullAllowed)
+			{
+				interpretation.Add("<NormalizeString FromLOB=\"NormalizeToNull\" ToLOB=\"NormalizeToNull\" />");
+			}
+			else
+			{
+				interpretation.Add("<NormalizeString FromLOB=\"NormalizeToNull\" ToLOB=\"NormalizeToEmptyString\" />");
+			}				
+			break;
+
+		case "System.DateTime":
+
+			interpretation.Add("<NormalizeDateTime LobDateTimeMode=\"UTC\" />");
+
+			break;
+	    case "System.Decimal":
+
+			if(!field.IsNullAllowed && !creatorField && !updaterField && !preupdateField && !inParameter)			
+			{
+				properties.Add(requiredString);
+			}
+
+			if(!string.IsNullOrEmpty(field.DataTypeSize))
+			{
+				properties.Add("<Property Name=\"Decimal Digits\" Type=\"System.Int32\">" + field.DataTypeSize + "</Property>");
+			}	
+
+			break;
+		case "System.Boolean":
+		case "System.Double":
+		case "System.Byte":
+		case "System.Int64":
+		case "System.Int16":
+		case "System.Int32":
+
+			if(!field.IsNullAllowed && !creatorField && !updaterField && !preupdateField && !inParameter)			
+			{
+				properties.Add(requiredString);
+			}
+
+		  break;		
+		default:
+		  break;
+
+	}
+
+	#><TypeDescriptor Name="<#= field.Name #>" DefaultDisplayName="<#= field.DisplayName #>" TypeName="<#= typeName #>" <#+
+
+	if(creatorField)
+	{
+		#> CreatorField="true" <#+
+	}
+	if(updaterField)
+	{
+		#> UpdaterField="true" <#+
+	}
+	if(preupdateField)
+	{
+		#> PreUpdaterField="true" <#+
+	}
+	
+	if(field.IsKey)
+	{
+		#> IdentifierName="<#= field.Name #>" <#+
+		if(true) //IsCallFromOtherEntity)
+		{
+			//if TypeDescriptor is written in a different entity, we need to add more information
+			#> IdentifierEntityName="<#= entity.Name #>" IdentifierEntityNamespace="<#= theNamespace #>" <#+
+		}
+	}
+
+	if(field.IsIdentity && !updaterField && !preupdateField && !inParameter)
+	{	//never make identity editable
+		#> ReadOnly="true" <#+
+	}
+	else if(field.IsKey && !field.IsIdentity && !creatorField && !updaterField && !preupdateField && !inParameter)
+	{	//make key editable which is not an identity
+		#> ReadOnly="false" <#+
+	}
+	else if(field.IsReadOnly && !updaterField && !preupdateField && !inParameter)
+	{
+		#> ReadOnly="true" <#+
+	}	
+
+	if(BCSModel.IsValidAssociation(field))
+	{
+		//if the field is part of a key then we cannot add the association because BCS does not know where to map the identifier
+		if(!field.IsKey)
+		{
+			#> IdentifierName="<#= field.ReferencedField #>" IdentifierEntityName="<#= field.ReferencedEntity #>" IdentifierEntityNamespace="<#= theNamespace #>" ForeignIdentifierAssociationName="<#= field.AssociationName #>" ForeignIdentifierAssociationEntityName="<#= field.ReferencedEntity #>" ForeignIdentifierAssociationEntityNamespace="<#= theNamespace #>" <#+
+		}
+		else
+		{
+			//print warning
+			warnings.Add("The field " + field.Name + " has a foreignkey to entity " + field.ReferencedEntity + ", but the field is an identifier. Therefore the foreignkey relationsship could not been generated for BCS");
+		}
+	}
+
+	#> ><#+
+
+	if(field.IsRequired && !creatorField && !preupdateField && !inParameter)
+	{
+		if(!properties.Contains(requiredString))
+		{
+			properties.Add(requiredString);
+		}
+	}
+
+	if(properties.Count > 0)
+	{
+		#><Properties><#+
+		foreach(string property in properties)
+		{
+			#><#= property #><#+
+		}
+
+		#></Properties><#+
+	}
+
+	if(interpretation.Count > 0)
+	{
+		#><Interpretation><#+
+		foreach(string inter in interpretation)
+		{
+			#><#= inter #><#+
+		}
+
+		#></Interpretation><#+
+	}
+
+	if(warnings.Count > 0)
+	{	
+		#><!-- Warnings from SPSF: <#+ 
+		foreach(string warning in warnings)
+		{
+			#><#= warning #>; <#+
+		}
+		#>--><#+
+	}
+	#></TypeDescriptor><#+
+}
+
+void WriteSelectItemQuery(BCSEntity entity)
+{
+	#>SELECT <#+
+	int count = 0;
+	foreach(BCSField field in entity.Fields)
+	{
+		if(count > 0)
+		{
+			#> , <#+
+		}
+		#>[<#= field.Name #>]<#+					
+		count++;
+	}
+	#> FROM [<#= entity.Schema #>].[<#= entity.Name #>] WHERE <#+
+	WriteWhereClause(entity);
+}
+
+void WriteSelectAllQuery(BCSEntity entity)
+{
+	#>SELECT <#+
+	int count = 0;
+	foreach(BCSField field in entity.Fields)
+	{
+		if(count > 0)
+		{
+			#> , <#+
+		}
+		#>[<#= field.Name #>]<#+						
+		count++;
+	}
+	#> FROM [<#= entity.Schema #>].[<#= entity.Name #>]<#+
+}
+
+bool EntityHasKeyWithIdentity(BCSEntity entity)
+{
+	foreach(BCSField field in entity.Fields)
+	{
+		if(field.IsKey && field.IsIdentity)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void WriteWhereClause(BCSEntity entity)
+{
+	int count = 0;
+	foreach(BCSField field in entity.Fields)
+	{
+		if(field.IsKey)
+		{
+			if(count > 0)
+			{
+				#> AND <#+
+			}
+			#>[<#= field.Name #>] = @<#= field.Name #><#+							
+			count++;
+		}			
+	}
+}
+
+void WriteWhereClauseForIdendityColumn(BCSEntity entity)
+{
+	//.. WHERE [EmployeeID] = SCOPE_IDENTITY()
+	int count = 0;
+	foreach(BCSField field in entity.Fields)
+	{
+		if(field.IsKey)
+		{
+			if(count > 0)
+			{
+				#> AND <#+
+			}
+			#>[<#= field.Name #>] = SCOPE_IDENTITY()<#+							
+			count++;
+		}			
+	}
+}
+
+List<BCSField> GetUpdateFields(BCSEntity entity)
+{	
+	List<BCSField> result = new List<BCSField>();
+	foreach(BCSField field in entity.Fields)
+	{
+		if(!field.IsIdentity)
+		{
+			result.Add(field);
+		}
+	}
+	return result;
+}
+
+List<BCSField> GetUpdateWhereClauseFields(BCSEntity entity)
+{
+	List<BCSField> result = new List<BCSField>();
+	if(EntityHasKeyWithIdentity(entity))
+	{
+		//keys are readonly, so we need no preupdate
+		foreach(BCSField field in entity.Fields)
+		{
+			if(field.IsKey)
+			{
+				result.Add(field);
+			}
+		}
+	}
+	return result;
+}
+
+List<BCSField> GetUpdateWhereClauseFieldsPreUpdate(BCSEntity entity)
+{
+	List<BCSField> result = new List<BCSField>();
+	if(EntityHasKeyWithIdentity(entity))
+	{
+	}
+	else
+	{
+		//keys are writable, we need preupdaters
+		foreach(BCSField field in entity.Fields)
+		{
+			if(field.IsKey)
+			{
+				result.Add(field);
+			}
+		}
+	}
+	return result;
+}
+
+void WriteDeleteStatement(BCSEntity entity)
+{
+	#>DELETE FROM [<#= entity.Schema #>].[<#= entity.Name #>] WHERE <#+
+	WriteWhereClause(entity);
+}
+
+void WriteUpdateQuery(BCSEntity entity)
+{
+	#>UPDATE [<#= entity.Schema #>].[<#= entity.Name #>] SET <#+
+	int counter = 0;
+	foreach(BCSField field in GetUpdateFields(entity))
+	{
+		if(counter > 0)
+		{
+			#> , <#+
+		}
+		#>[<#= field.Name #>] = @<#= field.Name #><#+					
+		counter++;	
+	}
+	#> WHERE <#+
+	if(EntityHasKeyWithIdentity(entity))
+	{
+		int count = 0;
+		foreach(BCSField field in GetUpdateWhereClauseFields(entity))
+		{
+			if(count > 0)
+			{
+				#> AND <#+
+			}
+			#>[<#= field.Name #>] = @<#= field.Name #><#+							
+			count++;	
+		}
+	}
+	else
+	{	//needs preupdaterfields
+		int count = 0;
+		foreach(BCSField field in GetUpdateWhereClauseFieldsPreUpdate(entity))
+		{
+			if(count > 0)
+			{
+				#> AND <#+
+			}
+			#>[<#= field.Name #>] = @preupdate<#= field.Name #><#+							
+			count++;			
+		}
+	}
+}
+
+void WriteCreateQuery(BCSEntity entity)
+{
+	#>INSERT INTO [<#= entity.Schema #>].[<#= entity.Name #>] (<#+
+	
+	int counter = 0;
+	foreach(BCSField field in entity.Fields)
+	{
+		if(!field.IsIdentity)
+		{
+			if(counter > 0)
+			{
+				#> , <#+
+			}
+			#>[<#= field.Name #>]<#+					
+			counter++;
+		}
+	}
+	#>) VALUES (<#+
+	counter = 0;
+	foreach(BCSField field in entity.Fields)
+	{
+		if(!field.IsIdentity)
+		{
+			if(counter > 0)
+			{
+				#> , <#+
+			}
+			#>@<#= field.Name #><#+					
+			counter++;
+		}
+	}
+	#>) SELECT <#+
+	counter = 0;
+	foreach(BCSField field in entity.Fields)
+	{
+		if(counter > 0)
+		{
+			#> , <#+
+		}
+		#>[<#= field.Name #>]<#+					
+		counter++;		
+	}					
+	#> FROM [<#= entity.Schema #>].[<#= entity.Name #>] WHERE <#+
+	if(EntityHasKeyWithIdentity(entity))
+	{
+		WriteWhereClauseForIdendityColumn(entity);
+	}
+	else
+	{
+		WriteWhereClause(entity);
+	}
+}
+
+void WriteAssocationNavigatorQuery(BCSEntity entity, BCSField fieldWithReference)
+{
+	#>SELECT <#+
+	int count = 0;
+	foreach(BCSField field in entity.Fields)
+	{
+		if(count > 0)
+		{
+			#> , <#+
+		}
+		#>[<#= field.Name #>]<#+				
+		count++;
+	}
+	#> FROM [<#= entity.Schema #>].[<#= entity.Name #>] WHERE [<#= fieldWithReference.Name #>] = @<#= fieldWithReference.Name #><#+
+}
+
+List<BCSEntity> GetAssocationsToMe(BCSEntity entity)
+{
+	List<BCSEntity> result = new List<BCSEntity>();
+
+	foreach(BCSEntity otherEntity in BCSModel.Entities)
+	{
+		//find a field in the other entity that references me
+		foreach(BCSField field in otherEntity.Fields)
+		{
+			if(field.ReferencedEntity == entity.Name)
+			{
+				//is the entity already there?
+				bool addEntity = true;
+				foreach(BCSEntity existingEntity in result)
+				{
+					if(existingEntity.Name == otherEntity.Name)
+					{
+						//entity is already in
+						addEntity = false;
+					}
+				}
+				if(addEntity)
+				{
+					result.Add(otherEntity);
+				}				
+			}
+		}
+	}
+
+	return result;
+}
+
+void WriteAssociationGroups(BCSEntity entity, string theNamespace)
+{
+
+	bool assocationgroupsadded = false;
+	foreach(BCSField fieldWithReference in entity.Fields)
+	{
+		if(BCSModel.IsValidAssociation(fieldWithReference))
+		{
+			if(!assocationgroupsadded)
+			{
+				assocationgroupsadded = true;
+				#>
+				<AssociationGroups>
+				<#+
+			}
+
+			#>
+			<AssociationGroup Name="<#= fieldWithReference.AssociationName #>Association" DefaultDisplayName="<#= fieldWithReference.AssociationDisplayName #>" >
+				<AssociationReference AssociationName="<#= fieldWithReference.AssociationName #>" Reverse="false" EntityNamespace="<#= theNamespace #>" EntityName="<#= fieldWithReference.ReferencedEntity #>" />
+			</AssociationGroup>
+			<#+
+		}
+	}
+	if(assocationgroupsadded)
+	{
+		#>
+		</AssociationGroups>
+		<#+
+	}
+}
+
+void WriteAllKeys(BCSEntity entity)
+{
+	int count = 0;
+	foreach(BCSField field in entity.Fields)
+	{
+		if(field.IsKey)
+		{
+			if(count > 0)
+			{
+				#>, <#+
+			}
+			#><#= field.DataType.ToString() #> <#= field.Name #><#+
+			count++;
+		}
+	}			
+}
+
+void WriteLINQValueAssignment(BCSEntity entity, string parameterName)
+{
+	int count = 0;
+	foreach(BCSField field in entity.Fields)		
+	{
+		if(count > 0)
+		{	#>, <#+
+		}
+		#>
+		<#= field.Name #> = <#= parameterName #>.<#= field.Name #><#+
+		count++;
+	}
+}
+
+void WriteLINQWhereClause(BCSEntity entity, string parameterName)
+{
+	foreach(BCSField field in entity.Fields)
+	{
+		if(field.IsKey)
+		{
+			#>
+			where <#= parameterName #>.<#= field.Name #> == <#= field.Name #>
+			<#+				
+		}
+	}
+}
+
+bool IsValidEntity(string schema_entity)
+{
+	foreach(BCSEntity entity in BCSModel.Entities)
+	{
+		if((entity.Schema + "_" + entity.Name) == schema_entity)
+		{
+			return true;
+		}
+		if(entity.Name == schema_entity)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+string MakeSafe(string unsafecontent)
+{
+	unsafecontent = unsafecontent.Replace(" ", "");
+	return unsafecontent;
+}
+
+string GetEntityName(string schema_entity)
+{
+	foreach(BCSEntity entity in BCSModel.Entities)
+	{
+		if((entity.Schema + "_" + entity.Name) == schema_entity)
+		{
+			return entity.Name;
+		}
+	}
+	return schema_entity;
+}
+
+#>

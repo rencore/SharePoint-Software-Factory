@@ -1,0 +1,16 @@
+﻿<#@ template language="C#" #>
+<%@ Control Language="C#" Debug="true" %>
+<%@ Assembly Name="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register TagPrefix="SharePoint" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" Namespace="Microsoft.SharePoint.WebControls" %>
+
+<SharePoint:RenderingTemplate ID="<#= FieldTypeRenderingTemplateId #>" runat="server">
+	<Template>
+        <asp:DropDownList ID="cbRate" runat="server">
+            <asp:ListItem Value="1" Text="1"></asp:ListItem>
+            <asp:ListItem Value="2" Text="2"></asp:ListItem>
+            <asp:ListItem Value="3" Text="3"></asp:ListItem>
+            <asp:ListItem Value="4" Text="4"></asp:ListItem>
+            <asp:ListItem Value="5" Text="5"></asp:ListItem>
+        </asp:DropDownList>
+    </Template>
+</SharePoint:RenderingTemplate>

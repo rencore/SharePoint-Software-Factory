@@ -1,0 +1,5 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<PermissionSet class="NamedPermissionSet">
+	<IPermission class="DnsPermission" version="1" Unrestricted="<#= PermissionIsUnrestricted #>" />
+</PermissionSet>

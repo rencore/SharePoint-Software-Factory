@@ -1,0 +1,57 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="AppName" #>
+<#@ property processor="PropertyProcessor" name="ProjectAssemblyName" #>
+<#@ property processor="PropertyProcessor" name="ProjectNamespace" #>
+<#@ property processor="PropertyProcessor" name="ResourceFilename" #>
+<#@ property processor="PropertyProcessor" name="ResourceKeyPrefix" #>
+<#@ property processor="PropertyProcessor" name="AutoCreateResxFiles" #>
+<#@ property processor="PropertyProcessor" name="ParentFeatureName" #>
+<#@ property processor="PropertyProcessor" name="ParentFeatureId" #>
+<#@ property processor="PropertyProcessor" name="SolutionSubFolder" #>
+<#@ property processor="PropertyProcessor" name="DocumentConverterID" #>
+<#@ property processor="PropertyProcessor" name="DocumentConverterName" #>
+<#@ property processor="PropertyProcessor" name="DocumentConverterApp" #>
+<#@ property processor="PropertyProcessor" name="DocumentConverterFrom" #>
+<#@ property processor="PropertyProcessor" name="DocumentConverterTo" #>
+<#@ property processor="PropertyProcessor" name="CreateDocumentConverterUIPage" #>
+<#@ property processor="PropertyProcessor" name="DocumentConverterUIPage" #>
+<#@ property processor="PropertyProcessor" name="CreateDocumentConverterSpecificSettingsUI" #>
+<#@ property processor="PropertyProcessor" name="DocumentConverterSpecificSettingsUI" #>
+<#@ property processor="PropertyProcessor" name="CreateDocumentConverterSettingsForContentType" #>
+<#@ property processor="PropertyProcessor" name="DocumentConverterSettingsForContentType" #>	
+<#@ assembly name="System.dll" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <!--
+    ************************************************************************
+    
+       Application: <#= AppName #>
+      Created date: <#= System.DateTime.Now.ToString("u") #>
+        Created by: <#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #>
+              Name: <#= DocumentConverterName #>
+
+    ************************************************************************
+    -->
+	<DocumentConverter 
+		ID="<#= DocumentConverterID #>"
+		<#
+		if(AutoCreateResxFiles)
+		{	#>
+			Name="$Resources:<#= ResourceFilename#>,<#= ResourceKeyPrefix #>DocumentConverterName;"
+			<#
+		}
+		else
+		{
+			#>
+			Name="<#= DocumentConverterName #>"
+			<#
+		}
+		#>		
+		App="<#= DocumentConverterApp #>"
+		From="<#= DocumentConverterFrom #>"
+		To="<#= DocumentConverterTo #>"
+		ConverterUIPage="<#= DocumentConverterUIPage #>"
+		ConverterSpecificSettingsUI="<#= DocumentConverterSpecificSettingsUI #>"
+		ConverterSettingsForContentType="<#= DocumentConverterSettingsForContentType #>"
+	/>
+
+</Elements>

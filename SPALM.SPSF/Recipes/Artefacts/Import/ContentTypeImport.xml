@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="ContentTypeImport"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Import Content Type</Caption>
+  <Description>Imports an existing content type from a given SharePoint site</Description>
+  <HostData Priority="300">
+    <Icon File="Help/Icons/icon_Import.ico" />
+    <CommandBar Menu="SPSFProjectImport"/>
+    <CommandBar Menu="SPSFFolderImport"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      Enabled="true"
+	  ExcludeFromTests="true"
+      CreateVSTemplate="true"
+      FeatureScopes="Site"
+      Category="Import" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <Argument Name="AllowedScopes" Type="System.String">
+      <ValueProvider Type="Evaluator" Expression="Site" />
+    </Argument>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="ElementsCategory">
+      <ValueProvider Type="Evaluator" Expression="ContentTypes" />
+    </Argument>
+
+    <Argument Name="ResourceKeyPrefix" Required="true">
+      <ValueProvider Stage="OnBeforeActions" RecipeArgument="ContentTypeName" Type="ConvertedStringProvider" />
+    </Argument>
+
+    <!-- Content Type Arguments -->
+    <Argument Name="ContentTypeID" />
+    <Argument Name="ContentTypeName" Required="true"/>
+    <Argument Name="ContentTypeDescription" Required="true"/>
+    <Argument Name="ContentTypeGroup" Required="true"/>
+    <Argument Name="ContentTypeVersion" Required="false">
+      <ValueProvider Type="Evaluator" Expression="" />
+    </Argument>
+    <Argument Name="ContentTypeFieldSchema" Required="false" />
+    <Argument Name="ContentTypeHidden" Type="System.Boolean" />
+    <Argument Name="ContentTypeReadOnly" Type="System.Boolean" />
+    <Argument Name="ContentTypeSealed" Type="System.Boolean" />
+
+    <Argument Name="ContentTypeSafeName">
+      <ValueProvider Stage="OnBeforeActions" Type="ConvertedStringProviderUnderscore" RecipeArgument="ContentTypeName" />
+    </Argument>
+    <Argument Name="ContentTypeUniqueName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SafeAppName)_$(ContentTypeSafeName)" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400" Type="SPALM.SPSF.Library.CustomWizardPages.ContentTypeImportPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>Content Type Settings</Title>
+          <Fields>
+            <Field ValueName="ContentTypeID" Label="ID">
+              <Help>Required Text. Specifies the content type ID of the content type.</Help>
+            </Field>
+            <Field ValueName="ContentTypeName" Label="Name">
+              <Help>Required Text. Specifies the content type name.</Help>
+            </Field>
+            <Field ValueName="ContentTypeDescription" Label="Description">
+              <Help>Optional Text. Provides a description for the content type, to display in the Windows SharePoint Services user interface.</Help>
+            </Field>
+            <Field ValueName="ContentTypeGroup" Label="Group">
+              <Help>Optional Text. Specifies the content type group to which the content type is assigned. Content type groups are user-defined groups that help you organize your columns into logical categories.</Help>
+            </Field>
+            <Field ValueName="ContentTypeVersion" Label="Version">
+              <Help>Reserved for future use.</Help>
+            </Field>
+            <Field ValueName="ContentTypeHidden" Label="Hidden">
+              <Help>Optional Boolean. TRUE to define the content type as hidden. If you define a content type as hidden, Windows SharePoint Services does not display that content type on the New button in list views. If you do not include this attribute, Windows SharePoint Services treats the content type as if this attributes was set to FALSE.</Help>
+            </Field>
+            <Field ValueName="ContentTypeReadOnly" Label="Read Only">
+              <Help>Optional Boolean. TRUE to define the content type as read-only. If you do not include this attribute, Windows SharePoint Services treats the content type as if this attributes was set to FALSE.</Help>
+            </Field>
+            <Field ValueName="ContentTypeSealed" Label="Sealed">
+              <Help>Optional Boolean. TRUE to define the content type as sealed. You must have site collection administrator rights to unseal and edit a content type defined as sealed. If you do not include this attribute, Windows SharePoint Services treats the content type as if this attributes was set to FALSE.</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator" >
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <!-- elements.xml-->
+    <Action
+      Name="CreateElementsXml"
+      Type="AddElementsDefinitionAction"
+      ParentFeatureName="$(ParentFeatureName)"
+      ElementsName="$(ContentTypeSafeName)"
+      ElementsCategory="$(ElementsCategory)"
+      TemplateFileName="Text\ContentTypeImport\elements.xml.t4"
+      SPDataTemplate="Text\ContentType\SharePointProjectItem.spdata.t4"
+      Open="true">
+      <Output Name="CreatedElementFolder" />
+      <Output Name="CreatedElementFile" />
+    </Action>
+
+    <!-- Resources -->
+    <Action
+      Condition="$(AutoCreateResxFiles)"
+      Name="AddResources"
+      Type="AddTemlateToResourcesFileAction"
+      TemplateFileName="Text\ContentType\Resources.resx.t4"
+      FeatureResources="True">
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

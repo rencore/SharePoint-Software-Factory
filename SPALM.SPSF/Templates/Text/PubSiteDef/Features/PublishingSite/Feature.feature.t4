@@ -1,0 +1,17 @@
+﻿<#@ template language="C#" #><?xml version="1.0" encoding="utf-8"?>
+<feature 
+	dslVersion="1.0.0.0" 
+	Id="<#= PubSiteSiteFeatureID #>" 
+	featureId="<#= PubSiteSiteFeatureID #>" 
+	scope="Site"
+	deploymentPath="$SharePoint.Feature.FileNameWithoutExtension$" 
+	title="<#= PubSiteSiteFeatureTitle #>"
+	description="<#= PubSiteSiteFeatureDescription #>"
+	xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/FeatureModel">
+    <activationDependencies>
+      <customFeatureActivationDependency featureId="A392DA98-270B-4e85-9769-04C0FDE267AA" featureTitle="SharePoint Publishing Prerequisites" />
+      <customFeatureActivationDependency featureId="AEBC918D-B20F-4a11-A1DB-9ED84D79C87E" featureTitle="SharePoint Publishing Resources (content types, Columns)" />
+      <customFeatureActivationDependency featureId="89E0306D-453B-4ec5-8D68-42067CDBF98E" featureTitle="SharePoint Portal Navigation" />
+      <customFeatureActivationDependency featureId="<#= PubSiteLayoutsFeatureID #>" featureTitle="Corresponding Publishing Layouts of this Site definition" />
+    </activationDependencies>
+</feature>

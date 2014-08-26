@@ -1,0 +1,70 @@
+﻿<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>  
+{
+  using System;  
+  using System.Globalization;  
+  using System.Runtime.InteropServices;
+  using System.Text;
+  using System.Web.UI;
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.WebControls;
+
+  /// <summary>
+  /// Custom field type <#= FieldTypeTypeName #>
+  /// DisplayName: <#= FieldTypeDisplayName #>
+  /// Description: <#= FieldTypeDescription #>
+  /// </summary>
+  [Guid("<#= System.Guid.NewGuid().ToString() #>")]
+  public class <#= FieldTypeTypeName #>Control : BaseFieldControl 
+  {
+    protected override string DefaultTemplateName 
+    {
+      get 
+      {
+        return "<#= FieldTypeRenderingTemplateId #>";
+      }
+    }
+    
+    protected TextBox txtStreet;
+    protected TextBox txtCity;
+    protected TextBox txtState;
+    protected TextBox txtZipcode;
+
+    protected override void CreateChildControls() 
+    {
+      base.CreateChildControls();
+      txtStreet = (TextBox)this.TemplateContainer.FindControl("txtStreet");
+      txtCity = (TextBox)this.TemplateContainer.FindControl("txtCity");
+      txtState = (TextBox)this.TemplateContainer.FindControl("txtState");
+      txtZipcode = (TextBox)this.TemplateContainer.FindControl("txtZipcode");
+    }
+
+    public override object Value 
+    {
+      get 
+      {
+        this.EnsureChildControls();
+        SPFieldMultiColumnValue mcv = new SPFieldMultiColumnValue(4);
+        mcv[0] = txtStreet.Text;
+        mcv[1] = txtCity.Text;
+        mcv[2] = txtState.Text;
+        mcv[3] = txtZipcode.Text;
+        return mcv;
+      }
+      set 
+      {
+        this.EnsureChildControls();
+        SPFieldMultiColumnValue mcv = (SPFieldMultiColumnValue)this.ItemFieldValue;
+        txtStreet.Text = mcv[0];
+        txtCity.Text = mcv[1];
+        txtState.Text = mcv[2];
+        txtZipcode.Text = mcv[3];
+      }
+    }
+  }
+}

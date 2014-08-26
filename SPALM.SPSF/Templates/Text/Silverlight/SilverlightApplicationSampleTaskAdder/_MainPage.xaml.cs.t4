@@ -1,0 +1,73 @@
+﻿<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= SilverlightApplicationFullName #>
+{
+  using System;
+  using System.Windows;
+  using System.Windows.Controls;
+  using Microsoft.SharePoint.Client;
+
+  public partial class MainPage : UserControl
+  {
+    private ClientContext ctx;
+
+    public MainPage()
+    {
+      InitializeComponent();
+    
+      // Get SharePoint List after page loads
+      this.Loaded += MainPage_Loaded;
+    }
+
+    private void MainPage_Loaded(object sender, RoutedEventArgs e)
+    {
+      // Load client OM assemblies
+      LoadClientOM loadClientOM = new LoadClientOM(delegate { LoadData(); });
+      loadClientOM.Run();
+    }
+
+    private void LoadData()
+    {
+      // Get Client Context
+      ctx = ClientContext.Current;
+    }
+
+    private void ButtonAddTask_Click(object sender, RoutedEventArgs e)
+    {
+      BlurIt.Begin();
+
+      List taskList = ctx.Web.Lists.GetByTitle("Tasks");
+
+      ListItemCreationInformation itemCreateInfo = new ListItemCreationInformation();
+      ListItem newItem = taskList.AddItem(itemCreateInfo);
+      newItem["Title"] = txtTitle.Text;
+      newItem["Priority"] = cboPriority.SelectionBoxItem.ToString(); 
+      newItem["DueDate"] = calDueDate.SelectedDate.Value.ToShortDateString();
+      newItem.Update();
+
+      ctx.ExecuteQueryAsync(ClientRequestSucceeded, ClientRequestFailed);
+    }
+
+    private void ClientRequestSucceeded(object sender, ClientRequestSucceededEventArgs args)
+    {      
+      this.Dispatcher.BeginInvoke(() =>
+      {
+        lblResult.Content = "Task '" + txtTitle.Text + "' added for you!";
+        txtTitle.Text = String.Empty;
+      });
+    }
+
+    private void ClientRequestFailed(object sender, ClientRequestFailedEventArgs args)
+    {
+      this.Dispatcher.BeginInvoke(() =>
+      {
+        lblResult.Content = "Failed to add task. Error code: "
+            + args.ErrorCode.ToString() + ". Message: " + args.Message;       
+      });
+    }
+  }
+}

@@ -1,0 +1,5 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+  <data name="SampleKey">
+    <value>SampleValue</value>
+  </data>

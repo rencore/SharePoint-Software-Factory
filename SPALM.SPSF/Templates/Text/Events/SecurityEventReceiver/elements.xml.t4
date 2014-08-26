@@ -1,0 +1,42 @@
+﻿<#@ template language="C#" #>
+// TBD
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<Receivers		
+		<#
+			if(EventReceiverRootWebOnly)
+			{
+				#>RootWebOnly="TRUE"
+				<#
+			}
+			if(!string.IsNullOrEmpty(EventReceiverScope))
+			{
+				#>Scope="<#= EventReceiverScope #>"
+				<#
+			}	
+		#>
+		>
+	<#
+	foreach(NameValueItem eventclass in EventReceiverTypes)
+	{
+	#>
+		<Receiver>
+			<Name><#= EventReceiverName #><#= eventclass.Value #></Name>
+			<Type><#= eventclass.Value #></Type>
+			<SequenceNumber><#= EventReceiverSequence #></SequenceNumber>
+			<Assembly><#= ProjectAssemblyName #></Assembly>
+			<Class><#= ProjectNamespace #>.<#= EventReceiverName #></Class>
+			<Data></Data>
+			<Filter></Filter>
+			<#
+			if(!string.IsNullOrEmpty(EventReceiverSynchronization))
+			{
+				#><Synchronization><#= EventReceiverSynchronization #></Synchronization>
+				<#
+			}		
+			#>
+		</Receiver>
+	<#
+	}
+	#>
+	</Receivers>		
+</Elements>

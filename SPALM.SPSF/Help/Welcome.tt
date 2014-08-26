@@ -1,0 +1,50 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="html" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml" #>
+<#@ include file="HelpFunctions.tt" #>
+<HTML>
+	<HEAD>
+		<TITLE><#= GetGuidancePackageName() #></TITLE>
+		<link rel="stylesheet" type="text/css" href="Styles/branding.css"/>
+	</HEAD>
+	<BODY>
+		<table height="93" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="height:93px; background-image: url('./_img/header_background.jpg'); background-repeat: repeat-x;"><img src="./_img/header_left.jpg" /></td><td valign="right" style="height:93px; background-image: url('./_img/header_background.jpg'); background-repeat: repeat-x; text-align: right;"><img src="./_img/header_right.jpg" /></td></tr></table>
+		<div id="mainSection">
+			<div id="mainBody">            
+					<DIV class="OH_CollapsibleAreaRegion">
+						<DIV class="OH_regiontitle">How to get started</DIV>
+						<DIV class="OH_RegionToggle"></DIV>
+					</DIV>
+					<DIV class="OH_clear"></DIV>
+					<p>				
+						After successful installation of SPSF SharePoint SoftwareFactory you can start to create SharePoint code in Visual Studio.
+						<h4>1. Create a new project in Visual Studio</h4>
+						Start Visual Studio and click "File -> New -> Project" to create a new Visual Studio project.
+						<br /><br /><img src="./_img/NewProject.jpg" /><br /><br />
+						In the project template dialog under section "Guidance Packages -> SPSF SharePoint SoftwareFactory" choose an appropriate project template e.g. "Simple SharePoint 2007 Application".
+						<br /><br /><img src="./_img/ProjectDialog.jpg" /><br /><br />
+						Click "OK" and fill the SharePoint Project Wizard. 
+						<h4>2. Run SharePoint recipes to create SharePoint code</h4>
+						Most SharePoint recipes like "Create new Content Type" are displayed in context menus dependend on the current selection. 
+						For instance the recipe "Create new Content Type" is only displayed on projects which will create a .wsp solution.
+						<br /><br /><img src="./_img/RunRecipes_Small.jpg" /><br /><br />
+						Alternatively you can use the "New Item" dialog to run the SharePoint recipes. 
+						<br /><br /><img src="./_img/NewItem.jpg" /><br /><br />
+					</p>
+
+					<DIV class="OH_CollapsibleAreaRegion">
+						<DIV class="OH_regiontitle">More help</DIV>
+						<DIV class="OH_RegionToggle"></DIV>
+					</DIV>
+					<DIV class="OH_clear"></DIV>
+					<p>
+						SPSF SharePoint Software Factory provides an extensive help which is also integrated into the Visual Studio help. <br />
+						More information can also be found here: <a href="http://spsf.codeplex.com">spsf.codeplex.com</a>
+    				</p>
+				</div>			
+			</div>
+	</BODY>
+</HTML>

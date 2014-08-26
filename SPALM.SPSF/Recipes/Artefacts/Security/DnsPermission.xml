@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="DnsPermission"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Dns Permission</Caption>
+  <Description>Adds a DnsPermission to the project. Controls rights to access Domain Name System (DNS) servers on the network.</Description>
+  <HostData Priority="200">
+    <Icon File="Help/Icons/icon_Security.ico" />
+    <CommandBar Menu="SPSFSolutionSecurity"/>
+    <CommandBar Menu="SPSFProjectSecurity"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseCustomizationRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="false"
+      Category="Security" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[The recipe adds a line for the permission to the Package.Template.xml (for VS 2010 projects) or to the file CASPolicy.txt (for HIVE projects). Warning: Existing permissions with the same name are replaced completely.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="BasePermissionArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Policy Settings</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="PermissionIsUnrestricted" Label="Unrestricted" >
+              <Help>Required Boolean. If Unrestricted is true, the DnsPermission instance passes all demands. If Unrestricted is false, the DnsPermission instance fails all demands.</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action
+       Name="AddCASPolicyAction"
+       Type="AddCASPolicyAction"
+       TemplateFileName="Text\Security\DnsPermission.txt.t4">
+    </Action>
+    
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

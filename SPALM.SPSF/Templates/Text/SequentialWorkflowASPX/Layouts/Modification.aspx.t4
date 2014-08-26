@@ -1,0 +1,81 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="WorkflowNamespace" #>
+<#@ property processor="PropertyProcessor" name="AssemblyName" #>
+<#@ property processor="PropertyProcessor" name="WorkflowName" #>
+<#@ property processor="PropertyProcessor" name="ResourceFilename" #>
+<#@ assembly name="System.dll" #>
+<%@ Assembly Name="<#= AssemblyName #>" %>
+<%@ Page Language="C#" MasterPageFile="~/_layouts<#= VersionedFolderName #>/application.master" EnableSessionState="true" ValidateRequest="False" Inherits="<#= WorkflowNamespace #>.<#= WorkflowName #>Association" %>
+
+<%@ Register TagPrefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register TagPrefix="Utilities" Namespace="Microsoft.SharePoint.Utilities" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+
+<%@ Register TagPrefix="wssuc" TagName="InputFormSection" Src="/_controltemplates<#= VersionedFolderName #>/InputFormSection.ascx" %>
+<%@ Register TagPrefix="wssuc" TagName="InputFormControl" Src="/_controltemplates<#= VersionedFolderName #>/InputFormControl.ascx" %>
+<%@ Register TagPrefix="wssuc" TagName="ButtonSection" Src="/_controltemplates<#= VersionedFolderName #>/ButtonSection.ascx" %>
+
+<asp:Content ID="Main" ContentPlaceHolderID="PlaceHolderMain" runat="server">
+
+    <asp:Table CellSpacing="0" CellPadding="0" BorderWidth="0" CssClass="ms-propertysheet">        
+        
+        <%-- Input Section 1 --%>
+        <wssuc:InputFormSection Title="<%Resources:<#= ResourceFilename #>, InputFormSection1_Title%>" Description="<%Resources:<#= ResourceFilename #>,InputFormSection1_Description%>" runat="server">
+            <template_inputformcontrols>
+                <wssuc:InputFormControl runat="server" LabelText="<%Resources:<#= ResourceFilename #>,InputFormControl1_Label%>">
+                    <Template_Control>
+                    </Template_Control>
+                </wssuc:InputFormControl>
+            </template_inputformcontrols>
+        </wssuc:InputFormSection>
+
+        <%-- Input Section 1 --%>
+        <wssuc:InputFormSection Title="<%Resources:<#= ResourceFilename #>,InputFormSection2_Title%>" Description="<%Resources:<#= ResourceFilename #>,InputFormSection2_Description%>" runat="server">
+            <template_inputformcontrols>
+                <wssuc:InputFormControl runat="server" LabelText="<%Resources<#= ResourceFilename #>, InputFormControl2_Label%>">
+                    <Template_Control>
+                    </Template_Control>
+                </wssuc:InputFormControl>
+            </template_inputformcontrols>
+        </wssuc:InputFormSection>
+     
+        <%-- Buttons Section --%>
+        <wssuc:ButtonSection  runat="server" ShowStandardCancelButton="false">
+            <template_buttons>
+                <asp:PlaceHolder runat="server">                
+       			    <asp:Button UseSubmitBehavior="false" runat="server" class="ms-ButtonHeightWidth" OnClick="Ok_OnClick" Text="<%$Resources:<#= ResourceFilename #>,btn_Ok%>" id="Ok" /> &nbsp;
+				    <asp:Button UseSubmitBehavior="false" runat="server" class="ms-ButtonHeightWidth" OnClick="Cancel_OnClick" Text="<%$Resources:<#= ResourceFilename #>,btn_Cancel%>" id="Cancel" causesvalidation=false />
+                </asp:PlaceHolder>
+            </template_buttons>
+        </wssuc:ButtonSection>
+        
+    </asp:Table>
+    
+    
+    <input type="hidden" name="WorkflowDefinition" value='<% SPHttpUtility.NoEncode(SPHttpUtility.HtmlEncode(Request.Form["WorkflowDefinition"]),Response.Output); %>' />
+    <input type="hidden" name="WorkflowName" value='<% SPHttpUtility.NoEncode(SPHttpUtility.HtmlEncode(Request.Form["WorkflowName"]),Response.Output); %>' />
+    <input type="hidden" name="AddToStatusMenu" value='<% SPHttpUtility.NoEncode(SPHttpUtility.HtmlEncode(Request.Form["AddToStatusMenu"]),Response.Output); %>' />
+    <input type="hidden" name="AllowManual" value='<% SPHttpUtility.NoEncode(SPHttpUtility.HtmlEncode(Request.Form["AllowManual"]),Response.Output); %>' />
+    <input type="hidden" name="RoleSelect" value='<% SPHttpUtility.NoEncode(SPHttpUtility.HtmlEncode(Request.Form["RoleSelect"]),Response.Output); %>' />
+    <input type="hidden" name="GuidAssoc" value='<% SPHttpUtility.NoEncode(SPHttpUtility.HtmlEncode(Request.Form["GuidAssoc"]),Response.Output); %>' />
+    <input type="hidden" name="SetDefault" value='<% SPHttpUtility.NoEncode(SPHttpUtility.HtmlEncode(Request.Form["SetDefault"]),Response.Output); %>' />
+    <input type="hidden" name="HistoryList" value='<% SPHttpUtility.NoEncode(SPHttpUtility.HtmlEncode(Request.Form["HistoryList"]),Response.Output); %>' />
+    <input type="hidden" name="TaskList" value='<% SPHttpUtility.NoEncode(SPHttpUtility.HtmlEncode(Request.Form["TaskList"]),Response.Output); %>' />
+    <input type="hidden" name="UpdateLists" value='<% SPHttpUtility.NoEncode(SPHttpUtility.HtmlEncode(Request.Form["UpdateLists"]),Response.Output); %>' />
+    <input type="hidden" name="AutoStartCreate" value='<% SPHttpUtility.NoEncode(SPHttpUtility.HtmlEncode(Request.Form["AutoStartCreate"]),Response.Output); %>' />
+    <input type="hidden" name="AutoStartChange" value='<% SPHttpUtility.NoEncode(SPHttpUtility.HtmlEncode(Request.Form["AutoStartChange"]),Response.Output); %>' />
+    
+    <SharePoint:FormDigest ID="FormDigest1" runat="server" />
+    
+</asp:Content>
+
+<asp:Content ID="PageTitle" ContentPlaceHolderID="PlaceHolderPageTitle" runat="server">
+    <%= PageTitle %>
+</asp:Content>
+
+<asp:Content ID="PageTitleInTitleArea" ContentPlaceHolderID="PlaceHolderPageTitleInTitleArea" runat="server">
+    <%= PageTitleInArea %>
+</asp:Content>
+
+<asp:Content ID="PageDescription" ContentPlaceHolderID="PlaceHolderPageDescription"  runat="server">
+    <%= PageDescription %>
+</asp:Content>

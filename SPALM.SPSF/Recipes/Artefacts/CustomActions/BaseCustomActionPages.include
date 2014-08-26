@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Pages xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+  <Page Width="600" Height="400">
+    <Title>Custom Actions Settings</Title>
+    <Fields>
+      <Field ValueName="CustomActionTitle" Label="Title" >
+        <Help>Required Text. Specifies the end user description for this action.</Help>
+      </Field>
+      <Field ValueName="CustomActionDescription" Label="Description" >
+        <Help>Optional Text. Specifies a longer description for the action that is exposed as a tooltip or sub-description for the action.</Help>
+      </Field>
+			<Field ValueName="CustomActionSequence" Label="Sequence">
+				<Help>Optional Integer. Specifies the ordering priority for actions.</Help>
+			</Field>
+    </Fields>
+  </Page>  
+  <Page Width="600" Height="400">
+    <Title>Advanced Settings</Title>
+		<Fields>
+			<Field ValueName="CustomActionName" Label="Custom Action ID">
+				<Help>Optional Text. Specifies a unique identifier for the custom action. The ID may be a GUID, or it may be a unique term, for example, "HtmlViewer".</Help>
+			</Field>
+		</Fields>
+	</Page>
+</Pages>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="ContentTypeEventReceiver"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <DocumentationLinks>
+    <Link Caption="Content Type Definition Schema" Url="http://msdn.microsoft.com/en-us/library/ms463449.aspx" Kind="Documentation"/>
+  </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>ContentType: Add Event Receiver</Caption>
+  <Description>Adds a event receiver to the content type</Description>
+  <HostData Priority="30">
+    <Icon File="Help/Icons/icon_ContentType.ico" />
+    <CommandBar Menu="SPSFFolderArtefacts"/>
+    <CommandBar Menu="SPSFItemArtefacts"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="XmlMergeReference"
+      Enabled="true"
+      CreateVSTemplate="false"
+      XPath="/ns:Elements/ns:ContentType"
+      XPathNamespace="http://schemas.microsoft.com/sharepoint/"
+      Category="ListAndDoc"
+      xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <!-- set standard parameters -->
+    <Argument Name="AllowedScopes" Type="System.String">
+      <ValueProvider Type="Evaluator" Expression="Site" />
+    </Argument>
+
+    <Argument Name="ParentElementManifestElement" Type="NameValueItem" Required="true" >
+      <Converter Type="AvailableContentTypesConverter" />
+    </Argument>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="../BaseElementsManifestArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="ContentTypeSafeName" Required="false">
+      <ValueProvider Stage="OnBeforeActions" Type="NameValueItemNameProvider" RecipeArgument="ParentElementManifestElement" />
+    </Argument>
+
+    <Argument Name="ContentTypeEventClassName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ContentTypeSafeName)EventReceivers" />
+    </Argument>
+    <Argument Name="ContentTypeEventFileName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ContentTypeSafeName)EventReceivers.cs" />
+    </Argument>
+
+    <Argument Name="ContentTypeEventItemAdding" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeEventItemAdded" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeEventItemUpdating" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeEventItemUpdated" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeEventItemDeleting" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeEventItemDeleted" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Parent Element</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field PanelType="SPALM.SPSF.Library.NameValueListViewPanel, SPALM.SPSF.Library" ValueName="ParentElementManifestElement" Label="Parent Content Type" >
+              <Help>Required. Select the content type.</Help>
+              <Editor Type="SPALM.SPSF.Library.ContentTypeEditorInternal, SPALM.SPSF.Library" />
+            </Field>
+          </Fields>
+        </Page>
+        <Page Width="600" Height="400">
+          <Title>Event Receivers</Title>
+          <Fields>
+            <Field ValueName="ContentTypeEventItemAdding" Label="Item Adding">
+              <Help>Optional Boolean. If checked an event handler for ItemAdding event is added to the content type.</Help>
+            </Field>
+            <Field ValueName="ContentTypeEventItemAdded" Label="Item Added">
+              <Help>Optional Boolean. If checked an event handler for ItemAdded event is added to the content type.</Help>
+            </Field>
+            <Field ValueName="ContentTypeEventItemUpdating" Label="Item Updating">
+              <Help>Optional Boolean. If checked an event handler for ItemUpdating event is added to the content type.</Help>
+            </Field>
+            <Field ValueName="ContentTypeEventItemUpdated" Label="Item Updated">
+              <Help>Optional Boolean. If checked an event handler for ItemUpdated event is added to the content type.</Help>
+            </Field>
+            <Field ValueName="ContentTypeEventItemDeleting" Label="Item Deleting">
+              <Help>Optional Boolean. If checked an event handler for ItemDeleting event is added to the content type.</Help>
+            </Field>
+            <Field ValueName="ContentTypeEventItemDeleted" Label="Item Deleted">
+              <Help>Optional Boolean. If checked an event handler for ItemDeleted event is added to the content type.</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <!-- Add XML for event receivers -->
+    <Action
+          Name="AddXmlContent"
+          Type="AddXmlToItemAction"
+          XPath="/ns:Elements/ns:ContentType[@ID='$(ParentElementManifestElement)']"
+          XPathNamespace="http://schemas.microsoft.com/sharepoint/"
+          ReplaceExistingNode="true"
+          Open="true"
+          TemplateFileName="Text\ContentType\elements_EventReceivers.xml.t4">
+      <Input Name="SelectedItem" RecipeArgument="VisualStudioSelectedItem" />
+      <Output Name="CreatedElementFolder" />
+      <Output Name="CreatedElementFile" />
+    </Action>
+
+
+    <!-- Event receiver code -->
+    <Action
+          Name="AddReceiverCode"
+          Type="AddTemplateToItemAction"
+          DeploymentType="CustomCode"
+          TemplateFileName="Text\ContentType\eventreceiver.cs.t4"
+          TargetFileName="$(ContentTypeSafeName).EventReceiver.cs">
+      <Input Name="ParentProjectFolder" ActionOutput="AddXmlContent.CreatedElementFolder" />
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

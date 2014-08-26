@@ -1,0 +1,46 @@
+<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="xml" hostspecific="true" #>
+<#@ assembly Name="F:\TFS\SPSF\Dev\Source\Libraries\OpenGAX\Microsoft.Practices.RecipeFramework.Common.dll" #>
+<#@ assembly Name="F:\TFS\SPSF\Dev\Source\Libraries\OpenGAX\Microsoft.Practices.RecipeFramework.VisualStudio.Library.dll" #>
+<#@ assembly Name="F:\TFS\SPSF\Dev\Source\Libraries\OpenGAX\Microsoft.Practices.RecipeFramework.dll" #>
+<#@ assembly Name="F:\TFS\SPSF\Dev\Source\Libraries\OpenGAX\Microsoft.Practices.WizardFramework.dll" #>
+<#@ assembly Name="F:\TFS\SPSF\Dev\Source\Libraries\OpenGAX\Microsoft.Practices.RecipeFramework.VisualStudio.dll" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.IO" #>
+<#@ include file="T4Functions.tt" #><?xml version="1.0" encoding="utf-8" ?>
+<Types xmlns="http://schemas.microsoft.com/pag/gax-core">
+	<TypeAlias Name="Evaluator" Type="Microsoft.Practices.RecipeFramework.Library.ValueProviders.ExpressionEvaluatorValueProvider2,Microsoft.Practices.RecipeFramework.Library" />
+    <TypeAlias Name="FirstSelectedProject" Type="Microsoft.Practices.RecipeFramework.Library.ValueProviders.FirstSelectedProject, Microsoft.Practices.RecipeFramework.Library" />
+  	<TypeAlias Name="TextTemplateAction" Type="Microsoft.Practices.RecipeFramework.VisualStudio.Library.Templates.TextTemplateAction, Microsoft.Practices.RecipeFramework.VisualStudio.Library" />
+	<TypeAlias Name="AddReferenceAction" Type="Microsoft.Practices.RecipeFramework.Library.Solution.Actions.AddReferenceAction, Microsoft.Practices.RecipeFramework.Library" />
+
+	<TypeAlias Name="NameValueItemArray" Type="SPALM.SPSF.Library.NameValueItem[], SPALM.SPSF.Library" />
+  
+	<#
+
+	string projectDirectory = Path.GetDirectoryName(Host.TemplateFile);
+    string libraryFile = Path.Combine(projectDirectory, @"bin\Debug\SPALM.SPSF.Library.dll");
+    string tempFile = Path.GetTempFileName();
+    File.Copy(libraryFile, tempFile, true);
+    
+    try
+    {
+
+    byte[] assembly = File.ReadAllBytes(tempFile);
+    Assembly libraryAssembly = Assembly.Load(assembly);
+    foreach(Type libraryType in libraryAssembly.GetExportedTypes())
+    {
+    if(libraryType.FullName.StartsWith("SPALM.SPSF.Library"))
+    {
+    #>
+    <TypeAlias Name="<#= libraryType.Name #>" Type="<#= libraryType.FullName #>, SPALM.SPSF.Library" />
+				<#
+			}
+		}
+	}
+	catch(Exception ex)
+	{
+		#><#= ex.ToString() #><#
+	}
+	#>
+</Types>

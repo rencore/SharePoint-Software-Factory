@@ -1,0 +1,37 @@
+﻿<#@ template language="C#" #>
+<#@ include file="Templates/Text/BCS/BCSFunctions.t4" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+<#
+
+foreach(BCSEntity entity in BCSModel.Entities)
+{
+#>
+
+	/// <summary>
+	/// This class contains the properties for <#= entity.Name #>
+	/// </summary>
+	public class <#= entity.Name #>
+	{
+		//TODO: Implement additional properties here.
+<#
+foreach(BCSField field in entity.Fields)		
+{
+#>
+		public <#= GetTypeNameClass(field) #> <#= field.Name #> { get; set; }
+<#
+}
+#>
+	}
+<#
+}
+#>
+}

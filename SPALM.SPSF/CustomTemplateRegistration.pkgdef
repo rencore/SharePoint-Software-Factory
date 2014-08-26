@@ -1,0 +1,35 @@
+﻿
+[$RootKey$\Projects\{BB1F664B-9266-4fd6-B973-E1E44974B511}\AddItemTemplates\TemplateDirs\{93C68916-6E2B-43FB-9940-BF7C943CF0D8}\/1]
+@="SharePoint Software Factory"
+"SortPriority"=dword:00000064
+"TemplatesDir"="$PackageFolder$\Templates\Items.Cache"
+
+[$RootKey$\Projects\{C1CDDADD-2546-481F-9697-4EA41081F2FC}\AddItemTemplates\TemplateDirs\{93C68916-6E2B-43FB-9940-BF7C943CF0D8}\/1]
+@="SharePoint Software Factory"
+"SortPriority"=dword:00000064
+"TemplatesDir"="$PackageFolder$\Templates\Items.Cache"
+
+[$RootKey$\Projects\{14822709-B5A1-4724-98CA-57A101D1B079}\AddItemTemplates\TemplateDirs\{93C68916-6E2B-43FB-9940-BF7C943CF0D8}\/1]
+@="SharePoint Software Factory"
+"SortPriority"=dword:00000064
+"TemplatesDir"="$PackageFolder$\Templates\Items.Cache"
+
+[$RootKey$\Projects\{1BD78563-6D94-4D25-89DE-AEA0C941ED75}\AddItemTemplates\TemplateDirs\{93C68916-6E2B-43FB-9940-BF7C943CF0D8}\/1]
+@="SharePoint Software Factory"
+"SortPriority"=dword:00000064
+"TemplatesDir"="$PackageFolder$\Templates\Items.Cache"
+
+[$RootKey$\Projects\{349C5853-65DF-11DA-9384-00065B846F21}\AddItemTemplates\TemplateDirs\{93C68916-6E2B-43FB-9940-BF7C943CF0D8}\/1]
+@="SharePoint Software Factory"
+"SortPriority"=dword:00000064
+"TemplatesDir"="$PackageFolder$\Templates\Items.Cache"
+
+[$RootKey$\Projects\{593B0543-81F6-4436-BA1E-4747859CAAE2}\AddItemTemplates\TemplateDirs\{93C68916-6E2B-43FB-9940-BF7C943CF0D8}\/1]
+@="SharePoint Software Factory"
+"SortPriority"=dword:00000064
+"TemplatesDir"="$PackageFolder$\Templates\Items.Cache"
+
+[$RootKey$\BindingPaths\{93c68916-6e2b-43fb-9940-bf7c943cf0d9}]
+"$PackageFolder$"=""
+
+

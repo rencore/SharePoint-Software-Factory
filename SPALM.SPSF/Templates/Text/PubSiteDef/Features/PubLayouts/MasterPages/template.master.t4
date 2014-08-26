@@ -1,0 +1,62 @@
+<#@ template language="C#" #><%-- Identifies this page as a .master page written in C# and registers tag prefixes, namespaces, assemblies and controls. --%>
+<%@ Master language="C#" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ Import Namespace="Microsoft.SharePoint" %>
+<%@ Register Tagprefix="SPSWC" Namespace="Microsoft.SharePoint.Portal.WebControls" Assembly="Microsoft.SharePoint.Portal, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register Tagprefix="WebPartPages" Namespace="Microsoft.SharePoint.WebPartPages" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register Tagprefix="PublishingWebControls" Namespace="Microsoft.SharePoint.Publishing.WebControls" Assembly="Microsoft.SharePoint.Publishing, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register Tagprefix="PublishingNavigation" Namespace="Microsoft.SharePoint.Publishing.Navigation" Assembly="Microsoft.SharePoint.Publishing, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register TagPrefix="wssuc" TagName="Welcome" src="~/_controltemplates<#= VersionedFolderName #>/Welcome.ascx" %>
+<%@ Register TagPrefix="wssuc" TagName="DesignModeConsole" src="~/_controltemplates<#= VersionedFolderName #>/DesignModeConsole.ascx" %>
+<%@ Register TagPrefix="PublishingVariations" TagName="VariationsLabelMenu" src="~/_controltemplates<#= VersionedFolderName #>/VariationsLabelMenu.ascx" %>
+<%@ Register Tagprefix="PublishingConsole" TagName="Console" src="~/_controltemplates<#= VersionedFolderName #>/PublishingConsole.ascx" %>
+<%@ Register TagPrefix="PublishingSiteAction" TagName="SiteActionMenu" src="~/_controltemplates<#= VersionedFolderName #>/PublishingActionMenu.ascx" %>
+<%-- Uses the Microsoft Office namespace and schema. --%>
+<html>
+<WebPartPages:SPWebPartManager runat="server"/>
+<SharePoint:RobotsMetaTag runat="server"/>
+
+<%-- The head section includes a content placeholder for the page title and links to CSS and JavaScript files that run on the server. --%>
+<head runat="server">
+<asp:ContentPlaceHolder runat="server" id="head">
+<title>
+<asp:ContentPlaceHolder id="PlaceHolderPageTitle" runat="server" />
+</title>
+</asp:ContentPlaceHolder>
+<Sharepoint:CssLink runat="server"/>
+<asp:ContentPlaceHolder id="PlaceHolderAdditionalPageHead" runat="server" />
+</head>
+
+<%-- When loading the body of the .master page, MOSS 2007 also loads the SpBodyOnLoadWrapper class. This class handles .js calls for the master page. --%>
+<body onload="javascript:_spBodyOnLoadWrapper();">
+<%-- The SPWebPartManager manages all of the Web part controls, functionality, and events that occur on a Web page. --%>
+<form runat="server" onsubmit="return _spFormOnSubmitWrapper();">
+<wssuc:Welcome id="explitLogout" runat="server"/>
+<PublishingSiteAction:SiteActionMenu runat="server"/>
+<PublishingWebControls:AuthoringContainer id="authoringcontrols" runat="server">
+<PublishingConsole:Console runat="server" />
+</PublishingWebControls:AuthoringContainer>
+<%-- The PlaceHolderMain content placeholder defines where the page content should go for all the content from the page layout. The page layout can overwrite any content placeholder from the master page. Example: The PlaceHolderLeftNavBar can overwrite the left navigation bar. --%>
+<asp:ContentPlaceHolder id="PlaceHolderMain" runat="server" />
+<asp:Panel visible="false" runat="server">
+<%-- These ContentPlaceHolders are only necessary to ensure all out of the box MOSS 2007 pages render with this master page. If the system master page is set to any out of the box master pages, the only content placeholders required are those that are being overridden by your page layouts. --%>
+<asp:ContentPlaceHolder id="PlaceHolderSearchArea" runat="server"/>
+<asp:ContentPlaceHolder id="PlaceHolderTitleBreadcrumb" runat="server"/>
+<asp:ContentPlaceHolder id="PlaceHolderPageTitleInTitleArea"  runat="server"/>
+<asp:ContentPlaceHolder id="PlaceHolderLeftNavBar" runat="server"/>
+<asp:ContentPlaceHolder ID="PlaceHolderPageImage" runat="server"/>
+<asp:ContentPlaceHolder ID="PlaceHolderBodyLeftBorder" runat="server"/>
+<asp:ContentPlaceHolder ID="PlaceHolderNavSpacer" runat="server"/>
+<asp:ContentPlaceHolder ID="PlaceHolderTitleLeftBorder" runat="server"/>
+<asp:ContentPlaceHolder ID="PlaceHolderTitleAreaSeparator" runat="server"/>
+<asp:ContentPlaceHolder ID="PlaceHolderMiniConsole" runat="server"/>
+<asp:ContentPlaceHolder id="PlaceHolderCalendarNavigator" runat ="server" />
+<asp:ContentPlaceHolder id="PlaceHolderLeftActions" runat ="server"/>
+<asp:ContentPlaceHolder id="PlaceHolderPageDescription" runat ="server"/>
+<asp:ContentPlaceHolder id="PlaceHolderBodyAreaClass" runat ="server"/>
+<asp:ContentPlaceHolder id="PlaceHolderTitleAreaClass" runat ="server"/>
+</asp:Panel>
+</form>
+</body>
+</html>

@@ -1,0 +1,8 @@
+﻿<#@ template language="C#" #>
+  <data name="<#= ResourceKeyPrefix #>_WorkflowTitle">
+    <value><#= WorkflowTitle #></value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_WorkflowDescription">
+    <value><#= WorkflowDescription #></value>
+  </data>  
+		   

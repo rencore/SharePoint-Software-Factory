@@ -1,0 +1,38 @@
+﻿<#@ template language="C#" #>
+<?xml version="1.0" encoding="utf-8" ?>
+<webParts>
+	<webPart xmlns="http://schemas.microsoft.com/WebPart/v3">
+		<metaData>
+			<type name="<#= ProjectNamespace #>.<#= WebPartName #>, <#= ProjectAssemblyName #>" />
+			<importErrorMessage>Cannot import <#= WebPartTitle #> Web Part.</importErrorMessage>
+		</metaData>
+		<data>
+			<properties>
+<#
+    if(AutoCreateResxFiles && !ProjectIsSandboxedSolution)
+    {
+      #>
+        <property name="Title" type="string">$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_WebPartTitle;</property>
+				<property name="Description" type="string">$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_WebPartDescription;</property>
+      <#
+		}
+		else
+		{
+#>
+				<property name="Title" type="string"><#= WebPartTitle #></property>
+				<property name="Description" type="string"><#= WebPartDescription #></property>
+<#
+		}
+#>
+<#
+		if(!ProjectIsSandboxedSolution)
+		{
+#>				<property name="CatalogIconImageUrl" type="string"><#= WebPartIconFolder #>/<#= WebPartIconName #></property>
+				<property name="TitleIconImageUrl" type="string"><#= WebPartIconFolder #>/<#= WebPartIconName #></property>
+<#
+}
+#>
+			</properties>
+		</data>
+	</webPart>
+</webParts>

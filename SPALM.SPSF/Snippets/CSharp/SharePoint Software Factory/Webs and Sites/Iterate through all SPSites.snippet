@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Iterate through SPSiteCollection</Title>
+      <Author>Matthias Einig</Author>
+      <Description>The SPSiteCollection [] index operator returns a new SPSite object for each access. 
+An SPSite instance is created even if that object has already been accessed. 
+The following code snippet performs proper disposal of the SPSite object. </Description>
+      <HelpUrl>http://msdn.microsoft.com/en-us/library/aa973248.aspx</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <References>
+        <Reference>
+          <Assembly>Microsoft.SharePoint.dll</Assembly>
+        </Reference>
+      </References>
+      <Imports>
+        <Import>
+          <Namespace>SharePoint = Microsoft.SharePoint</Namespace>
+        </Import>
+        <Import>
+          <Namespace>Administration = Microsoft.SharePoint.Administration</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>oSPGlobalAdmin</ID>
+          <ToolTip>SPGlobalAdmin</ToolTip>
+          <Default>globalAdmin</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>aSites</ID>
+          <ToolTip>SPSiteCollection with all sites</ToolTip>
+          <Default>sites</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>oSPSite</ID>
+          <ToolTip>Current SPSite</ToolTip>
+          <Default>site</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>i</ID>
+          <ToolTip>Iterator</ToolTip>
+          <Default>i</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+        SPGlobalAdmin $oSPGlobalAdmin$    = new SPGlobalAdmin();
+        SPSiteCollection $aSites$         = $oSPGlobalAdmin$.VirtualServers[0].Sites;
+        for(int $i$ = 0; $i$ < $aSites$.Count; $i$++)
+        {
+           using(SPSite $oSPSite$ = $aSites$[$i$])
+           {
+              
+           }
+        }
+        $oSPGlobalAdmin$.Dispose();
+ 	$end$]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

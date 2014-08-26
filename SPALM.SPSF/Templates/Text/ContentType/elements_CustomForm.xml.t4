@@ -1,0 +1,36 @@
+﻿<#@ template language="C#" #>
+<#
+
+if(ContentTypeCustomFormsDisplay || 
+	ContentTypeCustomFormsEdit || 
+	ContentTypeCustomFormsNew)
+{
+
+#><Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<ContentType>		
+		<XmlDocuments>		
+			<XmlDocument NamespaceURI="http://schemas.microsoft.com/sharepoint/v3/contenttype/forms">
+				<FormTemplates xmlns="http://schemas.microsoft.com/sharepoint/v3/contenttype/forms">
+					<# 
+					if(ContentTypeCustomFormsDisplay)
+					{
+						#><Display><#= ContentTypeUniqueName #>_Display</Display><#
+					}
+					if(ContentTypeCustomFormsEdit)
+					{
+						#><Edit><#= ContentTypeUniqueName #>_Edit</Edit><#
+					}
+					if(ContentTypeCustomFormsNew)
+					{
+						#><New><#= ContentTypeUniqueName #>_New</New><#
+					}
+					#>
+				</FormTemplates>
+			</XmlDocument>
+		</XmlDocuments>
+	</ContentType>
+</Elements><#
+
+} 
+
+#>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Allow Unsafe Updates on SPWeb instance</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Object Editable="true">
+          <ID>web</ID>
+          <ToolTip>SPWeb object</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+          <Type>SPWeb</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[$web$.AllowUnsafeUpdates = true;]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

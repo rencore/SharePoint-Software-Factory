@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains arguments which are used in all custom actions -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+	<!-- optional target Location -->
+	<Argument Name="CustomActionLocation" Required="true">
+		<Converter Type="StringCollectionConverter" Values="CommandUI.Ribbon|Customization appears everywhere;CommandUI.Ribbon.ListView|Customization appears when the list view Web Part is present;CommandUI.Ribbon.EditForm|Customization appears on the edit form;CommandUI.Ribbon.NewForm|Customization appears on the new form;CommandUI.Ribbon.DisplayForm|Customization appears on the display form" />
+		<ValueProvider Type="Evaluator" Expression="CommandUI.Ribbon" />
+	</Argument>
+	
+	<!-- Optional List Settings -->
+	<Argument Name="CustomActionRegistrationType" Required="false">
+		<Converter Type="StringCollectionConverter" Values="None;List;ContentType;ProgId;FileType" />
+		<ValueProvider Type="Evaluator" Expression="List" />
+	</Argument>
+	<Argument Name="CustomActionRegistrationId" Required="false" >
+		<ValueProvider Type="Evaluator" Expression="101" />
+	</Argument>
+	
+</Arguments>
+  

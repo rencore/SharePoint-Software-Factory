@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="GetSharePointVersion"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Get Installed SharePoint Version</Caption>
+  <Description>Displays the version of SharePoint on the local machine.</Description>
+  <HostData Priority="210">
+    <Icon File="Help/Icons/icon_sharepoint.ico" />
+    <CommandBar Menu="SPSFSolutionHelpers"/>
+    <CommandBar Menu="SPSFProjectHelpers"/>
+    <CommandBar Menu="SPSFSolutionFolderHelpers"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="AnyElementReference"
+      BindingTypeTemplate="AnyElementReferenceTemplate"
+      Enabled="true"
+	  ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="Helpers" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+	<Arguments>
+		<Argument Name="SharePointFarmVersion">
+			<ValueProvider Type="SharePointVersionProvider" />
+		</Argument>
+		<Argument Name="SPSFBranding" >
+			<ValueProvider Type="BrandingImageProvider" Logo="\Branding\Logo.jpg" />
+		</Argument>
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Width="600" Height="400">
+					<Title>Local SharePoint Version</Title>
+					<Fields>
+						<Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+						<Field ValueName="SharePointFarmVersion" Label="SharePoint Version" />
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+</Recipe>

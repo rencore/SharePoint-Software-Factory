@@ -1,0 +1,174 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="WorkflowNamespace" #>
+<#@ property processor="PropertyProcessor" name="WorkflowName" #>
+<#@ assembly name="System.dll" #>
+using System;
+using System.IO;
+using System.Workflow.Activities;
+using System.Xml;
+using System.Xml.Serialization;
+using Microsoft.SharePoint;
+using Microsoft.SharePoint.Utilities;
+using Microsoft.SharePoint.Workflow;
+using Microsoft.SharePoint.WorkflowActions;
+
+namespace <#= WorkflowNamespace #>
+{
+    public sealed partial class <#= WorkflowName #> : SharePointSequentialWorkflowActivity
+    {
+
+        #region "Workflow Designer Members (do not modify)"
+
+        public <#= WorkflowName #>()
+        {
+            InitializeComponent();
+        }
+
+        #endregion"
+
+        #region "Workflow Fields"
+
+        // workflow fields 
+        public Guid WorkflowId = default(Guid);
+        public SPWorkflowActivationProperties WorkflowProperties;
+        public string ItemName = default(string);
+        public string WorkflowOutcome = default(string);
+        public string WorkflowComments = default(string);
+
+        // initiation form data
+        public string Approver = default(string);
+        public string ApprovalScope = default(string);
+        public string ApproverInstructions = default(string);
+
+        // history list fields
+        public String HistoryDescription = default(String);
+        public String HistoryOutcome = default(String);
+        public int UserID = -1;
+        public string ExecutingUser = default(string);
+
+        // task fields
+        public Guid TaskId = default(Guid);
+        public SPWorkflowTaskProperties TaskProperties = new SPWorkflowTaskProperties();
+        public SPWorkflowTaskProperties TaskBeforeProperties = new SPWorkflowTaskProperties();
+        public SPWorkflowTaskProperties TaskAfterProperties = new SPWorkflowTaskProperties();
+        public Guid TaskStatusFieldId = new Guid("c15b34c3-ce7d-490a-b133-3f4de8801b76");
+        public string TaskStatus = default(string);
+        public bool TaskNotComplete = true;
+        public String TaskOutcome = default(String);
+
+        // modifcation data
+        public String ModifcationContextData = default(String);
+        public string ModificationData = default(string);
+
+        #endregion
+
+        #region "Workflow Event Handlers"
+
+        private void onWorkflowActivated1_Invoked(object sender, ExternalDataEventArgs e)
+        {
+            // initialize general workflow properties
+            WorkflowId = WorkflowProperties.WorkflowId;
+            UserID = WorkflowProperties.OriginatorUser.ID;
+
+            // initialize name of item or document
+            ItemName = WorkflowProperties.Item.File != null ? WorkflowProperties.Item.File.Name : WorkflowProperties.Item.Title;
+
+            // deserialize initiation data;
+            string InitiationData = WorkflowProperties.InitiationData;
+            XmlSerializer serializer = new XmlSerializer(typeof(<#= WorkflowName #>Data));
+            XmlTextReader reader = new XmlTextReader(new StringReader(InitiationData));
+            <#= WorkflowName #>Data FormData = (<#= WorkflowName #>Data)serializer.Deserialize(reader);
+
+            // assign form data values to workflow fields
+            //Approver = FormData.Approver;
+            //ApprovalScope = FormData.ApprovalScope;
+            //ApproverInstructions = FormData.Instructions;
+        }
+
+        private void logActivated_MethodInvoking(object sender, EventArgs e)
+        {
+            HistoryDescription = "Workflow created on " + ItemName;
+            HistoryOutcome = "Workflow activated";
+            UserID = WorkflowProperties.OriginatorUser.ID;
+        }
+
+        private void createTask1_MethodInvoking(object sender, EventArgs e)
+        {
+            // generate ID for task
+            TaskId = Guid.NewGuid();
+            // assign initial values for task creation
+            //taskProperties.Title = "Approval required for " + ItemName;
+            //taskProperties.Description = ApproverInstructions;
+            //taskProperties.AssignedTo = Approver;
+            //taskProperties.PercentComplete = 0;
+            //taskProperties.StartDate = DateTime.Today;
+            //taskProperties.DueDate = DateTime.Today.AddDays(2);
+            //taskProperties.ExtendedProperties["WorkflowOutcome"] = "";
+
+            // make sure user is recognized within SiteUsers
+            //EnsureUserIsRecognized(Approver);
+        }
+
+
+        #endregion
+
+        #region "Workflow Modification Handlers"
+
+
+        #endregion
+
+        #region "Workflow Cancel Handler"
+
+        private void logCancellation_MethodInvoking(object sender, EventArgs e)
+        {
+            HistoryDescription = "Workflow cancelled";
+            HistoryOutcome = "This is all";
+        }
+
+        #endregion
+
+        #region "Workflow Error Handlers"
+
+        private void logError_MethodInvoking(object sender, EventArgs e)
+        {
+            if (faultHandlerActivity1.Fault != null)
+            {
+                HistoryDescription = faultHandlerActivity1.Fault.Message;
+                HistoryOutcome = faultHandlerActivity1.Fault.StackTrace;
+            }
+        }
+
+        private void errorLogger_ExecuteCode(object sender, EventArgs e)
+        {
+            // TO DO - add code to log to Windows event log
+        }
+
+        #endregion
+
+        #region "Helper Methods"
+
+        private void EnsureUserIsRecognized(string user)
+        {
+            if (GetUserIdFromName(WorkflowProperties.Web, user) == -1)
+                WorkflowProperties.Web.SiteUsers.Add(user, "", "", "");
+        }
+
+        private static int GetUserIdFromName(SPWeb site, string UserName)
+        {
+            SPPrincipalInfo PrincipalInfo = SPUtility.ResolvePrincipal(site,
+                                                                       UserName,
+                                                                       SPPrincipalType.All,
+                                                                       SPPrincipalSource.All,
+                                                                       null,
+                                                                       false);
+            if (PrincipalInfo == null)
+                return -1;
+
+            return PrincipalInfo.PrincipalId;
+        }
+
+        #endregion
+
+    }
+
+}

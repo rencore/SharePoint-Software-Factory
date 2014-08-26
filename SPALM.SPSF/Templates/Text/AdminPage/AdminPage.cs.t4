@@ -1,0 +1,51 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ProjectNamespace" #>
+<#@ property processor="PropertyProcessor" name="ApplicationPage" #>
+<#@ property processor="PropertyProcessor" name="CustomActionRights" #>
+<#@ assembly name="System.dll" #>
+using System;
+using System.IO;
+using System.Text;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Xml;
+using System.Xml.Serialization;
+using Microsoft.SharePoint;
+using Microsoft.SharePoint.Utilities;
+
+namespace <#= ProjectNamespace #>
+{
+  public class <#= CustomActionName #> : WebAdminPageBase
+  {   
+	protected Button BtnPerformAction;
+
+	protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        SPWeb contextWeb = SPControl.GetContextWeb(this.Context);
+	}
+	
+	protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+		SPWeb contextWeb = SPControl.GetContextWeb(this.Context);
+	}
+
+    protected void BtnCreateSubweb_Click(object sender, EventArgs e)
+    {
+        if (this.Page.IsValid)
+        {
+        }
+    }
+    
+    protected override bool RequireSiteAdministrator
+	{
+		get
+		{
+			return true;
+		}
+	}
+  }
+}

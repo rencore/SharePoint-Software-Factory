@@ -1,0 +1,274 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Text;
+using Microsoft.SharePoint;
+using Microsoft.SharePoint.Security;
+using System.Security.Permissions;
+using Microsoft.SharePoint.Administration;
+using System.IO;
+using System.Collections.ObjectModel;
+using System.Reflection;
+
+namespace BSH.RADEditor.Customization.RADEditorInstaller
+{
+    /// <summary>
+    /// Helper class to modify the web .config during the activation and deactivation of features
+    /// Original sample  : http://www.codeplex.com/sharepointajax
+    /// (Daniel Larson & Tony Bierman)
+    /// </summary>
+    [PermissionSet(SecurityAction.Demand)]
+    public abstract class WebConfigModifier : SPFeatureReceiver
+    {
+        /// <summary>
+        /// Store the current list of modifications
+        /// </summary>
+        List<SPWebConfigModification> mListModifications = new List<SPWebConfigModification>();
+
+        /// <summary>
+        /// Gets the owner modif.
+        /// </summary>
+        /// <value>The owner modif.</value>
+        abstract protected string OwnerModif
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Adds a configuration to the web config.
+        /// </summary>
+        /// <param name="app">The app.</param>
+        /// <param name="removeModification">if set to <c>true</c> [remove modification].</param>
+        protected abstract void AddConfigurationToWebConfig(SPWebApplication app);
+
+        #region Add Modification
+
+        /// <summary>
+        /// Adds a section.
+        /// [ DEPRECATED ] Because Sections can't be removed !
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="xpath">The xpath.</param>
+        protected void AddSection(string name, string xpath)
+        {
+            mListModifications.Add(GetSPWebModifSection(name, xpath));
+        }
+
+        /// <summary>
+        /// Adds a node with value
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="xpath">The xpath.</param>
+        /// <param name="scriptResource">The complete node.</param>
+        protected void AddNodeValue(string name, string xpath, string scriptResource)
+        {
+            mListModifications.Add(GetSPWebModifChild(name, xpath, scriptResource));
+        }
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Occurs when a Feature is deactivated.
+        /// </summary>
+        /// <param name="properties">An <see cref="T:Microsoft.SharePoint.SPFeatureReceiverProperties"></see> object that represents the properties of the event.</param>
+        [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+        public override void FeatureDeactivating(SPFeatureReceiverProperties properties)
+        {
+            bool removeModification = true;
+            AddOrRemoveHandler(properties, removeModification);
+        }
+
+        /// <summary>
+        /// Handles the Feature Activation
+        /// </summary>
+        /// <param name="properties">SPFeatureReceiverProperties passes in the "context" 
+        /// including the web application reference</param>
+        [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+        public override void FeatureActivated(SPFeatureReceiverProperties properties)
+        {
+
+            bool removeModification = false;
+            AddOrRemoveHandler(properties, removeModification);
+        }
+
+        /// <summary>
+        /// Occurs after a Feature is installed.
+        /// </summary>
+        /// <param name="properties">An <see cref="T:Microsoft.SharePoint.SPFeatureReceiverProperties"></see> object that represents the properties of the event.</param>
+        [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+        public override void FeatureInstalled(SPFeatureReceiverProperties properties)
+        {
+            // DoNothing();
+        }
+
+        /// <summary>
+        /// Occurs when a Feature is uninstalled.
+        /// </summary>
+        /// <param name="properties">An <see cref="T:Microsoft.SharePoint.SPFeatureReceiverProperties"></see> object that represents the properties of the event.</param>
+        [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+        public override void FeatureUninstalling(SPFeatureReceiverProperties properties)
+        {
+            // DoNothing();
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Saves the web config.
+        /// </summary>
+        /// <param name="application">The application.</param>
+        protected void SaveWebConfig(SPWebApplication application)
+        {
+            foreach (SPWebConfigModification mod in mListModifications)
+            {
+                application.WebConfigModifications.Add(mod);
+            }
+
+            mListModifications.Clear();
+
+            SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
+        }
+
+        /// <summary>
+        /// Adds the or remove handler.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <param name="removeModification">if set to <c>true</c> [remove modification].</param>
+        protected void AddOrRemoveHandler(SPFeatureReceiverProperties properties, bool removeModification)
+        {
+            if (properties == null)
+                throw new ArgumentNullException("properties");
+
+            SPWebApplication app = null;
+            SPSite siteCollection = properties.Feature.Parent as SPSite;
+            if (siteCollection == null)
+            {
+                SPWeb web = properties.Feature.Parent as SPWeb;
+                if (web != null)
+                    app = web.Site.WebApplication;
+            }
+            else
+                app = siteCollection.WebApplication;
+
+            if (app == null)
+                throw new FileNotFoundException();
+
+            if (!removeModification)
+                AddConfigurationToWebConfig(app);
+            else
+                RemoveWebConfigEntries(app, OwnerModif);
+
+            app.Update();
+        }
+
+        /// <summary>
+        /// Removes the web config entries.
+        /// </summary>
+        /// <param name="oWebApp">The web app.</param>
+        /// <param name="owner">The owner.</param>
+        /// <remarks>
+        /// Tips from Vincent Rothwell 
+        /// http://blog.thekid.me.uk/archive/2007/03/20/removing-web-config-entries-from-sharepoint-using-spwebconfigmodification.aspx
+        /// </remarks>
+        protected void RemoveWebConfigEntries(SPWebApplication oWebApp, string owner)
+        {
+            Collection<SPWebConfigModification> oCollection = oWebApp.WebConfigModifications;
+            int iStartCount = oCollection.Count;
+            for (int c = iStartCount - 1; c >= 0; c--)
+            {
+                SPWebConfigModification oModification = oCollection[c];
+                if (oModification.Owner == owner)
+                    oCollection.Remove(oModification);
+            }
+
+            if (iStartCount > oCollection.Count)
+            {
+                oWebApp.Update();
+                SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
+            }
+
+        }
+
+
+
+        #region Get SPWebConfigModification
+
+        /// <summary>
+        /// Gets the SPWebConfigModification of a child
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="xpath">The xpath.</param>
+        /// <param name="scriptResource">The script resource.</param>
+        /// <returns></returns>
+        protected SPWebConfigModification GetSPWebModifChild(string name, string xpath, string scriptResource)
+        {
+            SPWebConfigModification ModScriptResource = new SPWebConfigModification(
+                 name,
+                 xpath);
+            ModScriptResource.Owner = OwnerModif;
+            ModScriptResource.Sequence = 0;
+            ModScriptResource.Type = SPWebConfigModification.SPWebConfigModificationType.EnsureChildNode;
+            ModScriptResource.Value = scriptResource;
+            return ModScriptResource;
+        }
+
+        /// <summary>
+        /// Gets the SPWebConfigModification of a section
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="xpath">The xpath.</param>
+        /// <returns></returns>
+        protected SPWebConfigModification GetSPWebModifSection(string name, string xpath)
+        {
+            SPWebConfigModification ModScriptResource = new SPWebConfigModification(
+                 name,
+                 xpath);
+            ModScriptResource.Owner = OwnerModif;
+            ModScriptResource.Sequence = 0;
+            ModScriptResource.Type = SPWebConfigModification.SPWebConfigModificationType.EnsureSection;
+            return ModScriptResource;
+        }
+
+        /// <summary>
+        /// Gets the SPWebConfigModification of an attribut
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="xpath">The xpath.</param>
+        /// <returns></returns>
+        /// <example>
+        /// for update     SafeMode MaxControls="200" CallStack="true" DirectFileDependencies="10" TotalFileDependencies="50" AllowPageLevelTrace="false"
+        /// >>> GetSPWebModifAttribut("CallStack", "configuration/SharePoint/SafeMode","true");
+        /// </example>
+        protected SPWebConfigModification GetSPWebModifAttribut(string name, string xpath, string value)
+        {
+            SPWebConfigModification ModScriptResource = new SPWebConfigModification(
+                 name,
+                 xpath);
+            ModScriptResource.Owner = OwnerModif;
+            ModScriptResource.Sequence = 0;
+            ModScriptResource.Type = SPWebConfigModification.SPWebConfigModificationType.EnsureAttribute;
+            ModScriptResource.Value = value;
+
+            return ModScriptResource;
+        }
+
+        #endregion
+
+        #region Utils
+
+        /// <summary>
+        /// Use Trace to log
+        /// </summary>
+        protected void DoTrace(string Message)
+        {
+            
+        }
+
+        #endregion
+
+    } // WebConfigModifier
+
+} // BluePortal.SP2007.Config

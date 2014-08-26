@@ -1,0 +1,43 @@
+﻿<#@ template language="C#" #>
+<#@ import namespace="System.IO" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<Module 
+		Name="<#= ModuleName #>" 
+		Path="<#= ModuleName #>" 
+		<#
+		if((TargetUrl != null) && (TargetUrl != ""))
+		{
+			#>
+			Url="<#= TargetUrl #>"
+			<#
+		}
+		#>
+		<# 
+		if(RootWebOnly)
+		{
+			#>
+			RootWebOnly="TRUE"
+			<#
+		}
+		#>
+		>
+	<#
+		if(FilesToAdd != null)
+		{
+			char[] sep = new char[]{ ';' };
+			string[] files = FilesToAdd.Split(sep);
+			foreach(string file in files)
+			{
+				if(file != "")
+				{
+					#><File 
+						Url="<#= Path.GetFileName(file) #>"
+						Type="GhostableInLibrary" 
+						IgnoreIfAlreadyExists="TRUE" 
+					/><#
+				}
+			}
+		}
+	#>
+	</Module>
+</Elements>

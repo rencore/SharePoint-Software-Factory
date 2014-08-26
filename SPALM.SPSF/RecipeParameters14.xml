@@ -1,0 +1,810 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RecipeParameters>
+	<CustomActionListToolBars>
+		<ActionGroup Location="DisplayFormToolbar" GroupID="" Description="Location corresponds to the display form toolbar of lists." />
+		<ActionGroup Location="EditFormToolbar" GroupID="" Description="Location corresponds to the edit form toolbar of lists." />
+		<ActionGroup Location="NewFormToolbar" GroupID="" Description="Location corresponds to the new form toolbar of lists." />
+		<ActionGroup Location="ViewToolbar" GroupID="" Description="Location corresponds to the toolbar in list views." />
+		<ActionGroup Location="Microsoft.SharePoint.StandardMenu" GroupID="ActionsMenu" Description="Actions menu in list and document library views." />
+		<ActionGroup Location="Microsoft.SharePoint.StandardMenu" GroupID="SettingsMenu" Description="Settings menu in list and document library views." />
+		<ActionGroup Location="Microsoft.SharePoint.StandardMenu" GroupID="NewMenu" Description="New menu in list and document library views." />
+		<ActionGroup Location="Microsoft.SharePoint.StandardMenu" GroupID="UploadMenu" Description="Upload menu in document library views." />
+		<ActionGroup Location="Microsoft.SharePoint.ListEdit" GroupID="Communications" Description="Communications section on Customize page for list or document library." />
+		<ActionGroup Location="Microsoft.SharePoint.ListEdit" GroupID="GeneralSettings" Description="General Settings section on Customize page for list." />
+		<ActionGroup Location="Microsoft.SharePoint.ListEdit" GroupID="Permissions" Description="Permissions and Management section on Customize page for list or document library." />
+		<ActionGroup Location="Microsoft.SharePoint.ListEdit.DocumentLibrary" GroupID="GeneralSettings" Description="General Settings section on Customize page for document library." />
+	</CustomActionListToolBars>
+	<HideCustomActionIDs>
+		<ActionGroup Location="DisplayFormToolbar" GroupID="" Description="Location corresponds to the display form toolbar of lists." ID="ExportEventToolbarButton" />
+		<ActionGroup Location="DisplayFormToolbar" GroupID="" Description="Location corresponds to the display form toolbar of lists." ID="ExportContactToolbarButton" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationCreated" GroupID="Links" Description="Application Created page." ID="CreateSite" /> 
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationCreated" GroupID="Links" Description="Application Created page." ID="HomePage" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="ApplicationSecurity" Description="Application Security section on Central Administration Application Management page." ID="WebPartSecurity" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="ApplicationSecurity" Description="Application Security section on Central Administration Application Management page." ID="SelfService" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="ApplicationSecurity" Description="Application Security section on Central Administration Application Management page." ID="WebApplicationSecurity" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="ApplicationSecurity" Description="Application Security section on Central Administration Application Management page." ID="ManagePolicy" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="ApplicationSecurity" Description="Application Security section on Central Administration Application Management page." ID="ManageAuthenticationProviders" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="ExternalService" Description="External Service Connections section on Central Administration Application Management page." ID="OfficialFile" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="ExternalService" Description="External Service Connections section on Central Administration Application Management page." ID="HtmlViewer" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="ExternalService" Description="External Service Connections section on Central Administration Application Management page." ID="DocConversion" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="SiteManagement" Description="SharePoint Site Management section on Central Administration Application Management page." ID="CreateSite" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="SiteManagement" Description="SharePoint Site Management section on Central Administration Application Management page." ID="DeleteSite" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="SiteManagement" Description="SharePoint Site Management section on Central Administration Application Management page." ID="SiteUse" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="SiteManagement" Description="SharePoint Site Management section on Central Administration Application Management page." ID="QuotaDefinition" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="SiteManagement" Description="SharePoint Site Management section on Central Administration Application Management page." ID="SiteQuota" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="SiteManagement" Description="SharePoint Site Management section on Central Administration Application Management page." ID="SiteOwners" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="SiteManagement" Description="SharePoint Site Management section on Central Administration Application Management page." ID="ListSiteCollections" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="WebApplicationConfiguration" Description="SharePoint Web Application Management section on Central Administration Application Management page." ID="Extend" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="WebApplicationConfiguration" Description="SharePoint Web Application Management section on Central Administration Application Management page." ID="Unextend" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="WebApplicationConfiguration" Description="SharePoint Web Application Management section on Central Administration Application Management page." ID="Delete" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="WebApplicationConfiguration" Description="SharePoint Web Application Management section on Central Administration Application Management page." ID="ManagedPaths" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="WebApplicationConfiguration" Description="SharePoint Web Application Management section on Central Administration Application Management page." ID="EmailSettings" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="WebApplicationConfiguration" Description="SharePoint Web Application Management section on Central Administration Application Management page." ID="GeneralSettings" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="WebApplicationConfiguration" Description="SharePoint Web Application Management section on Central Administration Application Management page." ID="ManageContentDatabases" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="WebApplicationConfiguration" Description="SharePoint Web Application Management section on Central Administration Application Management page." ID="ManageWebAppFeatures" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="WebApplicationConfiguration" Description="SharePoint Web Application Management section on Central Administration Application Management page." ID="ListWebApplications" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="WorkflowManagement" Description="Workflow Management section on Central Administration Application Management page." ID="WorkflowManagement" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="BackupRestore" Description="Backup and Restore section on Central Administration Operations page." ID="Backup" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="BackupRestore" Description="Backup and Restore section on Central Administration Operations page." ID="BackupHistory" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="BackupRestore" Description="Backup and Restore section on Central Administration Operations page." ID="Restore" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="BackupRestore" Description="Backup and Restore section on Central Administration Operations page." ID="BackupStatus" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="DataConfiguration" Description="Data Configuration section on Central Administration Operations page." ID="DefaultDatabase" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="DataConfiguration" Description="Data Configuration section on Central Administration Operations page." ID="DataRetrieval" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="GlobalConfiguration" Description="Global Configuration section on Central Administration Operations page." ID="RunningJobs" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="GlobalConfiguration" Description="Global Configuration section on Central Administration Operations page." ID="JobDefinitions" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="GlobalConfiguration" Description="Global Configuration section on Central Administration Operations page." ID="AlternateAccessMappings" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="GlobalConfiguration" Description="Global Configuration section on Central Administration Operations page." ID="ManageFarmFeatures" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="GlobalConfiguration" Description="Global Configuration section on Central Administration Operations page." ID="Solutions" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="LoggingAndReporting" Description="Logging and Reporting section on Central Administration Operations page." ID="DiagnosticLogging" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="LoggingAndReporting" Description="Logging and Reporting section on Central Administration Operations page." ID="UsageAnalysis" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Security" Description="Security Configuration section on Central Administration Operations page." ID="ServiceAccount" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Security" Description="Security Configuration section on Central Administration Operations page." ID="Irm" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Security" Description="Security Configuration section on Central Administration Operations page." ID="Antivirus" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Security" Description="Security Configuration section on Central Administration Operations page." ID="BlockedFileTypes" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Security" Description="Security Configuration section on Central Administration Operations page." ID="AdministrationRoles" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Topology" Description="Topology and Services section on Central Administration Operations page." ID="FarmServers" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Topology" Description="Topology and Services section on Central Administration Operations page." ID="TopologyServices" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Topology" Description="Topology and Services section on Central Administration Operations page." ID="IncomingEmailServer" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Topology" Description="Topology and Services section on Central Administration Operations page." ID="ApproveDGs" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Topology" Description="Topology and Services section on Central Administration Operations page." ID="EmailConfiguration" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Upgrade" Description="Central Administration Operations page." ID="SiteUpgradeStatus" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Upgrade" Description="Central Administration Operations page." ID="FinalizeUpgrade" />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeSettings" GroupID="Fields" Description="Columns section on Site Collection Content Type page." ID="AddField" />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeSettings" GroupID="Fields" Description="Columns section on Site Collection Content Type page." ID="ReorderFields" />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeSettings" GroupID="General" Description="Settings section on Site Collection Content Type page." ID="ChangeNameDescription" />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeSettings" GroupID="General" Description="Settings section on Site Collection Content Type page." ID="ChangeOptionalSettings" />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeSettings" GroupID="General" Description="Settings section on Site Collection Content Type page." ID="ChangeWorkflowSettings" />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeSettings" GroupID="General" Description="Settings section on Site Collection Content Type page." ID="RemoveContentType" />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeTemplateSettings" GroupID="Fields" Description="Columns section on List Content Type page." ID="AddField" />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeTemplateSettings" GroupID="Fields" Description="Columns section on List Content Type page." ID="ReorderFields" />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeTemplateSettings" GroupID="General" Description="Settings section on List Content Type page." ID="ChangeNameDescriptionGroup" />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeTemplateSettings" GroupID="General" Description="Settings section on List Content Type page." ID="ChangeOptionalSettings" />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeTemplateSettings" GroupID="General" Description="Settings section on List Content Type page." ID="ChangeWorkflowSettings" />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeTemplateSettings" GroupID="General" Description="Settings section on List Content Type page." ID="RemoveContentType" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Customization" Description="Look and Feel section on Site Settings page." ID="ProjectSettings" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Customization" Description="Look and Feel section on Site Settings page." ID="NavOptions" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Customization" Description="Look and Feel section on Site Settings page." ID="Theme" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Customization" Description="Look and Feel section on Site Settings page." ID="TopNav" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Customization" Description="Look and Feel section on Site Settings page." ID="QuickLaunch" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Customization" Description="Look and Feel section on Site Settings page." ID="SaveAsTemplate" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Customization" Description="Look and Feel section on Site Settings page." ID="ReGhost" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Galleries" Description="Galleries section on Site Settings page." ID="MasterPageCatalog" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Galleries" Description="Galleries section on Site Settings page." ID="ManageCType" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Galleries" Description="Galleries section on Site Settings page." ID="ManageField" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Galleries" Description="Galleries section on Site Settings page." ID="SiteTemplates" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Galleries" Description="Galleries section on Site Settings page." ID="ListTemplates" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Galleries" Description="Galleries section on Site Settings page." ID="WebParts" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Galleries" Description="Galleries section on Site Settings page." ID="Workflows" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteAdministration" Description="Site Administration section on Site Settings page." ID="RegionalSettings" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteAdministration" Description="Site Administration section on Site Settings page." ID="LibrariesAndLists" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteAdministration" Description="Site Administration section on Site Settings page." ID="WebUsage" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteAdministration" Description="Site Administration section on Site Settings page." ID="UserAlerts" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteAdministration" Description="Site Administration section on Site Settings page." ID="RSS" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteAdministration" Description="Site Administration section on Site Settings page." ID="SrchVis" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteAdministration" Description="Site Administration section on Site Settings page." ID="ManageSubWebs" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteAdministration" Description="Site Administration section on Site Settings page." ID="ManageSiteFeatures" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteAdministration" Description="Site Administration section on Site Settings page." ID="DeleteWeb" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteCollectionAdmin" Description="Site Collection Administration section on Site Settings page." ID="DeletedItems" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteCollectionAdmin" Description="Site Collection Administration section on Site Settings page." ID="SiteCollectionUsage" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteCollectionAdmin" Description="Site Collection Administration section on Site Settings page." ID="Storage" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteCollectionAdmin" Description="Site Collection Administration section on Site Settings page." ID="ManageSiteCollectionFeatures" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteCollectionAdmin" Description="Site Collection Administration section on Site Settings page." ID="Hierarchy" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteCollectionAdmin" Description="Site Collection Administration section on Site Settings page." ID="Portal" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="UsersAndPermissions" Description="Users and Permissions section on Site Settings page." ID="PeopleAndGroups" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="UsersAndPermissions" Description="Users and Permissions section on Site Settings page." ID="SiteCollectionAdministrators" />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="UsersAndPermissions" Description="Users and Permissions section on Site Settings page." ID="User" />
+	</HideCustomActionIDs>
+	<CustomActionGroupLocations>
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="" Description="Site settings screen" ID="" />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeSettings" GroupID="" Description="Content Type Settings screen" ID="" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="" Description="Operations screen in the Central Adminstration web site " ID="" />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="" Description="Application Management screen in the Central Administration " ID="" />
+	</CustomActionGroupLocations>
+	<CustomActionLocations>
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationCreated" GroupID="Links" Description="Application Created page." />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="ApplicationSecurity" Description="Application Security section on Central Administration Application Management page." />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="ExternalService" Description="External Service Connections section on Central Administration Application Management page." />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="SiteManagement" Description="SharePoint Site Management section on Central Administration Application Management page." />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="WebApplicationConfiguration" Description="SharePoint Web Application Management section on Central Administration Application Management page." />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.ApplicationManagement" GroupID="WorkflowManagement" Description="Workflow Management section on Central Administration Application Management page." />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="BackupRestore" Description="Backup and Restore section on Central Administration Operations page." />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="DataConfiguration" Description="Data Configuration section on Central Administration Operations page." />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="GlobalConfiguration" Description="Global Configuration section on Central Administration Operations page." />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="LoggingAndReporting" Description="Logging and Reporting section on Central Administration Operations page." />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Security" Description="Security Configuration section on Central Administration Operations page." />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Topology" Description="Topology and Services section on Central Administration Operations page." />
+		<ActionGroup Location="Microsoft.SharePoint.Administration.Operations" GroupID="Upgrade" Description="Central Administration Operations page." />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeSettings" GroupID="Fields" Description="Columns section on Site Collection Content Type page." />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeSettings" GroupID="General" Description="Settings section on Site Collection Content Type page." />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeTemplateSettings" GroupID="Fields" Description="Columns section on List Content Type page." />
+		<ActionGroup Location="Microsoft.SharePoint.ContentTypeTemplateSettings" GroupID="General" Description="Settings section on List Content Type page." />
+		<ActionGroup Location="Microsoft.SharePoint.Create" GroupID="WebPages" Description="Web Pages section on Create page." />
+		<ActionGroup Location="Microsoft.SharePoint.GroupsPage" GroupID="NewMenu" Description="New menu on site collection People and Groups page." />
+		<ActionGroup Location="Microsoft.SharePoint.GroupsPage" GroupID="SettingsMenu" Description="Settings menu on site collection People and Groups page." />
+		<ActionGroup Location="Microsoft.SharePoint.PeoplePage" GroupID="ActionsMenu" Description="Actions menu on site collection People and Groups page." />
+		<ActionGroup Location="Microsoft.SharePoint.PeoplePage" GroupID="NewMenu" Description="New menu on site collection People and Groups page." />
+		<ActionGroup Location="Microsoft.SharePoint.PeoplePage" GroupID="SettingsMenu" Description="Settings menu on site collection People and Groups page." />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Customization" Description="Look and Feel section on Site Settings page." />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="Galleries" Description="Galleries section on Site Settings page." />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteAdministration" Description="Site Administration section on Site Settings page." />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="SiteCollectionAdmin" Description="Site Collection Administration section on Site Settings page." />
+		<ActionGroup Location="Microsoft.SharePoint.SiteSettings" GroupID="UsersAndPermissions" Description="Users and Permissions section on Site Settings page." />
+		<ActionGroup Location="Microsoft.SharePoint.StandardMenu" GroupID="ActionsMenuForSurvey" Description="Site Actions menu for surveys." />
+		<ActionGroup Location="Microsoft.SharePoint.StandardMenu" GroupID="SettingsMenuForSurvey" Description="Site Settings links for surveys." />
+		<ActionGroup Location="Microsoft.SharePoint.StandardMenu" GroupID="SiteActions" Description="Site Actions menu." />
+		<ActionGroup Location="Microsoft.SharePoint.User" GroupID="ActionsMenu" Description="Actions menu on Web site Permissions page." />
+		<ActionGroup Location="Microsoft.SharePoint.User" GroupID="NewMenu" Description="New menu on Web site Permissions page." />
+		<ActionGroup Location="Microsoft.SharePoint.User" GroupID="SettingsMenu" Description="Settings menu on Web site Permissions page." />
+		<ActionGroup Location="Microsoft.SharePoint.Workflows" GroupID="LeftNavBarLinks" Description="Left navigational area on pages for managing workflow." />
+	</CustomActionLocations>
+	<SPBasePermissions>
+		<SPBasePermission Name="AddAndCustomizePages" Description="Add, change, or delete HTML pages or Web Part Pages, and edit the Web site using a Windows SharePoint Services-compatible editor." />
+		<SPBasePermission Name="AddDelPrivateWebParts" Description="Add or remove personal Web Parts on a Web Part Page." />
+		<SPBasePermission Name="AddListItems" Description="Add items to lists, add documents to document libraries, and add Web discussion comments." />
+		<SPBasePermission Name="ApplyStyleSheets" Description="Apply a style sheet (.css file) to the Web site." />
+		<SPBasePermission Name="ApplyThemeAndBorder" Description="Apply a theme or borders to the entire Web site." />
+		<SPBasePermission Name="ApproveItems" Description="Approve a minor version of a list item or document." />
+		<SPBasePermission Name="BrowseDirectories" Description="Enumerate files and folders in a Web site using Microsoft Office SharePoint Designer 2007 and WebDAV interfaces." />
+		<SPBasePermission Name="BrowseUserInfo" Description="View information about users of the Web site." />
+		<SPBasePermission Name="CancelCheckout" Description="Discard or check in a document which is checked out to another user." />
+		<SPBasePermission Name="CreateAlerts" Description="Create e-mail alerts." />
+		<SPBasePermission Name="CreateGroups" Description="Create a group of users that can be used anywhere within the site collection." />
+		<SPBasePermission Name="CreateSSCSite" Description="Create a Web site using Self-Service Site Creation." />
+		<SPBasePermission Name="DeleteListItems" Description="Delete items from a list, documents from a document library, and Web discussion comments in documents." />
+		<SPBasePermission Name="DeleteVersions" Description="Delete past versions of a list item or document." />
+		<SPBasePermission Name="EditListItems" Description="Edit items in lists, edit documents in document libraries, edit Web discussion comments in documents, and customize Web Part Pages in document libraries." />
+		<SPBasePermission Name="EditMyUserInfo" Description="Allows a user to change his or her user information, such as adding a picture." />
+		<SPBasePermission Name="EmptyMask" Description="Has no permissions on the Web site. Not available through the user interface." />
+		<SPBasePermission Name="EnumeratePermissions" Description="Enumerate permissions on the Web site, list, folder, document, or list item." />
+		<SPBasePermission Name="FullMask" Description="Has all permissions on the Web site. Not available through the user interface." />
+		<SPBasePermission Name="ManageAlerts" Description="Manage alerts for all users of the Web site." />
+		<SPBasePermission Name="ManageLists" Description="Create and delete lists, add or remove columns in a list, and add or remove public views of a list." />
+		<SPBasePermission Name="ManagePermissions" Description="Create and change permission levels on the Web site and assign permissions to users and groups." />
+		<SPBasePermission Name="ManagePersonalViews" Description="Create, change, and delete personal views of lists." />
+		<SPBasePermission Name="ManageSubwebs" Description="Create subsites such as team sites, Meeting Workspace sites, and Document Workspace sites." />
+		<SPBasePermission Name="ManageWeb" Description="Grant the ability to perform all administration tasks for the Web site as well as manage content. Activate, deactivate, or edit properties of Web site scoped Features through the object model or through the user interface (UI). When granted on the root Web site of a site collection, activate, deactivate, or edit properties of site collection scoped Features through the object model. To browse to the Site Collection Features page and activate or deactivate site collection scoped Features through the UI, you must be a site collection administrator." />
+		<SPBasePermission Name="Open" Description="Allow users to open a Web site, list, or folder to access items inside that container." />
+		<SPBasePermission Name="OpenItems" Description="View the source of documents with server-side file handlers." />
+		<SPBasePermission Name="UpdatePersonalWebParts" Description="Update Web Parts to display personalized information." />
+		<SPBasePermission Name="UseClientIntegration" Description="Use features that launch client applications; otherwise, users must work on documents locally and upload changes. " />
+		<SPBasePermission Name="UseRemoteAPIs" Description="Use SOAP, WebDAV, or Microsoft Office SharePoint Designer 2007 interfaces to access the Web site." />
+		<SPBasePermission Name="ViewFormPages" Description="View forms, views, and application pages, and enumerate lists." />
+		<SPBasePermission Name="ViewListItems" Description="View items in lists, documents in document libraries, and view Web discussion comments." />
+		<SPBasePermission Name="ViewPages" Description="View pages in a Web site." />
+		<SPBasePermission Name="ViewUsageData" Description="View reports on Web site usage." />
+		<SPBasePermission Name="ViewVersions" Description="View past versions of a list item or document." />
+	</SPBasePermissions>
+	<SPEventReceivers>
+		<SPItemEventReceiver Value="ContextEvent" Description="The list received a context event." />
+		<SPEmailEventReceiver Value="EmailReceived" Description="The list received an e-mail message." />
+		<SPListEventReceiver Value="FieldAdded" Description="A field was added." />
+		<SPListEventReceiver Value="FieldAdding" Description="A field is being added." />
+		<SPListEventReceiver Value="FieldDeleted" Description="A field was removed." />
+		<SPListEventReceiver Value="FieldDeleting" Description="A field is being removed." />
+		<SPListEventReceiver Value="FieldUpdated" Description="A field was updated." />
+		<SPListEventReceiver Value="FieldUpdating" Description="A field is being updated." />
+		<SPListEventReceiver Value="ListAdding" Description="A list is being added." />
+		<SPListEventReceiver Value="ListAdded" Description="A list was added." />
+		<SPListEventReceiver Value="ListDeleting" Description="A list is being deleted." />
+		<SPListEventReceiver Value="ListDeleted" Description="A field was deleted." />
+		<SPItemEventReceiver Value="ItemAdded" Description="An item was added." />
+		<SPItemEventReceiver Value="ItemAdding" Description="An item is being added." />
+		<SPItemEventReceiver Value="ItemAttachmentAdded" Description="An attachment was added to the item." />
+		<SPItemEventReceiver Value="ItemAttachmentAdding" Description="An attachment is being added to the item." />
+		<SPItemEventReceiver Value="ItemAttachmentDeleted" Description="An attachment was removed from the item." />
+		<SPItemEventReceiver Value="ItemAttachmentDeleting" Description="An attachment is being removed from the item." />
+		<SPItemEventReceiver Value="ItemCheckedIn" Description="An item was checked in." />
+		<SPItemEventReceiver Value="ItemCheckedOut" Description="An item was checked out." />
+		<SPItemEventReceiver Value="ItemCheckingIn" Description="An item is being checked in." />
+		<SPItemEventReceiver Value="ItemCheckingOut" Description="An item is being checked out." />
+		<SPItemEventReceiver Value="ItemDeleted" Description="An item was deleted." />
+		<SPItemEventReceiver Value="ItemDeleting" Description="An item is being deleted." />
+		<SPItemEventReceiver Value="ItemFileConverted" Description="A file was converted." />
+		<SPItemEventReceiver Value="ItemFileMoved" Description="A file was moved." />
+		<SPItemEventReceiver Value="ItemFileMoving" Description="A file is being moved." />
+		<SPItemEventReceiver Value="ItemUncheckedOut" Description="An item was unchecked out." />
+		<SPItemEventReceiver Value="ItemUncheckingOut" Description="An item is being unchecked out." />
+		<SPItemEventReceiver Value="ItemUpdated" Description="An item was updated." />
+		<SPItemEventReceiver Value="ItemUpdating" Description="An item is being updated." />
+		<SPWebEventReceiver Value="SiteDeleted" Description="A site collection was deleted." />
+		<SPWebEventReceiver Value="SiteDeleting" Description="A site collection is being deleted." />
+		<SPWebEventReceiver Value="WebDeleted" Description="A site was deleted." />
+		<SPWebEventReceiver Value="WebDeleting" Description="A site is being deleted." />
+		<SPWebEventReceiver Value="WebMoved" Description="A site was moved." />
+		<SPWebEventReceiver Value="WebMoving" Description="A site is being moved." />
+		<SPWebEventReceiver Value="WebAdding" Description="Occurs before a new web is created." />
+		<SPWebEventReceiver Value="WebProvisioned" Description="A web is fully provisioned." />
+	</SPEventReceivers>
+	<DelegateControlIds>
+    <DelegateControlId Value="AdditionalPageHead" Description="This will be available inside the head tag and helpful to load the custom css / javascript" />    
+    <DelegateControlId Value="GlobalSiteLink0" Description="SharePoint uses this one to publish the variations menu. Please carefully override this delegate control if needed" />
+    <DelegateControlId Value="GlobalSiteLink1" Description="To enable Farm level global links and not specific for web application or site collection level" />
+    <DelegateControlId Value="GlobalSiteLink2" Description="To enable Farm level global links and not specific for web application or site collection level" />
+    <DelegateControlId Value="PublishingConsole" Description="While editing the page, Server Ribbon will be loaded using this Delegate Control and we extend this using Custom Action" />
+    <DelegateControlId Value="SmallSearchInputBox" Description="This delegate control will be using to override Search box" />
+    <DelegateControlId Value="QuickLaunchDataSource" Description="To load the custom quick launch data source" />
+		<DelegateControlId Value="TopNavigationDataSource" Description="To load the custom topnavigation data source" />
+	</DelegateControlIds>
+	<ProgIds>
+		<ProgId Value="InfoPath.Document.2" Description="" />
+		<ProgId Value="Word.Document.12" Description="docx" />
+		<ProgId Value="Word.Document.6" Description="doc" />
+		<ProgId Value="PowerPoint.Show.8" Description="ppt" />
+		<ProgId Value="PowerPoint.Show.12" Description="pptx" />
+	</ProgIds>
+	<StandardThemes>
+		<StandardTheme Value="Default Theme" Description="The default theme has a white background with blue control areas and orange highlights." />
+		<StandardTheme Value="Classic" Description="Classic has a white background with blue control areas and orange highlights." />
+		<StandardTheme Value="Simple" Description="Simple has a white background with minimal blue highlights." />
+		<StandardTheme Value="Belltown" Description="Belltown has a light teal motif." />
+		<StandardTheme Value="Breeze" Description="Breeze has a gray frame with teal control areas and orange highlights." />
+		<StandardTheme Value="Cardinal" Description="Cardinal has a gray background with red control areas." />
+		<StandardTheme Value="Citrus" Description="Citrus has a green background with yellow control areas and orange highlights." />
+		<StandardTheme Value="Granite" Description="Granite has a slight brown frame with tan control areas and blue highlights." />
+		<StandardTheme Value="Jet" Description="Jet has a gray frame with blue control areas and yellow highlights." />
+		<StandardTheme Value="Lacquer" Description="Lacquer has a gray background with gray control areas and orange highlights." />
+		<StandardTheme Value="Lichen" Description="Lichen has a khaki frame with olive control areas and orange highlights." />
+		<StandardTheme Value="Obsidian" Description="Obsidian has a dark gray frame with light gray control areas and orange highlights." />
+		<StandardTheme Value="Petal" Description="Petal has a light gray frame with pink control areas and highlights." />
+		<StandardTheme Value="Plastic" Description="Plastic has an orange background with blue control areas." />
+		<StandardTheme Value="Reflector" Description="Reflector has a black background with purple control areas and brown highlights." />
+		<StandardTheme Value="Verdant" Description="Verdant has a complete green motif." />
+		<StandardTheme Value="Vintage" Description="Vintage has a worn tan motif." />
+		<StandardTheme Value="Wheat" Description="Wheat has a golden background with brown control areas." />
+	</StandardThemes>
+	<RibbonListViewLocations>
+		<RibbonListViewLocation Value="CommandUI.Ribbon.ListView" Description="Customization appears when the list view Web Part is present." />
+		<RibbonListViewLocation Value="CommandUI.Ribbon.EditForm" Description="Customization appears on the edit form." />
+		<RibbonListViewLocation Value="CommandUI.Ribbon.NewForm" Description="Customization appears on the new form." />
+		<RibbonListViewLocation Value="CommandUI.Ribbon.DisplayForm" Description="Customization appears on the display form." />
+	</RibbonListViewLocations>
+	<RibbonTabs>
+		<RibbonTab Tab="Ribbon.BDCAdmin" />
+		<RibbonTab Tab="Ribbon.DocLibListForm.Edit" />
+		<RibbonTab Tab="Ribbon.ListForm.Display" />
+		<RibbonTab Tab="Ribbon.ListForm.Edit" />
+		<RibbonTab Tab="Ribbon.PostListForm.Edit" />
+		<RibbonTab Tab="Ribbon.SvcApp" />
+		<RibbonTab Tab="Ribbon.Solution" />
+		<RibbonTab Tab="Ribbon.UsageReport" />
+		<RibbonTab Tab="Ribbon.WikiPageTab" />
+		<RibbonTab Tab="Ribbon.PublishTab" />
+		<RibbonTab Tab="Ribbon.WebPartPage" />
+		<RibbonTab Tab="Ribbon.WebApp" />
+		<RibbonTab Tab="Ribbon.SiteCollections" />
+		<RibbonTab Tab="Ribbon.ManageTrust" />
+		<RibbonTab Tab="Ribbon.EditingTools.CPEditTab" />
+		<RibbonTab Tab="Ribbon.EditingTools.CPInsert" />
+		<RibbonTab Tab="Ribbon.Image.Image" />
+		<RibbonTab Tab="Ribbon.Documents" />
+		<RibbonTab Tab="Ribbon.Library" />
+		<RibbonTab Tab="Ribbon.ListItem" />
+		<RibbonTab Tab="Ribbon.List" />
+		<RibbonTab Tab="Ribbon.Link.Link" />
+		<RibbonTab Tab="Ribbon.Table.Layout" />
+		<RibbonTab Tab="Ribbon.Table.Design" />
+		<RibbonTab Tab="Ribbon.WebPartInsert.Tab" />
+		<RibbonTab Tab="Ribbon.WebPartOption" />
+		<RibbonTab Tab="Ribbon.Calendar.Events" />
+		<RibbonTab Tab="Ribbon.Calendar.Calendar" />
+		<RibbonTab Tab="Ribbon.Permission" />		
+	</RibbonTabs>
+	<RibbonGroups>
+		<RibbonGroup Tab="Ribbon.BDCAdmin" Group="Ribbon.BDCAdmin.ApplicationModelManagement" />
+		<RibbonGroup Tab="Ribbon.BDCAdmin" Group="Ribbon.BDCAdmin.PermissionManagement" />
+		<RibbonGroup Tab="Ribbon.BDCAdmin" Group="Ribbon.BDCAdmin.ApplicationManagement" />
+		<RibbonGroup Tab="Ribbon.BDCAdmin" Group="Ribbon.BDCAdmin.ActionManagement" />
+		<RibbonGroup Tab="Ribbon.BDCAdmin" Group="Ribbon.BDCAdmin.ViewManagement" />
+		<RibbonGroup Tab="Ribbon.DocLibListForm.Edit" Group="Ribbon.DocLibListForm.Edit.Commit" />
+		<RibbonGroup Tab="Ribbon.DocLibListForm.Edit" Group="Ribbon.DocLibListForm.Edit.Clipboard" />
+		<RibbonGroup Tab="Ribbon.DocLibListForm.Edit" Group="Ribbon.DocLibListForm.Edit.Actions" />
+		<RibbonGroup Tab="Ribbon.ListForm.Display" Group="Ribbon.ListForm.Display.Manage" />
+		<RibbonGroup Tab="Ribbon.ListForm.Display" Group="Ribbon.ListForm.Display.Actions" />
+		<RibbonGroup Tab="Ribbon.ListForm.Display" Group="Ribbon.ListForm.Display.HealthActions" />
+		<RibbonGroup Tab="Ribbon.ListForm.Display" Group="Ribbon.ListForm.Display.Solution" />
+		<RibbonGroup Tab="Ribbon.ListForm.Edit" Group="Ribbon.ListForm.Edit.Commit" />
+		<RibbonGroup Tab="Ribbon.ListForm.Edit" Group="Ribbon.ListForm.Edit.Clipboard" />
+		<RibbonGroup Tab="Ribbon.ListForm.Edit" Group="Ribbon.ListForm.Edit.Actions" />
+		<RibbonGroup Tab="Ribbon.PostListForm.Edit" Group="Ribbon.PostListForm.Edit.Commit" />
+		<RibbonGroup Tab="Ribbon.PostListForm.Edit" Group="Ribbon.PostListForm.Edit.Clipboard" />
+		<RibbonGroup Tab="Ribbon.PostListForm.Edit" Group="Ribbon.PostListForm.Edit.Actions" />
+		<RibbonGroup Tab="Ribbon.SvcApp" Group="Ribbon.SvcApp.Create" />
+		<RibbonGroup Tab="Ribbon.SvcApp" Group="Ribbon.SvcApp.Operations" />
+		<RibbonGroup Tab="Ribbon.SvcApp" Group="Ribbon.SvcApp.Sharing" />
+		<RibbonGroup Tab="Ribbon.Solution" Group="Ribbon.Solution.New" />
+		<RibbonGroup Tab="Ribbon.Solution" Group="Ribbon.Solution.All" />
+		<RibbonGroup Tab="Ribbon.UsageReport" Group="Ribbon.UsageReport.DateRange" />
+		<RibbonGroup Tab="Ribbon.WikiPageTab" Group="Ribbon.WikiPageTab.EditAndCheckout" />
+		<RibbonGroup Tab="Ribbon.WikiPageTab" Group="Ribbon.WikiPageTab.Manage" />
+		<RibbonGroup Tab="Ribbon.WikiPageTab" Group="Ribbon.WikiPageTab.Share" />
+		<RibbonGroup Tab="Ribbon.WikiPageTab" Group="Ribbon.WikiPageTab.PageActions" />
+		<RibbonGroup Tab="Ribbon.WikiPageTab" Group="Ribbon.WikiPageTab.LibrarySettings" />
+		<RibbonGroup Tab="Ribbon.PublishTab" Group="Ribbon.PublishTab.Publishing" />
+		<RibbonGroup Tab="Ribbon.PublishTab" Group="Ribbon.PublishTab.Workflow" />
+		<RibbonGroup Tab="Ribbon.WebPartPage" Group="Ribbon.WebPartPage.Edit" />
+		<RibbonGroup Tab="Ribbon.WebPartPage" Group="Ribbon.WebPartPage.Manage" />
+		<RibbonGroup Tab="Ribbon.WebPartPage" Group="Ribbon.WebPartPage.Share" />
+		<RibbonGroup Tab="Ribbon.WebPartPage" Group="Ribbon.WebPartPage.Approval" />
+		<RibbonGroup Tab="Ribbon.WebPartPage" Group="Ribbon.WebPartPage.Workflow" />
+		<RibbonGroup Tab="Ribbon.WebPartPage" Group="Ribbon.WebPartPage.Actions" />
+		<RibbonGroup Tab="Ribbon.WebApp" Group="Ribbon.WebApp.Contribute" />
+		<RibbonGroup Tab="Ribbon.WebApp" Group="Ribbon.WebApp.Manage" />
+		<RibbonGroup Tab="Ribbon.WebApp" Group="Ribbon.WebApp.Security" />
+		<RibbonGroup Tab="Ribbon.WebApp" Group="Ribbon.WebApp.Policy" />
+		<RibbonGroup Tab="Ribbon.SiteCollections" Group="Ribbon.SiteCollections.Contribute" />
+		<RibbonGroup Tab="Ribbon.SiteCollections" Group="Ribbon.SiteCollections.Review" />
+		<RibbonGroup Tab="Ribbon.SiteCollections" Group="Ribbon.SiteCollections.Manage" />
+		<RibbonGroup Tab="Ribbon.ManageTrust" Group="Ribbon.ManageTrust.Operations" />
+		<RibbonGroup Tab="Ribbon.EditingTools.CPEditTab" Group="Ribbon.EditingTools.CPEditTab.EditAndCheckout" />
+		<RibbonGroup Tab="Ribbon.EditingTools.CPEditTab" Group="Ribbon.EditingTools.CPEditTab.Clipboard" />
+		<RibbonGroup Tab="Ribbon.EditingTools.CPEditTab" Group="Ribbon.EditingTools.CPEditTab.Font" />
+		<RibbonGroup Tab="Ribbon.EditingTools.CPEditTab" Group="Ribbon.EditingTools.CPEditTab.Paragraph" />
+		<RibbonGroup Tab="Ribbon.EditingTools.CPEditTab" Group="Ribbon.EditingTools.CPEditTab.Styles" />
+		<RibbonGroup Tab="Ribbon.EditingTools.CPEditTab" Group="Ribbon.EditingTools.CPEditTab.Layout" />
+		<RibbonGroup Tab="Ribbon.EditingTools.CPEditTab" Group="Ribbon.EditingTools.CPEditTab.Markup" />
+		<RibbonGroup Tab="Ribbon.EditingTools.CPInsert" Group="Ribbon.EditingTools.CPInsert.Tables" />
+		<RibbonGroup Tab="Ribbon.EditingTools.CPInsert" Group="Ribbon.EditingTools.CPInsert.Media" />
+		<RibbonGroup Tab="Ribbon.EditingTools.CPInsert" Group="Ribbon.EditingTools.CPInsert.Links" />
+		<RibbonGroup Tab="Ribbon.EditingTools.CPInsert" Group="Ribbon.EditingTools.CPInsert.WebParts" />
+		<RibbonGroup Tab="Ribbon.Image.Image" Group="Ribbon.Image.Image.Edit" />
+		<RibbonGroup Tab="Ribbon.Image.Image" Group="Ribbon.Image.Image.Properties" />
+		<RibbonGroup Tab="Ribbon.Image.Image" Group="Ribbon.Image.Image.Styles" />
+		<RibbonGroup Tab="Ribbon.Image.Image" Group="Ribbon.Image.Image.Arrange" />
+		<RibbonGroup Tab="Ribbon.Image.Image" Group="Ribbon.Image.Image.Size" />
+		<RibbonGroup Tab="Ribbon.Documents" Group="Ribbon.Documents.New" />
+		<RibbonGroup Tab="Ribbon.Documents" Group="Ribbon.Documents.EditCheckout" />
+		<RibbonGroup Tab="Ribbon.Documents" Group="Ribbon.Documents.Manage" />
+		<RibbonGroup Tab="Ribbon.Documents" Group="Ribbon.Documents.Share" />
+		<RibbonGroup Tab="Ribbon.Documents" Group="Ribbon.Documents.Copies" />
+		<RibbonGroup Tab="Ribbon.Documents" Group="Ribbon.Documents.Workflow" />
+		<RibbonGroup Tab="Ribbon.Documents" Group="Ribbon.Documents.FormActions" />
+		<RibbonGroup Tab="Ribbon.Library" Group="Ribbon.Library.ViewFormat" />
+		<RibbonGroup Tab="Ribbon.Library" Group="Ribbon.Library.Datasheet" />
+		<RibbonGroup Tab="Ribbon.Library" Group="Ribbon.Library.CustomViews" />
+		<RibbonGroup Tab="Ribbon.Library" Group="Ribbon.Library.Share" />
+		<RibbonGroup Tab="Ribbon.Library" Group="Ribbon.Library.Actions" />
+		<RibbonGroup Tab="Ribbon.Library" Group="Ribbon.Library.CustomizeLibrary" />
+		<RibbonGroup Tab="Ribbon.Library" Group="Ribbon.Library.Settings" />
+		<RibbonGroup Tab="Ribbon.ListItem" Group="Ribbon.ListItem.New" />
+		<RibbonGroup Tab="Ribbon.ListItem" Group="Ribbon.ListItem.Manage" />
+		<RibbonGroup Tab="Ribbon.ListItem" Group="Ribbon.ListItem.Actions" />
+		<RibbonGroup Tab="Ribbon.ListItem" Group="Ribbon.ListItem.Share" />
+		<RibbonGroup Tab="Ribbon.ListItem" Group="Ribbon.ListItem.Workflow" />
+		<RibbonGroup Tab="Ribbon.List" Group="Ribbon.List.ViewFormat" />
+		<RibbonGroup Tab="Ribbon.List" Group="Ribbon.List.Datasheet" />
+		<RibbonGroup Tab="Ribbon.List" Group="Ribbon.List.GanttView" />
+		<RibbonGroup Tab="Ribbon.List" Group="Ribbon.List.CustomViews" />
+		<RibbonGroup Tab="Ribbon.List" Group="Ribbon.List.Share" />
+		<RibbonGroup Tab="Ribbon.List" Group="Ribbon.List.Actions" />
+		<RibbonGroup Tab="Ribbon.List" Group="Ribbon.List.CustomizeList" />
+		<RibbonGroup Tab="Ribbon.List" Group="Ribbon.List.Settings" />
+		<RibbonGroup Tab="Ribbon.Link.Link" Group="Ribbon.Link.Link.Link" />
+		<RibbonGroup Tab="Ribbon.Link.Link" Group="Ribbon.Link.Link.Properties" />
+		<RibbonGroup Tab="Ribbon.Link.Link" Group="Ribbon.Link.Link.Behavior" />
+		<RibbonGroup Tab="Ribbon.Table.Layout" Group="Ribbon.Table.Layout.Table" />
+		<RibbonGroup Tab="Ribbon.Table.Layout" Group="Ribbon.Table.Layout.Cells" />
+		<RibbonGroup Tab="Ribbon.Table.Layout" Group="Ribbon.Table.Layout.RowsCols" />
+		<RibbonGroup Tab="Ribbon.Table.Layout" Group="Ribbon.Table.Layout.Properties" />
+		<RibbonGroup Tab="Ribbon.Table.Layout" Group="Ribbon.Table.Layout.Summary" />
+		<RibbonGroup Tab="Ribbon.Table.Design" Group="Ribbon.Table.Design.StyleOptions" />
+		<RibbonGroup Tab="Ribbon.Table.Design" Group="Ribbon.Table.Design.Style" />
+		<RibbonGroup Tab="Ribbon.WebPartInsert.Tab" Group="Ribbon.WebPartInsert.Text" />
+		<RibbonGroup Tab="Ribbon.WebPartInsert.Tab" Group="Ribbon.WebPartInsert.Media" />
+		<RibbonGroup Tab="Ribbon.WebPartInsert.Tab" Group="Ribbon.WebPartInsert.InsertRelatedDataToListForm" />
+		<RibbonGroup Tab="Ribbon.WebPartInsert.Tab" Group="Ribbon.WebPartInsert.WebParts" />
+		<RibbonGroup Tab="Ribbon.WebPartOption" Group="Ribbon.WebPartOption.Properties" />
+		<RibbonGroup Tab="Ribbon.WebPartOption" Group="Ribbon.WebPartOption.InsertRelatedDataToListView" />
+		<RibbonGroup Tab="Ribbon.WebPartOption" Group="Ribbon.WebPartOption.Commands" />
+		<RibbonGroup Tab="Ribbon.Calendar.Events" Group="Ribbon.Calendar.Events.New" />
+		<RibbonGroup Tab="Ribbon.Calendar.Events" Group="Ribbon.Calendar.Events.Manage" />
+		<RibbonGroup Tab="Ribbon.Calendar.Events" Group="Ribbon.Calendar.Events.Share" />
+		<RibbonGroup Tab="Ribbon.Calendar.Events" Group="Ribbon.Calendar.Events.Workflow" />
+		<RibbonGroup Tab="Ribbon.Calendar.Calendar" Group="Ribbon.Calendar.Calendar.Selector" />
+		<RibbonGroup Tab="Ribbon.Calendar.Calendar" Group="Ribbon.Calendar.Calendar.Scope" />
+		<RibbonGroup Tab="Ribbon.Calendar.Calendar" Group="Ribbon.Calendar.Calendar.Expander" />
+		<RibbonGroup Tab="Ribbon.Calendar.Calendar" Group="Ribbon.Calendar.Calendar.CustomViews" />
+		<RibbonGroup Tab="Ribbon.Calendar.Calendar" Group="Ribbon.Calendar.Calendar.Share" />
+		<RibbonGroup Tab="Ribbon.Calendar.Calendar" Group="Ribbon.Calendar.Calendar.Actions" />
+		<RibbonGroup Tab="Ribbon.Calendar.Calendar" Group="Ribbon.Calendar.Calendar.Settings" />
+		<RibbonGroup Tab="Ribbon.Permission" Group="Ribbon.Permission.Parent" />
+		<RibbonGroup Tab="Ribbon.Permission" Group="Ribbon.Permission.Add" />
+		<RibbonGroup Tab="Ribbon.Permission" Group="Ribbon.Permission.Modify" />
+		<RibbonGroup Tab="Ribbon.Permission" Group="Ribbon.Permission.Check" />
+		<RibbonGroup Tab="Ribbon.Permission" Group="Ribbon.Permission.Manage" />
+	</RibbonGroups>
+	<RibbonControls>
+		<RibbonControl Tab="Ribbon.BDCAdmin tab" Group="Ribbon.BDCAdmin.ApplicationModelManagement group" ID="Ribbon.BDCAdmin.ApplicationManagement.Import" />
+		<RibbonControl Tab="Ribbon.BDCAdmin tab" Group="Ribbon.BDCAdmin.ApplicationModelManagement group" ID="Ribbon.BDCAdmin.ApplicationManagement.DeleteModel" />
+		<RibbonControl Tab="Ribbon.BDCAdmin tab" Group="Ribbon.BDCAdmin.ApplicationModelManagement group" ID="Ribbon.BDCAdmin.ApplicationManagement.ExportModel" />
+		<RibbonControl Tab="Ribbon.BDCAdmin tab" Group="Ribbon.BDCAdmin.PermissionManagement group" ID="Ribbon.BDCAdmin.PermissionManagement.SetPermissions" />
+		<RibbonControl Tab="Ribbon.BDCAdmin tab" Group="Ribbon.BDCAdmin.PermissionManagement group" ID="Ribbon.BDCAdmin.PermissionManagement.AssignAdmins" />
+		<RibbonControl Tab="Ribbon.BDCAdmin tab" Group="Ribbon.BDCAdmin.ApplicationManagement group" ID="Ribbon.BDCAdmin.ApplicationManagement.LobSystemSettings" />
+		<RibbonControl Tab="Ribbon.BDCAdmin tab" Group="Ribbon.BDCAdmin.ApplicationManagement group" ID="Ribbon.BDCAdmin.ApplicationManagement.DeleteLobSystem" />
+		<RibbonControl Tab="Ribbon.BDCAdmin tab" Group="Ribbon.BDCAdmin.ActionManagement group" ID="Ribbon.BDCAdmin.ActionManagement.Add" />
+		<RibbonControl Tab="Ribbon.BDCAdmin tab" Group="Ribbon.BDCAdmin.ActionManagement group" ID="Ribbon.BDCAdmin.ActionManagement.Edit" />
+		<RibbonControl Tab="Ribbon.BDCAdmin tab" Group="Ribbon.BDCAdmin.ActionManagement group" ID="Ribbon.BDCAdmin.ActionManagement.Delete" />
+		<RibbonControl Tab="Ribbon.BDCAdmin tab" Group="Ribbon.BDCAdmin.ViewManagement group" ID="Ribbon.BDCAdmin.ViewManagement.Views" />
+		<RibbonControl Tab="Ribbon.DocLibListForm.Edit tab" Group="Ribbon.DocLibListForm.Edit.Commit group" ID="Ribbon.DocLibListForm.Edit.Commit.Publish" />
+		<RibbonControl Tab="Ribbon.DocLibListForm.Edit tab" Group="Ribbon.DocLibListForm.Edit.Commit group" ID="Ribbon.DocLibListForm.Edit.Commit.CheckIn" />
+		<RibbonControl Tab="Ribbon.DocLibListForm.Edit tab" Group="Ribbon.DocLibListForm.Edit.Commit group" ID="Ribbon.DocLibListForm.Edit.Commit.Cancel" />
+		<RibbonControl Tab="Ribbon.DocLibListForm.Edit tab" Group="Ribbon.DocLibListForm.Edit.Clipboard group" ID="Ribbon.DocLibListForm.Edit.Clipboard.Paste" />
+		<RibbonControl Tab="Ribbon.DocLibListForm.Edit tab" Group="Ribbon.DocLibListForm.Edit.Clipboard group" ID="Ribbon.DocLibListForm.Edit.Clipboard.Cut" />
+		<RibbonControl Tab="Ribbon.DocLibListForm.Edit tab" Group="Ribbon.DocLibListForm.Edit.Clipboard group" ID="Ribbon.DocLibListForm.Edit.Clipboard.Copy" />
+		<RibbonControl Tab="Ribbon.DocLibListForm.Edit tab" Group="Ribbon.DocLibListForm.Edit.Actions group" ID="Ribbon.DocLibListForm.Edit.Actions.DeleteItem" />
+		<RibbonControl Tab="Ribbon.DocLibListForm.Edit tab" Group="Ribbon.DocLibListForm.Edit.Actions group" ID="Ribbon.DocLibListForm.Edit.Actions.CheckIn" />
+		<RibbonControl Tab="Ribbon.DocLibListForm.Edit tab" Group="Ribbon.DocLibListForm.Edit.Actions group" ID="Ribbon.DocLibListForm.Edit.Actions.CheckOut" />
+		<RibbonControl Tab="Ribbon.DocLibListForm.Edit tab" Group="Ribbon.DocLibListForm.Edit.Actions group" ID="Ribbon.DocLibListForm.Edit.Actions.VersionHistory" />
+		<RibbonControl Tab="Ribbon.DocLibListForm.Edit tab" Group="Ribbon.DocLibListForm.Edit.Actions group" ID="Ribbon.DocLibListForm.Edit.Actions.ExportWebPart" />
+		<RibbonControl Tab="Ribbon.DocLibListForm.Edit tab" Group="Ribbon.DocLibListForm.Edit.Actions group" ID="Ribbon.DocLibListForm.Edit.Actions.ViewWebPartXml" />
+		<RibbonControl Tab="Ribbon.DocLibListForm.Edit tab" Group="Ribbon.DocLibListForm.Edit.Actions group" ID="Ribbon.DocLibListForm.Edit.Actions.ManagePermissions" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Manage group" ID="Ribbon.ListForm.Display.Manage.EditItem" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Manage group" ID="Ribbon.ListForm.Display.Manage.EditSeries" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Manage group" ID="Ribbon.ListForm.Display.Manage.VersionHistory" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Manage group" ID="Ribbon.ListForm.Display.Manage.ManagePermissions" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Manage group" ID="Ribbon.ListForm.Display.Manage.DeleteItem" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Actions group" ID="Ribbon.ListForm.Display.Actions.CheckIn" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Actions group" ID="Ribbon.ListForm.Display.Actions.CheckOut" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Actions group" ID="Ribbon.ListForm.Display.Actions.Alert" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Actions group" ID="Ribbon.ListForm.Display.Actions.ApproveReject" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Actions group" ID="Ribbon.ListForm.Display.Actions.ManageCopies" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Actions group" ID="Ribbon.ListForm.Display.Actions.Workflows" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Actions group" ID="Ribbon.ListForm.Display.Actions.EnterFolder" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Actions group" ID="Ribbon.ListForm.Display.Actions.ClaimReleaseTask" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Actions group" ID="Ribbon.ListForm.Display.Actions.DistributionListsApproval" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Actions group" ID="Ribbon.ListForm.Display.Actions.DeleteItemVersion" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Actions group" ID="Ribbon.ListForm.Display.Actions.RestoreItemVersion" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.HealthActions group" ID="Ribbon.ListForm.Display.HealthActions.HealthRuleRunNow" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.HealthActions group" ID="Ribbon.ListForm.Display.HealthActions.HealthReportRunNow" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.HealthActions group" ID="Ribbon.ListForm.Display.HealthActions.HealthReportRepair" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Solution group" ID="Ribbon.ListForm.Display.Solution.Activate" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Solution group" ID="Ribbon.ListForm.Display.Solution.Deactivate" />
+		<RibbonControl Tab="Ribbon.ListForm.Display tab" Group="Ribbon.ListForm.Display.Solution group" ID="Ribbon.ListForm.Display.Solution.Upgrade" />
+		<RibbonControl Tab="Ribbon.ListForm.Edit tab" Group="Ribbon.ListForm.Edit.Commit group" ID="Ribbon.ListForm.Edit.Commit.Publish" />
+		<RibbonControl Tab="Ribbon.ListForm.Edit tab" Group="Ribbon.ListForm.Edit.Commit group" ID="Ribbon.ListForm.Edit.Commit.Cancel" />
+		<RibbonControl Tab="Ribbon.ListForm.Edit tab" Group="Ribbon.ListForm.Edit.Clipboard group" ID="Ribbon.ListForm.Edit.Clipboard.Paste" />
+		<RibbonControl Tab="Ribbon.ListForm.Edit tab" Group="Ribbon.ListForm.Edit.Clipboard group" ID="Ribbon.ListForm.Edit.Clipboard.Cut" />
+		<RibbonControl Tab="Ribbon.ListForm.Edit tab" Group="Ribbon.ListForm.Edit.Clipboard group" ID="Ribbon.ListForm.Edit.Clipboard.Copy" />
+		<RibbonControl Tab="Ribbon.ListForm.Edit tab" Group="Ribbon.ListForm.Edit.Actions group" ID="Ribbon.ListForm.Edit.Actions.DeleteItem" />
+		<RibbonControl Tab="Ribbon.ListForm.Edit tab" Group="Ribbon.ListForm.Edit.Actions group" ID="Ribbon.ListForm.Edit.Actions.EditSeries" />
+		<RibbonControl Tab="Ribbon.ListForm.Edit tab" Group="Ribbon.ListForm.Edit.Actions group" ID="Ribbon.ListForm.Edit.Actions.ClaimReleaseTask" />
+		<RibbonControl Tab="Ribbon.ListForm.Edit tab" Group="Ribbon.ListForm.Edit.Actions group" ID="Ribbon.ListForm.Edit.Actions.AttachFile" />
+		<RibbonControl Tab="Ribbon.ListForm.Edit tab" Group="Ribbon.ListForm.Edit.Actions group" ID="Ribbon.ListForm.Edit.Actions.DistributionListsApproval" />
+		<RibbonControl Tab="Ribbon.PostListForm.Edit tab" Group="Ribbon.PostListForm.Edit.Commit group" ID="Ribbon.PostListForm.Edit.Commit.Publish" />
+		<RibbonControl Tab="Ribbon.PostListForm.Edit tab" Group="Ribbon.PostListForm.Edit.Commit group" ID="Ribbon.PostListForm.Edit.Commit.SaveAsDraft" />
+		<RibbonControl Tab="Ribbon.PostListForm.Edit tab" Group="Ribbon.PostListForm.Edit.Commit group" ID="Ribbon.PostListForm.Edit.Commit.Cancel" />
+		<RibbonControl Tab="Ribbon.PostListForm.Edit tab" Group="Ribbon.PostListForm.Edit.Clipboard group" ID="Ribbon.PostListForm.Edit.Clipboard.Paste" />
+		<RibbonControl Tab="Ribbon.PostListForm.Edit tab" Group="Ribbon.PostListForm.Edit.Clipboard group" ID="Ribbon.PostListForm.Edit.Clipboard.Cut" />
+		<RibbonControl Tab="Ribbon.PostListForm.Edit tab" Group="Ribbon.PostListForm.Edit.Clipboard group" ID="Ribbon.PostListForm.Edit.Clipboard.Copy" />
+		<RibbonControl Tab="Ribbon.PostListForm.Edit tab" Group="Ribbon.PostListForm.Edit.Actions group" ID="Ribbon.PostListForm.Edit.Actions.DeleteItem" />
+		<RibbonControl Tab="Ribbon.PostListForm.Edit tab" Group="Ribbon.PostListForm.Edit.Actions group" ID="Ribbon.PostListForm.Edit.Actions.EditSeries" />
+		<RibbonControl Tab="Ribbon.SvcApp tab" Group="Ribbon.SvcApp.Create group" ID="Ribbon.SvcApp.Create.New" />
+		<RibbonControl Tab="Ribbon.SvcApp tab" Group="Ribbon.SvcApp.Create group" ID="Ribbon.SvcApp.Create.Connect" />
+		<RibbonControl Tab="Ribbon.SvcApp tab" Group="Ribbon.SvcApp.Operations group" ID="Ribbon.SvcApp.Operations.Delete" />
+		<RibbonControl Tab="Ribbon.SvcApp tab" Group="Ribbon.SvcApp.Operations group" ID="Ribbon.SvcApp.Operations.Manage" />
+		<RibbonControl Tab="Ribbon.SvcApp tab" Group="Ribbon.SvcApp.Operations group" ID="Ribbon.SvcApp.Operations.Administrators" />
+		<RibbonControl Tab="Ribbon.SvcApp tab" Group="Ribbon.SvcApp.Operations group" ID="Ribbon.SvcApp.Operations.Properties" />
+		<RibbonControl Tab="Ribbon.SvcApp tab" Group="Ribbon.SvcApp.Sharing group" ID="Ribbon.SvcApp.Sharing.Publish" />
+		<RibbonControl Tab="Ribbon.SvcApp tab" Group="Ribbon.SvcApp.Sharing group" ID="Ribbon.SvcApp.Sharing.Permissions" />
+		<RibbonControl Tab="Ribbon.Solution tab" Group="Ribbon.Solution.New group" ID="Ribbon.Solution.All.Upload" />
+		<RibbonControl Tab="Ribbon.Solution tab" Group="Ribbon.Solution.All group" ID="Ribbon.Solution.All.Delete" />
+		<RibbonControl Tab="Ribbon.Solution tab" Group="Ribbon.Solution.All group" ID="Ribbon.Solution.All.Activate" />
+		<RibbonControl Tab="Ribbon.Solution tab" Group="Ribbon.Solution.All group" ID="Ribbon.Solution.All.Deactivate" />
+		<RibbonControl Tab="Ribbon.Solution tab" Group="Ribbon.Solution.All group" ID="Ribbon.Solution.All.Upgrade" />
+		<RibbonControl Tab="Ribbon.UsageReport tab" Group="Ribbon.UsageReport.DateRange group" ID="Ribbon.UsageReport.DateRange.Day" />
+		<RibbonControl Tab="Ribbon.UsageReport tab" Group="Ribbon.UsageReport.DateRange group" ID="Ribbon.UsageReport.DateRange.Month" />
+		<RibbonControl Tab="Ribbon.UsageReport tab" Group="Ribbon.UsageReport.DateRange group" ID="Ribbon.UsageReport.DateRange.Year" />
+		<RibbonControl Tab="Ribbon.WikiPageTab tab" Group="Ribbon.WikiPageTab.EditAndCheckout group" ID="Ribbon.WikiPageTab.EditAndCheckout.SaveEdit" />
+		<RibbonControl Tab="Ribbon.WikiPageTab tab" Group="Ribbon.WikiPageTab.EditAndCheckout group" ID="Ribbon.WikiPageTab.EditAndCheckout.Checkout" />
+		<RibbonControl Tab="Ribbon.WikiPageTab tab" Group="Ribbon.WikiPageTab.Manage group" ID="Ribbon.WikiPageTab.Manage.PageProperties" />
+		<RibbonControl Tab="Ribbon.WikiPageTab tab" Group="Ribbon.WikiPageTab.Manage group" ID="Ribbon.WikiPageTab.Manage.RenamePage" />
+		<RibbonControl Tab="Ribbon.WikiPageTab tab" Group="Ribbon.WikiPageTab.Manage group" ID="Ribbon.WikiPageTab.Manage.VersionDiff" />
+		<RibbonControl Tab="Ribbon.WikiPageTab tab" Group="Ribbon.WikiPageTab.Manage group" ID="Ribbon.WikiPageTab.Manage.Permissions" />
+		<RibbonControl Tab="Ribbon.WikiPageTab tab" Group="Ribbon.WikiPageTab.Manage group" ID="Ribbon.WikiPageTab.Manage.DeletePage" />
+		<RibbonControl Tab="Ribbon.WikiPageTab tab" Group="Ribbon.WikiPageTab.Share group" ID="Ribbon.WikiPageTab.Share.EmailPageLink" />
+		<RibbonControl Tab="Ribbon.WikiPageTab tab" Group="Ribbon.WikiPageTab.Share group" ID="Ribbon.WikiPageTab.Share.AlertMe" />
+		<RibbonControl Tab="Ribbon.WikiPageTab tab" Group="Ribbon.WikiPageTab.PageActions group" ID="Ribbon.WikiPageTab.PageActions.SetHomePage" />
+		<RibbonControl Tab="Ribbon.WikiPageTab tab" Group="Ribbon.WikiPageTab.PageActions group" ID="Ribbon.WikiPageTab.PageActions.IncomingLinks" />
+		<RibbonControl Tab="Ribbon.WikiPageTab tab" Group="Ribbon.WikiPageTab.LibrarySettings group" ID="Ribbon.WikiPageTab.LibrarySettings.LibSettings" />
+		<RibbonControl Tab="Ribbon.WikiPageTab tab" Group="Ribbon.WikiPageTab.LibrarySettings group" ID="Ribbon.WikiPageTab.LibrarySettings.LibraryPermissions" />
+		<RibbonControl Tab="Ribbon.WikiPageTab tab" Group="Ribbon.WikiPageTab.LibrarySettings group" ID="Ribbon.WikiPageTab.LibrarySettings.ViewAllPages" />
+		<RibbonControl Tab="Ribbon.PublishTab tab" Group="Ribbon.PublishTab.Publishing group" ID="Ribbon.PublishTab.Publishing.Publish" />
+		<RibbonControl Tab="Ribbon.PublishTab tab" Group="Ribbon.PublishTab.Publishing group" ID="Ribbon.PublishTab.Publishing.Approve" />
+		<RibbonControl Tab="Ribbon.PublishTab tab" Group="Ribbon.PublishTab.Publishing group" ID="Ribbon.PublishTab.Publishing.Reject" />
+		<RibbonControl Tab="Ribbon.PublishTab tab" Group="Ribbon.PublishTab.Workflow group" ID="Ribbon.PublishTab.Workflow.ManageWorkflow" />
+		<RibbonControl Tab="Ribbon.WebPartPage tab" Group="Ribbon.WebPartPage.Edit group" ID="Ribbon.WebPartPage.Edit.Edit" />
+		<RibbonControl Tab="Ribbon.WebPartPage tab" Group="Ribbon.WebPartPage.Manage group" ID="Ribbon.WebPartPage.Manage.EditProperties" />
+		<RibbonControl Tab="Ribbon.WebPartPage tab" Group="Ribbon.WebPartPage.Manage group" ID="Ribbon.WebPartPage.Manage.Versions" />
+		<RibbonControl Tab="Ribbon.WebPartPage tab" Group="Ribbon.WebPartPage.Manage group" ID="Ribbon.WebPartPage.Manage.Permissions" />
+		<RibbonControl Tab="Ribbon.WebPartPage tab" Group="Ribbon.WebPartPage.Manage group" ID="Ribbon.WebPartPage.Manage.Delete" />
+		<RibbonControl Tab="Ribbon.WebPartPage tab" Group="Ribbon.WebPartPage.Share group" ID="Ribbon.WebPartPage.Share.EmailPageLink" />
+		<RibbonControl Tab="Ribbon.WebPartPage tab" Group="Ribbon.WebPartPage.Share group" ID="Ribbon.WebPartPage.Share.AlertMe" />
+		<RibbonControl Tab="Ribbon.WebPartPage tab" Group="Ribbon.WebPartPage.Approval group" ID="Ribbon.WebPartPage.Approval.Approve" />
+		<RibbonControl Tab="Ribbon.WebPartPage tab" Group="Ribbon.WebPartPage.Approval group" ID="Ribbon.WebPartPage.Approval.Reject" />
+		<RibbonControl Tab="Ribbon.WebPartPage tab" Group="Ribbon.WebPartPage.Workflow group" ID="Ribbon.WebPartPage.Workflow.ManageWorkflow" />
+		<RibbonControl Tab="Ribbon.WebPartPage tab" Group="Ribbon.WebPartPage.Actions group" ID="Ribbon.WebPartPage.Actions.EditMobilePage" />
+		<RibbonControl Tab="Ribbon.WebPartPage tab" Group="Ribbon.WebPartPage.Actions group" ID="Ribbon.WebPartPage.Actions.MakeHomePage" />
+		<RibbonControl Tab="Ribbon.WebPartPage tab" Group="Ribbon.WebPartPage.Actions group" ID="Ribbon.WebPartPage.Actions.EditTitleBar" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Contribute group" ID="Ribbon.WebApp.Contribute.New" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Contribute group" ID="Ribbon.WebApp.Contribute.Extend" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Contribute group" ID="Ribbon.WebApp.Contribute.Delete" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Manage group" ID="Ribbon.WebApp.Manage.Settings" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Manage group" ID="Ribbon.WebApp.Manage.Features" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Manage group" ID="Ribbon.WebApp.Manage.Paths" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Manage group" ID="Ribbon.WebApp.Manage.Connections" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Security group" ID="Ribbon.WebApp.Security.Controls.AuthProviders" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Security group" ID="Ribbon.WebApp.Security.Controls.SelfSite" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Security group" ID="Ribbon.WebApp.Security.Controls.BlockedFiles" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Security group" ID="Ribbon.WebApp.Security.Controls.UserPermissions" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Security group" ID="Ribbon.WebApp.Security.Controls.WebPart" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Policy group" ID="Ribbon.WebApp.Policy.Controls.GeneralPolicy" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Policy group" ID="Ribbon.WebApp.Policy.Controls.Anonymous" />
+		<RibbonControl Tab="Ribbon.WebApp tab" Group="Ribbon.WebApp.Policy group" ID="Ribbon.WebApp.Policy.Controls.PermissionPolicy" />
+		<RibbonControl Tab="Ribbon.SiteCollections tab" Group="Ribbon.SiteCollections.Contribute group" ID="Ribbon.SiteCollections.Contribute.CreateSite" />
+		<RibbonControl Tab="Ribbon.SiteCollections tab" Group="Ribbon.SiteCollections.Contribute group" ID="Ribbon.SiteCollections.Contribute.Delete" />
+		<RibbonControl Tab="Ribbon.SiteCollections tab" Group="Ribbon.SiteCollections.Review group" ID="Ribbon.SiteCollections.Review.ViewProperties" />
+		<RibbonControl Tab="Ribbon.SiteCollections tab" Group="Ribbon.SiteCollections.Manage group" ID="Ribbon.SiteCollections.Manage.Owners" />
+		<RibbonControl Tab="Ribbon.SiteCollections tab" Group="Ribbon.SiteCollections.Manage group" ID="Ribbon.SiteCollections.Manage.DiskQuota" />
+		<RibbonControl Tab="Ribbon.ManageTrust tab" Group="Ribbon.ManageTrust.Operations group" ID="Ribbon.ManageTrust.Create" />
+		<RibbonControl Tab="Ribbon.ManageTrust tab" Group="Ribbon.ManageTrust.Operations group" ID="Ribbon.ManageTrust.Operations.Edit" />
+		<RibbonControl Tab="Ribbon.ManageTrust tab" Group="Ribbon.ManageTrust.Operations group" ID="Ribbon.ManageTrust.Operations.Delete" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.EditAndCheckout group" ID="Ribbon.EditingTools.CPEditTab.EditAndCheckout.SaveEdit" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.EditAndCheckout group" ID="Ribbon.EditingTools.CPEditTab.EditAndCheckout.Checkout" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Clipboard group" ID="Ribbon.EditingTools.CPEditTab.Clipboard.Paste" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Clipboard group" ID="Ribbon.EditingTools.CPEditTab.Clipboard.Cut" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Clipboard group" ID="Ribbon.EditingTools.CPEditTab.Clipboard.Copy" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Clipboard group" ID="Ribbon.EditingTools.CPEditTab.Clipboard.Undo" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Font group" ID="Ribbon.EditingTools.CPEditTab.Font.Fonts" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Font group" ID="Ribbon.EditingTools.CPEditTab.Font.FontSize" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Font group" ID="Ribbon.EditingTools.CPEditTab.Font.ClearFormat" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Font group" ID="Ribbon.EditingTools.CPEditTab.Font.Bold" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Font group" ID="Ribbon.EditingTools.CPEditTab.Font.Italics" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Font group" ID="Ribbon.EditingTools.CPEditTab.Font.Underline" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Font group" ID="Ribbon.EditingTools.CPEditTab.Font.Strikethrough" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Font group" ID="Ribbon.EditingTools.CPEditTab.Font.Subscript" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Font group" ID="Ribbon.EditingTools.CPEditTab.Font.Superscript" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Font group" ID="Ribbon.EditingTools.CPEditTab.Font.FontBackgroundColor" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Font group" ID="Ribbon.EditingTools.CPEditTab.Font.FontColor" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Paragraph group" ID="Ribbon.EditingTools.CPEditTab.Paragraph.Bullets" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Paragraph group" ID="Ribbon.EditingTools.CPEditTab.Paragraph.Numbering" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Paragraph group" ID="Ribbon.EditingTools.CPEditTab.Paragraph.Outdent" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Paragraph group" ID="Ribbon.EditingTools.CPEditTab.Paragraph.Indent" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Paragraph group" ID="Ribbon.EditingTools.CPEditTab.Paragraph.LTR" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Paragraph group" ID="Ribbon.EditingTools.CPEditTab.Paragraph.RTL" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Paragraph group" ID="Ribbon.EditingTools.CPEditTab.Paragraph.AlignLeft" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Paragraph group" ID="Ribbon.EditingTools.CPEditTab.Paragraph.AlignCenter" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Paragraph group" ID="Ribbon.EditingTools.CPEditTab.Paragraph.AlignRight" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Paragraph group" ID="Ribbon.EditingTools.CPEditTab.Paragraph.AlignJustify" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Styles group" ID="Ribbon.EditingTools.CPEditTab.Styles.Styles" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Layout group" ID="Ribbon.EditingTools.CPEditTab.Layout.PageLayout" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Markup group" ID="Ribbon.EditingTools.CPEditTab.Markup.ElementWithStyle" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Markup group" ID="Ribbon.EditingTools.CPEditTab.Markup.LanguagesLabel" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Markup group" ID="Ribbon.EditingTools.CPEditTab.Markup.SelectLabel" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Markup group" ID="Ribbon.EditingTools.CPEditTab.Markup.HtmlLabel" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Markup group" ID="Ribbon.EditingTools.CPEditTab.Markup.Languages" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Markup group" ID="Ribbon.EditingTools.CPEditTab.Markup.Select" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPEditTab tab" Group="Ribbon.EditingTools.CPEditTab.Markup group" ID="Ribbon.EditingTools.CPEditTab.Markup.Html" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPInsert tab" Group="Ribbon.EditingTools.CPInsert.Tables group" ID="Ribbon.EditingTools.CPInsert.Tables.Table" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPInsert tab" Group="Ribbon.EditingTools.CPInsert.Media group" ID="Ribbon.EditingTools.CPInsert.Media.Image" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPInsert tab" Group="Ribbon.EditingTools.CPInsert.Links group" ID="Ribbon.EditingTools.CPInsert.Links.Link" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPInsert tab" Group="Ribbon.EditingTools.CPInsert.Links group" ID="Ribbon.EditingTools.CPInsert.Links.UploadFile" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPInsert tab" Group="Ribbon.EditingTools.CPInsert.WebParts group" ID="Ribbon.EditingTools.CPInsert.WebParts.WebPart" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPInsert tab" Group="Ribbon.EditingTools.CPInsert.WebParts group" ID="Ribbon.EditingTools.CPInsert.WebParts.ExistingList" />
+		<RibbonControl Tab="Ribbon.EditingTools.CPInsert tab" Group="Ribbon.EditingTools.CPInsert.WebParts group" ID="Ribbon.EditingTools.CPInsert.WebParts.InsertNewList" />
+		<RibbonControl Tab="Ribbon.Image.Image tab" Group="Ribbon.Image.Image.Edit group" ID="Ribbon.Image.Image.Edit.Edit" />
+		<RibbonControl Tab="Ribbon.Image.Image tab" Group="Ribbon.Image.Image.Properties group" ID="Ribbon.Image.Image.Properties.URLLabel" />
+		<RibbonControl Tab="Ribbon.Image.Image tab" Group="Ribbon.Image.Image.Properties group" ID="Ribbon.Image.Image.Properties.URL" />
+		<RibbonControl Tab="Ribbon.Image.Image tab" Group="Ribbon.Image.Image.Properties group" ID="Ribbon.Image.Image.Properties.AltTextLabel" />
+		<RibbonControl Tab="Ribbon.Image.Image tab" Group="Ribbon.Image.Image.Properties group" ID="Ribbon.Image.Image.Properties.AltText" />
+		<RibbonControl Tab="Ribbon.Image.Image tab" Group="Ribbon.Image.Image.Styles group" ID="Ribbon.Image.Image.Styles.ImageStyles" />
+		<RibbonControl Tab="Ribbon.Image.Image tab" Group="Ribbon.Image.Image.Arrange group" ID="Ribbon.Image.Image.Arrange.ImageArrange" />
+		<RibbonControl Tab="Ribbon.Image.Image tab" Group="Ribbon.Image.Image.Size group" ID="Ribbon.Image.Image.Size.HorizontalSizeLabel" />
+		<RibbonControl Tab="Ribbon.Image.Image tab" Group="Ribbon.Image.Image.Size group" ID="Ribbon.Image.Image.Size.HorizontalSize" />
+		<RibbonControl Tab="Ribbon.Image.Image tab" Group="Ribbon.Image.Image.Size group" ID="Ribbon.Image.Image.Size.VertSizeLabel" />
+		<RibbonControl Tab="Ribbon.Image.Image tab" Group="Ribbon.Image.Image.Size group" ID="Ribbon.Image.Image.Size.VerticalSize" />
+		<RibbonControl Tab="Ribbon.Image.Image tab" Group="Ribbon.Image.Image.Size group" ID="Ribbon.Image.Image.Size.LockAspect" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.New group" ID="Ribbon.Documents.New.NewDocument" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.New group" ID="Ribbon.Documents.New.AddDocument" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.EditCheckout group" ID="Ribbon.Documents.EditCheckout.EditDocument" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.EditCheckout group" ID="Ribbon.Documents.EditCheckout.CheckOut" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.EditCheckout group" ID="Ribbon.Documents.EditCheckout.CheckIn" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.EditCheckout group" ID="Ribbon.Documents.EditCheckout.DiscardCheckOut" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Manage group" ID="Ribbon.Documents.Manage.ViewProperties" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Manage group" ID="Ribbon.Documents.Manage.EditProperties" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Manage group" ID="Ribbon.Documents.Manage.ViewVersions" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Manage group" ID="Ribbon.Documents.Manage.ManagePermissions" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Manage group" ID="Ribbon.Documents.Manage.Delete" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Share group" ID="Ribbon.Documents.Share.EmailItemLink" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Share group" ID="Ribbon.Documents.Share.AlertMe" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Copies group" ID="Ribbon.Documents.Copies.Download" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Copies group" ID="Ribbon.Documents.Copies.SendTo" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Copies group" ID="Ribbon.Documents.Copies.ManageCopies" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Copies group" ID="Ribbon.Documents.Copies.GoToSourceItem" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Workflow group" ID="Ribbon.Documents.Workflow.ViewWorkflows" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Workflow group" ID="Ribbon.Documents.Workflow.Publish" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Workflow group" ID="Ribbon.Documents.Workflow.Unpublish" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Workflow group" ID="Ribbon.Documents.Workflow.Moderate" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.Workflow group" ID="Ribbon.Documents.Workflow.CancelApproval" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.FormActions group" ID="Ribbon.Documents.FormActions.RepairItems" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.FormActions group" ID="Ribbon.Documents.FormActions.RepairAllItems" />
+		<RibbonControl Tab="Ribbon.Documents tab" Group="Ribbon.Documents.FormActions group" ID="Ribbon.Documents.FormActions.MergeDocuments" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.ViewFormat group" ID="Ribbon.Library.ViewFormat.Standard" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.ViewFormat group" ID="Ribbon.Library.ViewFormat.Datasheet" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.Datasheet group" ID="Ribbon.Library.Datasheet.NewRow" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.Datasheet group" ID="Ribbon.Library.Datasheet.ShowTaskPane" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.Datasheet group" ID="Ribbon.Library.Datasheet.ShowTotals" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.Datasheet group" ID="Ribbon.Library.Datasheet.RefreshData" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.CustomViews group" ID="Ribbon.Library.Actions.AllMeetings" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.CustomViews group" ID="Ribbon.Library.CustomViews.CreateView" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.CustomViews group" ID="Ribbon.Library.CustomViews.ModifyView" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.CustomViews group" ID="Ribbon.Library.CustomViews.CreateColumn" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.CustomViews group" ID="Ribbon.Library.CustomViews.NavigateUp" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.CustomViews group" ID="Ribbon.Library.CustomViews.CurrentView" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.CustomViews group" ID="Ribbon.Library.CustomViews.DisplayView" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.CustomViews group" ID="Ribbon.Library.CustomViews.PreviousPage" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.CustomViews group" ID="Ribbon.Library.CustomViews.CurrentPage" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.CustomViews group" ID="Ribbon.Library.CustomViews.NextPage" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.Share group" ID="Ribbon.Library.Share.EmailLibraryLink" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.Share group" ID="Ribbon.Library.Share.AlertMe" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.Share group" ID="Ribbon.Library.Share.ViewRSSFeed" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.Actions group" ID="Ribbon.Library.Actions.TakeOfflineToClient" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.Actions group" ID="Ribbon.Library.Actions.ConnectToClient" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.Actions group" ID="Ribbon.Library.Actions.ExportToSpreadsheet" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.Actions group" ID="Ribbon.Library.Actions.OpenWithExplorer" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.CustomizeLibrary group" ID="Ribbon.Library.CustomizeLibrary.EditList" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.CustomizeLibrary group" ID="Ribbon.Library.CustomizeLibrary.EditDefaultForms" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.Settings group" ID="Ribbon.Library.Settings.DocumentLibrarySettings" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.Settings group" ID="Ribbon.Library.Settings.LibraryPermissions" />
+		<RibbonControl Tab="Ribbon.Library tab" Group="Ribbon.Library.Settings group" ID="Ribbon.Library.Settings.ManageWorkflows" />
+		<RibbonControl Tab="Ribbon.ListItem tab" Group="Ribbon.ListItem.New group" ID="Ribbon.ListItem.New.NewListItem" />
+		<RibbonControl Tab="Ribbon.ListItem tab" Group="Ribbon.ListItem.New group" ID="Ribbon.ListItem.New.NewFolder" />
+		<RibbonControl Tab="Ribbon.ListItem tab" Group="Ribbon.ListItem.Manage group" ID="Ribbon.ListItem.Manage.ViewProperties" />
+		<RibbonControl Tab="Ribbon.ListItem tab" Group="Ribbon.ListItem.Manage group" ID="Ribbon.ListItem.Manage.EditProperties" />
+		<RibbonControl Tab="Ribbon.ListItem tab" Group="Ribbon.ListItem.Manage group" ID="Ribbon.ListItem.Manage.ViewVersions" />
+		<RibbonControl Tab="Ribbon.ListItem tab" Group="Ribbon.ListItem.Manage group" ID="Ribbon.ListItem.Manage.ManagePermissions" />
+		<RibbonControl Tab="Ribbon.ListItem tab" Group="Ribbon.ListItem.Manage group" ID="Ribbon.ListItem.Manage.Delete" />
+		<RibbonControl Tab="Ribbon.ListItem tab" Group="Ribbon.ListItem.Actions group" ID="Ribbon.ListItem.Actions.AttachFile" />
+		<RibbonControl Tab="Ribbon.ListItem tab" Group="Ribbon.ListItem.Actions group" ID="Ribbon.ListItem.Actions.ChangeItemOrder" />
+		<RibbonControl Tab="Ribbon.ListItem tab" Group="Ribbon.ListItem.Share group" ID="Ribbon.ListItem.Share.AlertMe" />
+		<RibbonControl Tab="Ribbon.ListItem tab" Group="Ribbon.ListItem.Workflow group" ID="Ribbon.ListItem.Workflow.ViewWorkflows" />
+		<RibbonControl Tab="Ribbon.ListItem tab" Group="Ribbon.ListItem.Workflow group" ID="Ribbon.ListItem.Workflow.Moderate" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.ViewFormat group" ID="Ribbon.List.ViewFormat.Standard" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.ViewFormat group" ID="Ribbon.List.ViewFormat.Datasheet" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Datasheet group" ID="Ribbon.List.Datasheet.NewRow" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Datasheet group" ID="Ribbon.List.Datasheet.ShowTaskPane" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Datasheet group" ID="Ribbon.List.Datasheet.ShowTotals" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Datasheet group" ID="Ribbon.List.Datasheet.RefreshData" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.GanttView group" ID="Ribbon.List.GanttView.ZoomIn" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.GanttView group" ID="Ribbon.List.GanttView.ZoomOut" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.GanttView group" ID="Ribbon.List.GanttView.ScrollToTask" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.CustomViews group" ID="Ribbon.List.Actions.AllMeetings" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.CustomViews group" ID="Ribbon.List.CustomViews.CreateView" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.CustomViews group" ID="Ribbon.List.CustomViews.ModifyView" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.CustomViews group" ID="Ribbon.List.CustomViews.CreateColumn" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.CustomViews group" ID="Ribbon.List.CustomViews.NavigateUp" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.CustomViews group" ID="Ribbon.List.CustomViews.CurrentView" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.CustomViews group" ID="Ribbon.List.CustomViews.DisplayView" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.CustomViews group" ID="Ribbon.List.CustomViews.PreviousPage" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.CustomViews group" ID="Ribbon.List.CustomViews.CurrentPage" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.CustomViews group" ID="Ribbon.List.CustomViews.NextPage" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Share group" ID="Ribbon.List.Share.EmailLibraryLink" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Share group" ID="Ribbon.List.Share.AlertMe" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Share group" ID="Ribbon.List.Share.ViewRSSFeed" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Actions group" ID="Ribbon.List.Actions.TakeOfflineToClient" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Actions group" ID="Ribbon.List.Actions.ConnectToClient" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Actions group" ID="Ribbon.List.Actions.ExportToSpreadsheet" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Actions group" ID="Ribbon.List.Actions.CreateVisioDiagram" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Actions group" ID="Ribbon.List.Actions.OpenWithAccess" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Actions group" ID="Ribbon.List.Actions.ExportToProject" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.CustomizeList group" ID="Ribbon.List.CustomizeList.EditList" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.CustomizeList group" ID="Ribbon.List.CustomizeList.EditDefaultForms" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Settings group" ID="Ribbon.List.Settings.ListSettings" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Settings group" ID="Ribbon.List.Settings.ListPermissions" />
+		<RibbonControl Tab="Ribbon.List tab" Group="Ribbon.List.Settings group" ID="Ribbon.List.Settings.ManageWorkflows" />
+		<RibbonControl Tab="Ribbon.Link.Link tab" Group="Ribbon.Link.Link.Link group" ID="Ribbon.Link.Link.Link.RemoveLink" />
+		<RibbonControl Tab="Ribbon.Link.Link tab" Group="Ribbon.Link.Link.Properties group" ID="Ribbon.Link.Link.Properties.LinkAddressLabel" />
+		<RibbonControl Tab="Ribbon.Link.Link tab" Group="Ribbon.Link.Link.Properties group" ID="Ribbon.Link.Link.Properties.LinkAddress" />
+		<RibbonControl Tab="Ribbon.Link.Link tab" Group="Ribbon.Link.Link.Properties group" ID="Ribbon.Link.Link.Properties.LinkTooltipLabel" />
+		<RibbonControl Tab="Ribbon.Link.Link tab" Group="Ribbon.Link.Link.Properties group" ID="Ribbon.Link.Link.Properties.LinkTooltip" />
+		<RibbonControl Tab="Ribbon.Link.Link tab" Group="Ribbon.Link.Link.Behavior group" ID="Ribbon.Link.Link.Behavior.PopUp" />
+		<RibbonControl Tab="Ribbon.Link.Link tab" Group="Ribbon.Link.Link.Behavior group" ID="Ribbon.Link.Link.Behavior.DisplayIcon" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.Table group" ID="Ribbon.Table.Layout.Table.TableGridLines" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.Cells group" ID="Ribbon.Table.Layout.Cells.MergeCells" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.Cells group" ID="Ribbon.Table.Layout.Cells.Split" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.RowsCols group" ID="Ribbon.Table.Layout.RowsCols.InsertAbove" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.RowsCols group" ID="Ribbon.Table.Layout.RowsCols.InsertBelow" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.RowsCols group" ID="Ribbon.Table.Layout.RowsCols.InsertLeft" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.RowsCols group" ID="Ribbon.Table.Layout.RowsCols.InsertRight" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.RowsCols group" ID="Ribbon.Table.Layout.RowsCols.Delete" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.Properties group" ID="Ribbon.Table.Layout.Properties.TableWidthLabel" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.Properties group" ID="Ribbon.Table.Layout.Properties.TableHeightLabel" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.Properties group" ID="Ribbon.Table.Layout.Properties.TableWidth" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.Properties group" ID="Ribbon.Table.Layout.Properties.TableHeight" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.Properties group" ID="Ribbon.Table.Layout.Properties.ColumnWidthLabel" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.Properties group" ID="Ribbon.Table.Layout.Properties.RowHeightLabel" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.Properties group" ID="Ribbon.Table.Layout.Properties.ColumnWidth" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.Properties group" ID="Ribbon.Table.Layout.Properties.RowHeight" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.Summary group" ID="Ribbon.Table.Layout.Summary.SummaryLabel" />
+		<RibbonControl Tab="Ribbon.Table.Layout tab" Group="Ribbon.Table.Layout.Summary group" ID="Ribbon.Table.Layout.Summary.Summary" />
+		<RibbonControl Tab="Ribbon.Table.Design tab" Group="Ribbon.Table.Design.StyleOptions group" ID="Ribbon.Table.Design.StyleOptions.TableHead" />
+		<RibbonControl Tab="Ribbon.Table.Design tab" Group="Ribbon.Table.Design.StyleOptions group" ID="Ribbon.Table.Design.StyleOptions.TableFirstCol" />
+		<RibbonControl Tab="Ribbon.Table.Design tab" Group="Ribbon.Table.Design.StyleOptions group" ID="Ribbon.Table.Design.StyleOptions.TableLastRow" />
+		<RibbonControl Tab="Ribbon.Table.Design tab" Group="Ribbon.Table.Design.StyleOptions group" ID="Ribbon.Table.Design.StyleOptions.TableLastCol" />
+		<RibbonControl Tab="Ribbon.Table.Design tab" Group="Ribbon.Table.Design.Style group" ID="Ribbon.Table.Design.Style.TableStyles" />
+		<RibbonControl Tab="Ribbon.WebPartInsert.Tab tab" Group="Ribbon.WebPartInsert.Text group" ID="Ribbon.WebPartInsert.Text.Text" />
+		<RibbonControl Tab="Ribbon.WebPartInsert.Tab tab" Group="Ribbon.WebPartInsert.Media group" ID="Ribbon.WebPartInsert.Media.Image" />
+		<RibbonControl Tab="Ribbon.WebPartInsert.Tab tab" Group="Ribbon.WebPartInsert.InsertRelatedDataToListForm group" ID="Ribbon.WebPartInsert.InsertRelatedDataToListForm.RelatedWebPart" />
+		<RibbonControl Tab="Ribbon.WebPartInsert.Tab tab" Group="Ribbon.WebPartInsert.WebParts group" ID="Ribbon.WebPartInsert.WebParts.WebPart" />
+		<RibbonControl Tab="Ribbon.WebPartInsert.Tab tab" Group="Ribbon.WebPartInsert.WebParts group" ID="Ribbon.WebPartInsert.WebParts.ExistingList" />
+		<RibbonControl Tab="Ribbon.WebPartOption tab" Group="Ribbon.WebPartOption.Properties group" ID="Ribbon.WebPartOption.Commands.Modify" />
+		<RibbonControl Tab="Ribbon.WebPartOption tab" Group="Ribbon.WebPartOption.InsertRelatedDataToListView group" ID="Ribbon.WebPartOption.InsertRelatedDataToListView.RelatedWebPart" />
+		<RibbonControl Tab="Ribbon.WebPartOption tab" Group="Ribbon.WebPartOption.Commands group" ID="Ribbon.WebPartOption.Commands.Minimize" />
+		<RibbonControl Tab="Ribbon.WebPartOption tab" Group="Ribbon.WebPartOption.Commands group" ID="Ribbon.WebPartOption.Commands.Restore" />
+		<RibbonControl Tab="Ribbon.WebPartOption tab" Group="Ribbon.WebPartOption.Commands group" ID="Ribbon.WebPartOption.Commands.Delete" />
+		<RibbonControl Tab="Ribbon.Calendar.Events tab" Group="Ribbon.Calendar.Events.New group" ID="Ribbon.Calendar.Events.New.NewListItem" />
+		<RibbonControl Tab="Ribbon.Calendar.Events tab" Group="Ribbon.Calendar.Events.Manage group" ID="Ribbon.Calendar.Events.Manage.ViewProperties" />
+		<RibbonControl Tab="Ribbon.Calendar.Events tab" Group="Ribbon.Calendar.Events.Manage group" ID="Ribbon.Calendar.Events.Manage.EditProperties" />
+		<RibbonControl Tab="Ribbon.Calendar.Events tab" Group="Ribbon.Calendar.Events.Manage group" ID="Ribbon.Calendar.Events.Manage.ViewVersions" />
+		<RibbonControl Tab="Ribbon.Calendar.Events tab" Group="Ribbon.Calendar.Events.Manage group" ID="Ribbon.Calendar.Events.Manage.ManagePermissions" />
+		<RibbonControl Tab="Ribbon.Calendar.Events tab" Group="Ribbon.Calendar.Events.Manage group" ID="Ribbon.Calendar.Events.Manage.Delete" />
+		<RibbonControl Tab="Ribbon.Calendar.Events tab" Group="Ribbon.Calendar.Events.Share group" ID="Ribbon.Calendar.Events.Share.AlertMe" />
+		<RibbonControl Tab="Ribbon.Calendar.Events tab" Group="Ribbon.Calendar.Events.Workflow group" ID="Ribbon.Calendar.Events.Workflow.ViewWorkflows" />
+		<RibbonControl Tab="Ribbon.Calendar.Events tab" Group="Ribbon.Calendar.Events.Workflow group" ID="Ribbon.Calendar.Events.Workflow.Moderate" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Selector group" ID="Ribbon.Calendar.Calendar.Selector.People" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Selector group" ID="Ribbon.Calendar.Calendar.Selector.Resource" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Scope group" ID="Ribbon.Calendar.Calendar.Scope.DayGroup" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Scope group" ID="Ribbon.Calendar.Calendar.Scope.WeekGroup" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Scope group" ID="Ribbon.Calendar.Calendar.Scope.Day" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Scope group" ID="Ribbon.Calendar.Calendar.Scope.Week" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Scope group" ID="Ribbon.Calendar.Calendar.Scope.Month" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Expander group" ID="Ribbon.Calendar.Calendar.Expander.ExpandAll" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Expander group" ID="Ribbon.Calendar.Calendar.Expander.CollapseAll" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.CustomViews group" ID="Ribbon.Calendar.Calendar.CustomViews.CreateView" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.CustomViews group" ID="Ribbon.Calendar.Calendar.CustomViews.CurrentView" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.CustomViews group" ID="Ribbon.Calendar.Calendar.CustomViews.DisplayView" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.CustomViews group" ID="Ribbon.Calendar.Calendar.CustomViews.ModifyView" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Share group" ID="Ribbon.Calendar.Calendar.Share.EmailLibraryLink" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Share group" ID="Ribbon.Calendar.Calendar.Share.AlertMe" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Share group" ID="Ribbon.Calendar.Calendar.Share.ViewRSSFeed" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Actions group" ID="Ribbon.Calendar.Calendar.Actions.TakeOfflineToClient" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Actions group" ID="Ribbon.Calendar.Calendar.Actions.ConnectToClient" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Actions group" ID="Ribbon.Calendar.Calendar.Actions.ExportToSpreadsheet" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Actions group" ID="Ribbon.Calendar.Calendar.Actions.OpenWithAccess" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Settings group" ID="Ribbon.Calendar.Calendar.Settings.ListSettings" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Settings group" ID="Ribbon.Calendar.Calendar.Settings.AddCalendar" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Settings group" ID="Ribbon.Calendar.Calendar.Settings.ManageWorkflows" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Settings group" ID="Ribbon.Calendar.Calendar.Settings.ListPermissions" />
+		<RibbonControl Tab="Ribbon.Calendar.Calendar tab" Group="Ribbon.Calendar.Calendar.Settings group" ID="Ribbon.List.Settings.EditList" />
+		<RibbonControl Tab="Ribbon.Permission tab" Group="Ribbon.Permission.Parent group" ID="Ribbon.Permission.Parent.ManageParent" />
+		<RibbonControl Tab="Ribbon.Permission tab" Group="Ribbon.Permission.Parent group" ID="Ribbon.Permission.Parent.Inherit" />
+		<RibbonControl Tab="Ribbon.Permission tab" Group="Ribbon.Permission.Parent group" ID="Ribbon.Permission.Parent.StopInherit" />
+		<RibbonControl Tab="Ribbon.Permission tab" Group="Ribbon.Permission.Add group" ID="Ribbon.Permission.Add.AddUser" />
+		<RibbonControl Tab="Ribbon.Permission tab" Group="Ribbon.Permission.Add group" ID="Ribbon.Permission.Add.NewGroup" />
+		<RibbonControl Tab="Ribbon.Permission tab" Group="Ribbon.Permission.Modify group" ID="Ribbon.Permission.Modify.EditUsrPerm" />
+		<RibbonControl Tab="Ribbon.Permission tab" Group="Ribbon.Permission.Modify group" ID="Ribbon.Permission.Modify.RemovePerms" />
+		<RibbonControl Tab="Ribbon.Permission tab" Group="Ribbon.Permission.Check group" ID="Ribbon.Permission.Check.CheckUsrPerm" />
+		<RibbonControl Tab="Ribbon.Permission tab" Group="Ribbon.Permission.Manage group" ID="Ribbon.Permission.Manage.AnonyAccess" />
+		<RibbonControl Tab="Ribbon.Permission tab" Group="Ribbon.Permission.Manage group" ID="Ribbon.Permission.Manage.PermLevels" />
+		<RibbonControl Tab="Ribbon.Permission tab" Group="Ribbon.Permission.Manage group" ID="Ribbon.Permission.Manage.ManagAccReq" />
+		<RibbonControl Tab="Ribbon.Permission tab" Group="Ribbon.Permission.Manage group" ID="Ribbon.Permission.Manage.SiteColAdmin" />
+	</RibbonControls>
+</RecipeParameters>

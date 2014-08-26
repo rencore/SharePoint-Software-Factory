@@ -1,0 +1,71 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="TimerJobNamespace" #>
+<#@ property processor="PropertyProcessor" name="TimerJobClass" #>
+<#@ property processor="PropertyProcessor" name="TimerJobName" #>
+<#@ assembly name="System.dll" #>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.SharePoint;
+using Microsoft.SharePoint.Administration;
+	
+namespace <#= TimerJobNamespace #>
+{
+	/// <summary>
+	/// Start the timer job e.g. in a feature receiver by using the following code
+	/// <#= TimerJobClass #>.StartJob("param Value 1", "param Value 2");
+	/// </summary>	
+	public class <#= TimerJobClass #> : SPJobDefinition
+	{
+		[Persisted]
+		private string parameter1 = string.Empty;
+		
+		[Persisted]
+		private string parameter2 = string.Empty;
+		
+		public <#= TimerJobClass #> (SPService service, string parameter1, string parameter2)
+			: base("<#= TimerJobName #>", service, null, SPJobLockType.None) 
+		{
+			this.parameter1 = parameter1;
+			this.parameter2 = parameter1;
+			this.Title = "<#= TimerJobName #>";
+		}
+		
+		public override void Execute (Guid targetInstanceId) 
+		{
+			//TODO: place timer job code here
+		}	
+		
+		public static void StartJob(string parameter1, string parameter2)
+		{
+			SPFarm f = SPFarm.Local;
+			  
+			foreach (SPWebService svc in new SPWebServiceCollection(f))
+			{
+				<#= TimerJobClass #> timerJob = new <#= TimerJobClass #>(svc, parameter1, parameter2);
+				timerJob.SubmitJob();
+			}     
+		}
+		
+		public void SubmitJob()
+		{
+			if (Farm.TimerService.Instances.Count < 1)
+			{
+				throw new SPException("Could not run job. Timer service not found.");
+			}
+
+			//remove running jobs with the same name
+			foreach (SPJobDefinition job in Service.JobDefinitions)
+			{
+				if (job.Name == this.Name)
+				{
+					job.Delete();
+				}
+			}
+
+			this.Schedule = new SPOneTimeSchedule(DateTime.Now.AddHours(-2));
+			this.Title = string.Format("{0} <#= TimerJobName #> {1}", parameter1, parameter2);
+			this.Update();
+		}	
+	}
+}

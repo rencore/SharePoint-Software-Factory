@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>FlyoutAnchor</Title>
+			<Author>Torsten Mandelkow</Author>
+			<Shortcut>fanchor</Shortcut>
+			<HelpUrl>http://msdn.microsoft.com/en-us/library/ff458372.aspx</HelpUrl>
+			<Description>Adds a FlyoutAnchor</Description>
+			<SnippetTypes>
+				<SnippetType>SurroundsWith</SnippetType>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>id</ID>
+					<ToolTip>Required. A string that identifies the control, such as "Ribbon.Library.Share.FlyoutAnchor".</ToolTip>
+					<Default>AppName.FlyoutAnchor</Default>
+				</Literal>
+				<Literal>
+					<ID>alt</ID>
+					<ToolTip>Optional. Alternative text for the control.</ToolTip>
+					<Default>FlyoutAnchor</Default>
+				</Literal>
+				<Literal>
+					<ID>labeltext</ID>
+					<ToolTip>Optional. The text to label the control.</ToolTip>
+					<Default>FlyoutAnchor</Default>
+				</Literal>
+				<Literal>
+					<ID>sequence</ID>
+					<ToolTip>Optional. An integer that specifies the order of placement among sibling XML nodes.</ToolTip>
+					<Default>10</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="XML">
+				<![CDATA[<FlyoutAnchor
+                    Id="Ribbon.$id$"
+                    Command="Ribbon.$id$_CMD"
+                    Alt="$alt$"
+					Image16by16="/_layouts/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+					Image32by32="/_layouts/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+                    LabelText="$labeltext$"                    
+                    Sequence="$sequence$"
+                    TemplateAlias="o2"
+                    ToolTipTitle="FlyoutAnchor"
+                    ToolTipDescription="FlyoutAnchor">
+                    <Menu Id="Ribbon.$id$.Menu">
+                      <MenuSection
+                        Id="Ribbon.$id$.Menu.MenuSection"
+                        Sequence="10"
+                        Scrollable="false">
+                        <Controls Id="Ribbon.$id$.Menu.MenuSection.Controls">
+                          <Button
+                            Id="Ribbon.$id$.Menu.MenuSection.Button1"
+                            Sequence="10"
+                            Command="Ribbon.$id$.Menu.MenuSection.Button1_CMD"
+                            Alt="Ribbon.$id$.Menu.MenuSection.Button1_ALT"
+							Image16by16="/_layouts/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+							Image32by32="/_layouts/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+                            LabelText="Button1"
+                            MenuItemId="splitcellshorizontal"
+                        />
+                          <Button
+                            Id="Ribbon.$id$.Menu.MenuSection.Button2"
+                            Sequence="20"
+                            Command="Ribbon.$id$.Menu.MenuSection.Button2_CMD"
+                            Alt="Ribbon.$id$.Menu.MenuSection.Button2_ALT"
+							Image16by16="/_layouts/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+							Image32by32="/_layouts/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+                            LabelText="Button2"
+                            MenuItemId="splitcellsvertical"
+                        />
+                        </Controls>
+                      </MenuSection>
+                    </Menu>
+                  </FlyoutAnchor>]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

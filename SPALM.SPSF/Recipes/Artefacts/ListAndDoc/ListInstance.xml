@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="ListInstance"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>List Instance</Caption>
+  <Description>Adds a list instance definition to a feature.</Description>
+  <HostData>
+    <Icon File="Help/Icons/icon_ListAndDoc.ico" />
+    <CommandBar Menu="SPSFProjectListAndDoc"/>
+    <CommandBar Menu="SPSFFolderListAndDoc"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="ElementManifestReference"
+      BindingTypeTemplate="ElementManifestReferenceTemplate"
+      TestType="BaseSiteFeatureRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="true"
+      FeatureScopes="Web;Site"
+      Category="ListAndDoc" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="DefaultListInstance" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="ListInstanceTitle">ListInstanceTest</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <Argument Name="AllowedScopes" Type="System.String">
+      <ValueProvider Type="Evaluator" Expression="Web;Site" />
+    </Argument>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="ElementsCategory">
+      <ValueProvider Type="Evaluator" Expression="ListInstances" />
+    </Argument>
+
+    <Argument Name="ResourceKeyPrefix" Required="true">
+      <!-- provides the unique key with removed special chars -->
+      <ValueProvider Stage="OnBeforeActions" Type="ConvertedStringProvider" RecipeArgument="ListInstanceTitle" />
+    </Argument>
+
+    <Argument Name="ListInstanceId" Required="true">
+      <ValueProvider Type="GuidValueProvider" />
+    </Argument>
+    <Argument Name="ListInstanceFeatureId" Required="false">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ListInstanceTemplateType.Group)" />
+    </Argument>
+    <Argument Name="ListInstanceTitle" Required="true">
+      <ValueProvider Type="VisualStudioCreateItemName" MakeSafe="false" DefaultValue="ListInstance1" />
+    </Argument>
+    <Argument Name="ListInstanceDescription" Required="true">
+      <ValueProvider Type="Evaluator" Expression="$(ListInstanceTitle) Description" />
+    </Argument>
+
+    <Argument Name="ListInstanceTemplateType" Type="NameValueItem" Required="true" >
+      <ValueProvider Type="DefaultNameValueItemProvider" Name="Custom List" Value="100" Group="00BFEA71-DE22-43B2-A848-C05709900100" />
+    </Argument>
+
+    <Argument Name="ListInstanceUrl" Required="true">
+      <ValueProvider Type="Evaluator" Expression="Lists/$(ListInstanceTitle)" />
+    </Argument>
+    <Argument Name="ListInstanceOnQuickLaunch" Type="System.Boolean" Required="true">
+      <ValueProvider Type="Evaluator" Expression="true" />
+    </Argument>
+    <Argument Name="ListInstanceQuickLaunchUrl" Required="false">
+      <ValueProvider Type="Evaluator" Expression="Lists/$(ListInstanceTitle)/AllItems.aspx" />
+    </Argument>
+    <Argument Name="ListInstanceRootWebOnly" Type="System.Boolean" Required="true">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+
+    <Argument Name="ListInstanceName" Required="true">
+      <!-- provides the unique key with removed special chars -->
+      <ValueProvider Stage="OnBeforeActions" Type="ConvertedStringProvider" RecipeArgument="ListInstanceTitle" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>List Instance Settings</Title>
+          <Fields>
+            <Field ValueName="ListInstanceTitle" Label="Title">
+              <Help>Required Text. Title of the list in the schema.</Help>
+            </Field>
+            <Field ValueName="ListInstanceDescription" Label="Description">
+              <Help>Optional Text. Contains a description of the list.</Help>
+            </Field>
+            <Field PanelType="SPALM.SPSF.Library.NameValueItemPanel, SPALM.SPSF.Library" ValueName="ListInstanceTemplateType" Label="Template Type" >
+              <Editor Type="SPALM.SPSF.Library.ListInstanceEditor, SPALM.SPSF.Library" />
+            </Field>
+            <Field ValueName="ListInstanceUrl" Label="Url">
+              <Help>Required Text. Returns the site-relative URL at which to place the list.</Help>
+            </Field>
+          </Fields>
+        </Page>
+        <Page Width="600" Height="400">
+          <Title>Advanced Settings</Title>
+          <Fields>
+            <Field ValueName="ListInstanceRootWebOnly" Label="RootWebOnly">
+              <Help>Optional Boolean. TRUE to specify that the list created from the definition exists only in the root Web site of a site collection.</Help>
+            </Field>
+            <Field ValueName="ListInstanceOnQuickLaunch" Label="OnQuickLaunch">
+              <Help>Optional Boolean. TRUE to display lists created from the list definition on the Quick Launch bar.</Help>
+            </Field>
+            <Field ValueName="ListInstanceQuickLaunchUrl" Label="QuickLaunchUrl">
+              <Help>Optional Text. Specifies the URL of the view page to open for the list through Quick Launch navigation.</Help>
+            </Field>
+            <Field ValueName="ListInstanceId" Label="Id">
+              <Help>Required Text. Specifies a unique identifier for the list instance. The integer must be unique across the Feature definition.</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <!-- elements.xml-->
+    <Action
+      Name="CreateElementsXml"
+      Type="AddElementsDefinitionAction"
+      ParentFeatureName="$(ParentFeatureName)"
+      ElementsName="$(ListInstanceName)"
+      ElementsCategory="$(ElementsCategory)"
+      TemplateFileName="Text\ListInstance\elements.xml.t4"
+      SPDataTemplate="Text\ListInstance\SharePointProjectItem.spdata.t4"
+      Open="true">
+      <Output Name="CreatedElementFolder" />
+      <Output Name="CreatedElementFile" />
+    </Action>
+
+    <!-- Resources -->
+    <Action
+      Condition="$(AutoCreateResxFiles)"
+      Name="AddResources"
+      Type="AddTemlateToResourcesFileAction"
+      TemplateFileName="Text\ListInstance\Resources.resx.t4"
+      FeatureResources="True">
+      <Input Name="FeatureName" RecipeArgument="ParentFeatureName" />
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

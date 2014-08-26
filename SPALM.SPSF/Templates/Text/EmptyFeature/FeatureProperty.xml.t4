@@ -1,0 +1,6 @@
+﻿<#@ template language="C#" #>
+<Feature xmlns="http://schemas.microsoft.com/sharepoint/">
+	<Properties>
+		<Property Key="<#= FeaturePropertyKey #>" Value="<#= FeaturePropertyValue #>" />
+	</Properties>
+</Feature>

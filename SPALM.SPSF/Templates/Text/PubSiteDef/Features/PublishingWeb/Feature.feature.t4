@@ -1,0 +1,15 @@
+﻿<#@ template language="C#" #><?xml version="1.0" encoding="utf-8"?>
+<feature 
+	dslVersion="1.0.0.0" 
+	Id="<#= PubSiteWebFeatureID #>" 
+	featureId="<#= PubSiteWebFeatureID #>" 
+	scope="Web"
+	deploymentPath="$SharePoint.Feature.FileNameWithoutExtension$" 
+	title="<#= PubSiteWebFeatureTitle #>"
+	description="<#= PubSiteWebFeatureDescription #>"
+	xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/FeatureModel">
+    <activationDependencies>
+        <customFeatureActivationDependency featureId="<#= PubSiteSiteFeatureID #>" featureTitle="The corresponding Site Feature of this site definition" />
+        <customFeatureActivationDependency featureId="22A9EF51-737B-4ff2-9346-694633FE4416" featureTitle="SharePoint Publishing Feature" />
+    </activationDependencies>
+</feature>

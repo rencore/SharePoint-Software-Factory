@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Pages xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+	<Page Width="600" Height="400" xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+		<Title>Application Settings</Title>
+		<Help>
+			Enter the local SharePoint server for local deployment
+		</Help>
+		<Fields>
+			<Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+			<Field ValueName="CopyrightCompanyName" Label="Company Name">
+				<Help>Required String. Specifies the company name of the SharePoint application, used in copyright statements.</Help>
+			</Field>
+			<Field ValueName="AppName" ReadOnly="true" Label="Application Name">
+				<Help>Required String. Specifies the name of the SharePoint application, given by the name of the VS solution name.</Help>
+			</Field>
+			<Field ValueName="AppVersion" Label="Application Version" InvalidValueMessage="Must be a valid Version number (e.g. 1.0.0.0)" >
+				<Help>Required String. Specifies the version of the SharePoint application.</Help>
+			</Field>
+			<Field PanelType="SPALM.SPSF.Library.NameValueDropDownPanel, SPALM.SPSF.Library" ValueName="DebuggingWebApp" Label="Local Site for debugging" >
+				<Help>Optional Url. Name of a SharePoint site for local debugging.</Help>
+			</Field>
+		</Fields>
+	</Page>
+	<Page Width="600" Height="400" xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+		<Title>Multilanguage Settings</Title>
+		<Help>
+			Multilanguage Settings
+		</Help>
+		<Fields>
+			<Field ValueName="AutoCreateResxFiles" Label="Generate .resx files automatically" >
+				<Help>Optional Boolean. If true .resx files are generated automatically by SPSF.</Help>
+			</Field>
+			<Field ValueName="AddResourcesProject" Label="Add separate project for language resources" >
+				<Help>Optional Boolean. It is a best practice to use a separate project for language resources to make new languages easier to integrate. If unchecked resources are added in each WSP solution.</Help>
+			</Field>
+		</Fields>
+	</Page>
+	<Page Width="600" Height="400" xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+		<Title>Code Quality</Title>
+		<Help>
+			Code Quality Analysis settings
+		</Help>
+		<Fields>
+			<Field ValueName="CodeAnalysisEnableFxCop" Label="Check code with FxCop in 'Release' build" >
+				<Help>Optional Boolean. If true Microsoft FxCop will be executed during the 'Release' build to check the complied code against certain coding rules. Additionally a SharePoint specific FxCop settings file will be added to the solution. More details on http://www.microsoft.com/en-us/download/details.aspx?id=6544 </Help>
+			</Field>
+			<Field ValueName="CodeAnalysisEnableStyleCop" Label="Check code with StyleCop in 'Release' build" >
+				<Help>Optional Boolean. If true Microsoft StyleCop will be executed during the 'Release' build to check the C# source code against certain style rules. Additionally a SharePoint specific StyleCop settings file will be added to the solution. More details on http://stylecop.codeplex.com</Help>
+			</Field>
+			<Field ValueName="CodeAnalysisEnableSPCAF" Label="Check code with SPCAF/SPCop in 'Release' build" >
+				<Help>Optional Boolean. If true SharePoint Code Analysis (SPCAF or SPCop) will be executed during the 'Release' build to check the C# source code against certain style rules. Additionally a SharePoint specific SPCAF settings file will be added to the solution. More details on http://www.spcaf.de</Help>
+			</Field>
+			<Field ValueName="CodeAnalysisEnableSPDisposeChecker" Label="Check code with SPDisposeChecker in 'Release' build" >
+				<Help>Optional Boolean. If true SharePoint Dispose Checker will be executed during the 'Release' build to check the code for potential memory leaks. More details on http://archive.msdn.microsoft.com/SPDisposeCheck </Help>
+			</Field>
+		</Fields>
+	</Page>	
+</Pages>

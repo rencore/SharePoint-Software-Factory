@@ -1,0 +1,9 @@
+<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<HideCustomAction   		
+		Id="<#= CustomActionLongID #>"
+		Location="<#= CustomActionLocation.Value #>"
+		GroupId="<#= CustomActionLocation.Group #>"
+		HideActionId="<#= CustomActionLocation.Name #>"
+		/>
+</Elements>  

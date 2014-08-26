@@ -1,0 +1,243 @@
+﻿<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <!--
+    ************************************************************************
+       Application: <#= AppName #>
+      Created date: <#= System.DateTime.Now.ToString("u") #>
+        Created by: <#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #>
+              Name: <#= ContentTypeName #>
+       Description: <#= ContentTypeDescription #>
+           History: Initial Version <#= ContentTypeVersion #>
+    ************************************************************************
+    -->
+	<!-- Parent ContentType <#= ContentTypeParentContentType.Name #> -->
+	<ContentType ID="<#= ContentTypeParentContentType.Value #>00<#= ContentTypeID #>"
+		<#
+		if(AutoCreateResxFiles)
+		{	#>
+			Name="$Resources:<#= ResourceKeyPrefix #>_ContentTypeName;"
+			Description="$Resources:<#= ResourceKeyPrefix #>_ContentTypeDescription;"
+			Group="$Resources:<#= ResourceKeyPrefix #>_ContentTypeGroup;"
+			<#
+		}
+		else
+		{
+			#>
+			Name="<#= ContentTypeName #>"
+			Description="<#= ContentTypeDescription #>"
+			Group="<#= ContentTypeGroup #>"
+			<#
+		}
+		#>
+		Version="<#= ContentTypeVersion #>"
+			 Inherits="TRUE"
+    <# if(ContentTypeHidden)
+    {
+      #> Hidden="TRUE" <#
+    }
+    #>	
+    <# if(ContentTypeReadOnly)
+    {
+      #> ReadOnly="TRUE" <#
+    }
+    #>				
+		<# if(ContentTypeSealed)
+    {
+      #> Sealed="TRUE" <#
+    }
+    #>
+    >				
+			<FieldRefs>
+			<#				
+			if(ContentTypeFieldRefs != null)
+			{	
+				if(ContentTypeFieldRefs.Length > 0)
+				{				
+					foreach(NameValueItem fref in ContentTypeFieldRefs)
+					{
+				#><FieldRef ID="<#= fref.Value #>"
+					Name="<#= fref.Name #>"
+					Required="FALSE" />
+				<#
+					}				
+				}
+			}
+		
+			if(ContentTypeRemoveFieldRefs != null)
+			{
+				foreach(NameValueItem fref in ContentTypeRemoveFieldRefs)
+				{
+				#><RemoveFieldRef ID="<#= fref.Value #>" Name="<#= fref.Name #>" />
+				<#
+				}
+			}
+
+			#>
+		</FieldRefs>
+		<#
+		if(ContentTypeParentContentType.Value.StartsWith("0x010100"))
+		{
+			#><DocumentTemplate TargetName="/_layouts<#= VersionedFolderName #>/CreatePage.aspx" /><#
+		}
+		else if((ContentTypeDocumentTemplateFilename != null) && (ContentTypeDocumentTemplateFilename != ""))
+		{
+			if(ContentTypeDocumentTemplatePlaceInLayouts)
+			{
+				#><DocumentTemplate TargetName="/_layouts<#= VersionedFolderName #>/<#= SolutionSubFolder #>/<#= ContentTypeDocumentTemplateUniqueFilename #>"/><#
+			}
+			else
+			{
+				#><DocumentTemplate TargetName="<#= ContentTypeDocumentTemplateUniqueFilename #>"/>
+				<Folder TargetName="<#= ContentTypeSafeName #>" /><#
+			}
+		}
+		
+		#>
+		<#
+		
+		if(ContentTypeEventItemAdding || 
+			ContentTypeEventItemAdded || 
+			ContentTypeEventItemUpdating || 
+			ContentTypeEventItemUpdated || 
+			ContentTypeEventItemDeleting || 
+			ContentTypeEventItemDeleted ||
+			ContentTypeCustomFormsDisplay ||
+			ContentTypeCustomFormsEdit ||
+			ContentTypeCustomFormsNew)
+		{
+		
+		#><XmlDocuments><#
+		
+		if(ContentTypeCustomFormsDisplay ||
+		ContentTypeCustomFormsEdit ||
+		ContentTypeCustomFormsNew)
+		{
+			#>
+			<XmlDocument NamespaceURI="http://schemas.microsoft.com/sharepoint/v3/contenttype/forms">
+				<FormTemplates xmlns="http://schemas.microsoft.com/sharepoint/v3/contenttype/forms">
+					<# 
+					if(ContentTypeCustomFormsDisplay)
+					{
+						#><Display><#= ContentTypeUniqueName #>_Display</Display><#
+					}
+					if(ContentTypeCustomFormsEdit)
+					{
+						#><Edit><#= ContentTypeUniqueName #>_Edit</Edit><#
+					}
+					if(ContentTypeCustomFormsNew)
+					{
+						#><New><#= ContentTypeUniqueName #>_New</New><#
+					}
+					#>
+				</FormTemplates>
+			</XmlDocument>
+			<#
+		}
+
+		if(ContentTypeEventItemAdding || 
+			ContentTypeEventItemAdded || 
+			ContentTypeEventItemUpdating || 
+			ContentTypeEventItemUpdated || 
+			ContentTypeEventItemDeleting || 
+			ContentTypeEventItemDeleted)
+		{
+			#>
+			
+				<XmlDocument NamespaceURI="http://schemas.microsoft.com/sharepoint/events">
+				  <spe:Receivers xmlns:spe="http://schemas.microsoft.com/sharepoint/events">
+					<#					
+					if(ContentTypeEventItemAdding)
+					{
+						#>
+						<spe:Receiver>
+							<spe:Name><#= ContentTypeSafeName #>_ItemAddingReceiver</spe:Name>
+							<spe:Type>ItemAdding</spe:Type>
+							<spe:Assembly><#= ProjectAssemblyName #></spe:Assembly>
+							<spe:Class><#= ProjectNamespace #>.<#= ContentTypeEventClassName #></spe:Class>
+						</spe:Receiver>
+						<#
+					}
+					if(ContentTypeEventItemAdded)
+					{
+						#>
+						<spe:Receiver>
+							<spe:Name><#= ContentTypeSafeName #>_ItemAddedReceiver</spe:Name>
+							<spe:Type>ItemAdded</spe:Type>
+							<spe:Assembly><#= ProjectAssemblyName #></spe:Assembly>
+							<spe:Class><#= ProjectNamespace #>.<#= ContentTypeEventClassName #></spe:Class>
+						</spe:Receiver>
+						<#
+					}
+					if(ContentTypeEventItemUpdating)
+					{
+						#>
+						<spe:Receiver>
+							<spe:Name><#= ContentTypeSafeName #>_ItemUpdatingReceiver</spe:Name>
+							<spe:Type>ItemUpdating</spe:Type>
+							<spe:Assembly><#= ProjectAssemblyName #></spe:Assembly>
+							<spe:Class><#= ProjectNamespace #>.<#= ContentTypeEventClassName #></spe:Class>
+						</spe:Receiver>
+						<#
+					}
+					if(ContentTypeEventItemUpdated)
+					{
+						#>
+						<spe:Receiver>
+							<spe:Name><#= ContentTypeSafeName #>_ItemUpdatedReceiver</spe:Name>
+							<spe:Type>ItemUpdated</spe:Type>
+							<spe:Assembly><#= ProjectAssemblyName #></spe:Assembly>
+							<spe:Class><#= ProjectNamespace #>.<#= ContentTypeEventClassName #></spe:Class>
+						</spe:Receiver>
+						<#
+					}
+					if(ContentTypeEventItemDeleting)
+					{
+						#>
+						<spe:Receiver>
+							<spe:Name><#= ContentTypeSafeName #>_ItemDeletingReceiver</spe:Name>
+							<spe:Type>ItemDeleting</spe:Type>
+							<spe:Assembly><#= ProjectAssemblyName #></spe:Assembly>
+							<spe:Class><#= ProjectNamespace #>.<#= ContentTypeEventClassName #></spe:Class>
+						</spe:Receiver>
+						<#
+					}
+					if(ContentTypeEventItemDeleted)
+					{
+						#>
+						<spe:Receiver>
+							<spe:Name><#= ContentTypeSafeName #>_ItemDeletedReceiver</spe:Name>
+							<spe:Type>ItemDeleted</spe:Type>
+							<spe:Assembly><#= ProjectAssemblyName #></spe:Assembly>
+							<spe:Class><#= ProjectNamespace #>.<#= ContentTypeEventClassName #></spe:Class>
+						</spe:Receiver>
+						<#
+					}
+					#>
+				  </spe:Receivers>
+				</XmlDocument>
+			<#
+		}
+		#>
+		</XmlDocuments><#
+		
+		}
+		
+		#>
+	</ContentType>
+	<#
+		if((ContentTypeDocumentTemplateFilename != null) && (ContentTypeDocumentTemplateFilename != ""))
+		{
+			if(!ContentTypeDocumentTemplatePlaceInLayouts)
+			{			
+				#>				
+				<Module 
+				Name="Template_<#= ContentTypeSafeName #>" 
+				Url="_cts/<#= ContentTypeSafeName #>" 
+				RootWebOnly="TRUE">
+					<File Url="<#= ContentTypeDocumentTemplateUniqueFilename #>" Type="Ghostable" />
+				</Module>
+				<#
+			}
+		}
+	#>
+</Elements>

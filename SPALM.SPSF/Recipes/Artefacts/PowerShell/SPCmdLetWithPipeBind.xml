@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe Name="SPCmdLetWithPipeBind"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.microsoft.com/pag/gax-core"
+    Bound="false">
+	<DocumentationLinks>
+		<Link Caption="MSDN: Windows PowerShell in the SharePoint Management Shell" Url="http://msdn.microsoft.com/en-us/library/ee536539.aspx" Kind="Documentation" />
+		<Link Caption="MSDN: Key Concepts for Writing Cmdlets for the SharePoint Management Shell" Url="http://msdn.microsoft.com/en-us/library/ee534984.aspx" Kind="Documentation" />
+		<Link Caption="MSDN: Development Guidelines for SharePoint Foundation Cmdlets" Url="http://msdn.microsoft.com/en-us/library/ee534968.aspx" Kind="Documentation" />
+		<Link Caption="Gary Lapointe: Creating Custom SharePoint 2010 Cmdlets using Visual Studio 2010 " Url="http://blog.falchionconsulting.com/index.php/2009/10/creating-custom-sharepoint-2010-cmdlets-using-visual-studio-2010/" Kind="Documentation" />
+	</DocumentationLinks>
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>SharePoint CmdLet with PipeBind</Caption>
+	<Description>Adds a SharePoint cmdlet which uses or returns objects from the pipe (e.g. Get-SPSiteTitle, Set-SPSiteTitle). The recipe creates the cmdlet class, the class for the piped object, the xml for the registration in SharePoint and a corresponding help file to store help information about the cmdlet.</Description>
+	<HostData Priority="20">
+		<Icon File="Help/Icons/icon_PowerShell.ico" />
+		<CommandBar Menu="SPSFProjectPowerShell" />
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="CustomizationReference"
+		  BindingTypeTemplate="CustomizationReferenceTemplate"
+		  TestType="BaseCustomizationRecipeRunner"
+		  Enabled="true"
+		  CreateVSTemplate="true"
+		  NotSandboxSupported="true"
+		  VSTemplateDefaultName="Get-MyCustomList"
+		  Category="PowerShell" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[The custom cmdlet can be used in powershell scripts (.ps1) to handle objects e.g. SPList or SPSite within a pipe.
+Use command "Get-Help Get-MyCustomList' to display a detailed help information.
+Use command "Get-Command Get-MyCustomList' to display general information.]]>
+			</spsf:WebPageContent>
+			<spsf:Test>
+				<spsf:TestCases>
+					<spsf:TestCase Name="DefaultCommand">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="SPCmdName">Get-SPSiteByName</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+					<spsf:TestCase Name="GetSPListByName" Type="SolutionTestCase">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="SPCmdName">Get-MyCustomList</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="SPCmdLetPipeObjectType">SPList</spsf:TestCaseArgument>SPCmdLetPipeObjectType
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+				</spsf:TestCases>
+			</spsf:Test>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<Argument Name="SPCmdName" Required="true" >
+			<ValueProvider Type="VisualStudioCreateItemName" MakeSafe="false" DefaultValue="Get-SPSiteByName" />
+		</Argument>		
+		
+		<Argument Name="SPCmdLetVerb" Required="true" >
+			<Converter Type="SPCmdLetVerbConverter" />
+			<ValueProvider Type="SplitStringProvider" RecipeArgument="SPCmdName" SplitChar="-" Index="0" />
+		</Argument>
+		<Argument Name="SPCmdLetNoun" Required="true" >
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="SplitStringProvider" RecipeArgument="SPCmdName" SplitChar="-" Index="1" />
+		</Argument>
+		<Argument Name="SPCmdLetVerbHelpDescription" Required="true" >
+			<ValueProvider Type="Evaluator" Expression="Description of cmdlet" />
+		</Argument>
+		
+		<Argument Name="SPCmdLetPipeObjectType" Required="true" >
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="Evaluator" Expression="SPSite" />
+		</Argument>
+
+		<Argument Name="SPCmdLetClassName" Required="true" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="SPCmdlet$(SPCmdLetVerb)$(SPCmdLetNoun)" />
+		</Argument>
+		<Argument Name="SPCmdLetFullClassName" Required="true" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ProjectNamespace).PowerShell.$(SPCmdLetClassName)" />
+		</Argument>
+		<Argument Name="SPCmdLetRegistrationFileName" Required="true" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SafeAppName)_$(SPCmdLetClassName).xml" />
+		</Argument>
+		<Argument Name="SPCmdLetHelpFileName" Required="true" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SafeAppName)_$(SPCmdLetClassName).dll-help.xml" />
+		</Argument>
+
+		<Argument Name="GeneratedCommandName" >
+			<ValueProvider Type="Evaluator" Expression="$(SPCmdLetVerb)-$(SPCmdLetNoun)" >
+				<MonitorArgument Name="SPCmdLetVerb" />
+				<MonitorArgument Name="SPCmdLetNoun" />
+			</ValueProvider>
+		</Argument>
+
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Width="600" Height="400">
+					<Title>General Settings</Title>
+					<Fields>
+						<Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+						<Field ValueName="GeneratedCommandName" ReadOnly="true" Label="Generated Command">
+							<Help>Optional String. Displays the final command</Help>
+						</Field>
+						<Field ValueName="SPCmdLetVerb" Label="Verb">
+							<Help>Required String. Select the verb e.g. "Get", "New", "Set", "Delete".</Help>
+						</Field>
+						<Field ValueName="SPCmdLetNoun" Label="Noun">
+							<Help>Required String. Enter the operation or object type e.g. "SPSiteByName".</Help>
+						</Field>
+						<Field ValueName="SPCmdLetVerbHelpDescription" Label="Description">
+							<Help>Required String. Enter the a short description of the cmdlet (used in help file).</Help>
+						</Field>
+					</Fields>
+				</Page>
+				<Page Width="600" Height="400">
+					<Title>Pipe Object Settings</Title>
+					<Fields>
+						<Field ValueName="SPCmdLetPipeObjectType" Label="Object Type">
+							<Help>Optional String. Enter the existing type of object that should be used for pipe binding (e.g. SPList, SPWeb).</Help>
+						</Field>						
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <Action
+		  Name="AddRegistrationFile"
+		  Type="AddSPDataTemplateAction"
+      SPDataName="$(SPCmdLetClassName)"
+      SPDataCategory="PowerShellCmdLets"
+      SPDataTemplate="Text\GenericSPData\SharePointProjectItem.spdata.t4"
+		  TemplateFileName="Text\PowerShell\registration.xml.t4"
+		  TargetFileName="$(SPCmdLetRegistrationFileName)"
+      DeploymentType="RootFile"
+		  DeploymentPath="Config\PowerShell\Registration"
+		  Open="true">
+      <Output Name="CreatedProjectItem" />
+      <Output Name="CreatedProjectFolder" />
+    </Action>
+ 
+		<!-- add class for cmdlet -->
+		<Action
+		  Name="AddCmdLetCode"
+		  Type="AddTemplateToItemAction"
+		  DeploymentType="CustomCode"
+		  Open="true"
+		  TemplateFileName="Text\PowerShell\SPCmdLetPipe\CmdLet.cs.t4"
+		  TargetFileName="$(SPCmdLetClassName).cs">
+			<Input Name="ParentProjectItem" ActionOutput="AddRegistrationFile.CreatedProjectItem" />
+		</Action>
+		
+		<!-- add class for pipebind optionally-->
+		<Action
+		  Name="AddCmdLetPipeBindCode"
+		  Type="AddTemplateToItemAction"
+		  DeploymentType="CustomCode"
+		  TemplateFileName="Text\PowerShell\SPCmdLetPipe\CustomPipeBindObject.cs.t4"
+		  TargetFileName="$(SPCmdLetPipeObjectType)PipeBind.cs">
+			<Input Name="ParentProjectItem" ActionOutput="AddRegistrationFile.CreatedProjectItem" />
+		</Action>
+
+		<!-- Add help file -->
+		<Action
+		  Name="AddRegistrationHelpFile"
+		  Type="AddTemplateToItemAction"
+		  DeploymentType="RootFile"
+		  DeploymentPath="Config\PowerShell\Help"
+		  TemplateFileName="Text\PowerShell\help.xml.t4"
+		  TargetFileName="$(SPCmdLetHelpFileName)">
+			<Output Name="CreatedProjectItem" />
+      <Input Name="ParentProjectItem" ActionOutput="AddRegistrationFile.CreatedProjectItem" />
+		</Action>
+
+		<Action
+			Name="AddReference1"
+			Type="AddReferenceToProject"
+			ReferenceName="System.Management.Automation">
+			<Input Name="Project" RecipeArgument="CurrentProject" />
+		</Action>
+
+		<Action
+			Name="AddReference2"
+			Type="AddReferenceToProject"
+			ReferenceName="Microsoft.SharePoint.PowerShell">
+			<Input Name="Project" RecipeArgument="CurrentProject" />
+		</Action>
+
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Actions>
+</Recipe>

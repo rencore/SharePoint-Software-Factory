@@ -1,0 +1,77 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="TimerJobClass" #>
+<#@ property processor="PropertyProcessor" name="TimerJobName" #>
+<#@ assembly name="System.dll" #>
+<FeatureReceiverCode>
+	<UsingStatements>
+		<UsingStatement>Microsoft.SharePoint.Administration</UsingStatement>
+	</UsingStatements>
+	<FeatureActivatedMethod>ActivateTimerJob_<#= TimerJobClass #>(properties);</FeatureActivatedMethod>
+	<FeatureActivatedCode>
+	
+const string JOB_TITLE = "Deploy Global Resources";
+const string JOB_NAME = "<#= TimerJobName #>";
+        
+/// &lt;summary&gt;
+/// Activates the timer job <#= TimerJobName #>
+/// &lt;/summary&gt;
+private void ActivateTimerJob_<#= TimerJobClass #>(SPFeatureReceiverProperties properties)
+{
+	SPSite parentSite = null;
+	if (properties.Feature.Parent is SPWeb)
+	{
+		SPWeb web = properties.Feature.Parent as SPWeb;
+		parentSite = web.Site;
+	}
+	if (properties.Feature.Parent is SPSite)
+	{
+		parentSite = properties.Feature.Parent as SPSite;
+	}
+
+    // Check for an exising instance of the job
+    foreach (SPJobDefinition job in parentSite.WebApplication.JobDefinitions)
+    {
+        if (job.Name == JOB_NAME &amp;&amp; job.WebApplication.Name == parentSite.WebApplication.Name)
+        {
+            job.Delete();
+        }
+    }
+    // Create new job
+    <#= TimerJobClass #> gsJob = new <#= TimerJobClass #>(JOB_NAME, parentSite.WebApplication, properties.Definition.DisplayName);
+    gsJob.Title = JOB_TITLE;
+    // Set up the job to run once
+    gsJob.Schedule = new SPOneTimeSchedule(DateTime.Now);
+    gsJob.Update();
+}
+	</FeatureActivatedCode>	
+	<FeatureDeactivatingMethod>DeactivateTimerJob_<#= TimerJobClass #>(properties);</FeatureDeactivatingMethod>
+	<FeatureDeactivatingCode>	
+/// &lt;summary&gt;
+/// Activates the timer job <#= TimerJobName #>
+/// &lt;/summary&gt;
+private void DeactivateTimerJob_<#= TimerJobClass #>(SPFeatureReceiverProperties properties)
+{
+	SPSite parentSite = null;
+	if (properties.Feature.Parent is SPWeb)
+	{
+		SPWeb web = properties.Feature.Parent as SPWeb;
+		parentSite = web.Site;
+	}
+	if (properties.Feature.Parent is SPSite)
+	{
+		parentSite = properties.Feature.Parent as SPSite;
+	}
+
+    // delete the job
+    foreach (SPJobDefinition job in parentSite.WebApplication.JobDefinitions)
+    {
+        if (job.Name == JOB_NAME &amp;&amp; job.WebApplication.Name == parentSite.WebApplication.Name)
+        {
+            job.Delete();
+        }
+    }
+}
+</FeatureDeactivatingCode>
+</FeatureReceiverCode>
+
+		

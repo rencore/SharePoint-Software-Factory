@@ -1,0 +1,59 @@
+<#@ template language="C#" #>
+<?xml version="1.0" encoding="utf-8" ?>
+<FieldTypes>
+  <FieldType>
+    <Field Name="TypeName"><#= FieldTypeUniqueName #></Field>
+    <Field Name="ParentType"><#= FieldTypeParentType #></Field>
+    <#
+    if(AutoCreateResxFiles)
+    {
+    #>
+    <Field Name="TypeDisplayName">$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_DisplayName;</Field>
+    <Field Name="TypeShortDescription">$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_Description;</Field>
+    <#
+    }
+    else
+    {
+    #>
+    <Field Name="TypeDisplayName"><#= FieldTypeDisplayName #></Field>
+    <Field Name="TypeShortDescription"><#= FieldTypeDescription #></Field>
+    <#
+    }
+    #>
+    <Field Name="UserCreatable">TRUE</Field>
+    <Field Name="ShowInListCreate">TRUE</Field>
+    <Field Name="ShowInDocumentLibraryCreate">TRUE</Field>
+    <Field Name="ShowInSurveyCreate">TRUE</Field>
+    <Field Name="ShowInColumnTemplateCreate">TRUE</Field>
+    <Field Name="FieldTypeClass"><#= ProjectNamespace #>.<#= FieldTypeTypeName #>, <#= ProjectAssemblyName #></Field>
+    <RenderPattern Name="DisplayPattern" DisplayName="DisplayPattern">
+		<HTML><![CDATA[ <OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+			codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" WIDTH="]]>
+		</HTML>
+		<Column SubColumnNumber="1" HTMLEncode="TRUE"/>
+		<HTML><![CDATA[" HEIGHT="]]>
+		</HTML>
+		<Column SubColumnNumber="2" HTMLEncode="TRUE"/>
+		<HTML><![CDATA[">
+			<PARAM NAME=movie VALUE="]]>
+		</HTML>
+		<Column SubColumnNumber="0" HTMLEncode="TRUE" AutoNewLine="TRUE"/>
+		<HTML><![CDATA[">
+			<PARAM NAME="quality" VALUE="high">
+			<PARAM NAME="bgcolor" VALUE="#FFFFFF"> 
+			<EMBED src="]]>
+		</HTML>
+		<Column SubColumnNumber="0" HTMLEncode="TRUE" AutoNewLine="TRUE"/>
+		<HTML><![CDATA[" quality="high" bgcolor="#FFFFFF" WIDTH="]]>
+		</HTML>
+		<Column SubColumnNumber="1" HTMLEncode="TRUE"/>
+		<HTML><![CDATA[" HEIGHT="]]>
+		</HTML>
+		<Column SubColumnNumber="2" HTMLEncode="TRUE"/>
+		<HTML><![CDATA[" TYPE="application/x-shockwave-flash" 
+		PLUGINSPAGE="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"></EMBED>
+		</OBJECT>]]>
+	  </HTML>
+	</RenderPattern>
+  </FieldType>  
+</FieldTypes>

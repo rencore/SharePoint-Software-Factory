@@ -1,0 +1,24 @@
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Ajax Web 2</Name>
+	  <TemplateID>SharePoint14ContentType_CS_ITEM</TemplateID>
+    <Description>Adds a Ajax web part to the project</Description>
+    <DefaultName>AjaxWebPart2</DefaultName>
+    <SortOrder>29</SortOrder>
+    <Icon>../../HTML/Icons/icon_WebParts.ico</Icon>
+    <CreateNewFolder>false</CreateNewFolder>
+    <LocationField>Hidden</LocationField>
+    <ProjectType>CSharp</ProjectType> 
+    <TemplateGroupID>SharePointItemTemplateGroupID</TemplateGroupID>  
+    <FrameworkVersion>3.5</FrameworkVersion>
+	<ShowByDefault>false</ShowByDefault>
+	<NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ReplaceParameters="true" TargetFileName="dummy.txt">dummy.txt</ProjectItem>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.Practices.RecipeFramework.VisualStudio</Assembly>
+    <FullClassName>Microsoft.Practices.RecipeFramework.VisualStudio.Templates.UnfoldTemplate</FullClassName>
+  </WizardExtension>
+</VSTemplate>

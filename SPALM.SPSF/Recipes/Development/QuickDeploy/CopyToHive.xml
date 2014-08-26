@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="CopyToHive"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Copy to SharePoint Hive</Caption>
+  <Description>Copies all files in project folder to the SharePoint hive on the local machine.</Description>
+	<HostData Priority="200">
+    <Icon File="Help/Icons/icon_Deployment.ico" />
+    <CommandBar Menu="SPSFSolutionQuickDeploy"/>
+    <CommandBar Menu="SPSFProjectQuickDeploy"/>
+    <CommandBar Menu="SPSFSolutionFolderQuickDeploy"/>
+    <CommandBar Name="Folder"/>
+    <CommandBar Name="Item"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="SolutionHiveReference"
+      Enabled="true"
+      ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="QuickDeploy" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Actions>
+    <Action Name="QuickDeploy" Type="QuickDeploy" />
+  </Actions>
+</Recipe>

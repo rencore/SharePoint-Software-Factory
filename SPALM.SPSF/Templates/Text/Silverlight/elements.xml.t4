@@ -1,0 +1,33 @@
+﻿<#@ template language="C#" #>
+<#@ import namespace="System.IO" #>
+<#
+string targetList = TargetListForSilverlightApp14;
+#>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<!-- The following module deploys the silverlight application into the document library '<#= targetList #>' in SharePoint -->
+	<Module Name="<#= ModuleName #>" Url="<#= targetList #>">
+		<File Path="<#= ModuleName #>\\<#= SilverlightApplicationFullName #>.xap" Url="<#= SilverlightApplicationFullName #>.xap" Type="GhostableInLibrary" IgnoreIfAlreadyExists="TRUE" />
+	</Module>
+	<!-- The following module deploys a webpart definition file into the webpart gallery which displays the silverlight application in a page -->
+	<Module Name="<#= SilverlightApplicationName #>WebPart" List="113" Url="_catalogs/wp">
+		<File Path="<#= ModuleName #>\\<#= WebPartFileName #>" Url="<#= WebPartFileName #>" Type="GhostableInLibrary" IgnoreIfAlreadyExists="TRUE" >
+			<#
+			if(AutoCreateResxFiles && !ProjectIsSandboxedSolution)
+			{	
+				#>
+					<Property Name="Group" Value="$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_WebPartGroup;" />
+					<Property Name="QuickAddGroups" Value="$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_WebPartQuickAddGroup;" />
+				<#
+			}
+			else
+			{	
+				#>
+					<Property Name="Group" Value="<#= WebPartGroup #>" />
+					<Property Name="QuickAddGroups" Value="<#= WebPartQuickAddGroup #>" />
+				<#
+			}
+		
+			#>
+		</File>
+  </Module>
+</Elements>

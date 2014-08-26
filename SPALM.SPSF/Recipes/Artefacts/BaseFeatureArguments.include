@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains standard arguments which are necessary in all recipes -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+	<Argument Name="ParentFeatureName" Type="System.String">
+		<ValueProvider Type="CurrentSelectedFeature" />
+	</Argument>
+	<Argument Name="ParentFeatureId">
+		<ValueProvider Type="GuidValueProvider" />
+	</Argument>
+	<Argument Name="ParentFeatureScope">
+		<ValueProvider Stage="OnBeforeActions" Type="FeatureScopeProvider" RecipeArgument="ParentFeatureName" />
+	</Argument>	
+
+	<Argument Name="CreateNewFeature" Type="System.Boolean" >
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+
+	<Argument Name="SolutionId" Type="System.String" Required="false">
+		<ValueProvider Type="SolutionIdProvider" />
+	</Argument>
+
+	<Argument Name="FeatureID">
+		<ValueProvider Type="GuidValueProvider" />
+	</Argument>
+	<Argument Name="FeatureName" Type="System.String" >
+		<ValueProvider Type="Evaluator" Expression="$(VisualStudioTempItem)" />
+	</Argument>
+	<Argument Name="FeatureTitle" Type="System.String" >
+		<ValueProvider Type="Evaluator" Expression="$(VisualStudioTempItem) Feature" />
+	</Argument>
+	<Argument Name="FeatureDescription" Type="System.String" >
+		<ValueProvider Type="Evaluator" Expression="$(VisualStudioTempItem) Feature Description" />
+	</Argument>
+	<Argument Name="FeatureScope" Type="System.String" >
+		<ValueProvider Type="Evaluator" Expression="Web" />
+	</Argument>
+
+	<Argument Name="FeatureHidden" Type="System.Boolean" >
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+	<Argument Name="FeatureVersion" Type="System.String" >
+		<ValueProvider Type="Evaluator" Expression="1.0.0.0" />
+	</Argument>
+	<Argument Name="FeatureVersionSerialized" Required="true">
+		<ValueProvider Stage="OnBeforeActions" Type="SerializedVersionProvider" RecipeArgument="FeatureVersion" />
+	</Argument>
+	<Argument Name="FeatureCreateReceiver" Type="System.Boolean" >
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+	<Argument Name="FeatureReceiverClass">
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(FeatureName)EventReceiver" />
+	</Argument>
+	<Argument Name="FeatureCodeFolder">
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="CustomCode\$(FeatureName)" />
+	</Argument>
+	<Argument Name="FeatureReceiverFileName">
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(FeatureName).EventReceiver.cs" />
+	</Argument>
+
+	<Argument Name="FeatureActivationDependencies" Required="false" Type="NameValueItemArray" >
+		<ValueProvider Type="DefaultNameValueCollectionProvider"  />
+	</Argument>
+	<Argument Name="FeatureFiles" Required="false">
+		<ValueProvider Type="Evaluator" Expression="" />
+	</Argument>
+	<Argument Name="FeatureCreateDefaultElementsXML" Type="System.Boolean">
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+
+	<Argument Name="FeatureActivateOnDefault" Type="System.Boolean" >
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+	<Argument Name="FeatureAlwaysForceInstall" Type="System.Boolean" >
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+	<Argument Name="FeatureAutoActivateInCentralAdmin" Type="System.Boolean" >
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+	<Argument Name="FeatureRequireResources" Type="System.Boolean" >
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+
+	<Argument Name="FeatureCreator" Type="System.String" Required="false" >
+		<ValueProvider Type="Evaluator" Expression="" />
+	</Argument>
+
+	<Argument Name="FeatureIconName">
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="FeatureIcon_$(FeatureName).gif" />
+	</Argument>
+	<Argument Name="FeatureIconFolder">
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SharePointVersion)\Template\Images\$(SolutionSubFolder)" />
+	</Argument>
+
+	<Argument Name="TargetFolder">
+		<ValueProvider Stage="OnBeforeActions" Expression="$(SharePointVersion)\TEMPLATE\FEATURES\$(SafeAppName)_$(FeatureName)" Type="Evaluator" />
+	</Argument>
+	<Argument Name="FullFeatureName">
+		<ValueProvider Stage="OnBeforeActions" Expression="$(SafeAppName)_$(FeatureName)" Type="Evaluator" />
+	</Argument>
+	<Argument Name="TargetFeatureFile">
+		<ValueProvider Expression="feature.xml" Type="Evaluator"  />
+	</Argument>
+
+</Arguments>

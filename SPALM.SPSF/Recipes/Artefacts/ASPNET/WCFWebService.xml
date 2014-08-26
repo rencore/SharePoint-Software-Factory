@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="WCFWebService"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <DocumentationLinks>
+    <Link Url="http://msdn.microsoft.com/en-us/library/ff521581.aspx" Caption="MSDN: Creating a Custom WCF Service in SharePoint Foundation" Kind="NextStep" />
+  </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>WCF Webservice</Caption>
+  <Description>Adds a WCF web service</Description>
+  <HostData Priority="102">
+    <Icon File="Help/Icons/icon_WebService.ico" />
+    <CommandBar Menu="SPSFProjectASPNET"/>
+    <CommandBar Menu="SPSFFolderASPNET"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseCustomizationRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="true"
+	  NotSandboxSupported="true"
+      Category="ASPNET" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+		<spsf:Test>
+			<spsf:TestCases>
+				<spsf:TestCase Name="DefaultWebService" Type="SolutionTestCase">
+					<spsf:TestCaseArguments>
+						<spsf:TestCaseArgument Name="WebServiceName">WebService</spsf:TestCaseArgument>
+						<spsf:TestCaseArgument Name="WebServiceDescription">Description of WebService</spsf:TestCaseArgument>
+					</spsf:TestCaseArguments>
+					<spsf:TestExpectedDeployResults>
+						<spsf:TestExpectedDeployResult Type="ManualCheck">Webservice exists in site /_vti_adm/SolutionName/WebService.asmx</spsf:TestExpectedDeployResult>
+					</spsf:TestExpectedDeployResults>
+				</spsf:TestCase>
+			</spsf:TestCases>
+		</spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="WebServiceName">
+      <Converter Type="NamespaceStringConverter" />
+      <ValueProvider Type="VisualStudioCreateItemName" DefaultValue="Webservice1" />
+    </Argument>
+    <Argument Name="WebServiceDescription">
+      <ValueProvider Type="Evaluator" Expression="Description of WebService1" />
+    </Argument>
+
+    <Argument Name="Reference1">
+      <ValueProvider Type="Evaluator" Expression="System.Web.Services" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Web Service Settings</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="WebServiceName" Label="Name">
+              <Help>Required String. Enter the name of the web service.</Help>
+            </Field>
+            <Field ValueName="WebServiceDescription" Label="Description">
+              <Help>Required String. Enter the description of the web service.</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action
+		  Name="AddSVC"
+		  Type="AddSPDataTemplateAction"
+      SPDataName="$(WebServiceName)"
+      SPDataCategory="WebServices"
+      SPDataTemplate="Text\GenericSPData\SharePointProjectItem.spdata.t4"
+		  TemplateFileName="Text\WCFWebService\Webservice.svc.t4"
+      TargetFileName="$(WebServiceName).svc"
+      DeploymentType="RootFile"
+      DeploymentPath="ISAPI\$(SafeAppName)"
+		  Open="false">
+      <Output Name="CreatedProjectItem" />
+      <Output Name="CreatedProjectFolder" />
+    </Action>
+ 
+    <Action
+      Name="AddInterfaceCode"
+      Type="AddTemplateToItemAction"
+      Open="true"
+      TemplateFileName="Text\WCFWebService\IWebservice.cs.t4"
+      TargetFileName="I$(WebServiceName).cs">
+      <Input Name="ParentProjectItem" ActionOutput="AddSVC.CreatedProjectFolder" />
+    </Action>
+
+    <Action
+     Name="AddSVCCode"
+     Type="AddTemplateToItemAction"
+     Open="true"
+     TemplateFileName="Text\WCFWebService\Webservice.svc.cs.t4"
+     TargetFileName="$(WebServiceName).svc.cs">
+      <Input Name="ParentProjectItem" ActionOutput="AddSVC.CreatedProjectItem" />
+    </Action>
+
+    <Action Name="AddSVCProperty" Type="SetProjectPropertyGroupValue" Parameter="TokenReplacementFileExtensions" Value="svc">
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+    </Action>
+
+    <Action Name="AddReference1" Type="AddReferenceToProject" ReferenceName="System.Runtime.Serialization">
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+    </Action>
+    <Action Name="AddReference2" Type="AddReferenceToProject" ReferenceName="System.ServiceModel">
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+    </Action>
+    <Action Name="AddReference3" Type="AddReferenceToProject" ReferenceName="Microsoft.SharePoint.Client.ServerRuntime">
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+    </Action>    
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

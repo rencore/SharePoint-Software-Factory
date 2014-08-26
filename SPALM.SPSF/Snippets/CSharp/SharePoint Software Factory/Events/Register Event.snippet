@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Register Event</Title>
+      <Shortcut>Register event</Shortcut>
+      <Description>Registers an event receiver in a list or web. Code is used typically in a feature receiver during feature activation.</Description>
+      <Author>Torsten Mandelkow</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+		  <Literal>
+			  <ID>WebUrl</ID>
+			  <ToolTip>Url of SPWeb</ToolTip>
+			  <Default>http://MyServer/sites/MySiteCollection/MyWebSite</Default>
+		  </Literal>
+		  <Literal>
+			  <ID>ListName</ID>
+			  <ToolTip>Name of the list</ToolTip>
+			  <Default>Shared Documents</Default>
+		  </Literal>
+		  <Literal>
+			  <ID>AssemblyName</ID>
+			  <ToolTip>Full name of the assembly with the event receiver</ToolTip>
+			  <Default>Shared Documents</Default>
+		  </Literal>
+		  <Literal>
+			  <ID>ClassName</ID>
+			  <ToolTip>Full name of the event receiver class</ToolTip>
+			  <Default>Namespace.ClassName</Default>
+		  </Literal>
+		  <Literal>
+			  <ID>EventName</ID>
+			  <ToolTip>Name of the event</ToolTip>
+			  <Default>UniqueEventName</Default>
+		  </Literal>
+		  <Literal>
+			  <ID>SequenceNumber</ID>
+			  <ToolTip>Integer value of sequence</ToolTip>
+			  <Default>1000</Default>
+		  </Literal>
+		  <Literal>
+			  <ID>EventType</ID>
+			  <ToolTip>Type of the event to be registered</ToolTip>
+			  <Default>SPEventReceiverType.ItemAdded</Default>
+		  </Literal>
+	  </Declarations>
+      <Code Language="csharp">
+        <![CDATA[using (SPWeb oWebsite = new SPSite("$WebUrl$").OpenWeb())
+{
+            SPList list = web.Lists["$ListName$"];
+
+            SPEventReceiverDefinition def = list.EventReceivers.Add();
+			def.Assembly = "$AssemblyName$";
+			def.Class = "$ClassName$";
+			def.Name = "$EventName$";
+			def.Type = $EventType$;
+			def.SequenceNumber = $SequenceNumber$;
+			def.Synchronization = SPEventReceiverSynchronization.Synchronous;
+			def.Update();
+
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

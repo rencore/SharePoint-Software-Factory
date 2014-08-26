@@ -1,0 +1,14 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<PermissionSet class="NamedPermissionSet">	
+	<IPermission class="WebPartPermissoin" version="1" <#
+	if(PermissionIsUnrestricted)
+	{
+		#> Unrestricted="true" <#
+	}
+	else
+	{
+		#> Connections="<#= WebPartConnections #>" <#
+	}
+	#> />
+</PermissionSet>

@@ -1,0 +1,13 @@
+﻿<#@ template language="C#" #>
+<Field ID="{<#= SiteColumnID #>}"
+	Name="<#= SiteColumnName #>"
+	SourceID="http://schemas.microsoft.com/sharepoint/v3"
+	StaticName="<#= SiteColumnStaticName #>"
+	Group="$Resources:<#= SiteColumnName #>_SiteColumnGroup;"
+	ColName="<#= SiteColumnColName #>"
+	RowOrdinal="<#= SiteColumnRowOrdinal #>"
+	ReadOnly="<#= SiteColumnReadOnly #>"
+	Type="<#= SiteColumnType #>"
+	DisplayName="$Resources:<#= SiteColumnName #>_SiteColumnDisplayName;"
+	>
+</Field>

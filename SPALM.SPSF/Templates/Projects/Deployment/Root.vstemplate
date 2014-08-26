@@ -1,0 +1,45 @@
+﻿<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>SharePoint Solution Deployer Project</Name>
+    <Description>Project template for deployment of SharePoint solution packages. The template can be downloaded seperately from http://spsd.codeplex.com</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>Deployment</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <EnableLocationBrowseButton>false</EnableLocationBrowseButton>
+    <Icon>spsd.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="Runtime.csproj" TargetFileName="$DeploymentProjectName$.csproj" ReplaceParameters="true">
+      <Folder Name="Environments" TargetFolderName="Environments">
+        <ProjectItem ReplaceParameters="false" TargetFileName="Default.xml">Default.xml</ProjectItem>
+      </Folder>
+      <Folder Name="Scripts" TargetFolderName="Scripts">
+        <ProjectItem ReplaceParameters="false" TargetFileName="SharePointVersions.xml">SharePointVersions.xml</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="CustomTargets.ps1">CustomTargets.ps1</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SPSD_Base.ps1">SPSD_Base.ps1</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SPSD_Deployment.ps1">SPSD_Deployment.ps1</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SPSD_Main.ps1">SPSD_Main.ps1</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SPSD_Utilities.ps1">SPSD_Utilities.ps1</ProjectItem>
+      </Folder>
+      <Folder Name="Batches" TargetFolderName="Batches">
+        <ProjectItem ReplaceParameters="false" TargetFileName="Deploy.bat">Deploy.bat</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Update.bat">Update.bat</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Retract.bat">Retract.bat</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Redeploy.bat">Redeploy.bat</ProjectItem>
+      </Folder>
+      <Folder Name="Solutions" TargetFolderName="Solutions"></Folder>
+    </Project>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.Practices.RecipeFramework.VisualStudio</Assembly>
+    <FullClassName>Microsoft.Practices.RecipeFramework.VisualStudio.Templates.UnfoldTemplate</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <Template
+      xmlns="http://schemas.microsoft.com/pag/gax-template"
+      SchemaVersion="1.0"
+      Recipe="DeploymentProject" />
+  </WizardData>
+</VSTemplate>

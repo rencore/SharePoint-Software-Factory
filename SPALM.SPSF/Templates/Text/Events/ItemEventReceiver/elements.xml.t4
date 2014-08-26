@@ -1,0 +1,58 @@
+﻿<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<Receivers 
+		ListTemplateId="<#= EventReceiverTemplateID #>"
+		<#
+		if((EventReceiverOwner != null) && (EventReceiverOwner != ""))
+		{
+		  #>ListTemplateOwner="<#= EventReceiverOwner #>"
+		  <#
+		}
+    else if((EventReceiverTemplateID != null) && (!string.IsNullOrEmpty(EventReceiverTemplateID.Group)))
+    {
+      if(!EventReceiverTemplateID.Group.StartsWith("[Elements"))
+      {
+        #>ListTemplateOwner="<#= EventReceiverTemplateID.Group #>"
+		    <#
+      }
+    }
+		#>
+		<#
+
+			if(EventReceiverRootWebOnly)
+			{
+				#>RootWebOnly="TRUE"
+				<#
+			}
+			if(!string.IsNullOrEmpty(EventReceiverScope))
+			{
+				#>Scope="<#= EventReceiverScope #>"
+				<#
+			}	
+		#>
+		>
+	<#
+	foreach(NameValueItem eventclass in EventReceiverTypes)
+	{
+	#>
+		<Receiver>
+			<Name><#= EventReceiverName #><#= eventclass.Value #></Name>
+			<Type><#= eventclass.Value #></Type>
+			<SequenceNumber><#= EventReceiverSequence #></SequenceNumber>
+			<Assembly><#= ProjectAssemblyName #></Assembly>
+			<Class><#= ProjectNamespace #>.<#= EventReceiverName #></Class>
+			<Data></Data>
+			<Filter></Filter>
+			<#
+			if(!string.IsNullOrEmpty(EventReceiverSynchronization))
+			{
+				#><Synchronization><#= EventReceiverSynchronization #></Synchronization>
+				<#
+			}		
+			#>
+		</Receiver>
+	<#
+	}
+	#>
+	</Receivers>		
+</Elements>

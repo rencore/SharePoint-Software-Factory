@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="CustomActionGroup"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <DocumentationLinks>
+    <Link Caption="MSDN: CustomActionGroup Element (Custom Action)" Url="http://msdn.microsoft.com/en-us/library/ms438085.aspx" Kind="Documentation"/>
+    <Link Caption="MSDN: Custom Action Definitions" Url="http://msdn.microsoft.com/en-us/library/ms465980.aspx" Kind="Documentation"/>
+    <Link Caption="MSDN: Default Custom Action Locations and IDs" Url="http://msdn.microsoft.com/en-us/library/bb802730.aspx" Kind="Documentation" />
+  </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Custom Action Group</Caption>
+  <Description>Adds a custom action to a site</Description>
+  <HostData Priority="200">
+    <Icon File="Help/Icons/icon_CustomActions.ico" />
+    <CommandBar Menu="SPSFProjectCustomActions"/>
+    <CommandBar Menu="SPSFFolderCustomActions"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="ElementManifestReference"
+      BindingTypeTemplate="ElementManifestReferenceTemplate"
+      TestType="BaseSiteFeatureRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="true"
+      FeatureScopes="Web;Site;WebApplication;Farm"
+      Category="CustomActions" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="CustomActionGroup" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="CustomActionName">CustomActionGroupSiteSettings</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="BaseCustomActionArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="CustomActionLocation" Type="NameValueItem" Required="true" >
+      <ValueProvider Type="DefaultNameValueItemProvider" Name="Microsoft.SharePoint.SiteSettings" Value="Microsoft.SharePoint.SiteSettings" />
+    </Argument>
+
+    <Argument Name="CustomActionAddIcon" Type="System.Boolean" Required="true">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="CustomActionIconSize">
+      <ValueProvider Type="Evaluator" Expression="16" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>Location settings</Title>
+          <Fields>
+            <Field ValueName="CustomActionTitle" Label="Title" >
+              <Help>Required Text. Specifies the end user description for this action.</Help>
+            </Field>
+            <Field ValueName="CustomActionDescription" Label="Description" >
+              <Help>Optional Text. Specifies a longer description for the action that is exposed as a tooltip or sub-description for the action.</Help>
+            </Field>
+            <Field ValueName="CustomActionSequence" Label="Sequence">
+              <Help>Optional Integer. Specifies the ordering priority for actions.</Help>
+            </Field>
+            <Field PanelType="SPALM.SPSF.Library.NameValueItemPanel, SPALM.SPSF.Library" ValueName="CustomActionLocation" Label="Hide Location" >
+              <Help>Select the location where the action group should be added.</Help>
+              <Editor Type="SPALM.SPSF.Library.CustomActionGroupLocationsEditor, SPALM.SPSF.Library" />
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <!-- elements.xml-->
+    <Action
+      Name="CreateElementsXml"
+      Type="AddElementsDefinitionAction"
+      ParentFeatureName="$(ParentFeatureName)"
+      ElementsName="$(CustomActionName)"
+      ElementsCategory="$(ElementsCategory)"
+      TemplateFileName="Text\CustomActions\CustomActionGroup\elements.xml.t4"
+      SPDataTemplate="Text\CustomActions\SharePointProjectItem.spdata.t4"
+      Open="true">
+      <Output Name="CreatedElementFolder" />
+      <Output Name="CreatedElementFile" />
+    </Action>
+
+    <!-- Resources -->
+    <Action
+      Condition="$(AutoCreateResxFiles)"
+      Name="AddResources"
+      Type="AddTemlateToResourcesFileAction"
+      TemplateFileName="Text\CustomActions\Resources.resx.t4"
+      FeatureResources="True">
+      <Input Name="FeatureName" RecipeArgument="ParentFeatureName" />
+    </Action>
+    
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

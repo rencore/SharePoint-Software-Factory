@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Static ComboBox</Title>
+			<Author>Torsten Mandelkow</Author>
+			<Shortcut>staticcombo</Shortcut>
+			<HelpUrl>http://msdn.microsoft.com/en-us/library/ff458425.aspx</HelpUrl>
+			<Description>Adds a static combo box</Description>
+			<SnippetTypes>
+				<SnippetType>SurroundsWith</SnippetType>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>id</ID>
+					<ToolTip>Required. A string that identifies the control, such as "Ribbon.Library.Share.NewRibbonStaticCombobBox".</ToolTip>
+					<Default>AppName.StaticComboBox</Default>
+				</Literal>
+				<Literal>
+					<ID>alt</ID>
+					<ToolTip>Optional. Alternative text for the button.</ToolTip>
+					<Default>StaticComboBox</Default>
+				</Literal>
+				<Literal>
+					<ID>sequence</ID>
+					<ToolTip>Optional. An integer that specifies the order of placement among sibling XML nodes.</ToolTip>
+					<Default>10</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="XML">
+				<![CDATA[<ComboBox
+                    Id="Ribbon.$id$"
+                    Sequence="$sequence$"
+                    Alt="$alt$"
+                    Command="Ribbon.$id$_CMD"
+                    CommandMenuOpen="Ribbon.$id$_Open_CMD"
+                    CommandMenuClose="Ribbon.$id$_MenuClose_CMD"
+                    CommandPreview="Ribbon.$id$_Preview_CMD"
+                    CommandPreviewRevert="Ribbon.$id$_PreviewRevert_CMD"
+                    InitialItem="StaticComboButton1"
+                    AllowFreeForm="false"
+                    PopulateDynamically="false"
+                    PopulateOnlyOnce="true"
+                    PopulateQueryCommand="Ribbon.$id$_PopQuery_CMD"
+                    Width="125px"
+                    TemplateAlias="o2">                    
+                    <Menu Id="Ribbon.$id$.Menu">
+                      <MenuSection
+                        Id="Ribbon.$id$.Menu.MenuSection"
+                        Sequence="10">
+                        <Controls Id="Ribbon.$id$.Menu.MenuSection.Controls">
+                          <Button
+                            Id="Ribbon.$id$.Menu.MenuSection.Button1"
+                            Sequence="10"
+                            Command="Ribbon.$id$.Menu.MenuSection.Button1_CMD"
+                            CommandType="OptionSelection"
+							Image16by16="/_layouts/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+							Image32by32="/_layouts/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+                            LabelText="StaticComboButton1"
+                            MenuItemId="StaticComboButton1"/>
+                          <Button
+                            Id="Ribbon.$id$.Menu.MenuSection.Button2"
+                            Sequence="20"
+                            Command="Ribbon.$id$.Menu.MenuSection.Button2_CMD"
+                            CommandType="OptionSelection"
+							Image16by16="/_layouts/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+							Image32by32="/_layouts/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+                            LabelText="StaticComboButton2"
+                            MenuItemId="StaticComboButton2"/>
+                        </Controls>
+                      </MenuSection>
+                    </Menu>
+                  </ComboBox>]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

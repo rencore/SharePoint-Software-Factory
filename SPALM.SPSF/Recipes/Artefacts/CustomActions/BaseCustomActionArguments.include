@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains arguments which are used in all custom actions -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+  <Argument Name="ElementsCategory">
+    <ValueProvider Type="Evaluator" Expression="CustomActions" />
+  </Argument>
+	<Argument Name="AllowedScopes" Type="System.String">
+		<ValueProvider Type="Evaluator" Expression="Web;Site;WebApplication;Farm" />
+	</Argument>
+
+  <Argument Name="ResourceKeyPrefix" Required="true">
+    <!-- provides the unique key with removed special chars -->
+    <ValueProvider Stage="OnBeforeActions" RecipeArgument="CustomActionName" Type="ConvertedStringProvider" />
+  </Argument>
+  
+    <Argument Name="CustomActionResourceKey">
+      <ValueProvider Type="ConvertedStringProvider" RecipeArgument="CustomActionName" />
+    </Argument>
+    <Argument Name="CustomActionImageFolder">
+      <ValueProvider Type="Evaluator" Expression="12\Template\Images\$(SolutionSubFolder)" />
+    </Argument>
+    <Argument Name="CustomActionLayoutsFolder">
+      <ValueProvider Type="Evaluator" Expression="12\Template\Layouts\$(SolutionSubFolder)" Stage="OnBeforeActions"/>
+    </Argument>
+
+    <Argument Name="CustomActionName" Required="true" >
+      <Converter Type="NamespaceStringConverter" />
+      <ValueProvider Type="VisualStudioCreateItemName" DefaultValue="CustomAction1" MakeSafe="true" />
+    </Argument>
+    <Argument Name="CustomActionTitle" Required="true" >
+      <ValueProvider Type="VisualStudioCreateItemName" DefaultValue="Custom Action 1" />
+    </Argument>
+    <Argument Name="CustomActionDescription" Required="true" >
+      <ValueProvider Type="Evaluator" Expression="Description of $(CustomActionTitle)" />
+    </Argument>
+    <Argument Name="CustomActionRights" Type="NameValueItemArray" Required="false" >
+      <ValueProvider Type="DefaultNameValueCollectionProvider"  />
+    </Argument>
+    <Argument Name="CustomActionSequence" Type="System.Int32" Required="true" >
+      <ValueProvider Type="Evaluator" Expression="100" />
+    </Argument>
+
+		<Argument Name="CustomActionUrlActionPrefix" Required="true" >
+			<Converter Type="CustomActionURLPrefixConverter" />
+			<ValueProvider Type="Evaluator" Expression="~site" />
+		</Argument>
+		<Argument Name="CustomActionUrlAction" Type="System.String" Required="false" >
+			<ValueProvider Type="Evaluator" Expression="/_layouts$(VersionedFolderName)/EnterPageName.aspx" />
+		</Argument>    
+
+    <Argument Name="CustomActionRequireSiteAdministrator" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="CustomActionShowInLists" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="CustomActionShowInReadyOnlyContentTypes" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="CustomActionShowInSealedContentTypes" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>  
+
+    <Argument Name="CustomActionLongID" >
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SafeAppName).$(CustomActionName)" />
+    </Argument>
+  <Argument Name="CustomActionIconName" Required="true">
+    <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="CustomActionIcon_$(CustomActionName).gif" />
+  </Argument>
+
+	<Argument Name="CustomActionType" Type="System.String" >
+		<Converter Type="CustomActionTypeConverter" />
+		<ValueProvider Type="Evaluator" Expression="UrlActionTag" />
+	</Argument>
+
+</Arguments>
+  

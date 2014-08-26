@@ -1,0 +1,38 @@
+﻿<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;
+  using System.Security.Permissions;
+  using System.Text;
+  using System.Web.UI.WebControls;  
+  using Microsoft.SharePoint;  
+  using Microsoft.SharePoint.Security;    
+
+  /// <summary>
+  /// TODO: Add comment for <#= DelegateControlName #>
+  /// </summary> 
+  public class <#= DelegateControlName #>: WebControl     
+  {  
+    /// <summary>
+    /// TODO: Add comment for Render method
+    /// </summary>
+    /// <param name="writer">Provides the writer</param>
+    [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+    protected override void Render(System.Web.UI.HtmlTextWriter writer)
+    {
+      if (SPContext.Current != null)
+      {
+        SPFile file = SPContext.Current.File;
+        if (file.Item != null)
+        {
+		  writer.Write("<!-- Rendered output of delegate control <#= DelegateControlName #> -->");
+        }
+      }
+    }
+  }
+}

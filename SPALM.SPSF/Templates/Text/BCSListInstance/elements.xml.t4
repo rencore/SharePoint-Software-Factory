@@ -1,0 +1,41 @@
+﻿<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<ListInstance
+		<# if(AutoCreateResxFiles)
+		{
+			#>
+			Title="$Resources:<#= ResourceKeyPrefix #>_Title;"
+			Description="$Resources:<#= ResourceKeyPrefix #>_Description;"
+			<#
+		}
+		else
+		{
+			#>
+			Title="<#= ListInstanceTitle #>"
+			Description="<#= ListInstanceDescription #>"
+			<#
+		}
+		#>		
+		FeatureId="00BFEA71-9549-43f8-B978-E47E54A10600"
+		TemplateType="600"		
+		Id="<#= ListInstanceId #>"
+		Url="<#= ListInstanceUrl #>"
+		OnQuickLaunch="<#= ListInstanceOnQuickLaunch.ToString().ToUpper() #>"
+		<# 
+		if(ListInstanceOnQuickLaunch)
+		{
+		#>
+		QuickLaunchUrl="<#= ListInstanceQuickLaunchUrl #>"
+		<#
+		}
+		#>
+		RootWebOnly="<#= ListInstanceRootWebOnly.ToString().ToUpper() #>"
+	>
+	<DataSource>
+      <Property Name="LobSystemInstance" Value="<#= BCSEntity.Group #>" />
+      <Property Name="EntityNamespace" Value="<#= BCSEntity.Description #>" />
+      <Property Name="Entity" Value="<#= BCSEntity.Value #>" />
+      <Property Name="SpecificFinder" Value="Read<#= BCSEntity.Value #>Item" />
+    </DataSource>
+  </ListInstance>
+</Elements>

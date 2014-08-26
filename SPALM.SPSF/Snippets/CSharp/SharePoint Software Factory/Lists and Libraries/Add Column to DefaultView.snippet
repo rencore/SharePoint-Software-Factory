@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Add Column to DefaultView</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>defaultView</ID>
+          <ToolTip>Default view</ToolTip>
+          <Default>defaultView</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>list</ID>
+          <ToolTip>SPList</ToolTip>
+          <Default>list</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ColumnName</ID>
+          <ToolTip>Column name</ToolTip>
+          <Default>ColumnName</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+      SPView $defaultView$ = $list$.DefaultView;
+                $defaultView$.ViewFields.Add("$ColumnName$");
+                $defaultView$.Update();
+      ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

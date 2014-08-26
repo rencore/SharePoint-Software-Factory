@@ -1,0 +1,149 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml.XPath" #>
+<#@ include file="Templates/Text/BCS/BCSFunctions.t4" #><#
+
+string[] paths = new string[] {@"Microsoft SDKs\Windows\v6.0A\bin", @"\Microsoft SDKs\Windows\v7.0A\bin", @"Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools" };
+string sqlmetalexe = "";
+
+foreach(string checkpath in paths)
+{
+    string testpath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles), checkpath);
+    testpath = Path.Combine(testpath, "sqlmetal.exe");
+    if(File.Exists(testpath))
+    {
+        sqlmetalexe = testpath;
+        break;
+    }
+    else
+    {
+        //check x86 folder
+        testpath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFilesX86), checkpath);
+        testpath = Path.Combine(testpath, "sqlmetal.exe");
+        if(File.Exists(testpath))
+        {
+            sqlmetalexe = testpath;
+            break;
+        }
+    }
+}
+
+//<Program Files>\Microsoft SDKs\Windows\v6.0A\bin
+if (File.Exists(sqlmetalexe))
+{
+    string output = Path.GetTempFileName();
+
+	string codeNamespace = ProjectNamespace + "." + BCSDatabase;
+
+    //run sqlmetal.exe
+    string arguments = "/server:\"" + BCSServer + "\" /database:\"" + BCSDatabase + "\" /dbml:\"" + output + "\" /namespace:" + codeNamespace + " /context:" + BCSDatabase + "Context /serialization:Unidirectional";
+
+    ProcessStartInfo psi = new ProcessStartInfo();
+    psi.FileName = sqlmetalexe;
+    psi.Arguments = arguments;
+    psi.CreateNoWindow = true;
+    psi.UseShellExecute = false;
+
+    psi.RedirectStandardOutput = true;
+    psi.RedirectStandardError = true;                
+
+    // Create the process.
+    System.Diagnostics.Process p = new System.Diagnostics.Process();
+    p.StartInfo = psi;                
+    p.Start();
+    p.WaitForExit();    
+
+    XmlDocument doc = new XmlDocument();
+    doc.Load(output);
+
+    XmlNamespaceManager mgrMerge = new XmlNamespaceManager(doc.NameTable);
+    mgrMerge.AddNamespace("ns", "http://schemas.microsoft.com/linqtosql/dbml/2007");
+
+    XmlNode dbNode = doc.SelectSingleNode("/ns:Database", mgrMerge);
+    for (int i = dbNode.ChildNodes.Count - 1; i >= 0; i--)
+    {
+        bool removeNode = true;
+        if (dbNode.ChildNodes[i].Name == "Table")
+        {
+			foreach(BCSEntity entity in BCSModel.Entities)
+			{
+				string tableName = MakeSafe(dbNode.ChildNodes[i].Attributes["Name"].Value);
+
+				string entityName = entity.Schema + "." + entity.Name;
+				string entityName2 = "[" + entity.Schema + "].[" + entity.Name + "]";
+				if ((tableName == entityName) || (tableName == entityName2))
+				{
+					//remove
+					removeNode = false;
+
+					//change MemberName
+					dbNode.ChildNodes[i].Attributes["Member"].Value = entity.Name;
+
+					//change MemberName in childnode "Type"
+					foreach(XmlNode typeNode in dbNode.ChildNodes[i].ChildNodes)
+					{
+						if(typeNode.Name == "Type")
+						{
+							typeNode.Attributes["Name"].Value = entity.Name;						
+
+							//replace the name of columns (rowguid becomes "RowGuid" which crashes")
+							foreach(XmlNode columnNode in typeNode.ChildNodes)
+							{
+								if(columnNode.Name == "Column")
+								{
+									if(columnNode.Attributes["Member"] != null)
+									{
+										columnNode.Attributes["Member"].Value = MakeSafe(columnNode.Attributes["Name"].Value);
+									}
+									//replace System.Xml.Linq.XElement with System.String
+									if(columnNode.Attributes["Type"] != null)
+									{
+										if(columnNode.Attributes["Type"].Value == "System.Xml.Linq.XElement")
+										{
+											columnNode.Attributes["Type"].Value = "System.String";
+											if(columnNode.Attributes["DbType"] != null)
+											{
+												columnNode.Attributes["DbType"].Value = "VarChar(MAX)";
+											}
+										}
+									}
+								}
+							}
+
+							//remove unneeded Assocations
+							for(int j = typeNode.ChildNodes.Count - 1; j >= 0; j--)
+							{
+								if(typeNode.ChildNodes[j].Name == "Association")
+								{
+									if(IsValidEntity(MakeSafe(typeNode.ChildNodes[j].Attributes["Type"].Value)))
+									{
+										typeNode.ChildNodes[j].Attributes["Type"].Value = GetEntityName(MakeSafe(typeNode.ChildNodes[j].Attributes["Type"].Value));
+									}
+									else
+									{
+										typeNode.RemoveChild(typeNode.ChildNodes[j]);
+									}
+								}
+							}
+						}
+					}
+				}				
+			}
+        }
+
+        if (removeNode)
+        {
+            dbNode.RemoveChild(dbNode.ChildNodes[i]);
+        }
+    }
+
+    //doc.Save("C:\\test2.dbml");
+
+	#><#= doc.OuterXml #><#
+}
+
+
+#>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="SiteColumnImport"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Import Site Column</Caption>
+	<Description>Import a site column from the local SharePoint into the current selected feature</Description>
+	<HostData Priority="310">
+		<Icon File="Help/Icons/icon_Import.ico" />
+		<CommandBar Menu="SPSFProjectImport"/>
+		<CommandBar Menu="SPSFFolderImport"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="CustomizationReference"
+		  BindingTypeTemplate="CustomizationReferenceTemplate"
+		  Enabled="true"
+		  ExcludeFromTests="true"
+		  CreateVSTemplate="true"
+		  FeatureScopes="Site"
+		  Category="Import" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<Argument Name="AllowedScopes" Type="System.String">
+			<ValueProvider Type="Evaluator" Expression="Site" />
+		</Argument>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<Argument Name="ElementsCategory">
+			<ValueProvider Type="Evaluator" Expression="Fields" />
+		</Argument>
+
+		<Argument Name="ResourceKeyPrefix" Required="true">
+			<!-- provides the unique key with removed special chars -->
+			<ValueProvider Stage="OnBeforeActions" RecipeArgument="SiteColumnName" Type="ConvertedStringProvider" />
+		</Argument>
+
+		<Argument Name="SiteColumnID" Required="true">
+			<ValueProvider Type="SPALM.SPSF.Library.ValueProviders.GuidValueProvider, SPALM.SPSF.Library" />
+		</Argument>
+		<Argument Name="SiteColumnName"  Required="true">
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="Evaluator" Expression="ColName" />
+		</Argument>
+		<Argument Name="SiteColumnDisplayName"  Required="true">
+			<ValueProvider Type="Evaluator" Expression="Column Name" />
+		</Argument>
+		<Argument Name="SiteColumnDescription" Required="true">
+			<ValueProvider Type="Evaluator" Expression="Column Description" />
+		</Argument>
+		<Argument Name="SiteColumnGroup" Required="true">
+			<ValueProvider Type="Evaluator" Expression="Custom Columns" />
+		</Argument>
+
+		<Argument Name="SiteColumnSchema" Required="true"/>
+
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.SiteColumnImportPage, SPALM.SPSF.Library" />
+				<Page Width="600" Height="400">
+					<Title>Site Column Settings</Title>
+					<Fields>
+						<Field ValueName="SiteColumnID" Label="ID" />
+						<Field ValueName="SiteColumnName" Label="Name" />
+						<Field ValueName="SiteColumnDisplayName" Label="Display Name" />
+						<Field ValueName="SiteColumnDescription" Label="Description" />
+						<Field ValueName="SiteColumnGroup" Label="Group" >
+							<Editor Type="SPALM.SPSF.Library.Editors.SharePointConfigurationSiteColumnGroupEditor, SPALM.SPSF.Library" />
+						</Field>
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+	<Actions CoordinatorServiceType="ConditionalCoordinator" >
+
+		<xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<!-- elements.xml-->
+		<Action
+		  Name="CreateElementsXml"
+		  Type="AddElementsDefinitionAction"
+		  ParentFeatureName="$(ParentFeatureName)"
+		  ElementsName="$(SiteColumnName)"
+		  ElementsCategory="$(ElementsCategory)"
+		  TemplateFileName="Text\SiteColumnImport\elements.xml.t4"
+		  SPDataTemplate="Text\SiteColumn\SharePointProjectItem.spdata.t4"
+		  Open="true">
+			<Output Name="CreatedElementFolder" />
+			<Output Name="CreatedElementFile" />
+		</Action>
+
+		<!-- Resources -->
+		<Action
+		  Condition="$(AutoCreateResxFiles)"
+		  Name="AddResources"
+		  Type="AddTemlateToResourcesFileAction"
+		  TemplateFileName="Text\SiteColumn\Resources.resx.t4"
+      FeatureResources="True">
+		</Action>
+
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Actions>
+</Recipe>

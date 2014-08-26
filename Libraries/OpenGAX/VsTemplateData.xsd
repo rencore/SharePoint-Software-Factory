@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="IPGSchema.xslt" type="text/xsl"?>
+<xs:schema attributeFormDefault="unqualified" 
+					 elementFormDefault="qualified" 
+					 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+					 xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+					 xmlns="http://schemas.microsoft.com/pag/gax-template" 
+					 xmlns:gax="http://schemas.microsoft.com/pag/gax-template" 
+					 version="1.0" 
+					 targetNamespace="http://schemas.microsoft.com/pag/gax-template">
+	<xs:element name="Template">
+		<xs:annotation>
+			<xs:documentation>
+				This is the configuration for a Visual Studio template.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="References" minOccurs="0"/>
+				<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							Extensibility element for other template metadata.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:any>
+			</xs:sequence>
+			<xs:attribute name="Recipe" type="gax:DotNetIdentifier" use="optional">
+				<xs:annotation>
+					<xs:documentation>
+						Unique identifier for the recipe to execute, which must conform to .NET class naming guidelines.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="SchemaVersion" type="xs:string" use="required" fixed="1.0">
+				<xs:annotation>
+					<xs:documentation>
+						Fixed version for the template extension data, which must be the string "1.0"
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="References">
+		<xs:annotation>
+			<xs:documentation>
+				The element contains definitions of one or more asset reference.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="RecipeReference" minOccurs="0" maxOccurs="unbounded" type="gax:AssetReference" />
+				<xs:element name="TemplateReference" minOccurs="0" maxOccurs="unbounded" type="gax:AssetReference" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="AssetReference">
+		<xs:annotation>
+			<xs:documentation>
+				Represents an asset reference that points to a given asset, which can be
+				either a recipe or a template.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="InitialState" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Initial state for the reference execution.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="Entry" type="StateEntry">
+							<xs:annotation>
+								<xs:documentation>
+									A serialized version of an entry in the state dictionary, with arbitrary values that can be 
+									successfully deserialized by the .NET framework XmlSerializer. 
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						Extensibility element for other reference metadata.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:any>
+		</xs:sequence>
+		<xs:attribute name="Name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Name of the asset, which can be either the name of a recipe or the path to a template.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Target" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies where the reference in going to be placed. Must be a forward slash and can optionally be followed
+					by the full path to the target.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="[/\\].*" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##any" processContents="lax">
+			<xs:annotation>
+				<xs:documentation>
+					Extensibility element for other reference metadata.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:anyAttribute>
+	</xs:complexType>
+	<xs:simpleType name="DotNetIdentifier">
+		<xs:annotation>
+			<xs:documentation>
+				Type definition that only allows valid .NET identifiers.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="[^.]+" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="StateEntry">
+		<xs:sequence>
+			<xs:element name="Key" type="xs:anyType">
+				<xs:annotation>
+					<xs:documentation>Key of the entry, optionally using an xsi:type to specify the type of the value.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Value" type="xs:anyType">
+				<xs:annotation>
+					<xs:documentation>The entry value, which must be a type that supports XML serialization.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

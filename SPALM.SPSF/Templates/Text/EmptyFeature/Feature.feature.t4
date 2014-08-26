@@ -1,0 +1,88 @@
+﻿<#@ template language="C#" #>
+<?xml version="1.0" encoding="utf-8"?>
+<feature 
+	dslVersion="1.0.0.0" 
+	Id="<#= FeatureID #>" 
+	featureId="<#= FeatureID #>" 
+	scope="<#= FeatureScope #>"
+	deploymentPath="$SharePoint.Feature.FileNameWithoutExtension$" 
+	<#
+	if(AutoCreateResxFiles)
+	{
+		#>
+		title="$Resources:<#= FeatureName #>_FeatureTitle;"
+		description="$Resources:<#= FeatureName #>_FeatureDescription;"
+		<#
+	}
+	else
+	{
+		#>
+		title="<#= FeatureTitle #>"
+		description="<#= FeatureDescription #>"
+		<#
+	}
+
+	 if(!ProjectIsSandboxedSolution)
+	 {
+	 #>imageUrl="<#= SolutionSubFolder #>\\<#= FeatureIconName #>"
+	 <#
+	 }
+	 #>
+	 <#
+	 if(AutoCreateResxFiles)
+	{
+		#>
+		imageAltText="$Resources:<#= FullFeatureName #>_FeatureTitle;"			
+		<#
+	}
+	else
+	{
+		#>
+		imageAltText="<#= FeatureTitle #>"		
+		<#
+	}
+	if(FeatureVersion != null)
+	{		
+		#>	
+		version="<#= FeatureVersionSerialized #>"		
+		<#
+	}	
+	#>	
+	<# if(FeatureHidden) { #>isHidden="<#= FeatureHidden #>"<# } #>
+	<# if(SolutionId != null) { #>solutionId="<#= SolutionId #>"<# } #>
+	<# if(FeatureActivateOnDefault) { #>ActivateOnDefault="<#= FeatureActivateOnDefault #>"<# } #>
+	<# if(FeatureAlwaysForceInstall) { #>alwaysForceInstall="<#= FeatureAlwaysForceInstall #>"<# } #>
+	<# if(FeatureAutoActivateInCentralAdmin) { #>autoActivateInCentralAdmin="<#= FeatureAutoActivateInCentralAdmin #>"<# } #>
+	<# if(FeatureRequireResources) { #>requireResources="<#= FeatureRequireResources #>"<# } #>
+	<# if((FeatureCreator != null) && (FeatureCreator != "")) { #>creator="<#= FeatureCreator #>"<# } #>
+	<#
+	if(FeatureCreateReceiver == true)
+	{
+	#>
+	receiverAssembly="<#= ProjectAssemblyName #>"
+	receiverClass="<#= ProjectNamespace #>.<#= FeatureReceiverClass #>"
+	<#
+	}
+	#>
+	xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/FeatureModel">
+	<#
+	if(FeatureActivationDependencies != null)
+	{
+		if(FeatureActivationDependencies.Length > 0)
+		{
+			#><activationDependencies>
+			<#
+			foreach(NameValueItem dep in FeatureActivationDependencies)
+			{
+				#>	
+				<!-- <#= dep.Name #> -->
+				<customFeatureActivationDependency featureId="<#= dep.Value #>" featureTitle="<#= dep.Name #>" featureDescription="<#= dep.Description #>" />
+				<#
+			}
+			#>
+			</activationDependencies>
+			<#
+		}
+	}
+#>
+</feature>

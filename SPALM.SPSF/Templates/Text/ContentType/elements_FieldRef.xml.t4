@@ -1,0 +1,32 @@
+﻿<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<ContentType>
+		<FieldRefs>
+		<#				
+			if(ContentTypeFieldRefs != null)
+			{	
+				if(ContentTypeFieldRefs.Length > 0)
+				{				
+					foreach(NameValueItem fref in ContentTypeFieldRefs)
+					{
+				#><FieldRef ID="<#= fref.Value #>"
+					Name="<#= fref.Name #>"
+					Required="FALSE" />
+				<#
+					}				
+				}
+			}
+		
+			if(ContentTypeRemoveFieldRefs != null)
+			{
+				foreach(NameValueItem fref in ContentTypeRemoveFieldRefs)
+				{
+				#><RemoveFieldRef ID="<#= fref.Value #>" Name="<#= fref.Name #>" />
+				<#
+				}
+			}
+
+			#>
+		</FieldRefs>
+	</ContentType>
+</Elements>

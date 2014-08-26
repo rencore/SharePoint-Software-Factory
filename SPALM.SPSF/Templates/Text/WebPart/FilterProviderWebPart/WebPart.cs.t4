@@ -1,0 +1,151 @@
+<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;
+  using System.Collections;
+  using System.Collections.Generic;
+  using System.Collections.ObjectModel;
+  using System.ComponentModel;
+  using System.Security.Permissions;
+  using System.Text;
+  using System.Web;
+  using System.Web.UI;
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint.Security;
+  using Microsoft.SharePoint.Utilities;
+  using aspnetwebparts = System.Web.UI.WebControls.WebParts;
+  using wsswebparts = Microsoft.SharePoint.WebPartPages;
+
+  /// <summary>
+  /// TODO: Add comment for webpart <#= this.WebPartName #>
+  /// </summary>
+  [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+  [SharePointPermission(SecurityAction.InheritanceDemand, ObjectModel = true)]
+  public class <#= this.WebPartName #> : aspnetwebparts.WebPart, wsswebparts.ITransformableFilterValues
+  {
+    private CheckBoxList cblRegionList;
+    private ListItem cbitemRegion;
+
+    public virtual bool AllowMultipleValues
+    {
+      get
+      {
+        return true;
+      }
+    }
+    public virtual bool AllowAllValue
+    {
+      get
+      {
+        return true;
+      }
+    }
+
+    public virtual bool AllowEmptyValue
+    {
+      get
+      {
+        return false;
+      }
+    }
+    public virtual string ParameterName
+    {
+      get
+      {
+        return "Geography";
+      }
+    }
+
+    public virtual ReadOnlyCollection<string> ParameterValues
+    {
+      get
+      {
+        string[] values = this.GetCurrentlySelectedGeographies();
+        return values == null ?
+            null :
+            new ReadOnlyCollection<string>(values);
+      }
+    }
+
+    protected override void CreateChildControls()
+    {
+      cblRegionList = new CheckBoxList();
+      Controls.Add(cblRegionList);
+
+      this.cbitemRegion = new ListItem();
+      this.cbitemRegion.Text = "Seattle";
+      this.cblRegionList.Items.Add(this.cbitemRegion);
+      this.cbitemRegion = null;
+
+      this.cbitemRegion = new ListItem();
+      this.cbitemRegion.Text = "US";
+      this.cblRegionList.Items.Add(this.cbitemRegion);
+      this.cbitemRegion = null;
+
+      this.cbitemRegion = new ListItem();
+      this.cbitemRegion.Text = "World";
+      this.cblRegionList.Items.Add(this.cbitemRegion);
+      this.cbitemRegion = null;
+
+      this.cbitemRegion = new ListItem();
+      this.cbitemRegion.Text = "All";
+      this.cblRegionList.Items.Add(this.cbitemRegion);
+      this.cbitemRegion = null;
+
+      this.cblRegionList.AutoPostBack = true;
+
+      base.CreateChildControls();
+    }
+
+    [aspnetwebparts.ConnectionProvider("Region Filter", "ITransformableFilterValues", AllowsMultipleConnections = true)]
+    public wsswebparts.ITransformableFilterValues SetConnectionInterface()
+    {
+      return this;
+    }
+
+    protected override void OnPreRender(EventArgs e)
+    {
+      base.OnPreRender(e);
+    }
+
+    public string[] GetCurrentlySelectedGeographies()
+    {
+      String[] choices = new String[5];
+      bool anythingSelected = false;
+
+      for (int i = 0; i < cblRegionList.Items.Count; i++)
+      {
+        //get the selected choices
+        if (cblRegionList.Items[i].Selected)
+        {
+          anythingSelected = true;
+          if (cblRegionList.Items[i].Text != "All")
+          {
+            choices[i] = cblRegionList.Items[i].Text;
+          }
+          else
+          {
+            choices = null;
+            return choices;
+          }
+        }
+
+      }
+      if (!anythingSelected)
+        choices = null;
+
+      return choices;
+    }
+
+    protected override void RenderContents(HtmlTextWriter writer)
+    {
+      this.EnsureChildControls();
+      RenderChildren(writer);
+    }
+  }
+}

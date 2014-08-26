@@ -1,0 +1,205 @@
+<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;
+  using System.Collections;
+  using System.Collections.Generic;
+  using System.Collections.ObjectModel;
+  using System.ComponentModel;
+  using System.Security.Permissions;
+  using System.Text;
+  using System.Web;
+  using System.Web.UI;
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint.Security;
+  using Microsoft.SharePoint.Utilities;
+  using aspnetwebparts = System.Web.UI.WebControls.WebParts;
+  using wsswebparts = Microsoft.SharePoint.WebPartPages;
+
+  /// <summary>
+  /// TODO: Add comment for webpart <#= this.WebPartName #>
+  /// </summary>
+  public class <#= this.WebPartName #> : aspnetwebparts.WebPart
+  {
+    private List<wsswebparts.IFilterValues> providers = new List<wsswebparts.IFilterValues>();
+    private List<Headline> headlines;
+    private DataGrid DataListHeadlines;
+
+    public class Headline
+    {
+      private string title;
+      private string region;	  
+
+      public Headline(string title, string region)
+      {
+        this.title = title;
+        this.region = region;
+      }
+
+      public string Title
+      {
+        get
+        {
+          return this.title;
+        }
+        set
+        {
+          this.title = value;
+        }
+      }
+
+      public string Region
+      {
+        get
+        {
+          return this.region;
+        }
+        set
+        {
+          this.Region = value;
+        }
+      }
+    }	   
+
+    protected override void CreateChildControls()
+    {
+      this.DataListHeadlines = new DataGrid();
+
+      this.headlines = new List<Headline>();
+
+      this.headlines.Add(new Headline("This week in Redmond", "Redmond"));
+      this.headlines.Add(new Headline("Traffic in Redmond", "Redmond"));
+      this.headlines.Add(new Headline("Sports highlights in Redmond", "Redmond"));
+      this.headlines.Add(new Headline("Bitter cold, wind to follow today's snow", "Seattle"));
+      this.headlines.Add(new Headline("This week in Seattle", "Seattle"));
+      this.headlines.Add(new Headline("Sports News in US", "US"));
+      this.headlines.Add(new Headline("This week in the US", "US"));
+      this.headlines.Add(new Headline("This week in the world", "World"));
+      this.headlines.Add(new Headline("Last week sports highlights", "World"));
+
+
+      this.DataListHeadlines.ID = "list1";
+      Controls.Add(this.DataListHeadlines);
+
+      base.CreateChildControls();
+    }
+
+    [aspnetwebparts.ConnectionConsumer("Headlines Filter", "IFilterValues", AllowsMultipleConnections = true)]
+    public void SetConnectionInterface(wsswebparts.IFilterValues provider)
+    {
+      if (provider != null)
+      {
+        this.providers.Add(provider);
+
+        List<wsswebparts.ConsumerParameter> l = new List<wsswebparts.ConsumerParameter>();
+        l.Add(new wsswebparts.ConsumerParameter("Region", wsswebparts.ConsumerParameterCapabilities.SupportsMultipleValues | wsswebparts.ConsumerParameterCapabilities.SupportsAllValue));
+
+        provider.SetConsumerParameters(new ReadOnlyCollection<wsswebparts.ConsumerParameter>(l));
+      }
+    }
+
+    protected override void OnPreRender(EventArgs e)
+    {
+      this.EnsureChildControls();
+
+      // The filtering logic is to perform a union of all of the filters
+      // (a logical OR). 
+      // If we didn't get any filter providers or if any of the filters 
+      // send the "All" value (i.e. if provider.ParameterValues == null)
+      // then we don't need to filter and we can just send back all of 
+      // the headlines.
+
+      List<Headline> filteredHeadlines = null;
+
+      bool shouldFilter = true;
+      if (this.providers.Count == 0)
+      {
+        shouldFilter = false;
+      }
+      else if (this.providers.Count > 0)
+      {
+        foreach (wsswebparts.IFilterValues filter in this.providers)
+        {
+          if (filter.ParameterValues == null)
+          {
+            // Some filter sent "All" - don't bother with the rest
+            // of the filtering.
+            shouldFilter = false;
+            break;
+          }
+        }
+      }
+
+
+      if (!shouldFilter)
+      {
+        // the "filtered" headlines are unfiltered.
+        filteredHeadlines = this.headlines;
+      }
+      else
+      {
+        // Just fill in the headlines that match the filters.
+
+        filteredHeadlines = new List<Headline>();
+
+        // Create a lookup from region to a list of headlines which 
+        // correspond to that region.
+        Dictionary<string, List<Headline>> regionHeadlineMap = new Dictionary<string, List<Headline>>();
+        foreach (Headline headline in this.headlines)
+        {
+          List<Headline> headlinesForRegion = null;
+          if (!regionHeadlineMap.TryGetValue(headline.Region, out headlinesForRegion))
+          {
+            headlinesForRegion = new List<Headline>();
+            regionHeadlineMap.Add(headline.Region, headlinesForRegion);
+          }
+
+          headlinesForRegion.Add(headline);
+        }
+
+        foreach (wsswebparts.IFilterValues provider in this.providers)
+        {
+
+          ReadOnlyCollection<String> values = provider.ParameterValues;
+          if (values != null)
+          {
+            foreach (string v in values)
+            {
+              if (v == null)
+              {
+                // This indicates the "Empty" value, which this
+                // doesn't apply to headlines, since they all 
+                // have a Region.
+              }
+              else
+              {
+                List<Headline> matchedHeadlines;
+                if (regionHeadlineMap.TryGetValue(v, out matchedHeadlines))
+                {
+                  foreach (Headline matchedHeadline in matchedHeadlines)
+                  {
+                    if (!filteredHeadlines.Contains(matchedHeadline))
+                    {
+                      filteredHeadlines.Add(matchedHeadline);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // Display the filtered headlines.
+      DataListHeadlines.DataSource = filteredHeadlines;
+      DataListHeadlines.DataBind();
+
+      base.OnPreRender(e);
+    }
+  }
+}

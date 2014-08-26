@@ -1,0 +1,935 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Model Name="Model1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/windows/2007/BusinessDataCatalog">
+  <AccessControlList>
+    <AccessControlEntry Principal="contoso\Administrator">
+      <Right BdcRight="Edit" />
+      <Right BdcRight="Execute" />
+      <Right BdcRight="SetPermissions" />
+      <Right BdcRight="SelectableInClients" />
+    </AccessControlEntry>
+  </AccessControlList>
+  <LobSystems>
+    <LobSystem Type="Database" Name="Model1" DefaultDisplayName="Model 1" IsCached="false">
+      <Properties>
+        <Property Name="WildcardCharacter" Type="System.String">%</Property>
+      </Properties>
+      <AccessControlList>
+        <AccessControlEntry Principal="contoso\Administrator">
+          <Right BdcRight="Edit" />
+          <Right BdcRight="Execute" />
+          <Right BdcRight="SetPermissions" />
+          <Right BdcRight="SelectableInClients" />
+        </AccessControlEntry>
+      </AccessControlList>
+      <Proxy />
+      <LobSystemInstances>
+        <LobSystemInstance Name="Model1" DefaultDisplayName="Model 1">
+          <Properties>
+            <Property Name="AuthenticationMode" Type="System.String">PassThrough</Property>
+            <Property Name="DatabaseAccessProvider" Type="System.String">SqlServer</Property>
+            <Property Name="RdbConnection Data Source" Type="System.String">demo2010a</Property>
+            <Property Name="RdbConnection Initial Catalog" Type="System.String">AdventureWorks</Property>
+            <Property Name="RdbConnection Integrated Security" Type="System.String">SSPI</Property>
+            <Property Name="RdbConnection Pooling" Type="System.String">True</Property>
+            <Property Name="ShowInSearchUI" Type="System.String"></Property>
+          </Properties>
+        </LobSystemInstance>
+      </LobSystemInstances>
+      <Entities>
+        <Entity Namespace="BBS.Project1.Model1" Version="1.0.0.0" EstimatedInstanceCount="10000" Name="CountryRegion" DefaultDisplayName="CountryRegion">
+          <AccessControlList>
+            <AccessControlEntry Principal="contoso\Administrator">
+              <Right BdcRight="Edit" />
+              <Right BdcRight="Execute" />
+              <Right BdcRight="SetPermissions" />
+              <Right BdcRight="SelectableInClients" />
+            </AccessControlEntry>
+          </AccessControlList>
+          <Identifiers>
+            <Identifier TypeName="System.String" Name="CountryRegionCode" />
+          </Identifiers>
+          <Methods>
+            <Method Name="Read Item" DefaultDisplayName="Read CountryRegion Item">
+              <Properties>
+                <Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+                <Property Name="RdbCommandText" Type="System.String">SELECT [CountryRegionCode] , [Name] , [ModifiedDate] FROM [Person].[CountryRegion] WHERE [CountryRegionCode] = @CountryRegionCode</Property>
+                <Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+                <Property Name="BackEndObject" Type="System.String">CountryRegion</Property>
+                <Property Name="Schema" Type="System.String">Person</Property>
+              </Properties>
+              <AccessControlList>
+                <AccessControlEntry Principal="contoso\Administrator">
+                  <Right BdcRight="Edit" />
+                  <Right BdcRight="Execute" />
+                  <Right BdcRight="SetPermissions" />
+                  <Right BdcRight="SelectableInClients" />
+                </AccessControlEntry>
+              </AccessControlList>
+              <Parameters>
+                <Parameter Direction="In" Name="@CountryRegionCode">
+                  <TypeDescriptor Name="CountryRegionCode" DefaultDisplayName="CountryRegionCode" TypeName="System.String" IdentifierName="CountryRegionCode">
+                    <Properties>
+                      <Property Name="Size" Type="System.Int32">3</Property>
+                    </Properties>
+                    <Interpretation>
+                      <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="Return" Name="Read Item">
+                  <TypeDescriptor TypeName="System.Data.IDataReader, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" IsCollection="true" Name="Read Item">
+                    <TypeDescriptors>
+                      <TypeDescriptor TypeName="System.Data.IDataRecord, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Name="Read ItemElement">
+                        <TypeDescriptors>
+                          <TypeDescriptor Name="CountryRegionCode" DefaultDisplayName="CountryRegionCode" TypeName="System.String" IdentifierName="CountryRegionCode" ReadOnly="false">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">3</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="Name" DefaultDisplayName="Name" TypeName="System.String">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">50</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="ModifiedDate" DefaultDisplayName="ModifiedDate" TypeName="System.DateTime">
+                            <Interpretation>
+                              <NormalizeDateTime LobDateTimeMode="UTC" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                        </TypeDescriptors>
+                      </TypeDescriptor>
+                    </TypeDescriptors>
+                  </TypeDescriptor>
+                </Parameter>
+              </Parameters>
+              <MethodInstances>
+                <MethodInstance Type="SpecificFinder" ReturnParameterName="Read Item" ReturnTypeDescriptorPath="Read Item[0]" Default="true" Name="Read Item" DefaultDisplayName="Read CountryRegion Item">
+                  <Properties>
+                    <Property Name="LastDesignedOfficeItemType" Type="System.String">None</Property>
+                  </Properties>
+                  <AccessControlList>
+                    <AccessControlEntry Principal="contoso\Administrator">
+                      <Right BdcRight="Edit" />
+                      <Right BdcRight="Execute" />
+                      <Right BdcRight="SetPermissions" />
+                      <Right BdcRight="SelectableInClients" />
+                    </AccessControlEntry>
+                  </AccessControlList>
+                </MethodInstance>
+              </MethodInstances>
+            </Method>
+            <Method Name="Read List" DefaultDisplayName="Read CountryRegion List">
+              <Properties>
+                <Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+                <Property Name="RdbCommandText" Type="System.String">SELECT [CountryRegionCode] , [Name] , [ModifiedDate] FROM [Person].[CountryRegion]</Property>
+                <Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+                <Property Name="BackEndObject" Type="System.String">CountryRegion</Property>
+                <Property Name="Schema" Type="System.String">Person</Property>
+              </Properties>
+              <AccessControlList>
+                <AccessControlEntry Principal="contoso\Administrator">
+                  <Right BdcRight="Edit" />
+                  <Right BdcRight="Execute" />
+                  <Right BdcRight="SetPermissions" />
+                  <Right BdcRight="SelectableInClients" />
+                </AccessControlEntry>
+              </AccessControlList>
+              <Parameters>
+                <Parameter Direction="Return" Name="Read List">
+                  <TypeDescriptor TypeName="System.Data.IDataReader, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" IsCollection="true" Name="Read List">
+                    <TypeDescriptors>
+                      <TypeDescriptor TypeName="System.Data.IDataRecord, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Name="Read ListElement">
+                        <TypeDescriptors>
+                          <TypeDescriptor Name="CountryRegionCode" DefaultDisplayName="CountryRegionCode" TypeName="System.String" IdentifierName="CountryRegionCode" ReadOnly="false">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">3</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="Name" DefaultDisplayName="Name" TypeName="System.String">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">50</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="ModifiedDate" DefaultDisplayName="ModifiedDate" TypeName="System.DateTime">
+                            <Interpretation>
+                              <NormalizeDateTime LobDateTimeMode="UTC" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                        </TypeDescriptors>
+                      </TypeDescriptor>
+                    </TypeDescriptors>
+                  </TypeDescriptor>
+                </Parameter>
+              </Parameters>
+              <MethodInstances>
+                <MethodInstance Type="Finder" ReturnParameterName="Read List" Default="true" Name="Read List" DefaultDisplayName="Read CountryRegion List">
+                  <Properties>
+                    <Property Name="UseClientCachingForSearch" Type="System.String"></Property>
+                    <Property Name="RootFinder" Type="System.String"></Property>
+                  </Properties>
+                  <AccessControlList>
+                    <AccessControlEntry Principal="contoso\Administrator">
+                      <Right BdcRight="Edit" />
+                      <Right BdcRight="Execute" />
+                      <Right BdcRight="SetPermissions" />
+                      <Right BdcRight="SelectableInClients" />
+                    </AccessControlEntry>
+                  </AccessControlList>
+                </MethodInstance>
+              </MethodInstances>
+            </Method>
+            <Method Name="Create" DefaultDisplayName="Create CountryRegion Item">
+              <Properties>
+                <Property Name="BackEndObject" Type="System.String">CountryRegion</Property>
+                <Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+                <Property Name="RdbCommandText" Type="System.String">INSERT INTO [Person].[CountryRegion] ([CountryRegionCode] , [Name] , [ModifiedDate]) VALUES (@CountryRegionCode , @Name , @ModifiedDate) SELECT [CountryRegionCode] , [Name] , [ModifiedDate] FROM [Person].[CountryRegion] WHERE [CountryRegionCode] = @CountryRegionCode</Property>
+                <Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+                <Property Name="Schema" Type="System.String">Person</Property>
+              </Properties>
+              <AccessControlList>
+                <AccessControlEntry Principal="contoso\Administrator">
+                  <Right BdcRight="Edit" />
+                  <Right BdcRight="Execute" />
+                  <Right BdcRight="SetPermissions" />
+                  <Right BdcRight="SelectableInClients" />
+                </AccessControlEntry>
+              </AccessControlList>
+              <Parameters>
+                <Parameter Direction="In" Name="@CountryRegionCode">
+                  <TypeDescriptor Name="CountryRegionCode" DefaultDisplayName="CountryRegionCode" TypeName="System.String" CreatorField="true" IdentifierName="CountryRegionCode">
+                    <Properties>
+                      <Property Name="Size" Type="System.Int32">3</Property>
+                    </Properties>
+                    <Interpretation>
+                      <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@Name">
+                  <TypeDescriptor Name="Name" DefaultDisplayName="Name" TypeName="System.String" CreatorField="true">
+                    <Properties>
+                      <Property Name="Size" Type="System.Int32">50</Property>
+                    </Properties>
+                    <Interpretation>
+                      <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@ModifiedDate">
+                  <TypeDescriptor Name="ModifiedDate" DefaultDisplayName="ModifiedDate" TypeName="System.DateTime" CreatorField="true">
+                    <Interpretation>
+                      <NormalizeDateTime LobDateTimeMode="UTC" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="Return" Name="Create">
+                  <TypeDescriptor TypeName="System.Data.IDataReader, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" IsCollection="true" Name="Create">
+                    <TypeDescriptors>
+                      <TypeDescriptor TypeName="System.Data.IDataRecord, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Name="CreateElement">
+                        <TypeDescriptors>
+                          <TypeDescriptor Name="CountryRegionCode" DefaultDisplayName="CountryRegionCode" TypeName="System.String" IdentifierName="CountryRegionCode" ReadOnly="false">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">3</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="Name" DefaultDisplayName="Name" TypeName="System.String">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">50</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="ModifiedDate" DefaultDisplayName="ModifiedDate" TypeName="System.DateTime">
+                            <Interpretation>
+                              <NormalizeDateTime LobDateTimeMode="UTC" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                        </TypeDescriptors>
+                      </TypeDescriptor>
+                    </TypeDescriptors>
+                  </TypeDescriptor>
+                </Parameter>
+              </Parameters>
+              <MethodInstances>
+                <MethodInstance Type="Creator" ReturnParameterName="Create" ReturnTypeDescriptorPath="Create[0]" Default="true" Name="Create" DefaultDisplayName="Create CountryRegion Item">
+                  <AccessControlList>
+                    <AccessControlEntry Principal="contoso\Administrator">
+                      <Right BdcRight="Edit" />
+                      <Right BdcRight="Execute" />
+                      <Right BdcRight="SetPermissions" />
+                      <Right BdcRight="SelectableInClients" />
+                    </AccessControlEntry>
+                  </AccessControlList>
+                </MethodInstance>
+              </MethodInstances>
+            </Method>
+            <Method Name="Delete" DefaultDisplayName="Delete CountryRegion Item">
+              <Properties>
+                <Property Name="BackEndObject" Type="System.String">CountryRegion</Property>
+                <Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+                <Property Name="RdbCommandText" Type="System.String">DELETE FROM [Person].[CountryRegion] WHERE [CountryRegionCode] = @CountryRegionCode</Property>
+                <Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+                <Property Name="Schema" Type="System.String">Person</Property>
+              </Properties>
+              <AccessControlList>
+                <AccessControlEntry Principal="contoso\Administrator">
+                  <Right BdcRight="Edit" />
+                  <Right BdcRight="Execute" />
+                  <Right BdcRight="SetPermissions" />
+                  <Right BdcRight="SelectableInClients" />
+                </AccessControlEntry>
+              </AccessControlList>
+              <Parameters>
+                <Parameter Direction="In" Name="CountryRegionCode">
+                  <TypeDescriptor Name="CountryRegionCode" DefaultDisplayName="CountryRegionCode" TypeName="System.String" IdentifierName="CountryRegionCode">
+                    <Properties>
+                      <Property Name="Size" Type="System.Int32">3</Property>
+                    </Properties>
+                    <Interpretation>
+                      <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+              </Parameters>
+              <MethodInstances>
+                <MethodInstance Type="Deleter" Name="Delete" DefaultDisplayName="Delete CountryRegion Item">
+                  <AccessControlList>
+                    <AccessControlEntry Principal="contoso\Administrator">
+                      <Right BdcRight="Edit" />
+                      <Right BdcRight="Execute" />
+                      <Right BdcRight="SetPermissions" />
+                      <Right BdcRight="SelectableInClients" />
+                    </AccessControlEntry>
+                  </AccessControlList>
+                </MethodInstance>
+              </MethodInstances>
+            </Method>
+            <Method Name="Update" DefaultDisplayName="Update CountryRegion Item">
+              <Properties>
+                <Property Name="BackEndObject" Type="System.String">CountryRegion</Property>
+                <Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+                <Property Name="RdbCommandText" Type="System.String">UPDATE [Person].[CountryRegion] SET [CountryRegionCode] = @CountryRegionCode , [Name] = @Name , [ModifiedDate] = @ModifiedDate WHERE [CountryRegionCode] = @preupdateCountryRegionCode</Property>
+                <Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+              </Properties>
+              <Parameters>
+                <Parameter Direction="In" Name="@CountryRegionCode">
+                  <TypeDescriptor Name="CountryRegionCode" DefaultDisplayName="CountryRegionCode" TypeName="System.String" UpdaterField="true" IdentifierName="CountryRegionCode">
+                    <Properties>
+                      <Property Name="Size" Type="System.Int32">3</Property>
+                    </Properties>
+                    <Interpretation>
+                      <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@Name">
+                  <TypeDescriptor Name="Name" DefaultDisplayName="Name" TypeName="System.String" UpdaterField="true">
+                    <Properties>
+                      <Property Name="Size" Type="System.Int32">50</Property>
+                    </Properties>
+                    <Interpretation>
+                      <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@ModifiedDate">
+                  <TypeDescriptor Name="ModifiedDate" DefaultDisplayName="ModifiedDate" TypeName="System.DateTime" UpdaterField="true">
+                    <Interpretation>
+                      <NormalizeDateTime LobDateTimeMode="UTC" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@preupateCountryRegionCode">
+                  <TypeDescriptor Name="CountryRegionCode" DefaultDisplayName="CountryRegionCode" TypeName="System.String" PreUpdaterField="true" IdentifierName="CountryRegionCode">
+                    <Properties>
+                      <Property Name="Size" Type="System.Int32">3</Property>
+                    </Properties>
+                    <Interpretation>
+                      <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+              </Parameters>
+              <MethodInstances>
+                <MethodInstance Type="Updater" Name="Update" DefaultDisplayName="Update CountryRegion Item">
+                  <AccessControlList>
+                    <AccessControlEntry Principal="contoso\Administrator">
+                      <Right BdcRight="Edit" />
+                      <Right BdcRight="Execute" />
+                      <Right BdcRight="SetPermissions" />
+                      <Right BdcRight="SelectableInClients" />
+                    </AccessControlEntry>
+                  </AccessControlList>
+                </MethodInstance>
+              </MethodInstances>
+            </Method>
+            <Method IsStatic="false" Name="CountryRegionCodeToCountryRegion">
+              <Properties>
+                <Property Name="BackEndObject" Type="System.String">CountryRegion</Property>
+                <Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+                <Property Name="RdbCommandText" Type="System.String">SELECT [StateProvinceID] , [StateProvinceCode] , [CountryRegionCode] , [IsOnlyStateProvinceFlag] , [Name] , [TerritoryID] , [rowguid] , [ModifiedDate] FROM [Person].[StateProvince] WHERE [CountryRegionCode] = @CountryRegionCode</Property>
+                <Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+                <Property Name="Schema" Type="System.String">Person</Property>
+              </Properties>
+              <AccessControlList>
+                <AccessControlEntry Principal="contoso\Administrator">
+                  <Right BdcRight="Edit" />
+                  <Right BdcRight="Execute" />
+                  <Right BdcRight="SetPermissions" />
+                  <Right BdcRight="SelectableInClients" />
+                </AccessControlEntry>
+              </AccessControlList>
+              <Parameters>
+                <Parameter Direction="In" Name="@CountryRegionCode">
+                  <TypeDescriptor Name="CountryRegionCode" TypeName="System.String" IdentifierEntityName="CountryRegion" IdentifierEntityNamespace="BBS.Project1.Model1" IdentifierName="CountryRegionCode" ForeignIdentifierAssociationName="CountryRegionCodeToCountryRegion" />
+                </Parameter>
+                <Parameter Direction="Return" Name="CountryRegionCodeToCountryRegion">
+                  <TypeDescriptor TypeName="System.Data.IDataReader, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" IsCollection="true" Name="CountryRegionCodeToCountryRegion">
+                    <TypeDescriptors>
+                      <TypeDescriptor TypeName="System.Data.IDataRecord, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Name="CountryRegionCodeToCountryRegionElement">
+                        <TypeDescriptors>
+                          <TypeDescriptor Name="StateProvinceID" DefaultDisplayName="StateProvinceID" TypeName="System.Int32" IdentifierName="StateProvinceID" ReadOnly="true">
+                            <Properties>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="StateProvinceCode" DefaultDisplayName="StateProvinceCode" TypeName="System.String">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">3</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="CountryRegionCode" DefaultDisplayName="CountryRegionCode" TypeName="System.String" IdentifierName="CountryRegionCode" IdentifierEntityName="CountryRegion" IdentifierEntityNamespace="BBS.Project1.Model1" ForeignIdentifierAssociationName="CountryRegionCodeToCountryRegion">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">3</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="IsOnlyStateProvinceFlag" DefaultDisplayName="IsOnlyStateProvinceFlag" TypeName="System.Boolean">
+                            <Properties>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="Name" DefaultDisplayName="Name" TypeName="System.String">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">50</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="TerritoryID" DefaultDisplayName="TerritoryID" TypeName="System.Int32">
+                            <Properties>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="rowguid" DefaultDisplayName="rowguid" TypeName="System.Guid"></TypeDescriptor>
+                          <TypeDescriptor Name="ModifiedDate" DefaultDisplayName="ModifiedDate" TypeName="System.DateTime">
+                            <Interpretation>
+                              <NormalizeDateTime LobDateTimeMode="UTC" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                        </TypeDescriptors>
+                      </TypeDescriptor>
+                    </TypeDescriptors>
+                  </TypeDescriptor>
+                </Parameter>
+              </Parameters>
+              <MethodInstances>
+                <Association Name="CountryRegionCodeToCountryRegion" Type="AssociationNavigator" ReturnParameterName="CountryRegionCodeToCountryRegion" DefaultDisplayName="CountryRegionCodeToCountryRegion">
+                  <AccessControlList>
+                    <AccessControlEntry Principal="contoso\Administrator">
+                      <Right BdcRight="Edit" />
+                      <Right BdcRight="Execute" />
+                      <Right BdcRight="SetPermissions" />
+                      <Right BdcRight="SelectableInClients" />
+                    </AccessControlEntry>
+                  </AccessControlList>
+                  <SourceEntity Namespace="BBS.Project1.Model1" Name="CountryRegion" />
+                  <DestinationEntity Namespace="BBS.Project1.Model1" Name="StateProvince" />
+                </Association>
+              </MethodInstances>
+            </Method>
+          </Methods>
+          <AssociationGroups>
+            <AssociationGroup Name="CountryRegionCodeToCountryRegion">
+              <AssociationReference AssociationName="CountryRegionCodeToCountryRegion" Reverse="false" EntityNamespace="BBS.Project1.Model1" EntityName="StateProvince" />
+            </AssociationGroup>
+          </AssociationGroups>
+        </Entity>
+        <Entity Namespace="BBS.Project1.Model1" Version="1.0.0.0" EstimatedInstanceCount="10000" Name="StateProvince" DefaultDisplayName="StateProvince">
+          <AccessControlList>
+            <AccessControlEntry Principal="contoso\Administrator">
+              <Right BdcRight="Edit" />
+              <Right BdcRight="Execute" />
+              <Right BdcRight="SetPermissions" />
+              <Right BdcRight="SelectableInClients" />
+            </AccessControlEntry>
+          </AccessControlList>
+          <Identifiers>
+            <Identifier TypeName="System.Int32" Name="StateProvinceID" />
+          </Identifiers>
+          <Methods>
+            <Method Name="Read Item" DefaultDisplayName="Read StateProvince Item">
+              <Properties>
+                <Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+                <Property Name="RdbCommandText" Type="System.String">SELECT [StateProvinceID] , [StateProvinceCode] , [CountryRegionCode] , [IsOnlyStateProvinceFlag] , [Name] , [TerritoryID] , [rowguid] , [ModifiedDate] FROM [Person].[StateProvince] WHERE [StateProvinceID] = @StateProvinceID</Property>
+                <Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+                <Property Name="BackEndObject" Type="System.String">StateProvince</Property>
+                <Property Name="Schema" Type="System.String">Person</Property>
+              </Properties>
+              <AccessControlList>
+                <AccessControlEntry Principal="contoso\Administrator">
+                  <Right BdcRight="Edit" />
+                  <Right BdcRight="Execute" />
+                  <Right BdcRight="SetPermissions" />
+                  <Right BdcRight="SelectableInClients" />
+                </AccessControlEntry>
+              </AccessControlList>
+              <Parameters>
+                <Parameter Direction="In" Name="@StateProvinceID">
+                  <TypeDescriptor Name="StateProvinceID" DefaultDisplayName="StateProvinceID" TypeName="System.Int32" IdentifierName="StateProvinceID"></TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="Return" Name="Read Item">
+                  <TypeDescriptor TypeName="System.Data.IDataReader, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" IsCollection="true" Name="Read Item">
+                    <TypeDescriptors>
+                      <TypeDescriptor TypeName="System.Data.IDataRecord, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Name="Read ItemElement">
+                        <TypeDescriptors>
+                          <TypeDescriptor Name="StateProvinceID" DefaultDisplayName="StateProvinceID" TypeName="System.Int32" IdentifierName="StateProvinceID" ReadOnly="true">
+                            <Properties>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="StateProvinceCode" DefaultDisplayName="StateProvinceCode" TypeName="System.String">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">3</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="CountryRegionCode" DefaultDisplayName="CountryRegionCode" TypeName="System.String" IdentifierName="CountryRegionCode" IdentifierEntityName="CountryRegion" IdentifierEntityNamespace="BBS.Project1.Model1" ForeignIdentifierAssociationName="CountryRegionCodeToCountryRegion">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">3</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="IsOnlyStateProvinceFlag" DefaultDisplayName="IsOnlyStateProvinceFlag" TypeName="System.Boolean">
+                            <Properties>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="Name" DefaultDisplayName="Name" TypeName="System.String">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">50</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="TerritoryID" DefaultDisplayName="TerritoryID" TypeName="System.Int32">
+                            <Properties>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="rowguid" DefaultDisplayName="rowguid" TypeName="System.Guid"></TypeDescriptor>
+                          <TypeDescriptor Name="ModifiedDate" DefaultDisplayName="ModifiedDate" TypeName="System.DateTime">
+                            <Interpretation>
+                              <NormalizeDateTime LobDateTimeMode="UTC" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                        </TypeDescriptors>
+                      </TypeDescriptor>
+                    </TypeDescriptors>
+                  </TypeDescriptor>
+                </Parameter>
+              </Parameters>
+              <MethodInstances>
+                <MethodInstance Type="SpecificFinder" ReturnParameterName="Read Item" ReturnTypeDescriptorPath="Read Item[0]" Default="true" Name="Read Item" DefaultDisplayName="Read StateProvince Item">
+                  <Properties>
+                    <Property Name="LastDesignedOfficeItemType" Type="System.String">None</Property>
+                  </Properties>
+                  <AccessControlList>
+                    <AccessControlEntry Principal="contoso\Administrator">
+                      <Right BdcRight="Edit" />
+                      <Right BdcRight="Execute" />
+                      <Right BdcRight="SetPermissions" />
+                      <Right BdcRight="SelectableInClients" />
+                    </AccessControlEntry>
+                  </AccessControlList>
+                </MethodInstance>
+              </MethodInstances>
+            </Method>
+            <Method Name="Read List" DefaultDisplayName="Read StateProvince List">
+              <Properties>
+                <Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+                <Property Name="RdbCommandText" Type="System.String">SELECT [StateProvinceID] , [StateProvinceCode] , [CountryRegionCode] , [IsOnlyStateProvinceFlag] , [Name] , [TerritoryID] , [rowguid] , [ModifiedDate] FROM [Person].[StateProvince]</Property>
+                <Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+                <Property Name="BackEndObject" Type="System.String">StateProvince</Property>
+                <Property Name="Schema" Type="System.String">Person</Property>
+              </Properties>
+              <AccessControlList>
+                <AccessControlEntry Principal="contoso\Administrator">
+                  <Right BdcRight="Edit" />
+                  <Right BdcRight="Execute" />
+                  <Right BdcRight="SetPermissions" />
+                  <Right BdcRight="SelectableInClients" />
+                </AccessControlEntry>
+              </AccessControlList>
+              <Parameters>
+                <Parameter Direction="Return" Name="Read List">
+                  <TypeDescriptor TypeName="System.Data.IDataReader, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" IsCollection="true" Name="Read List">
+                    <TypeDescriptors>
+                      <TypeDescriptor TypeName="System.Data.IDataRecord, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Name="Read ListElement">
+                        <TypeDescriptors>
+                          <TypeDescriptor Name="StateProvinceID" DefaultDisplayName="StateProvinceID" TypeName="System.Int32" IdentifierName="StateProvinceID" ReadOnly="true">
+                            <Properties>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="StateProvinceCode" DefaultDisplayName="StateProvinceCode" TypeName="System.String">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">3</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="CountryRegionCode" DefaultDisplayName="CountryRegionCode" TypeName="System.String" IdentifierName="CountryRegionCode" IdentifierEntityName="CountryRegion" IdentifierEntityNamespace="BBS.Project1.Model1" ForeignIdentifierAssociationName="CountryRegionCodeToCountryRegion">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">3</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="IsOnlyStateProvinceFlag" DefaultDisplayName="IsOnlyStateProvinceFlag" TypeName="System.Boolean">
+                            <Properties>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="Name" DefaultDisplayName="Name" TypeName="System.String">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">50</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="TerritoryID" DefaultDisplayName="TerritoryID" TypeName="System.Int32">
+                            <Properties>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="rowguid" DefaultDisplayName="rowguid" TypeName="System.Guid"></TypeDescriptor>
+                          <TypeDescriptor Name="ModifiedDate" DefaultDisplayName="ModifiedDate" TypeName="System.DateTime">
+                            <Interpretation>
+                              <NormalizeDateTime LobDateTimeMode="UTC" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                        </TypeDescriptors>
+                      </TypeDescriptor>
+                    </TypeDescriptors>
+                  </TypeDescriptor>
+                </Parameter>
+              </Parameters>
+              <MethodInstances>
+                <MethodInstance Type="Finder" ReturnParameterName="Read List" Default="true" Name="Read List" DefaultDisplayName="Read StateProvince List">
+                  <Properties>
+                    <Property Name="UseClientCachingForSearch" Type="System.String"></Property>
+                    <Property Name="RootFinder" Type="System.String"></Property>
+                  </Properties>
+                  <AccessControlList>
+                    <AccessControlEntry Principal="contoso\Administrator">
+                      <Right BdcRight="Edit" />
+                      <Right BdcRight="Execute" />
+                      <Right BdcRight="SetPermissions" />
+                      <Right BdcRight="SelectableInClients" />
+                    </AccessControlEntry>
+                  </AccessControlList>
+                </MethodInstance>
+              </MethodInstances>
+            </Method>
+            <Method Name="Create" DefaultDisplayName="Create StateProvince Item">
+              <Properties>
+                <Property Name="BackEndObject" Type="System.String">StateProvince</Property>
+                <Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+                <Property Name="RdbCommandText" Type="System.String">INSERT INTO [Person].[StateProvince] ([StateProvinceCode] , [CountryRegionCode] , [IsOnlyStateProvinceFlag] , [Name] , [TerritoryID] , [rowguid] , [ModifiedDate]) VALUES (@StateProvinceCode , @CountryRegionCode , @IsOnlyStateProvinceFlag , @Name , @TerritoryID , @rowguid , @ModifiedDate) SELECT [StateProvinceID] , [StateProvinceCode] , [CountryRegionCode] , [IsOnlyStateProvinceFlag] , [Name] , [TerritoryID] , [rowguid] , [ModifiedDate] FROM [Person].[StateProvince] WHERE [StateProvinceID] = SCOPE_IDENTITY()</Property>
+                <Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+                <Property Name="Schema" Type="System.String">Person</Property>
+              </Properties>
+              <AccessControlList>
+                <AccessControlEntry Principal="contoso\Administrator">
+                  <Right BdcRight="Edit" />
+                  <Right BdcRight="Execute" />
+                  <Right BdcRight="SetPermissions" />
+                  <Right BdcRight="SelectableInClients" />
+                </AccessControlEntry>
+              </AccessControlList>
+              <Parameters>
+                <Parameter Direction="In" Name="@StateProvinceCode">
+                  <TypeDescriptor Name="StateProvinceCode" DefaultDisplayName="StateProvinceCode" TypeName="System.String" CreatorField="true">
+                    <Properties>
+                      <Property Name="Size" Type="System.Int32">3</Property>
+                    </Properties>
+                    <Interpretation>
+                      <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@CountryRegionCode">
+                  <TypeDescriptor Name="CountryRegionCode" DefaultDisplayName="CountryRegionCode" TypeName="System.String" CreatorField="true" IdentifierName="CountryRegionCode" IdentifierEntityName="CountryRegion" IdentifierEntityNamespace="BBS.Project1.Model1" ForeignIdentifierAssociationName="CountryRegionCodeToCountryRegion">
+                    <Properties>
+                      <Property Name="Size" Type="System.Int32">3</Property>
+                    </Properties>
+                    <Interpretation>
+                      <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@IsOnlyStateProvinceFlag">
+                  <TypeDescriptor Name="IsOnlyStateProvinceFlag" DefaultDisplayName="IsOnlyStateProvinceFlag" TypeName="System.Boolean" CreatorField="true"></TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@Name">
+                  <TypeDescriptor Name="Name" DefaultDisplayName="Name" TypeName="System.String" CreatorField="true">
+                    <Properties>
+                      <Property Name="Size" Type="System.Int32">50</Property>
+                    </Properties>
+                    <Interpretation>
+                      <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@TerritoryID">
+                  <TypeDescriptor Name="TerritoryID" DefaultDisplayName="TerritoryID" TypeName="System.Int32" CreatorField="true"></TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@rowguid">
+                  <TypeDescriptor Name="rowguid" DefaultDisplayName="rowguid" TypeName="System.Guid" CreatorField="true"></TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@ModifiedDate">
+                  <TypeDescriptor Name="ModifiedDate" DefaultDisplayName="ModifiedDate" TypeName="System.DateTime" CreatorField="true">
+                    <Interpretation>
+                      <NormalizeDateTime LobDateTimeMode="UTC" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="Return" Name="Create">
+                  <TypeDescriptor TypeName="System.Data.IDataReader, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" IsCollection="true" Name="Create">
+                    <TypeDescriptors>
+                      <TypeDescriptor TypeName="System.Data.IDataRecord, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Name="CreateElement">
+                        <TypeDescriptors>
+                          <TypeDescriptor Name="StateProvinceID" DefaultDisplayName="StateProvinceID" TypeName="System.Int32" IdentifierName="StateProvinceID" ReadOnly="true">
+                            <Properties>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="StateProvinceCode" DefaultDisplayName="StateProvinceCode" TypeName="System.String">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">3</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="CountryRegionCode" DefaultDisplayName="CountryRegionCode" TypeName="System.String" IdentifierName="CountryRegionCode" IdentifierEntityName="CountryRegion" IdentifierEntityNamespace="BBS.Project1.Model1" ForeignIdentifierAssociationName="CountryRegionCodeToCountryRegion">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">3</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="IsOnlyStateProvinceFlag" DefaultDisplayName="IsOnlyStateProvinceFlag" TypeName="System.Boolean">
+                            <Properties>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="Name" DefaultDisplayName="Name" TypeName="System.String">
+                            <Properties>
+                              <Property Name="Size" Type="System.Int32">50</Property>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                            <Interpretation>
+                              <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="TerritoryID" DefaultDisplayName="TerritoryID" TypeName="System.Int32">
+                            <Properties>
+                              <Property Name="RequiredInForms" Type="System.Boolean">true</Property>
+                            </Properties>
+                          </TypeDescriptor>
+                          <TypeDescriptor Name="rowguid" DefaultDisplayName="rowguid" TypeName="System.Guid"></TypeDescriptor>
+                          <TypeDescriptor Name="ModifiedDate" DefaultDisplayName="ModifiedDate" TypeName="System.DateTime">
+                            <Interpretation>
+                              <NormalizeDateTime LobDateTimeMode="UTC" />
+                            </Interpretation>
+                          </TypeDescriptor>
+                        </TypeDescriptors>
+                      </TypeDescriptor>
+                    </TypeDescriptors>
+                  </TypeDescriptor>
+                </Parameter>
+              </Parameters>
+              <MethodInstances>
+                <MethodInstance Type="Creator" ReturnParameterName="Create" ReturnTypeDescriptorPath="Create[0]" Default="true" Name="Create" DefaultDisplayName="Create StateProvince Item">
+                  <AccessControlList>
+                    <AccessControlEntry Principal="contoso\Administrator">
+                      <Right BdcRight="Edit" />
+                      <Right BdcRight="Execute" />
+                      <Right BdcRight="SetPermissions" />
+                      <Right BdcRight="SelectableInClients" />
+                    </AccessControlEntry>
+                  </AccessControlList>
+                </MethodInstance>
+              </MethodInstances>
+            </Method>
+            <Method Name="Delete" DefaultDisplayName="Delete StateProvince Item">
+              <Properties>
+                <Property Name="BackEndObject" Type="System.String">StateProvince</Property>
+                <Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+                <Property Name="RdbCommandText" Type="System.String">DELETE FROM [Person].[StateProvince] WHERE [StateProvinceID] = @StateProvinceID</Property>
+                <Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+                <Property Name="Schema" Type="System.String">Person</Property>
+              </Properties>
+              <AccessControlList>
+                <AccessControlEntry Principal="contoso\Administrator">
+                  <Right BdcRight="Edit" />
+                  <Right BdcRight="Execute" />
+                  <Right BdcRight="SetPermissions" />
+                  <Right BdcRight="SelectableInClients" />
+                </AccessControlEntry>
+              </AccessControlList>
+              <Parameters>
+                <Parameter Direction="In" Name="StateProvinceID">
+                  <TypeDescriptor Name="StateProvinceID" DefaultDisplayName="StateProvinceID" TypeName="System.Int32" IdentifierName="StateProvinceID"></TypeDescriptor>
+                </Parameter>
+              </Parameters>
+              <MethodInstances>
+                <MethodInstance Type="Deleter" Name="Delete" DefaultDisplayName="Delete StateProvince Item">
+                  <AccessControlList>
+                    <AccessControlEntry Principal="contoso\Administrator">
+                      <Right BdcRight="Edit" />
+                      <Right BdcRight="Execute" />
+                      <Right BdcRight="SetPermissions" />
+                      <Right BdcRight="SelectableInClients" />
+                    </AccessControlEntry>
+                  </AccessControlList>
+                </MethodInstance>
+              </MethodInstances>
+            </Method>
+            <Method Name="Update" DefaultDisplayName="Update StateProvince Item">
+              <Properties>
+                <Property Name="BackEndObject" Type="System.String">StateProvince</Property>
+                <Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+                <Property Name="RdbCommandText" Type="System.String">UPDATE [Person].[StateProvince] SET [StateProvinceCode] = @StateProvinceCode , [CountryRegionCode] = @CountryRegionCode , [IsOnlyStateProvinceFlag] = @IsOnlyStateProvinceFlag , [Name] = @Name , [TerritoryID] = @TerritoryID , [rowguid] = @rowguid , [ModifiedDate] = @ModifiedDate WHERE [StateProvinceID] = @StateProvinceID</Property>
+                <Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+              </Properties>
+              <Parameters>
+                <Parameter Direction="In" Name="@StateProvinceCode">
+                  <TypeDescriptor Name="StateProvinceCode" DefaultDisplayName="StateProvinceCode" TypeName="System.String" UpdaterField="true">
+                    <Properties>
+                      <Property Name="Size" Type="System.Int32">3</Property>
+                    </Properties>
+                    <Interpretation>
+                      <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@CountryRegionCode">
+                  <TypeDescriptor Name="CountryRegionCode" DefaultDisplayName="CountryRegionCode" TypeName="System.String" UpdaterField="true" IdentifierName="CountryRegionCode" IdentifierEntityName="CountryRegion" IdentifierEntityNamespace="BBS.Project1.Model1" ForeignIdentifierAssociationName="CountryRegionCodeToCountryRegion">
+                    <Properties>
+                      <Property Name="Size" Type="System.Int32">3</Property>
+                    </Properties>
+                    <Interpretation>
+                      <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@IsOnlyStateProvinceFlag">
+                  <TypeDescriptor Name="IsOnlyStateProvinceFlag" DefaultDisplayName="IsOnlyStateProvinceFlag" TypeName="System.Boolean" UpdaterField="true"></TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@Name">
+                  <TypeDescriptor Name="Name" DefaultDisplayName="Name" TypeName="System.String" UpdaterField="true">
+                    <Properties>
+                      <Property Name="Size" Type="System.Int32">50</Property>
+                    </Properties>
+                    <Interpretation>
+                      <NormalizeString FromLOB="NormalizeToNull" ToLOB="NormalizeToEmptyString" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@TerritoryID">
+                  <TypeDescriptor Name="TerritoryID" DefaultDisplayName="TerritoryID" TypeName="System.Int32" UpdaterField="true"></TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@rowguid">
+                  <TypeDescriptor Name="rowguid" DefaultDisplayName="rowguid" TypeName="System.Guid" UpdaterField="true"></TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@ModifiedDate">
+                  <TypeDescriptor Name="ModifiedDate" DefaultDisplayName="ModifiedDate" TypeName="System.DateTime" UpdaterField="true">
+                    <Interpretation>
+                      <NormalizeDateTime LobDateTimeMode="UTC" />
+                    </Interpretation>
+                  </TypeDescriptor>
+                </Parameter>
+                <Parameter Direction="In" Name="@StateProvinceID">
+                  <TypeDescriptor Name="StateProvinceID" DefaultDisplayName="StateProvinceID" TypeName="System.Int32" UpdaterField="true" IdentifierName="StateProvinceID"></TypeDescriptor>
+                </Parameter>
+              </Parameters>
+              <MethodInstances>
+                <MethodInstance Type="Updater" Name="Update" DefaultDisplayName="Update StateProvince Item">
+                  <AccessControlList>
+                    <AccessControlEntry Principal="contoso\Administrator">
+                      <Right BdcRight="Edit" />
+                      <Right BdcRight="Execute" />
+                      <Right BdcRight="SetPermissions" />
+                      <Right BdcRight="SelectableInClients" />
+                    </AccessControlEntry>
+                  </AccessControlList>
+                </MethodInstance>
+              </MethodInstances>
+            </Method>
+          </Methods>
+        </Entity>
+      </Entities>
+    </LobSystem>
+  </LobSystems>
+</Model>

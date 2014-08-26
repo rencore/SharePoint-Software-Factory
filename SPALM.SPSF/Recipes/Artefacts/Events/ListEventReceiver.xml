@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="ListEventReceiver"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <DocumentationLinks>
+    <xi:include href="BaseEventsDocumentation.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:DocumentationLinks/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>List Event Receivers</Caption>
+  <Description>Adds a event receivers to handle events like FieldAdded, FieldUpdating etc.</Description>
+  <HostData Priority="20">
+    <Icon File="Help/Icons/icon_Events.ico" />
+    <CommandBar Menu="SPSFProjectEvents"/>
+    <CommandBar Menu="SPSFFolderEvents"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="ElementManifestReference"
+      BindingTypeTemplate="ElementManifestReferenceTemplate"
+      TestType="BaseWebFeatureRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="true"
+      FeatureScopes="Web;Site"
+      Category="Events" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+        <spsf:Author>Matthias Einig</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+          <spsf:VersionHistoryEntry>1.1 Updated Documentation</spsf:VersionHistoryEntry>
+          <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[Creates a ListEventReceiver.]]>  
+      </spsf:WebPageContent>
+		<spsf:Test>
+			<spsf:TestCases>
+				<spsf:TestCase Name="Default">
+					<spsf:TestCaseArguments>
+						<spsf:TestCaseArgument Name="EventReceiverName">ListEvent</spsf:TestCaseArgument>
+						<spsf:TestCaseArgument Name="EventReceiverTypes">FieldDeleted;FieldDeleted;FieldDeleted|FieldUpdated;FieldUpdated;FieldUpdated</spsf:TestCaseArgument>
+					</spsf:TestCaseArguments>
+				</spsf:TestCase>
+				<spsf:TestCase Name="ListEventWithScopeSite" Type="SolutionTestCase">
+					<spsf:TestCaseArguments>
+						<spsf:TestCaseArgument Name="EventReceiverName">ListEventWithScopeSite</spsf:TestCaseArgument>
+						<spsf:TestCaseArgument Name="EventReceiverTypes">FieldDeleted;FieldDeleted;FieldDeleted|FieldUpdated;FieldUpdated;FieldUpdated</spsf:TestCaseArgument>
+						<spsf:TestCaseArgument Name="EventReceiverScope">Site</spsf:TestCaseArgument>
+					</spsf:TestCaseArguments>
+				</spsf:TestCase>
+				<spsf:TestCase Name="ListEventWithRootWebOnly">
+					<spsf:TestCaseArguments>
+						<spsf:TestCaseArgument Name="EventReceiverName">ListEventWithRootWebOnly</spsf:TestCaseArgument>
+						<spsf:TestCaseArgument Name="EventReceiverTypes">FieldDeleted;FieldDeleted;FieldDeleted|FieldUpdated;FieldUpdated;FieldUpdated</spsf:TestCaseArgument>
+						<spsf:TestCaseArgument Name="EventReceiverRootWebOnly">True</spsf:TestCaseArgument>
+					</spsf:TestCaseArguments>
+				</spsf:TestCase>
+			</spsf:TestCases>
+		</spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <Argument Name="EventReceiverTypes" Type="NameValueItemArray" Required="true" >
+      <Converter XPath="/RecipeParameters/SPEventReceivers/SPListEventReceiver" Type="RecipeParametersConverter" />
+      <ValueProvider Type="DefaultNameValueCollectionProvider"  />
+    </Argument>
+
+	  <Argument Name="TemplatePathFeatureCode" Type="System.String">
+		  <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="Text\Events\FeatureReceiverCode.xml.t4"/>
+	  </Argument>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    
+    <xi:include href="BaseEventsArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <xi:include href="BaseEventsPages.include"  parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-wizards) xpointer(/p:Pages/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  
+  <xi:include href="BaseEventsActions.include" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</Recipe>

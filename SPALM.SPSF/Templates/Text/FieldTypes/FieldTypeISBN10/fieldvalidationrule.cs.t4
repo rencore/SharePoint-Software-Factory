@@ -1,0 +1,115 @@
+﻿<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #> 
+{
+  using System;  
+  using System.Globalization;  
+  using System.Runtime.InteropServices;
+  using System.Text;
+  using System.Text.RegularExpressions;
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.WebControls;  
+
+  /// <summary>
+  /// Custom field type <#= FieldTypeTypeName #>
+  /// </summary>    
+  public class <#= FieldTypeTypeName #>ValidationRule
+  {
+    private const int ISBNMODULO = 11;
+
+    public void Validate(object value, CultureInfo cultureInfo)
+    {
+      string iSBN = (string)value;
+      string errorMessage = string.Empty;
+
+      Regex rxISBN = new Regex(@"^(?'GroupID'\d{1,5})-(?'PubPrefix'\d{1,7})-(?'TitleID'\d{1,6})-(?'CheckDigit'[0-9X]{1})$");
+
+      if (!rxISBN.IsMatch(iSBN))
+      {
+        errorMessage = "An ISBN must have this structure:\n1-5 digit Group ID, hyphen, \n1-7 digit Publisher Prefix, hyphen, \n1-6 digit Title ID, hyphen, \n1 Check Digit (which can be \"X\" to indicate \"10\").\n";
+      }
+
+      // Matched the RegEx, so check for group length errors.
+      if (errorMessage == string.Empty) 
+      {
+        Match mISBN = rxISBN.Match(iSBN);
+        GroupCollection groupsInString = mISBN.Groups;
+
+        string groupID = groupsInString["GroupID"].Value;
+        string pubPrefix = groupsInString["PubPrefix"].Value;
+
+        if ((groupID.Length + pubPrefix.Length) >= 9)
+        {
+          errorMessage = "The Group ID and Publisher Prefix can total no more than 8 digits.\n";
+        }
+
+        string titleID = groupsInString["TitleID"].Value;
+
+        if (((groupID.Length + pubPrefix.Length) + titleID.Length) != 9)
+        {
+          errorMessage = errorMessage + "The Group ID, Publisher Prefix, and \nTitle ID must total exactly 9 digits.\n";
+        }
+
+        // No group length errors, so verify the check digit algorithm.
+        if (errorMessage == string.Empty) 
+        {
+          int checkDigitValue;
+          string checkDigit = groupsInString["CheckDigit"].Value;
+
+          // To ensure check digit is one digit, "10" is represented by "X".
+          if (checkDigit == "X")
+          {
+            checkDigitValue = 10;
+          }
+          else
+          {
+            checkDigitValue = Convert.ToInt32(checkDigit);
+          }
+
+          // Concatenate without the hyphens.
+          string iSBN1st3Groups = groupID + pubPrefix + titleID; 
+
+          // Sum the weighted digits.
+          int weightedSum = (10 * Convert.ToInt32(iSBN1st3Groups.Substring(0, 1))) +
+                               (9 * Convert.ToInt32(iSBN1st3Groups.Substring(1, 1))) +
+                               (8 * Convert.ToInt32(iSBN1st3Groups.Substring(2, 1))) +
+                               (7 * Convert.ToInt32(iSBN1st3Groups.Substring(3, 1))) +
+                               (6 * Convert.ToInt32(iSBN1st3Groups.Substring(4, 1))) +
+                               (5 * Convert.ToInt32(iSBN1st3Groups.Substring(5, 1))) +
+                               (4 * Convert.ToInt32(iSBN1st3Groups.Substring(6, 1))) +
+                               (3 * Convert.ToInt32(iSBN1st3Groups.Substring(7, 1))) +
+                               (2 * Convert.ToInt32(iSBN1st3Groups.Substring(8, 1))) +
+                                checkDigitValue;
+
+          int remainder = weightedSum % ISBNMODULO;  // ISBN is invalid if weighted sum modulo 11 is not 0.
+
+          if (remainder != 0)
+          {
+            errorMessage = "Number fails Check Digit verification.";
+          }
+
+          if (errorMessage == string.Empty)
+          {
+            // This is a valid ISBN.
+          }
+          else
+          {
+            throw new SPFieldValidationException(errorMessage);
+          }
+        }
+        else 
+        {
+          throw new SPFieldValidationException(errorMessage);
+        }
+      }
+      else
+      {
+        throw new SPFieldValidationException(errorMessage);
+      }
+    }
+  }
+}

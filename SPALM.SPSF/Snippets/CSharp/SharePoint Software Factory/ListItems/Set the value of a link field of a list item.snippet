@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Set the value of a link field of a list item</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>URL</ID>
+          <ToolTip>URL</ToolTip>
+          <Default>http://spsf.codeplex.com</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>DESCRIPTION</ID>
+          <ToolTip>Description</ToolTip>
+          <Default>SharePoint Software Factory</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>fieldUrl</ID>
+          <ToolTip>SPFieldUrlValue</ToolTip>
+          <Default>value</Default>
+          <Function>
+          </Function>
+          <Type>SPFieldUrlValue</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>item</ID>
+          <ToolTip>SPListItem</ToolTip>
+          <Default>item</Default>
+          <Function>
+          </Function>
+          <Type>SPListItem</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+SPFieldUrlValue $fieldUrl$ = new SPFieldUrlValue();
+$fieldUrl$.Description = "$DESCRIPTION$";
+$fieldUrl$.Url = "$URL$";
+$item$["$URL$"] = $fieldUrl$;
+      ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

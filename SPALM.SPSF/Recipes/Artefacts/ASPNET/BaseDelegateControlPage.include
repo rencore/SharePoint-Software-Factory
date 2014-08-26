@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page Width="600" Height="400" xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+  <Title>Delegate Control Settings</Title>
+  <Fields>
+		<Field ValueName="DelegateControlName" Label="Name">
+			<Help>Required Text. Specifies the name of the control.</Help>
+		</Field>
+    <Field ValueName="DelegateControlSequence" Label="Sequence" >
+      <Help>Optional Integer. Specifies the sequence number for the control, which determines whether the control is added to the control tree for a page. The control with the lowest sequence number is added to the tree.</Help>
+    </Field>
+    <Field PanelType="SPALM.SPSF.Library.NameValueStringPanel, SPALM.SPSF.Library" ValueName="DelegateControlId" Label="Id" >
+      <Help>Optional Text. Specifies the ID of the control, for example, "SmallSearchInputBox".</Help>
+      <Editor Type="SPALM.SPSF.Library.DelegateControlEditor, SPALM.SPSF.Library" />
+    </Field>
+  </Fields>
+</Page>

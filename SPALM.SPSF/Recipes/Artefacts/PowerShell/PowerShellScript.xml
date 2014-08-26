@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe Name="PowerShellScript" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.microsoft.com/pag/gax-core"
+    Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>PowerShell Script</Caption>
+  <Description>Adds a .ps1 script file to the project.</Description>
+	<HostData Priority="300">
+		<Icon File="Help/Icons/icon_PowerShell.ico" />
+    <CommandBar Menu="SPSFProjectPowerShell" />
+    <spsf:MetaData
+      Visible="true"
+      BindingType="AnyElementReference"
+      BindingTypeTemplate="AnyElementReferenceTemplate"
+      Enabled="true"
+      CreateVSTemplate="true"
+	  NotSandboxSupported="true"
+      Category="PowerShell" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+	<Arguments>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<Argument Name="CmdScriptName" Required="true" >
+			<ValueProvider Type="VisualStudioCreateItemName" MakeSafe="false" DefaultValue="PSScript" />
+		</Argument>
+
+	</Arguments>
+	<Actions>
+
+		<Action
+			Name="AddClass"
+			Type="AddTemplateToItemAction"
+			TemplateFileName="Text\PowerShell\PSScript.ps1.t4"
+			TargetFileName="$(CmdScriptName).ps1">
+			<Input Name="Project" RecipeArgument="CurrentProject" />
+		</Action>
+
+		<Action
+			Name="AddReference"
+			Type="AddReferenceToProject"
+			ReferenceName="System.Management.Automation">
+			<Input Name="Project" RecipeArgument="CurrentProject" />
+		</Action>
+
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Actions>
+</Recipe>

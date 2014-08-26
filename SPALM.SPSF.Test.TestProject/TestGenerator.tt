@@ -1,0 +1,417 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="cs" #>
+<#@ include file="../SPALM.SPSF/T4Functions.tt" #>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using EnvDTE;
+using Microsoft.Win32;
+using System.IO;
+using System.Xml;
+using Microsoft.Practices.Common.Services;
+using System.ComponentModel.Design;
+using System.Diagnostics;
+using SPALM.SPSF.Library;
+using Microsoft.VSSDK.Tools.VsIdeTesting;
+
+namespace SharePointSoftwareFactory.Tests
+{ 
+<# 
+
+
+SPSFBase spsfbase = new SPSFBase(Host as IServiceProvider, Host.ResolveAssemblyReference("$(SolutionDir)")+@"SPALM.SPSF\SPALM.SPSF.xml");
+List<RecipeClass> allRecipes = spsfbase.GetAllRecipes();
+	
+foreach(RecipeClass recipe in allRecipes)
+{		
+	if(recipe.Enabled && !recipe.ExcludeFromTests)
+	{
+		#>
+		public partial class RecipeRunner_<#= recipe.Name #> : <#
+		if(recipe.TestType != "")
+		{
+			#><#= recipe.TestType  #><#
+		}
+		else
+		{	#>BaseRecipeRunner<#
+		}
+		#>
+		{		
+			public RecipeRunner_<#= recipe.Name #>(Microsoft.Practices.RecipeFramework.GuidancePackage guidancePackage, BaseTest _parentTest) : 
+				base(guidancePackage, "<#= recipe.Name #>", _parentTest)
+			{
+				NotSandboxSupported = <#= recipe.NotSandboxSupported.ToString().ToLower() #>;
+			}
+		
+			<#		
+			foreach(TestCase testCase in recipe.TestCases)
+			{
+		
+				#>
+				public void RunTestCase_<#= testCase.Name #>()
+				{
+				    <#
+
+					if(testCase.NotSandboxSupported)
+					{
+						#>
+						if(CurrentTestIsSandboxed())
+						{
+							this.parentTest.TestContext.WriteLine("Testcase <#= testCase.Name #> skipped because it is NotSandboxSupported");
+							return;
+						}
+						<#
+					}
+
+					#>
+					Dictionary<string, object> arguments = new Dictionary<string, object>();
+					object argObject = null;
+					<#
+					foreach(TestArgument argument in testCase.Arguments)
+					{			
+						string arg = argument.Value;
+						if(arg.Contains("|"))
+						{	
+							#>List<NameValueItem> tempArray = new List<NameValueItem>();
+							<#
+							//array of NameValueItems
+							char[] separray = new char[]{'|'};
+							string[] arrayitems = arg.Split(separray);
+							foreach(string arrayitem in arrayitems)
+							{
+								if(arrayitem != "")
+								{
+									char[] sep = new char[]{';'};
+									string[] args = arrayitem.Split(sep);
+									if(args.Length == 3)
+									{
+										#>tempArray.Add(new NameValueItem("<#= args[0] #>","<#= args[1] #>","<#= args[2] #>"));
+										<#
+									}
+								}
+							}
+							#>
+							argObject = tempArray.ToArray();
+							<#
+						}
+						else if(arg.Contains(";"))
+						{
+							char[] sep = new char[]{';'};
+							string[] args = arg.Split(sep);
+							if(args.Length == 3)
+							{
+								#>argObject = new NameValueItem("<#= args[0] #>","<#= args[1] #>","<#= args[2] #>");<#
+							}
+							else
+							{
+								#>argObject = @"<#= arg #>";<#
+							}
+						}
+						else
+						{
+							#>argObject = @"<#= arg #>";<#
+						}
+					
+						#>
+
+						arguments.Add("<#= argument.Name #>", argObject);					
+					
+						<#
+					}
+					#>
+					RunRecipeWithSpecifiedParameters(arguments);
+
+					//add expected results to parent test
+					<#
+					foreach(TestExpectedDeployResult deployResult in testCase.ExpectedDeployResult)
+					{
+						#>
+						AddExpectedDeployResult("<#= deployResult.Value #>");
+						<#
+					}
+					#>
+				}
+				<#
+			
+			}
+		
+			#>
+		
+			public void RunAllTestCases()
+			{
+				<#
+				if(recipe.TestCases.Count == 0)
+				{
+					#>
+					RunRecipeWithDefaultValues();
+					<#
+				}
+				#>
+				//RunRecipeWithoutRequiredValues();
+
+				<#		
+				foreach(TestCase testCase in recipe.TestCases)
+				{
+			
+					#>
+					RunTestCase_<#= testCase.Name #>();
+
+					<#
+				
+				}
+			
+				#>
+			}
+		}
+		<#
+	}
+}
+    
+
+
+
+
+
+foreach(RecipeClass recipe in allRecipes)
+{		
+	if(recipe.Enabled && !recipe.ExcludeFromTests)
+	{
+		#>
+	
+		[TestClass()]
+		public class Recipe_<#= recipe.Name #>_Tests : BaseTest
+		{
+			<#		
+			foreach(TestCase testCase in recipe.TestCases)
+			{
+		
+			#>
+			[TestMethod()]
+			[TestCategory("Recipe Test")]
+			[Description("Tests recipe <#= recipe.Name #> with test case <#= testCase.Name #>")]
+			[HostType("VS IDE")]
+			public void Recipe_<#= recipe.Name #>_RunTestCase_<#= testCase.Name #>()
+			{
+				UIThreadInvoker.Invoke((ThreadInvoker)delegate()
+				{
+					new RecipeRunner_<#= recipe.Name #>(coreRecipeGuidancePackage, this).RunTestCase_<#= testCase.Name #>();
+				});
+			}
+			<#
+			
+			}
+		
+			if(recipe.TestCases.Count == 0)
+			{
+				//if there are test cases we do not provide the test with default values
+			#>
+		
+			[TestMethod()]
+			[TestCategory("Recipe Test")]
+			[Description("Tests recipe <#= recipe.Name #> with default values")]
+			[HostType("VS IDE")]
+			public void Recipe_<#= recipe.Name #>_RunWithDefaultValues()
+			{
+				UIThreadInvoker.Invoke((ThreadInvoker)delegate()
+				{
+					new RecipeRunner_<#= recipe.Name #>(coreRecipeGuidancePackage, this).RunRecipeWithDefaultValues();
+				});
+			}
+
+			[TestMethod()]
+			[TestCategory("Recipe Test")]
+			[Description("Tests recipe <#= recipe.Name #> without required values")]
+			[HostType("VS IDE")]
+			public void Recipe_<#= recipe.Name #>_RunWithoutRequiredValues()
+			{
+				UIThreadInvoker.Invoke((ThreadInvoker)delegate()
+				{
+					new RecipeRunner_<#= recipe.Name #>(coreRecipeGuidancePackage, this).RunRecipeWithoutRequiredValues();
+				});
+			}
+		
+			<#
+			}
+
+
+			if(recipe.TestCases.Count > 0)
+			{
+			#>
+			[TestMethod()]
+			[TestCategory("Recipe Test")]
+			[Description("Tests recipe <#= recipe.Name #> with all test cases")]
+			[HostType("VS IDE")]
+			public void Recipe_<#= recipe.Name #>_RunAllTestCases()
+			{
+				UIThreadInvoker.Invoke((ThreadInvoker)delegate()
+				{
+					new RecipeRunner_<#= recipe.Name #>(coreRecipeGuidancePackage, this).RunAllTestCases();
+				});
+			}
+			<#
+			}
+			#>
+		}
+		<#
+	}
+}
+
+
+
+
+
+List <string> allCategorySolutionTestCases = new List<string>();
+RecipeIndex recipeIndex = new RecipeIndex(spsfbase, 2);
+
+foreach (RecipeCategory maincategory in recipeIndex.GetCategories())
+{
+    foreach (RecipeCategory category in maincategory.GetChildCategories())
+    {
+        string description = "";
+        List<RecipeClass> categoryRecipes = category.GetRecipes();
+        if (categoryRecipes.Count > 0)
+        {
+            bool categoryHasRecipesForTesting = false;
+            foreach (RecipeClass recipe in categoryRecipes)
+            {
+                if (recipe.Enabled && !recipe.ExcludeFromTests)
+                {
+                    categoryHasRecipesForTesting = true;
+                    description += recipe.Name + ", ";
+                }
+            }
+
+            if (categoryHasRecipesForTesting)
+            {			
+			
+			#>
+	
+			[TestClass()]
+			public class Category_<#=category.Name #>_Tests : BaseTest
+			{
+				[TestMethod()]
+				[Description("Runs solutions test cases")]
+				[HostType("VS IDE")]
+				public void Category_<#= category.Name #>_RunSolutionTestCases()
+				{
+					UIThreadInvoker.Invoke((ThreadInvoker)delegate()
+					{
+
+					<#
+			
+foreach (RecipeClass recipe in categoryRecipes)
+{
+    if (recipe.Enabled && !recipe.ExcludeFromTests)
+    {
+        if (recipe.TestCases.Count > 0)
+        {
+            foreach (TestCase testCase in recipe.TestCases)
+            {
+				if(testCase.Type == "SolutionTestCase")
+				{
+							allCategorySolutionTestCases.Add("new RecipeRunner_" + recipe.Name + "(coreRecipeGuidancePackage, this).RunTestCase_" + testCase.Name + "()");
+
+								#>
+								this.TestContext.WriteLine("Running Recipe <#=recipe.Name #> <#=testCase.Name #>");
+								try
+								{
+									
+									new RecipeRunner_<#=recipe.Name #>(coreRecipeGuidancePackage, this).RunTestCase_<#=testCase.Name #>();
+								}
+								catch(Exception ex)
+								{
+									throw new Exception(ex.ToString());
+								}
+								<#
+				}	
+			}
+        }
+    }
+}
+			
+					#>
+
+					});
+				}
+
+				[TestMethod()]
+				[Description("Runs syntax test cases")]
+				[HostType("VS IDE")]
+				public void Category_<#=category.Name #>_RunSyntaxTestCases()
+				{
+					UIThreadInvoker.Invoke((ThreadInvoker)delegate()
+					{
+
+					<#
+			
+foreach (RecipeClass recipe in categoryRecipes)
+{
+    if (recipe.Enabled && !recipe.ExcludeFromTests)
+    {
+        if (recipe.TestCases.Count > 0)
+        {
+            foreach (TestCase testCase in recipe.TestCases)
+            {
+				if(testCase.Type != "SolutionTestCase")
+				{
+								#>
+								this.TestContext.WriteLine("Running Recipe <#=recipe.Name #> <#=testCase.Name #>");
+								try
+								{
+									new RecipeRunner_<#=recipe.Name #>(coreRecipeGuidancePackage, this).RunTestCase_<#=testCase.Name #>();
+								}
+								catch(Exception ex)
+								{
+									throw new Exception(ex.ToString());
+								}
+								<#
+				}	
+			}
+        }
+        else
+        {
+                                #>
+								this.TestContext.WriteLine("Running Recipe <#=recipe.Name #> RunRecipeWithDefaultValues");
+								new RecipeRunner_<#=recipe.Name #>(coreRecipeGuidancePackage, this).RunRecipeWithDefaultValues();
+					
+								<#
+}
+    }
+}
+			
+					#>
+
+					});
+				}			
+			}			
+	
+			<#
+}
+			
+		}
+	}
+}
+#>
+	[TestClass()]
+	public class AllSolutionsTest : BaseTest
+	{
+		[TestMethod()]
+		[Description("Runs all solutions test cases")]
+		[HostType("VS IDE")]
+		public void AllSolutionTestCases()
+		{
+			UIThreadInvoker.Invoke((ThreadInvoker)delegate()
+				{
+			<#
+
+			foreach(string method in allCategorySolutionTestCases)
+			{
+				#><#= method #>;
+				<#
+			}
+
+			#>});
+		}
+	}
+}

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DocumentationLinks xmlns="http://schemas.microsoft.com/pag/gax-core">
+  <Link Caption="MSDN: Event Registrations" Url="http://msdn.microsoft.com/en-us/library/ms460929.aspx" Kind="Documentation"/>
+  <Link Caption="MSDN: Event Troubleshooting" Url="http://msdn.microsoft.com/en-us/library/aa979520.aspx" Kind="Documentation"/>
+  <Link Caption="MSDN: Walkthrough: Handling Document Library Events" Url="http://msdn.microsoft.com/en-us/library/ms462433.aspx" Kind="NextStep"/>
+  <Link Url="http://www.davehunter.co.uk/Blog/Lists/Posts/Post.aspx?ID=69" Caption="Dave Hunter's SharePoint Blog: Delving into SharePoint 2007 Event Receivers" Kind="NextStep"/>
+  <Link Url="http://sharepointdevwiki.com/display/public/Event+Receivers" Caption="SharePoint Dev Wiki: Event Receivers" Kind="NextStep"/>
+</DocumentationLinks>

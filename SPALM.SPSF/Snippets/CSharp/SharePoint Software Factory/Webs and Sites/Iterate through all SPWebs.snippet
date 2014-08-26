@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Iterate through SPSite.AllWebs Property (SPWebCollection)</Title>
+      <Author>Matthias Einig</Author>
+      <Description>The SPSite.AllWebs [] index operator returns a new SPWeb instance each time it is accessed. 
+An object is created during the indexing operation even if that object has already been accessed. 
+If not closed properly, a SPWeb object is left in the .NET Framework garbage collector. </Description>
+      <HelpUrl>http://msdn.microsoft.com/en-us/library/aa973248.aspx</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <References>
+        <Reference>
+          <Assembly>Microsoft.SharePoint.dll</Assembly>
+        </Reference>
+      </References>
+      <Imports>
+        <Import>
+          <Namespace>SharePoint = Microsoft.SharePoint</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>oSPSite</ID>
+          <ToolTip>Current SPSite</ToolTip>
+          <Default>site</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>oSPWeb</ID>
+          <ToolTip>SPWeb</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>i</ID>
+          <ToolTip>Iterator</ToolTip>
+          <Default>i</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+        SPWeb $oSPWeb$;
+        SPSite $oSPSite$ = SPControl.GetContextSite(Context);
+        for(int $i$ = 0; $i$ < $oSPSite$.AllWebs.Count; $i$++)
+        {
+           using($oSPWeb$ = $oSPSite$.AllWebs[$i$])
+           {
+           
+           }
+        }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

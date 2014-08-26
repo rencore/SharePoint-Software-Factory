@@ -1,0 +1,97 @@
+﻿<#@ template language="C#" #>
+<#@ include file="Templates/Text/BCS/BCSFunctions.t4" #><?xml version="1.0" encoding="utf-8"?>
+<#
+
+string entityNamespace = ProjectNamespace + "." + BCSModelName;
+string entityAssembly = ProjectAssemblyName;
+string lobSystemName = BCSModelName;
+
+bool isWebService = false;
+if(BCSType == "Wcf")
+{
+	isWebService = true;
+	entityNamespace = BCSModelName + "Proxy";
+	entityAssembly = BCSModelName + "WS";
+	lobSystemName = BCSModelName + "WS";
+}
+
+#>
+<minimalLanguageDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 20, 20" name="<#= BCSModelName #>">
+	<modelRootMoniker Name="/<#= BCSModelName #>" />
+	<nestedChildShapes>
+	<#
+
+	int startTop = 1;
+	int startLeft = 2;
+	int distanceLeft = 5;
+	int distanceTop = 3;
+
+	Dictionary<string, string> entityGuids = new Dictionary<string, string>();
+	Dictionary<string, int> entityLeft = new Dictionary<string, int>();
+	Dictionary<string, int> entityTop = new Dictionary<string, int>();
+	int left = startLeft;
+	int top = startTop;
+	int elementsPerLine = 2;
+
+	int itemInLine = 0;
+	foreach(BCSEntity entity in BCSModel.Entities)
+	{
+		string entityGuid = System.Guid.NewGuid().ToString();
+		entityGuids.Add(entity.Name, entityGuid);
+
+		entityLeft.Add(entity.Name, left);
+		entityTop.Add(entity.Name, top);
+
+		#>
+		<entityShape Id="<#= entityGuid #>" absoluteBounds="<#= left #>, <#= top #>, 2, 2">
+			<entityMoniker name="<#= entityNamespace #>.<#= entity.Name #>" />
+			<nestedChildShapes>
+				<elementListCompartment Id="<#= System.Guid.NewGuid() #>" name="Identifiers" titleTextColor="Black" itemTextColor="Black" />
+				<elementListCompartment Id="<#= System.Guid.NewGuid() #>" name="Methods" titleTextColor="Black" itemTextColor="Black" />
+			</nestedChildShapes>
+		</entityShape>
+		<#
+		itemInLine++;
+
+		if(itemInLine < elementsPerLine)
+		{
+			//proceed in same line
+			left += distanceLeft;
+		}
+		else
+		{
+			//add new line
+			itemInLine = 0;
+			left = startLeft;
+			top += distanceTop;
+		}		
+	}
+
+	foreach(BCSEntity entity in BCSModel.Entities)
+	{
+		foreach(BCSField fieldWithReference in entity.Fields)
+		{
+			if(BCSModel.IsValidAssociation(fieldWithReference))
+			{
+				int sourceEntityLeft = entityLeft[fieldWithReference.ReferencedEntity] + 2;
+				int sourceEntityTop	 = entityTop[fieldWithReference.ReferencedEntity] + 1;
+				int targetEntityLeft = entityLeft[entity.Name];
+				int targetEntityTop = entityTop[entity.Name] + 1;
+
+				#>
+				 <associationGroupConnector edgePoints="[(<#= sourceEntityLeft #> : <#= sourceEntityTop #>); (<#= targetEntityLeft #> : <#= targetEntityTop #>)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+					<associationGroupMoniker name="/<#= entityNamespace #>.<#= fieldWithReference.ReferencedEntity #>/<#= fieldWithReference.AssociationName #>Association" />
+					<relativeChildShapes />
+					<nodes>
+						<entityShapeMoniker Id="<#= entityGuids[fieldWithReference.ReferencedEntity] #>" />
+						<entityShapeMoniker Id="<#= entityGuids[entity.Name] #>" />						
+					</nodes>
+				</associationGroupConnector>
+				<#
+			}
+		}
+	}
+
+	#>
+	</nestedChildShapes>
+</minimalLanguageDiagram>

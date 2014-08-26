@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<GuidancePackage xmlns="http://schemas.microsoft.com/pag/gax-core"
+    Name="SPALM.SPSF"
+    Caption="SharePoint Software Factory"
+    Description="The SharePoint Software Factory is a guidance package with a comprehensive set of templates, code snippets and code samples for all kinds of SharePoint development artifacts.  
+
+SPSF provides wizards which help to develop SharePoint solutions standardized, faster and easier.
+
+This version supports SharePoint 2010/2013 in Visual Studio 2012.
+For Visual Studio 2008/2010 and SharePoint 2007 support please download a previous release from http://spsf.codeplex.com"
+    BindingRecipe="CreateBindings"
+    Guid="EFB5446F-C991-4E29-AF68-AB7659DC65EA"
+    Version="4.1.3.2705" 
+    SortPriority="10"
+    SchemaVersion="1.0">
+  <Overview Url="Help/Welcome.html"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="IncludesHostData.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="IncludesRecipes.xml" />
+  <!-- f212bbe8-14d6-4c62-b881-5ce500edaf36 -->
+</GuidancePackage>
+

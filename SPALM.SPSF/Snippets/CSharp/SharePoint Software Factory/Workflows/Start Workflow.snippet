@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Start Workflow</Title>
+      <Author>Torsten Mandelkow</Author>
+      <Description>Starts a workflow</Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>StartWorkflow</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>TemplateID</ID>
+          <ToolTip>ID of the workflow</ToolTip>
+          <Default>TemplateID</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>WebUrl</ID>
+          <ToolTip>Url of SPWeb</ToolTip>
+          <Default>http://MyServer/sites/MySiteCollection/MyWebSite</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>WorkflowTitle</ID>
+          <ToolTip>Title of the workflow</ToolTip>
+          <Default>Workflow</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>oWeb</ID>
+          <ToolTip>SPWeb object</ToolTip>
+          <Default>oWeb</Default>
+          <Function>
+          </Function>
+          <Type>SPWeb</Type>
+        </Object>
+        <Literal Editable="true">
+          <ID>taskListID</ID>
+          <ToolTip>taskListID</ToolTip>
+          <Default>taskListID</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>historyListID</ID>
+          <ToolTip>historyListID</ToolTip>
+          <Default>historyListID</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>template</ID>
+          <ToolTip>SPWorkflowTemplate</ToolTip>
+          <Default>template</Default>
+          <Function>
+          </Function>
+          <Type>SPWorkflowTemplate</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>association</ID>
+          <ToolTip>SPWorkflowAssociation</ToolTip>
+          <Default>association</Default>
+          <Function>
+          </Function>
+          <Type>SPWorkflowAssociation</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[using (SPWeb $oWeb$ = new SPSite("$WebUrl$").OpenWeb())
+{
+    Guid $taskListID$ = $oWeb$.Lists.Add("Tasks for workflow", "", SPListTemplateType.Tasks);
+    Guid $historyListID$ = $oWeb$.Lists.Add("History for workflow", "", SPListTemplateType.WorkflowHistory);
+
+    SPWorkflowTemplate $template$ = $oWeb$.WorkflowTemplates[$TemplateID$];
+    SPWorkflowAssociation $association$ =
+            SPWorkflowAssociation.CreateWebAssociation($template$,
+            "$WorkflowTitle$",
+            newSite.Lists[$taskListID$],
+            newSite.Lists[$historyListID$]);					
+    $oWeb$.AddWorkflowAssociation($association$);
+    $oWeb$.Site.WorkflowManager.StartWorkflow(
+            $oWeb$,
+            $association$, "", SPWorkflowRunOptions.Synchronous);
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

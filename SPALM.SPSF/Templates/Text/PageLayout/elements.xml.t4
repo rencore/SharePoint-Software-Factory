@@ -1,0 +1,27 @@
+﻿<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<Module Name="OSGPageLayouts" Url="_catalogs/masterpage" Path="<#= PageLayoutName #>" RootWebOnly="TRUE">
+    	<File Url="<#= PageLayoutFileName #>" IgnoreIfAlreadyExists="TRUE" Type="GhostableInLibrary"> 
+    		<#
+    		if(AutoCreateResxFiles)
+    		{
+    			#>
+    			<Property Name="Title" Value="$Resources:<#= ResourceKeyPrefix #>_PageLayoutTitle" /> 
+				<Property Name="MasterPageDescription" Value="$Resources:<#= ResourceKeyPrefix #>_PageLayoutDescription" />
+				<#
+    		}
+    		else
+    		{
+    			#>
+    			<Property Name="Title" Value="<#= PageLayoutTitle #>" /> 
+				<Property Name="MasterPageDescription" Value="<#= PageLayoutDescription #>" />
+				<#
+    		}
+			#>
+			<Property Name="ContentType" Value="$Resources:cmscore,contenttype_pagelayout_name;" />
+			<Property Name="PublishingPreviewImage" Value="~SiteCollection/_catalogs/masterpage/Preview Images/<#= PageLayoutNameImage #>, ~SiteCollection/_catalogs/masterpage/Preview Images/<#= PageLayoutNameImage #>" />
+			<Property Name="PublishingAssociatedContentType" Value=";#<#= PageLayoutContentType.Name #>;#<#= PageLayoutContentType.Value #>;#" />
+      </File>
+      <File Url="<#= PageLayoutNameImage #>" IgnoreIfAlreadyExists="TRUE" Name="Preview Images/<#= PageLayoutNameImage #>" Type="GhostableInLibrary"></File>
+    </Module>
+</Elements>

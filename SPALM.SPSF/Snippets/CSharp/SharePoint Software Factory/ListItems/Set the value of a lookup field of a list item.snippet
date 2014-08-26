@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Set the value of a lookup field of a list item</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>value</ID>
+          <ToolTip>value</ToolTip>
+          <Default>value</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>column</ID>
+          <ToolTip>Field name</ToolTip>
+          <Default>fieldName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>LookupValue</ID>
+          <ToolTip>Lookup value</ToolTip>
+          <Default>MyLookupValue</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>LookupId</ID>
+          <ToolTip>Lookup ID</ToolTip>
+          <Default>1</Default>
+          <Function>
+          </Function>
+          <Type>int</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>item</ID>
+          <ToolTip>SPListItem</ToolTip>
+          <Default>item</Default>
+          <Function>
+          </Function>
+          <Type>SPListItem</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+SPFieldLookupValue $value$ = new SPFieldLookupValue($LookupId$,"$LookupValue$");
+$item$["$column$"] = $value$;
+      ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

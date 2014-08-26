@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains arguments which are used in all custom actions -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+	<Argument Name="ElementsCategory">
+		<ValueProvider Type="Evaluator" Expression="Ribbons" />
+	</Argument>
+	<Argument Name="AllowedScopes" Type="System.String">
+		<ValueProvider Type="Evaluator" Expression="Web;Site;WebApplication;Farm" />
+	</Argument>
+	<Argument Name="ResourceKeyPrefix" Required="true">
+		<ValueProvider Stage="OnBeforeActions" RecipeArgument="RibbonActionName" Type="ConvertedStringProvider" />
+	</Argument>
+
+	<Argument Name="RibbonActionName" Required="true" >
+		<Converter Type="NamespaceStringConverter" />
+		<ValueProvider Type="VisualStudioCreateItemName" DefaultValue="RibbonCustomization1" MakeSafe="true" />
+	</Argument>
+
+	<!-- General Settings-->
+	<Argument Name="RibbonActionTitle" Required="true" >
+		<ValueProvider Type="VisualStudioCreateItemName" DefaultValue="Ribbon Button 1" />
+	</Argument>
+	<Argument Name="RibbonActionDescription" Required="true" >
+		<ValueProvider Type="Evaluator" Expression="Description of $(RibbonActionName)" />
+	</Argument>
+	<Argument Name="RibbonActionSequence" Required="true" >
+		<ValueProvider Type="Evaluator" Expression="500" />
+	</Argument>
+
+	<!-- Permission Settings -->
+	<Argument Name="CustomActionRights" Type="NameValueItemArray" Required="false" >
+		<ValueProvider Type="DefaultNameValueCollectionProvider"  />
+	</Argument>
+	<Argument Name="CustomActionRequireSiteAdministrator" Type="System.Boolean">
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+	
+</Arguments>
+  

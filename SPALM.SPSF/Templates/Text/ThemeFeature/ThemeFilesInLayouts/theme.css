@@ -1,0 +1,1504 @@
+.ms-toolbar, .ms-viewtoolbar, .ms-formtoolbar {
+    color: #000;
+}
+.ms-toolbar-togglebutton-on {
+    border:1 solid #1c418c;
+    background-color: #fffacc;
+}
+table.ms-toolbar, table.ms-viewtoolbar {
+   background-image: url("toolgrad_simple.gif");
+   background-color:#dde4f4;
+}
+table.ms-toolbar {
+   border: 1px solid #bad6dd;
+}
+table.ms-viewtoolbar {
+   border-top:none;
+   border-bottom:none;
+}
+.ms-listheader {
+   color: #4f79cc;
+   background-color: #a9cbd3;
+}
+.ms-menutoolbar {
+   border:solid 1px #BADBE8;
+   border-bottom:solid 1px #839aa3;
+   background-color:#DDE4F4;
+   background-image: url("listheadergrad_simple.gif");
+}
+.ms-menutoolbar td{
+border-top:solid 1px #fff;
+border-bottom:solid 1px #eaf3ff;
+}
+.ms-menutoolbar td a {
+   color: #002672;
+}
+.ms-listheaderlabel {
+   color: #000;
+}
+.ms-menutoolbar td td.ms-viewselector,.ms-menutoolbar td td.ms-viewselectorhover,.ms-toolbar td td.ms-viewselector,.ms-toolbar td td.ms-viewselectorhover{
+    border:solid 1px #7e9ad3;
+    background-image:none;
+    background-color:#d8e1f2;
+}
+div.ms-viewselector,div.ms-viewselectorhover{
+    border:solid 1px #ffffff;
+}
+div.ms-viewselector a, div.ms-viewselectorhover a {
+    color:#000000;
+}
+div.ms-viewselectorhover {
+    background-color:#fff;
+}
+
+.ms-bottompaging{
+    background:#dde4f4;
+}
+.ms-bottompagingline1{
+    background:#fff;
+}
+.ms-bottompagingline2{
+    display:none;
+}
+.ms-bottompagingline3{
+    display:none;
+}
+.ms-paging {
+    color:#002672;
+}
+.ms-viewselect a:link, .ms-GRFontSize {
+    color: #002672;
+}
+hr {
+    color: #3966BF;
+}
+.ms-formlabel  {
+    border-top: 1px solid #a9cbd3;
+    color: #314c84;
+}
+.ms-formdescription A {
+    color: #002672;
+}
+.ms-formvalidation {
+    color: #ff0000; 
+}
+.ms-informationbar {
+    background-color:#efebc2;
+    border: 1px solid ffd980;
+}
+.ms-formbody {
+    background: #f0f5f7;
+    border-top: 1px solid #bad6dd;
+}
+.ms-formline {
+    border-top: 1px solid #a9cbd3;
+}
+.ms-formbutton {
+    border: 1px solid #666666; 
+}
+.ms-formdescription {
+    color: #666666;
+}
+table.ms-form th {
+    color: #2d5199;
+}
+.ms-inputuserfield, .ms-rtelong, .ms-rtelonger {
+    border: 1px solid #8c8c8c;
+}
+.ms-bannerContainer {
+    background-image: url("siteTitleBKGD_simple.jpg");
+    background-position:bottom right;
+    background-repeat:no-repeat;
+}
+td.ms-globalbreadcrumb {
+    border-bottom:solid 1px #badbe8;
+}
+.ms-globalbreadcrumb {
+    background-color:#ffffff;
+    height: 20px;
+}
+.ms-globalbreadcrumb, .ms-globalbreadcrumb a {
+    color: #4c4c4c;
+}
+.ms-globallinks, .ms-globallinks a {
+    color: #4c4c4c;
+}
+.ms-pagebreadcrumb {
+    background-color:#eee;
+    border-top:solid 1px #eee;
+    border-left:none;
+}
+.ms-pagebreadcrumb a {
+    background-color:transparent;
+}
+.ms-banner {
+    vertical-align:bottom;
+}
+.ms-siteaction, .ms-siteaction a {
+    color: #4c4c4c;;
+}
+table.ms-siteaction td.ms-siteaction {
+    border-right:solid 1px #cecece;
+}
+table.ms-siteaction td.ms-siteaction div {
+    border-right:solid 1px #FFFFFF;
+}
+.ms-actionbar {
+    border: 1px solid none;
+}
+.ms-actionsep {
+    border-right: 1px solid none; 
+}
+.ms-topnavContainer{
+border:none;
+border-left:solid 1px #ebebeb;
+}
+.ms-topNavFlyOuts{
+background-color:#F2F8FF !important;
+}
+.ms-topNavFlyOutsHover{
+background-color:#ffe6a0 !important;
+}
+.ms-topnav{
+border:solid 1px #ebebeb;
+border-left:solid 1px #ffffff;
+border-top:solid 1px #fff;
+border-bottom-width:0px;
+background-image:none;
+background-color:#fff;
+}
+.ms-topnavselected {
+color:#003399;
+background:url("topnavselected_simple.gif");
+background-repeat:repeat-x;
+border:solid 1px #bfbfbf;
+border-bottom-width:0px;
+border-left:solid 1px #fff;
+background-color:#d1d1d1;
+}
+.ms-topnavselected a {
+color:#003399;
+}
+.ms-topNavHover {
+background-image:url("topnavhover_simple.gif");
+background-position:bottom left;
+background-color:#fff;
+border:solid 1px #ebebeb;
+border-left:solid 1px #fff;
+border-bottom-width:0px;
+border-top:solid 1px #fff;
+color:#000000;
+}
+.ms-nav th {
+    color: #000000;
+}
+.ms-quicklaunchnavsep {
+    background-color:transparent; 
+}
+.ms-quicklaunch table td {
+    border-top:1px solid #fff;
+}
+.ms-quicklaunch table.ms-navheader { 
+    border-top: 1px solid #fff;
+    border:none;
+}
+.ms-quicklaunch table.ms-navheader td {
+    background-color:#eee; 
+    border:none;     
+    background-image:none;
+}
+table.ms-recyclebin td {
+    background-color:#eee;
+    border-top:none;
+    border-left:none;
+}
+table.ms-recyclebin td a {
+    color:#002672;
+}
+table.ms-navitem td,span.ms-navitem{
+    background:url("navBullet_simple.gif") no-repeat;
+}
+.ms-treeviewouter td.ms-navitem {
+    border:none;
+    padding: 0px 4px;
+}
+.ms-navsubmenu1 {
+    background-color:transparent;
+    border-bottom:none;    
+} 
+.ms-navsubmenu2 {
+    background-color:transparent;
+}
+table.ms-navselected td {
+    border:1px solid #CCCCCC;
+}
+.ms-navheader a {
+    color:#002672;
+}
+.ms-navheader a:hover {
+    color:#000000;
+}
+.ms-navItem a {
+    color: #002672;
+}
+.ms-navItem a:hover {
+    color:#000000;
+}
+.ms-quicklaunchouter {
+    border-bottom:none;
+    border-right:none;
+}
+.ms-quickLaunch {
+    border:none;
+    border-bottom:0px;
+    background-color:transparent;
+}
+.ms-quicklaunchheader {
+    color: #002672;   
+    background-image: url("quickLaunchHeader_simple.gif");
+    background-color:transparent;
+    border:solid 1px #BADBE8;  
+}
+.ms-quicklaunchheader a {
+    color:#002672;
+}
+.ms-quicklaunchheader a:hover {
+    color:#000000;
+}
+.ms-storMeUsed, .ms-storMeFilterBar {
+   background: #89b4bf;
+}
+.ms-navline {
+    border-bottom: 1px solid #adadad;
+}
+.ms-navwatermark {
+    color: #cce2e8;
+}
+.ms-selectednav, .ms-GRSortFilter {
+   border: 1px solid #1c418c;
+   background: #fff699;
+}
+.ms-unselectednav {
+   border:none;
+}
+.ms-verticaldots {
+    border-right:none; 
+    border-left:none; 
+}
+.ms-nav {
+    background-color:transparent;
+    background-image:none;
+}
+.ms-relatedtable {
+    background: #f4f4f4;
+    border:none;
+}
+.ms-relatedheader {
+    color: #ffffff;
+}
+.ms-relatedtext {
+    color: #002672;
+}
+.ms-relatedtext a:visited, .ms-relatedtext a:link, .ms-relatedtext a:active    {
+    color: #002672;
+}
+.ms-relatedtext a:hover {
+    color: #002672;
+}
+.ms-globalTitleArea {
+    background-image: url("siteTitleBKGD_simple.jpg");
+    background-repeat:no-repeat;
+}
+.ms-globalTitleAreaSeparator {
+    background-color: #BADBE8;
+    background-image:none;
+}
+.ms-titlearea { 
+    color: #4c4c4c;
+}
+.ms-titlearea a {
+    color: #002672;
+}
+.ms-titlearea a:hover {
+    color: #000000;
+}
+TD.ms-titleareaframe, Div.ms-titleareaframe, .ms-pagetitleareaframe, .ms-titlearearight .ms-areaseparatorright, .ms-mwspagetitleareaframe {
+    background-image: url("pageTitleBKGD_simple.gif");
+    background-color: #ffffff;
+}
+td.ms-mwstitlearealine {
+    background-color:#fff;
+}
+.ms-titlearealine, .ms-storMeEstimated {
+    background-color: none;
+}
+.ms-pagetitleareaframe table {
+    background-image:none;
+}
+.ms-titleareaseparator {
+    background-color:transparent;
+}
+.ms-titleareaseparator div {
+    background-color:transparent;
+    border-top: none;
+}
+.ms-areaseparatorcorner {
+    background-image: url("pageTitleBKGD_simple.gif");
+    background-repeat:repeat-x;
+    border-right: 1px solid #a9cbd3;
+    background-color:#ffffff;
+}
+.ms-areaseparatorleft, td.ms-areaseparatorleft {
+    background-image:none;
+    border-right: 1px solid #a4d6e3;
+    background-color:transparent;
+}
+div.ms-areaseparatorleft {
+    background-image:none;
+    background-color:#fff;
+    border-right: 1px solid #a4d6e3;
+}
+div.ms-areaseparatorright, div.ms-areaseparatorright {
+    background-image:none;
+    background-color:transparent;
+    border-left:solid 1px #a4d6e3;
+}
+.ms-titlearearight div.ms-areaseparatorright {
+    border-left:solid 1px #a4d6e3;
+}
+.ms-areaseparator {
+    background-image: url("formtitlegrad_simple.gif");
+    background-color:#DBE2F1;
+}
+.ms-pagemargin {
+    background-color:transparent;
+    background-image:none;
+    padding:3px;
+}
+td.ms-rightareacell div.ms-pagemargin{
+    background-color:transparent;
+    background-image:none;
+    border-left-width:0px;
+}
+.ms-pagebottommargin, .ms-pagebottommarginright, .ms-pagebottommarginleft, .ms-pagebottommarginright, .ms-bodyareapagemargin {
+    display:none;
+}
+.ms-bodyareaframe, .ms-viewareaframe  {
+    border-top:none;
+    border-right:none;
+    border-left:none;
+}
+.ms-pagetitle {
+    color: #000000; 
+}
+.ms-selected {
+    background-color: #89b4bf;
+    border-top: 1px solid #89b4bf;
+    border-bottom: 1px solid #89b4bf;
+}
+.ms-descriptiontext {
+    color: #666666;
+}
+.ms-dspadapterlist {
+    color: #666666;
+}
+.ms-alerttext {
+   color: #ff0000;
+}
+.ms-separator {
+    color: none;
+}
+.ms-separator img {
+    background: #aeaeae;
+    border-bottom: 1px solid #eff3fa;
+    border-right: 1px solid #eff3fa;
+}
+.ms-authoringcontrols {
+    background-color:#f0f5f7;
+    color:#000;
+}
+.ms-propertysheet th.ms-authoringcontrols {
+    background-color:#f0f5f7;
+}
+.ms-sectionheader {
+    color: #2d5199;
+}
+.ms-linksectionheader {
+    color: none;
+}
+td.ms-linksectionheader {
+    background-color: #cce2e8;
+    border: 1px solid #a9cbd3;
+}
+.ms-sectionheader a {
+    color: #002672;
+}
+.ms-sectionheader a:hover {
+    color: #002672;
+}
+.ms-sectionheader a:visited {
+    color: #002672;
+}
+.ms-sectionline {
+    background-color: #a9cbd3;
+}
+.ms-partline {
+    background-color:#BAD6DD;
+}
+.ms-propertysheet {
+    color: #666666;
+}
+.ms-propertysheet th {
+    color: #666666;
+}
+.ms-propertysheet a {
+    color: #002672;
+}
+.ms-pageinformation th, .ms-createpageinformation th{
+    color: #4f79cc;
+}
+.ms-informationtablehover {
+    border-top:solid 2px #FFFFFF;
+    border-left:solid 2px #FFFFFF;
+    border-bottom:outset 2px;
+    border-right:outset 2px;
+    background-color: #cce2e8;
+}
+.ms-pageinformationheader {
+    color: #000000;
+}
+.ms-itemheader a {
+    color: #002672;
+}
+.ms-itemhover {
+    background-repeat:repeat-x;
+    background-color: #ffe6a0;
+    border:solid 1px #d2b47a;
+}
+.ms-itemhover a {
+    color:#000;
+}
+.ms-itemhover a:hover {
+    color:#000;
+    text-decoration:underline;
+}
+.ms-listdescription {
+    background:transparent;
+    padding: 0 0 3px 0;
+    border-bottom:none;
+}
+.ms-alternating .ms-unselectedtitle {
+background:transparent;
+}
+.ms-alternating .ms-vb-user table{
+background:transparent;
+}
+a.ms-addnew {
+    color: #2d5199;
+}
+.ms-summarytitlebarframe {
+    background-color: #1c418c;  
+}
+img.thumbnail { 
+    border: solid #99bfc9 3px; 
+}
+tr.ms-imglibselectedrow , tr.ms-highlight {
+   background-color: #f4f4f4;
+}
+.ms-imglibthumbnail {
+    background-color: #d8d8d8;
+    border: solid #99bfc9 0px; 
+}
+.ms-imglibmenuarea {
+    background-color: #ffffff;
+}
+.UserShadedRegion {
+    background-color: #fffacc;
+}
+.UserCaption {
+    background-color:transparent;
+}
+.UserConfiguration {
+    background-color: #f4f4f4;
+}
+.UserDottedLine {
+    background-color: #2d5199; 
+}
+.UserNotification {
+    COLOR: #666666;
+}
+.UserToolbarTextArea A:link {
+    COLOR: #002672; 
+}
+.UserToolbarTextArea A:visited {
+    COLOR: #002672;
+}
+.UserToolbarDisabledLink {
+    COLOR: #666666;
+}
+.UserToolbarImage {
+    background-color: #f4f4f4;
+}
+.UserSectionTitle {
+    border-bottom: solid 1px #2d5199;
+}
+.UserSectionFooter {
+    border-top: solid 1px #2d5199;
+}
+.UserCellSelected {
+    background-color: #fff699;
+    border: solid 1px #1c418c;
+}
+.ms-ToolPaneFrame {
+    background-color: none;
+}
+.ms-ToolPaneHeader {
+    background-color:#1c418c;
+}
+.ms-ToolPaneBorder {
+    border-right:none; 
+    border-top:none;
+    border-bottom:none;
+    border-left:none; 
+}
+.ms-ToolPaneClose {
+    background-color: #1c418c;
+}
+.ms-ToolPaneTitle {
+    background-color: #1c418c;
+}
+.ms-ToolPaneFooter {
+    background-color: #f2f2f2;
+}
+.ms-ToolPaneInfo {
+    background-color: #314044;
+}
+.ms-ToolStripSelected {
+    background-color: #fff699;
+    border: solid 1px #1c418c;
+}
+.ms-ToolStrip {
+    border-left:none;
+    border-right:solid 1px #89b4bf;
+    border-top:solid 1px #89b4bf;
+    border-bottom:solid 1px #89b4bf;
+    background-color:#cce2e8;
+}
+.ms-TPHeader {
+    background-color: #cce2e8;
+}
+.ms-TPTitle {
+    color: #083772;
+}
+.ms-TPBody A:link, .ms-TPBody A:visited, .ms-TPBody A:hover {
+    color:#002672;
+}
+.ms-TPInput {
+    color: #000000;
+}
+.ms-PropGridBuilderButton {
+    border: solid 1px #2d5199;
+    background-color:transparent;
+}
+.ms-BuilderBackground {
+    background: #d3d3d3;
+}
+.ms-SPZone {
+    border: #666666 1px solid;
+}
+.ms-SPZoneSelected {
+    border: #00FF00 1px solid;
+}
+.ms-SPZoneIBar {
+    border: #00FF00 3px solid;
+}
+.ms-SPZoneLabel {
+    color: #666666;
+} 
+.ms-SPZoneCaption {
+    color:#666666;
+}
+.ms-WPDesign {
+    background-color:transparent;
+}
+.ms-WPMenu {
+    background-color:transparent;
+}
+.ms-WPTitle {
+    color:#002672;
+}
+.ms-WPTitle A:link, .ms-WPTitle A:visited {
+    color:#002672;
+}
+.ms-WPTitle A:hover {
+    color:#000;
+}
+.ms-WPSelected {
+    border: #ffbb77 3px dashed;
+}
+.ms-WPBody A:link, .ms-WPBody A:visited {
+    color:#002672;
+}
+.ms-WPBorder {
+    border-color: #a9cbd3;
+}
+.ms-HoverCellActive {
+    background-color:#BAD6DD;
+}
+.ms-HoverCellActiveDark {
+    border: solid 1px #cce2e8;
+    background-color:#BAD6DD;
+}
+.ms-SPLink {
+    color: #002672
+}
+.ms-SPLink A:link, .ms-SPLink A:visited {
+    color:#002672;
+}
+.ms-WPHeader TD {
+    border-bottom:solid 1px #BADBE8;
+}
+.ms-SPzone .ms-WPHeader TD, .ms-SPZoneSelected .ms-WPHeader TD {
+    border: 1px solid #d8d8d8;
+    background-color:#E9F4F6;
+    background-image: url("partgrad_simple.gif");
+}
+.ms-underline {
+   border-bottom:1px solid #cecece; 
+}
+.ms-underlineback {
+   border-bottom:1px solid #cecece;
+   background-color: #f4f4f4;
+}
+.ms-back {
+   background-color: #f4f4f4;
+}
+.ms-smallsectionline {
+   border-bottom:1px solid #cecece;
+}
+.ms-tabselected {
+    color: #002672; 
+    border-bottom: 1px solid #6f9dd9;
+}
+.ms-tabinactive {
+   background-position:0 4px;
+   background-color:transparent;
+   color: #002672; 
+   border:solid 1px #c2dcff;
+}
+.ms-tabinactive a:link {
+   color: #002672;
+}
+.ms-tabinactive a:hover {
+   color: #002672; 
+}
+.ms-tabinactive a:visited {
+   color: #002672; 
+}
+.ms-surveyHBar {
+    background-color: #2d5199;
+}
+.ms-surveyHBarB {
+    background-color: #CCCCCC;
+}
+.ms-surveyVBar {
+    background-color: #2d5199;
+}
+.ms-surveyVBarB {
+    background-color: #CCCCCC;
+}
+.ms-surveyVBarBI {
+    background-color: #2d5199;
+}
+.ms-surveyVBarT {
+    color: #666666;
+}
+.ms-surveyVBarTC {
+    color: #666666;
+}
+.ms-surveyHR {
+    color: #CCCCCC;
+}
+.ms-surveyTotal {
+    color: #666666;
+}
+.ms-uploadborder {
+    border:none;
+}
+.ms-uploadcontrol {
+    background-color: #f4f4f4;
+}
+.ms-stylebox {
+    border:1px solid #CCCCCC;
+}
+.ms-stylelabel {
+    color: #666666; 
+}
+.ms-styleheader{
+    background-color: #f4f4f4;
+}
+.ms-styleheader a:link, .ms-stylebody a:link {
+    color: #002672;
+}
+.ms-MWSInstantiated a:link, .ms-MWSInstantiated a:visited {
+    color:#002672; 
+}
+.ms-MWSInstantiated a:hover {
+    color:#89b4bf;
+}
+.ms-MWSUninstantiated a:link, .ms-MWSUninstantiated a:visited {
+    color:#002672;
+}
+.ms-MWSUninstantiated a:hover {
+    color:#002672;
+}
+.ms-ganttDetailTimeUnitRow td {
+    border:solid 1px #666666;
+}
+.ms-ganttMajorTimeUnitHeaderRow td {
+    border-left: solid 1px #666666;
+    border-right: solid 1px #666666;
+}
+.ms-infobar { 
+    border-color: #7f7f7f;
+}
+.ms-unpublishedresource { 
+    border-color: #ff0000;
+}
+.ms-webpartpickerpageinnerbackground {
+    background-color: #f4f4f4;    
+}
+.ms-webpartpickerpagetext {
+    color: #656B77;    
+}
+.ms-webpartpickerpagetext a{
+    color: #002672;    
+}
+.ms-webpartpickerpageHeaderBorder a{
+    color: #002672;    
+}
+.ms-wikicontent a {
+color: #47a9c1;
+}
+.ms-wikieditouter {
+    border:1px solid #cecece;
+ }
+.ms-wikieditbutton a {
+    color:#666666;
+}
+.ms-diffinsert {
+    background-color:#ccffcc;
+}
+.ms-diffchange {
+    background-color:#ffffcc;
+}
+.ms-PostTitle a { 
+    color:#002672;
+}
+.ms-PostFooter a {
+    color: #002672;
+}
+.ms-PostTitle a:hover,.ms-PostFooter a:hover {
+    color: #ffbb77;
+}
+.ms-PostFooter {
+    color:#5781d6;
+}
+h1.ms-PostDate {
+    border-bottom: 1px solid  #BADBE8;
+}
+h2.ms-CommentTitle {
+    color:#4c4c4c;
+}
+.ms-blogrssnav{
+border-top-width:0px;
+}
+.ms-blogedit{
+border-top:solid 1px #e3eff;
+}
+.ms-blogedit a{
+border:1px solid #e3eff;
+border-top-width:0px;
+}
+table.ms-picker-table {
+background-color:#eeeeee;
+}
+.ms-quickLaunch table.ms-picker-table td{
+border-top-width:0px;
+}
+.ms-picker-header .ms-picker-table {
+color: #002672;   
+background:transparent url("quickLaunchHeader_simple.gif") repeat-x;
+}
+.ms-picker-header table.ms-picker-table {
+border:solid 1px #BADBE8;  
+}
+.ms-picker-table .ms-picker-dayheader {
+text-align:center;
+background-color:#eee;
+border-bottom:solid 1px #ffffff;
+border-top-width:0px;
+}
+.ms-picker-week{
+background-image:none;
+border-left:solid 1px #FF0000;
+border-top:solid 1px #FF0000;
+}
+.ms-picker-week a{
+color:#002672;
+}
+.ms-picker-weekRTL{
+background-image:none;
+border-right:solid 1px #FF0000;
+border-top:solid 1px #FF0000;
+}
+.ms-picker-weekRTL a{
+color:#002672;
+}
+.ms-picker-weekselected{
+background-color:#FF0000;
+}
+.ms-picker-weekselected a,.ms-picker-weekselected a:hover {
+color:#f00;
+text-decoration:underline;
+}
+.ms-picker-weekselectedRTL{
+background-color:#FF0000;
+}
+.ms-picker-weekselectedRTL a,.ms-picker-weekselectedRTL a:hover {
+color:#ff0000;
+}
+table.ms-picker-table td.ms-picker-today {
+border:solid 1px #ff9932;
+}
+table.ms-picker-table td.ms-picker-dayother,table.ms-picker-table td.ms-picker-daycenterOn,table.ms-picker-table td.ms-picker-daycenter{
+border:solid 1px #eee;
+}
+.ms-picker-daycenter a,.ms-picker-today a,.ms-picker-dayselected a{
+color:#002672;
+}
+.ms-picker-table .ms-picker-daycenterOn {
+background-color:#ffc68e;
+}
+table.ms-picker-table td.ms-picker-dayselected{
+background-color:#99bfc9;
+border-color:#eeeeee;
+}
+.ms-quicklaunch table.ms-picker-table td.ms-picker-monthcenter {
+color:#7f7f7f;
+background-color:#eeeeee;
+border:solid 1px #eeeeee;
+}
+.ms-picker-monthcenter a,.ms-picker-monthcenter a:active,.ms-picker-monthcenter a:link,.ms-picker-monthcenter a:visited,.ms-picker-monthcenter a:hover {
+color:#002672;
+}
+.ms-quicklaunch table.ms-picker-table td.ms-picker-monthcenterOn {
+background-image:none;
+background-color:#ffc68e;
+border:solid 1px #eeeeee;
+}
+.ms-quicklaunch table.ms-picker-table td.ms-picker-monthselected {
+background-image:none;
+background-color:#99bfc9;
+border:solid 1px #eeeeee;
+}
+table.ms-picker-table td.ms-picker-footer {
+border-top:1px solid #ffffff;
+background-color:#ffffff;
+}
+.ms-picker-footer a{
+color:#002672;
+}
+.ms-picker-line{
+border-top:2px solid #FF0000;
+}
+.ms-navframe .ms-datepickerouter{
+border-bottom:solid 1px #ffffff;
+border-right:solid 1px #ffffff;
+}
+.ms-calheader {
+    background:transparent;
+}
+.ms-cal-navselected a {
+    color:#000000;
+}
+.ms-cal-navselected a:hover {
+    color:#000000;
+}
+.ms-cal-nav a {
+    color:#2d5199;
+}
+.ms-cal-nav a:hover {
+    color:#000000;
+}
+.ms-cal-weekempty, .ms-cal-weekemptyRLT {
+    background-color:transparent;
+    border:none;
+}
+.ms-cal-weekname {
+    background-color:transparent;
+    border-top:solid 1px #bad6dd;
+    border-left:none;
+    border-right:none;
+    border-bottom:none;
+}
+.ms-cal-weekday {
+    background-color:transparent;
+}
+.ms-cal-week,.ms-cal-weekB,.ms-cal-weekRTL,.ms-cal-weekRTLB{
+    background-image:none;
+    border:solid 1px #ffffff;
+    background-color:#f0f5f7;
+}
+.ms-cal-weekselected, .ms-cal-weekselectedRTL {
+    border:solid 1px #bad6dd;
+    background-color:#ffda8a;
+}
+.ms-cal-weekselected a, .ms-cal-weekselectedRTL a {
+    color:#000000;
+}
+.ms-cal-weekbox, .ms-cal-weekboxRTL {
+    background-image:none;
+    color:#8c8c8c;
+}
+.ms-cal-topday, .ms-cal-topdayRTL, .ms-cal-topdayL, .ms-cal-topdayRTLL, .ms-cal-wtopdayL, .ms-cal-wtopday, .ms-cal-wtopdayRTL, .ms-cal-wtopdayRTLL {
+    background-image:none;
+    background-color:transparent;
+    border-top:solid 1px #bad6dd;
+    border-left:none;
+    border-right:none;
+    border-bottom:none;
+    color:#deeef2;
+}
+.ms-cal-topday div, .ms-cal-topdayRTL div, .ms-cal-topdayL div, .ms-cal-topdayRTLL div, .ms-cal-wtopdayL div, .ms-cal-wtopday div, .ms-cal-wtopdayRTL div, .ms-cal-wtopdayRTLL div {
+    background-color:#f0f5f7;
+    border:solid 1px #fff;
+}
+.ms-cal-topday-today, .ms-cal-wtopday-today {
+    background-image:none;
+    background-color:#ffc68e;
+    border:none;
+}
+.ms-cal-topday-today div, .ms-cal-wtopday-today div, .ms-cal-topday-todayover div, .ms-cal-wtopday-todayover div {
+    border:solid 2px #ff9932;
+}
+.ms-cal-topday-todayover, .ms-cal-wtopday-todayover {
+    background-color:#ffc68e;
+}
+.ms-cal-topdayover, .ms-cal-topdayoverL, .ms-cal-topdayoverRTLL, .ms-cal-wtopdayover, .ms-cal-wtopdayoverL, .ms-cal-wtopdayoverRTLL, .ms-cal-topdayfocusover {
+    background-color:#bad6dd;
+    border-top:solid 1px #bad6dd;
+    border-left:none;
+    border-right:none;
+    border-bottom:none;
+}
+.ms-cal-topdayover div, .ms-cal-topdayoverL div, .ms-cal-topdayoverRTLL div, .ms-cal-wtopdayover div, .ms-cal-wtopdayoverL div, .ms-cal-wtopdayoverRTLL div, .ms-cal-topdayfocusover div {
+    border:none;
+    color:#000000;
+}
+.ms-cal-topdayfocus, .ms-cal-topdayfocusL, .ms-cal-topdayfocusRTLL, .ms-cal-wtopdayfocus, .ms-cal-wtopdayfocusL, .ms-cal-wtopdayfocusRTLL {
+    background-image:none;
+    background-color:#99bfc9;
+    border:none;
+}
+.ms-cal-topdayfocus div, .ms-cal-topdayfocusL div, .ms-cal-topdayfocusRTLL div, .ms-cal-wtopdayfocus div, .ms-cal-wtopdayfocusL div, .ms-cal-wtopdayfocusRTLL div {
+    border:solid 1px #cce2e8; 
+    color:#ffffff;
+}
+.ms-cal-topday a, .ms-cal-topday a:active, .ms-cal-topday a:link, .ms-cal-topday a:visited, .ms-cal-topday a:hover, .ms-cal-topdayL a, .ms-cal-topdayL a:active, .ms-cal-topdayL a:link, .ms-cal-topdayL a:visited, .ms-cal-topdayL a:hover, .ms-cal-topdayRTL a, .ms-cal-topdayRTL a:active, .ms-cal-topdayRTL a:link, .ms-cal-topdayRTL a:visited, .ms-cal-topdayRTL a:hover, .ms-cal-topdayRTLL a, .ms-cal-topdayRTLL a:active, .ms-cal-topdayRTLL a:link, .ms-cal-topdayRTLL a:visited, .ms-cal-topdayRTLL a:hover, .ms-cal-topdayselectedRTLL a, .ms-cal-topdayselectedRTLL a:active, .ms-cal-topdayselectedRTLL a:link, .ms-cal-topdayselectedRTLL a:visited, .ms-cal-topdayselectedRTLL a:hover, .ms-cal-topdayselectedRTL a, .ms-cal-topdayselectedRTL a:active, .ms-cal-topdayselectedRTL a:link, .ms-cal-topdayselectedRTL a:visited, .ms-cal-topdayselectedRTL a:hover, .ms-cal-topdayselectedL a, ms-cal-topdayselectedl a:active, ms-cal-topdayselectedl a:link, ms-cal-topdayselectedl a:visited, ms-cal-topdayselectedl a:hover, .ms-cal-topdayselected a, .ms-cal-topdayselected a:active, .ms-cal-topdayselected a:link, .ms-cal-topdayselected a:visited, .ms-cal-topdayselected a:hover {
+    color:#000000;
+}
+.ms-cal-nodataLeft {
+    border-left:none; 
+    border-right:none ;  
+    background-color:#E3E9F7;
+}
+.ms-cal-nodataLeftRTL {
+    border-left:none; 
+    border-right:none ;  
+    background-color:transparent;
+}
+.ms-cal-nodataMid, .ms-cal-nodataLeft, .ms-cal-nodataLeftBtm, .ms-cal-nodataLeftBtmRTL, .ms-cal-nodataLeftBtm2, .ms-cal-nodataLeftBtmRTL2, .ms-cal-nodataBtm, .ms-cal-nodataBtm2 {
+    border-left:1px solid #fff;  
+    border-right:1px solid #fff;  
+    background-color:#f0f5f7;
+}
+.ms-cal-muworkitem, .ms-cal-muworkitemRTLL {   
+    border-left:none;
+    border-right:none;
+} 
+.ms-cal-muworkitemR {
+    border-left:none ; 
+    border-right:none;
+}
+.ms-cal-muworkitemL {
+    border-left:none ; 
+    border-right:none;
+}
+.ms-cal-workitem, .ms-cal-todayitem {   
+    border-left:none; 
+    border-right:none;
+}
+.ms-cal-workitem2 {   
+    border-left:none; 
+    border-right:none; 
+}
+.ms-cal-workitem2B, .ms-cal-workitemRTL2B {   
+    border-left:none; 
+    border-right:none; 
+    border-bottom:none; 
+}
+.ms-cal-workitemL2 {   
+    border-left:none; 
+    border-right:none; 
+    background-color:#FFFFFF;
+}
+.ms-cal-workitemRTLL2 {   
+    border-left:none ; 
+    border-right:none; 
+    background-color:#FFFFFF;
+}
+.ms-cal-workitemL2B {   
+    border-left:none; 
+    border-right:none; 
+    border-bottom:none;
+    background-color:#FFFFFF;
+}
+.ms-cal-workitemRTLL2B {   
+    border-left:none; 
+    border-right:none; 
+    border-bottom:none ; 
+    background-color:#FFFFFF;
+}
+.ms-cal-noworkitem, .ms-cal-noworkitemL, .ms-cal-noworkitemRTL   {
+    border-left:none; 
+    border-right:none; 
+}
+.ms-cal-noworkitemB, .ms-cal-noworkitemLB, .ms-cal-noworkitem2B, .ms-cal-noworkitemL2B, .ms-cal-noworkitemRTL2B {
+    border-right:solid 1px #ffffff;
+    border-left:solid 1px #ffffff;
+    border-bottom:solid 1px #ffffff;
+}
+.ms-cal-monthitem { 
+    color:#000000;
+}
+.ms-cal-monthitem b {
+    color:#8c8c8c;
+}
+.ms-cal-monthMultiDay, .ms-cal-monthMultiDay a, .ms-cal-monthMultiDay a:link, .ms-cal-monthMultiDay a:active, .ms-cal-monthMultiDay a:visited {  
+    background-color:#314044;
+    color:#FFFFFF;
+}
+.ms-cal-monthMultiDay a:hover {
+    background-color:#314044;
+    color:#5d7a82;
+}
+.ms-cal-more, .ms-cal-more a, .ms-cal-more a:link, .ms-cal-more a:active, .ms-cal-more a:visited {  
+    color:#000000;
+}
+.ms-cal-more a:hover {
+    color:#4c4c4c; 
+}
+.ms-cal-defaultbgcolor {  
+    background-color:#E6EAF1;
+    border:solid 1px #99bfc9;
+}
+.ms-cal-defaultbgcolorsel {
+    background-color:#f4f4f4;
+    border:solid 1px #CCCCCC;
+    color: #8c8c8c; 
+}
+.ms-cal-monthAllDay {  
+    background-color:#E6EAF1;
+    border:solid 1px #99bfc9;
+}
+.ms-cal-defaultbgcolor a {  
+    color:#2d5199;
+}
+.ms-cal-defaultbgcolor a:hover, .ms-cal-defaultbgcolorsel a:hover {  
+    color:#000000;
+}
+.ms-cal-monthAllDaysel {
+    background-color:#f4f4f4;
+    border:none;
+}
+.ms-cal-time {
+    border-right:1px solid #BCC3D7;
+    background-color:transparent;
+}
+.ms-cal-timeRTL {
+    border-left:none;
+    border-right:none;
+    background-color:#FFFFFF;
+}
+.ms-cal-emptytime {
+    border-top:none;
+    border-left:none;
+    background-color:#FFFFFF;
+}
+.ms-cal-emptytimeRTL {
+    border-top:none;
+    border-right:none;
+    background-color:#FFFFFF;
+}
+.ms-cal-emptycell {
+    border-top:none;
+    border-left:none ;
+    border-right:none; 
+    background-color:#d8d8d8;
+}
+.ms-cal-emptycellRTL{
+    border-top:none;
+    border-left:none ;
+    border-right:none ; 
+    background-color:#d8d8d8;
+}
+.ms-cal-emptycellB{
+    border-bottom:none;
+    border-left:none ;
+    border-right:none ; 
+    background-color:#d8d8d8;
+}
+.ms-cal-emptycellRTLB {
+    border-bottom:none;
+    border-left:none;
+    border-right:none; 
+    background-color:#d8d8d8;
+}
+.ms-cal-alldayevent {
+    border-left:none ;
+    border-right:none ;
+}
+.ms-cal-alldayeventRTL {
+    border-left:none ;
+    border-right:none ;
+    background-color:#FFFFFF;
+}
+.ms-cal-noworkhour{
+    border-left:none;
+    background-color:#00FF00;
+}
+.ms-cal-workhour {
+    border-top:solid 1px #D0D6E5;
+    background-color:transparent;
+    color:none;
+} 
+.ms-cal-noworkhourRTL{
+    border-right:none;
+    background-color:#00FF00;
+}
+.ms-cal-workhourRTL {
+    border-right:none;
+    background-color:#FFFFFF;
+} 
+.ms-cal-noworkhourF{
+    border-top:none;
+    border-left:none;
+    background-color:#00FF00;
+}
+.ms-cal-workhourF {
+    background-color:transparent;
+} 
+.ms-cal-noworkhourRTLF{
+    border-top:none;
+    border-right:none;
+    background-color:#00FF00;
+}
+.ms-cal-workhourRTLF {
+    border-top:none;
+    border-right:none;
+    background-color:#FFFFFF;
+} 
+.ms-cal-upper-border {
+    border-top:none;
+    border-right:none;
+}
+.ms-cal-upper-borderRTL {
+    border-top:none;
+    border-left:none;
+}
+.ms-cal-enoworkdayF,.ms-cal-enoworkdayRTLF {
+    border-top:none;
+}
+.ms-cal-eworkdayF,.ms-cal-eworkdayRTLF {
+    border-top:none;
+}
+.ms-cal-workhourF, .ms-cal-enoworkhourF {
+    border-top:none;
+}
+.ms-cal-eworkhourF .ms-cal-dayhour, .ms-cal-eworkhourF .ms-cal-dayhourF, .ms-cal-eworkhour .ms-cal-dayhourF, .ms-cal-eworkhour .ms-cal-dayhour, .ms-cal-eworkday .ms-cal-dayhour, .ms-cal-enoworkday .ms-cal-dayhour, .ms-cal-eworkday .ms-cal-dayhourF, .ms-cal-enoworkday .ms-cal-dayhourF {
+    border-top:solid 1px #D0D6E5;
+}
+.ms-cal-eworkhourF .ms-cal-dayhalfhourF, .ms-cal-eworkhour .ms-cal-dayhalfhourF, .ms-cal-eworkhour .ms-cal-dayhalfhour, .ms-cal-eworkday .ms-cal-dayhalfhour, .ms-cal-enoworkday .ms-cal-dayhalfhour, .ms-cal-eworkday .ms-cal-dayhalfhourF, .ms-cal-enoworkday .ms-cal-dayhalfhourF, .ms-cal-enoworkhour .ms-cal-dayhalfhourF, .ms-cal-enoworkhour .ms-cal-dayhalfhour, .ms-cal-enoworkhour .ms-cal-dayhourF, .ms-cal-enoworkhour .ms-cal-dayhour {
+    border-top none;
+}
+.ms-cal-eworkhourF .ms-cal-dayhourF, .ms-cal-eworkday .ms-cal-dayhourF, .ms-cal-enoworkday .ms-cal-dayhourF, .ms-cal-enoworkdayF .ms-cal-dayhourF, .ms-cal-enoworkdayRTLF .ms-cal-dayhourF, .ms-cal-eworkday .ms-cal-dayhalfhourF, .ms-cal-enoworkday .ms-cal-dayhalfhourF, .ms-cal-enoworkdayF .ms-cal-dayhalfhourF, .ms-cal-enoworkdayRTLF .ms-cal-dayhalfhourF, .ms-cal-eworkdayF .ms-cal-dayhourF, .ms-cal-enoworkhourF .ms-cal-dayhourF, .ms-cal-enoworkhour .ms-cal-dayhalfhourF, .ms-cal-enoworkhour .ms-cal-dayhourF, .ms-cal-eworkhour .ms-cal-dayhourF, .ms-cal-eworkhour .ms-cal-dayhalfhourF {
+    border-left:none;
+}
+.ms-cal-eworkday,.ms-cal-eworkdayRTL {
+    background-color:#FFFFFF;
+}
+.ms-cal-weekedge {
+    background-color:transparent;
+}
+.ms-cal-wtopdayselected {
+    background-image:none;
+    background-color:#FF9932;
+    border:solid 1px none; 
+    font-family:Verdana; 
+    font-size:8pt; 
+    text-align:left; 
+    font-weight:normal;
+    color:#FFFFFF;
+    verticalAlign:top;
+    cursor: hand; 
+    width=14.5%;
+}
+.ms-cal-wtopdayselectedRTL {
+    padding:1px;
+    background-color:#FF9932;
+    border:solid 1px none; 
+    border-bottom:solid 3px none; 
+    font-family:Verdana; 
+    font-size:8pt; 
+    text-align:right; 
+    font-weight:normal;
+    color:#FFFFFF;
+    verticalAlign:top;
+    cursor: hand; 
+    width=14.5%;
+}
+.ms-cal-wtopdayselectedL {
+    padding:1px;
+    background-color:#FF9932;
+    border:solid 1px none; 
+    border-left:solid 3px none; 
+    border-bottom:solid 3px none; 
+    font-family:Verdana; 
+    font-size:8pt; 
+    text-align:left; 
+    font-weight:normal;
+    color:#FFFFFF;
+    verticalAlign:top;
+    cursor: hand; 
+    width=14.5%;
+}
+.ms-cal-wtopdayselectedRTLL {
+    padding:1px;
+    background-color:#FF9932;
+    border:solid 1px none; 
+    border-right:solid 3px none; 
+    border-bottom:solid 3px none; 
+    font-family:Verdana; 
+    font-size:8pt; 
+    text-align:right; 
+    font-weight:normal;
+    color:#FFFFFF;
+    verticalAlign:top;
+    cursor: hand; 
+    width=14.5%;
+}
+.ms-cal-wemptycell, .ms-cal-wemptycellL {
+    border-right:1px solid #BCC3D7; 
+    border-left:1px solid #BCC3D7; 
+    background-color:#FFFFFF;
+}
+.ms-cal-walldayevent, .ms-cal-walldayeventL, .ms-cal-walldayeventRTL {
+    border-right:1px solid #BCC3D7; 
+    border-left:1px solid #BCC3D7; 
+}
+.ms-cal-walldayevent td, .ms-cal-walldayeventRTL td, .ms-cal-walldayeventL td, .ms-cal-walldayeventR td, .ms-cal-walldayeventRTLL td {
+    font-family:Tahoma;
+    font-size:8pt;
+}
+.contR, .contB, .contL {
+}
+.ms-cal-weekitem,.ms-cal-weekitem a, .ms-cal-weekitem a:link , .ms-cal-weekitem a:active, .ms-cal-weekitem a:visited {
+    font-family: Verdana; 
+    font-size: 7pt; 
+    color: #000000;  
+    text-align:center; 
+    text-decoration: none;
+    text-overflow:ellipsis;
+    height:100%;
+}
+.ms-cal-weekitem a:hover {
+    font-family: Verdana; 
+    font-size: 7pt; 
+    color: #FFFFFF;  
+    text-align:center;
+    text-decoration: none; 
+    text-overflow:ellipsis;
+    height:100%;
+}
+.ms-cal-tdayitem {
+    border:1px solid #99bfc9; 
+    background-repeat:repeat-x;
+}
+.ms-cal-dayitem a {
+    color: #000000;  
+}
+.ms-cal-dayitem a:hover {
+    color: #ffffff;  
+}
+.ms-cal-dayitem2 {
+    border-right:2px solid #CCCCCC;
+    background-color:#cce2e8;
+ }
+.ms-cal-dayitem2rtl {
+    border-right:2px solid #CCCCCC;
+    background-color:#cce2e8;
+ }
+.ms-cal-gempty {
+    border:none;
+}
+.ms-cal-navheader {
+    color: #000000; 
+}
+div.ms-cal-navheader a img{
+    background-image:url("listheadergrad_simple.gif");
+    background-repeat:repeat-x;
+    border:1px #BADBE8 solid;
+    background-color:#ffffff;
+    vertical-align:middle;
+    background-position:center center;
+}
+.ms-BlogNavigator div.ms-navheader{
+    background-color:#eee;
+    border-top:solid 1px #fff;
+        border-left:0;
+border-bottom:0;
+}
+.ms-BlogNavigator div.ms-WPBody{
+    border-top:0;
+}
+.ms-cal-workitem2B,.ms-cal-workitemRTL2B,.ms-cal-todayitem2B,.ms-cal-todayitemRTL2B{
+border-left:1px solid #ffffff;
+border-right:1px solid #ffffff;
+border-bottom:1px solid #ffffff;
+}
+.ms-cal-nodataLeftBtm,.ms-cal-nodataLeftBtmRTL,.ms-cal-nodataLeftBtm2,.ms-cal-nodataLeftBtmRTL2,.ms-cal-nodataBtm,.ms-cal-nodataBtm2{
+border-bottom:1px solid #ffffff;
+}
+.ms-cal-workhour,.ms-cal-workhourhalfhour,
+.ms-cal-workhourover,.ms-cal-workhourhalfhourover{
+background-color:#ffffff;
+}
+.ms-cal-eworkhourRTLF .ms-cal-dayhalfhourRTLF,.ms-cal-eworkhourRTL .ms-cal-dayhalfhourRTLF,
+.ms-cal-eworkhourRTL .ms-cal-dayhalfhourRTL,.ms-cal-eworkdayRTL .ms-cal-dayhalfhourRTL,
+.ms-cal-enoworkdayRTL .ms-cal-dayhalfhourRTL,.ms-cal-eworkdayRTL .ms-cal-dayhalfhourRTLF,
+.ms-cal-enoworkdayRTL .ms-cal-dayhalfhourRTLF,.ms-cal-enoworkhourRTL .ms-cal-dayhalfhourRTLF,
+.ms-cal-enoworkhourRTLF .ms-cal-dayhalfhourRTLF,.ms-cal-enoworkhourRTL .ms-cal-dayhalfhourRTL,
+.ms-cal-workhourhalfhour,.ms-cal-workhourhalfhourB,.ms-cal-workhourRTLhalfhour,
+.ms-cal-workhourRTLBhalfhourover,.ms-cal-workhourRTLhalfhourover,
+.ms-cal-workhourBhalfhourover,.ms-cal-workhourBhalfhourover,
+.ms-cal-workhourhalfhourover,.ms-cal-workhourRTLFhalfhourover,
+.ms-cal-workhourFhalfhourover{
+border-top:solid 1px #cccccc;
+}
+.ms-cal-workhourB,.ms-cal-workhourBhalfhour,
+.ms-cal-workhourBover,.ms-cal-workhourBhalfhourover{
+border-top:solid 1px #ccc;
+border-bottom:solid 1px #ccc;
+background-color:#ffffff;
+}
+.ms-cal-eworkhourF .ms-cal-dayhourF,.ms-cal-eworkday .ms-cal-dayhourF,
+.ms-cal-enoworkday .ms-cal-dayhourF,.ms-cal-enoworkdayF .ms-cal-dayhourF,
+.ms-cal-eworkday .ms-cal-dayhalfhourF,.ms-cal-enoworkday .ms-cal-dayhalfhourF,
+.ms-cal-enoworkdayF .ms-cal-dayhalfhourF,.ms-cal-eworkdayF .ms-cal-dayhourF,
+.ms-cal-eworkhour .ms-cal-dayhourF,.ms-cal-eworkhour .ms-cal-dayhalfhourF{
+border-left:solid 1px #cccccc;
+}
+.ms-cal-enoworkhourF .ms-cal-dayhourF,.ms-cal-enoworkhour .ms-cal-dayhalfhourF,.ms-cal-enoworkhour .ms-cal-dayhourF{
+border-left:solid 1px #cccccc;
+}
+.ms-cal-eworkhourF .ms-cal-dayhalfhourF,.ms-cal-eworkhour .ms-cal-dayhalfhourF,.ms-cal-eworkhour .ms-cal-dayhalfhour,.ms-cal-eworkday .ms-cal-dayhalfhour,.ms-cal-enoworkday .ms-cal-dayhalfhour,.ms-cal-eworkday .ms-cal-dayhalfhourF,.ms-cal-enoworkday .ms-cal-dayhalfhourF,.ms-cal-enoworkhour .ms-cal-dayhalfhour,.ms-cal-enoworkhour .ms-cal-dayhalfhourF{
+border-top:solid 1px #eeeeee;
+}
+.ms-cal-enoworkhourF .ms-cal-dayhour,
+.ms-cal-enoworkhourRTL .ms-cal-dayhalfhourRTLF,
+.ms-cal-enoworkhourRTLF .ms-cal-dayhalfhourRTLF,
+.ms-cal-enoworkhourRTL .ms-cal-dayhalfhourRTL,
+.ms-cal-enoworkhourRTL .ms-cal-dayhourRTLF,
+.ms-cal-enoworkhourRTL .ms-cal-dayhourRTL,
+.ms-cal-enoworkhourRTLF .ms-cal-dayhourRTLF,
+.ms-cal-enoworkhourRTLF .ms-cal-dayhourRTL,
+.ms-cal-enoworkhour .ms-cal-dayhalfhourF,
+.ms-cal-enoworkhour .ms-cal-dayhalfhour,
+.ms-cal-enoworkhour .ms-cal-dayhourF,
+.ms-cal-enoworkhour .ms-cal-dayhour
+.ms-cal-enoworkhourF .ms-cal-dayhourF,
+.ms-cal-enoworkhour,
+.ms-cal-enoworkhourRTL,
+.ms-cal-enoworkhourRTLL,
+.ms-cal-enoworkhourL,
+.ms-cal-enoworkhourF,
+.ms-cal-enoworkhourRTLF{
+background-color:#eeeeee;
+}
+.ms-cal-eworkhourF .ms-cal-dayhour,.ms-cal-eworkhourF .ms-cal-dayhourF,.ms-cal-eworkhour .ms-cal-dayhourF,.ms-cal-eworkhour .ms-cal-dayhour,.ms-cal-eworkday .ms-cal-dayhour,.ms-cal-enoworkday .ms-cal-dayhour,.ms-cal-eworkday .ms-cal-dayhourF,.ms-cal-enoworkday .ms-cal-dayhourF,.ms-cal-enoworkhourF .ms-cal-dayhour,.ms-cal-enoworkhourF .ms-cal-dayhourF,.ms-cal-enoworkhour .ms-cal-dayhour,.ms-cal-enoworkhour .ms-cal-dayhourF{
+border-top:solid 1px #cccccc;
+}
+.ms-cal-enoworkhourB .ms-cal-dayhalfhour,
+.ms-cal-enoworkhourB .ms-cal-dayhour{
+border-top:solid 1px #cccccc;
+border-bottom:solid 1px #cccccc;
+background-color:#eeeeee;
+}
+.ms-cal-enoworkhourB .ms-cal-dayhalfhourF,
+.ms-cal-enoworkhourB .ms-cal-dayhourF{
+border-top:solid 1px #cccccc;
+border-bottom:solid 1px #cccccc;
+background-color:#eeeeee;
+border-left:solid 1px #cccccc;
+}
+.ms-cal-eworkhourF .ms-cal-dayhalfhourF,.ms-cal-eworkhour .ms-cal-dayhalfhourF,.ms-cal-eworkhour .ms-cal-dayhalfhour,.ms-cal-eworkday .ms-cal-dayhalfhour,.ms-cal-enoworkday .ms-cal-dayhalfhour,.ms-cal-eworkday .ms-cal-dayhalfhourF,.ms-cal-enoworkday .ms-cal-dayhalfhourF,.ms-cal-enoworkhour .ms-cal-dayhalfhour,.ms-cal-enoworkhour .ms-cal-dayhalfhourF{
+border-top:solid 1px #cccccc;
+}
+TD.ms-titleareaframe,Div.ms-titleareaframe,.ms-pagetitleareaframe,.ms-mwspagetitleareaframe,.ms-consoletitleareaframe{
+background:#ffffff url("pageTitleBKGD_simple.gif") repeat-x;
+}
+.ms-consoletitleareaframebottom{
+background:#ffffff;
+}
+table.ms-applyfiltersinactive {
+ background-image:url('ApplyFiltersInActive.gif');
+}
+table.ms-applyfiltersactive {
+ background-image:url('ApplyFiltersActive.gif');
+}
+table.ms-applyfiltershoverover {
+ background-image:url('ApplyFiltersHoverOver.gif');
+}
+.leftnavPic{
+ background-image: url("portraitbackground.gif");
+}
+.ms-main .ms-ptabcn, .ms-main .ms-sctabcn {
+    background: url("PortalTabSelected.gif");
+    border-color: #5e3593;
+}
+.ms-main .ms-sctabcn {
+    background-color: #ffffff;
+}
+.ms-main .ms-ptabcnhover, .ms-main .ms-sctabcnhover {
+    background: url("PortalTabHover.gif");
+    border-color: #5e3593;
+}
+.ms-main .ms-ptabcf, .ms-main .ms-sctabcf {
+    border-color: #5e3593;
+    border-right:0px;
+}
+.ms-main .ms-sctabcf {
+    background: #ffffff;
+}
+.ms-main .ms-ptabcfhover, .ms-main .ms-sctabcfhover {
+    background: url("PortalTabHover.gif");
+    border-color: #5e3593;
+}
+.ms-main .ms-ptabrx, .ms-main .ms-sctabrx {
+    border: 1px solid #5e3593;
+    border-top:0px;
+}
+.ms-main .ms-sctabrx {
+    background: #ffffff;
+}

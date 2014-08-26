@@ -1,0 +1,20 @@
+<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    
+    /// <summary>
+    /// TODO: Add comment for usercontrol <#= WebPartUserControl #> 
+    /// </summary>
+    public partial class <#= WebPartUserControl #> : System.Web.UI.UserControl
+    {
+       // TODO: Add code behind
+    }
+}

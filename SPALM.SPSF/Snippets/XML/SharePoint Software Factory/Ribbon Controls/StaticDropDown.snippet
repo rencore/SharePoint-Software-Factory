@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Static DropDown</Title>
+			<Author>Torsten Mandelkow</Author>
+			<HelpUrl>http://msdn.microsoft.com/en-us/library/ff458462.aspx</HelpUrl>
+			<Shortcut>staticdropdown</Shortcut>
+			<Description>Adds a static DropDown</Description>
+			<SnippetTypes>
+				<SnippetType>SurroundsWith</SnippetType>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>id</ID>
+					<ToolTip>Required. A string that identifies the control, such as "Ribbon.Library.Share.NewRibbonStaticDropDown".</ToolTip>
+					<Default>AppName.StaticDropDown</Default>
+				</Literal>
+				<Literal>
+					<ID>alt</ID>
+					<ToolTip>Optional. Alternative text for the button.</ToolTip>
+					<Default>StaticDropDown</Default>
+				</Literal>
+				<Literal>
+					<ID>sequence</ID>
+					<ToolTip>Optional. An integer that specifies the order of placement among sibling XML nodes.</ToolTip>
+					<Default>10</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="XML">
+				<![CDATA[<DropDown
+                    Id="Ribbon.$id$"
+                    Alt="$alt$"
+                    Sequence="$sequence$"
+                    Command="Ribbon.$id$_CMD"
+                    CommandMenuOpen="Ribbon.$id$_MenuOpen_CMD"
+                    CommandMenuClose="Ribbon.$id$_MenuClose_CMD"
+                    PopulateDynamically="false"
+                    PopulateOnlyOnce="true"
+                    PopulateQueryCommand="Ribbon.$id$_PopulateQuery_CMD"
+                    InitialItem="StaticDropdownButton1"
+                    Width="125px"
+                    TemplateAlias="o2"
+                    ToolTipTitle="Static DropDown"
+                    ToolTipDescription="Static DropDown">
+                    <Menu Id="Ribbon.$id$.Menu">
+                      <MenuSection
+                        Id="Ribbon.$id$.Menu.MenuSection"
+                        Sequence="10">
+                        <Controls Id="Ribbon.$id$.Menu.MenuSection.Controls">
+                          <Button
+                            Id="Ribbon.$id$.Menu.MenuSection.Button1"
+                            Sequence="10"
+                            Command="Ribbon.$id$.Menu.MenuSection.Button1_CMD"
+                            CommandType="OptionSelection"
+                            Image16by16="/_layouts/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+							Image32by32="/_layouts/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+                            LabelText="StaticDropdownButton1"
+                            MenuItemId="StaticDropdownButton1"/>
+                          <Button
+                            Id="Ribbon.$id$.Menu.MenuSection.Button2"
+                            Sequence="20"
+                            Command="Ribbon.$id$.Menu.MenuSection.Button2_CMD"
+                            CommandType="OptionSelection"
+                            Image16by16="/_layouts/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+							Image32by32="/_layouts/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+                            LabelText="StaticDropdownButton2"
+                            MenuItemId="StaticDropdownButton2"/>
+                        </Controls>
+                      </MenuSection>
+                    </Menu>
+                  </DropDown>]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

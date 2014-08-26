@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="TeamSiteDefinition"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+	<DocumentationLinks>
+		<Link Caption=".Net Journal: Creating Custom Site Definitions in Microsoft Windows SharePoint Services" Url="http://dotnet.sys-con.com/node/48162?page=0,0" Kind="Documentation" />
+		<Link Caption="MSDN: Configuration Node" Url="http://msdn.microsoft.com/en-us/library/ms476942.aspx" Kind="Documentation" />
+		<Link Caption="MSDN: Schema Onet.xml" Url="http://msdn.microsoft.com/en-us/library/ms474369.aspx" Kind="Documentation" />
+	</DocumentationLinks>
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Team Site Definition</Caption>
+	<Description>Adds a custom team site definition</Description>
+	<HostData Priority="20">
+		<Icon File="Help/Icons/icon_SiteDefinition.ico" />
+		<CommandBar Menu="SPSFProjectSites"/>
+		<CommandBar Menu="SPSFSolutionSites"/>
+		<spsf:MetaData
+		Visible="true"
+		BindingType="CustomizationReference"
+		BindingTypeTemplate="CustomizationReferenceTemplate"
+			TestType="BaseCustomizationRecipeRunner"
+		Enabled="true"
+		CreateVSTemplate="true"
+		Category="Sites" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+				<spsf:Author>Matthias Einig</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.1 Updated Documentation</spsf:VersionHistoryEntry>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[The Team Site Definition is a standard preconfigured site definition which already contains a documents library, an announcements list, discussion list etc. This site definition can be used as a starting point to create a custom team site definition based on the default out of the box configuration which comes with WSS.]]>
+			</spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="PublishingSiteDefinitionDefault" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="SiteDefinitionName">TEAMSITE1</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>         
+        </spsf:TestCases>
+      </spsf:Test>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<Argument Name="ResourceKeyPrefix" Required="true">
+			<!-- provides the unique key with removed special chars -->
+			<ValueProvider Stage="OnBeforeActions" RecipeArgument="SiteDefinitionName" Type="ConvertedStringProvider" />
+		</Argument>
+
+		<Argument Name="SiteDefinitionID" Type="System.String" >
+			<ValueProvider Type="Evaluator" Expression="30000" />
+		</Argument>
+
+		<xi:include href="BaseSiteDefinitionArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+	</Arguments>
+
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<xi:include href="BaseSiteDefinitionPages.include"  parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-wizards) xpointer(/p:Pages/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+		<xi:include href="BaseSiteDefinitionActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Actions>
+</Recipe>

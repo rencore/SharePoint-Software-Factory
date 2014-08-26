@@ -1,0 +1,15 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="SharePointVersion" #>
+<#@ assembly name="System.dll" #><?xml version="1.0" encoding="utf-8"?>
+<SPCAFSettings Name="Extended Recommended Rules" Description="These rules focus on a detailed check of your code. The rule set extends the MinimumRecommendedRules with rules from the categories Localization and Naming." xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Analyzers>
+    <Analyzer Name="SPCop">
+      <RuleGroups>
+        <RuleGroup Name="SPCAF.Sdk.CustomizationPolicy" Disabled="true" />
+        <RuleGroup Name="SPCAF.Sdk.SandboxedCompatibility" Disabled="true" />
+        <RuleGroup Name="SPCAF.Sdk.SP12Compatibility" Disabled="true" />
+        <RuleGroup Name="SPCAF.Sdk.SP<# if(SharePointVersion == "15"){ #>14<# } else { #>15<# } #>Compatibility" Disabled="true" />
+      </RuleGroups>
+    </Analyzer>
+  </Analyzers>
+</SPCAFSettings>

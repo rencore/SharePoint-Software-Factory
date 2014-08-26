@@ -1,0 +1,55 @@
+﻿				</div>			
+			</div>
+		</div>
+	</div>
+	<#
+
+	if(GetCurrentHelpFormat() != "OutputPDF")
+	{
+		#>
+		<br />
+		<table width="100%">
+		<tr>
+			<td>
+				<div class="OH_feedbacklink">
+						<b>Disclaimer:</b> The views and opinions expressed in this documentation and in SPSF are those of the <a href="SPSF_OVERVIEW_110_AUTHORS.html">authors</a> and do not necessarily reflect the opinions and recommendations of Microsoft or any member of Microsoft. All trademarks, service marks, collective marks, copyrights, registered names, and marks used or cited by this documentation are the property of their respective owners.<br />
+						<#= GetGuidancePackageName() #>, Version <#= GetGuidancePackageVersion() #>, <a href="<#
+						if(GetCurrentHelpFormat() == "OutputHelp3")
+						{
+						  #>ms.help?method=page&amp;id=SPSF_OVERVIEW_800_LICENSE&amp;topicversion=0&amp;topiclocale=&amp;SQM=1&amp;product=VS&amp;productVersion=100&amp;locale=EN-US<#
+						}
+						else
+						{
+						  #>SPSF_OVERVIEW_800_LICENSE.html<#
+						}
+						#>">GPLv2</a>, see <a href="http://spsf.codeplex.com">http://spsf.codeplex.com</a> for more information
+				</div>
+				<br />
+			</td>
+		</tr>
+		</table>
+		<br />
+		<#
+	}
+
+	if(GetCurrentHelpFormat().StartsWith("OutputHTMLOnline"))
+	{
+		#>
+			<script type="text/javascript">
+			  var _gaq = _gaq || [];
+			  _gaq.push(['_setAccount', 'UA-6735734-1']);
+			  _gaq.push(['_trackPageview']);
+
+			  (function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			  })();
+			</script>
+		<#
+	}
+		
+	#>
+	</body>
+</html>
+

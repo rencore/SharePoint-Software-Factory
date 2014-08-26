@@ -1,0 +1,28 @@
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Silverlight Application</Name>
+    <Description>Adds an empty Silverlight Application to the project and adds the output of that project to a SharePoint Feature.</Description>
+    <DefaultName>SilverlightApplication</DefaultName>
+    <SortOrder>70</SortOrder>
+    <Icon>../../Help/Icons/icon_Silverlight.ico</Icon>
+    <CreateNewFolder>false</CreateNewFolder>
+    <LocationField>Hidden</LocationField>
+    <ProjectType>CSharp</ProjectType>  
+	<TemplateGroupID>SharePointItemTemplateGroupID</TemplateGroupID>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <ShowByDefault>false</ShowByDefault>
+    <FrameworkVersion>3.5</FrameworkVersion>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ReplaceParameters="true" TargetFileName="dummy.txt">dummy.txt</ProjectItem>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.Practices.RecipeFramework.VisualStudio</Assembly>
+    <FullClassName>Microsoft.Practices.RecipeFramework.VisualStudio.Templates.UnfoldTemplate</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <Template xmlns="http://schemas.microsoft.com/pag/gax-template"
+      SchemaVersion="1.0"
+      Recipe="SilverlightApplication" />
+  </WizardData>
+</VSTemplate>

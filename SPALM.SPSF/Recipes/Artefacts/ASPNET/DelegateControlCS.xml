@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="DelegateControlCS"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <DocumentationLinks>
+    <Link Caption="MSDN: Control Element (Delegate Control)" Url="http://msdn.microsoft.com/en-us/library/ms469179.aspx" Kind="Documentation"/>
+    <Link Caption="MSDN: How to: Customize a Delegate Control" Url="http://msdn.microsoft.com/en-us/library/ms470880.aspx" Kind="NextStep"/>
+    <Link Caption="Using the Delegate Control to Add Meta Tags to SharePoint Pages" Url="http://www.mtelligent.com/journal/2008/1/11/using-the-delegate-control-to-add-meta-tags-to-sharepoint-pa.html" Kind="NextStep"/>
+  </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Delegate Control (.CS)</Caption>
+  <Description>Adds a delegate template with a webcontrol (.cs)</Description>
+  <HostData Priority="210">
+    <Icon File="Help/Icons/icon_UserControl.ico" />
+    <CommandBar Menu="SPSFProjectASPNET"/>
+    <CommandBar Menu="SPSFFolderASPNET"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="ElementManifestReference"
+      BindingTypeTemplate="ElementManifestReferenceTemplate"
+      TestType="BaseSiteFeatureRecipeRunner"
+	  FeatureScopes="Web;Site;WebApplication;Farm"
+      Enabled="true"
+      CreateVSTemplate="true"
+	  NotSandboxSupported="true"
+      Category="ASPNET" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[    SharePoint 2010
+    * AdditionalPageHead
+    * GlobalSiteLink0
+    * GlobalSiteLink1
+    * GlobalSiteLink2
+    * SmallSearchInputBox
+    * TopNavigationDataSource
+    * PublishingConsole
+    * QuickLaunchDataSource
+    
+    SharePoint 2013
+    * AdditionalPageHead 
+    * GlobalNavigation
+    * GlobalSiteLink0
+    * GlobalSiteLink3
+    * SuiteBarBrandingDelegate
+    * SuiteLinksDelegate
+    * PromotedActions 	 	 
+    * PublishingConsole
+    * SmallSearchInputBox
+    * QuickLaunchDataSource
+    * TreeViewAndDataSource]]>
+      </spsf:WebPageContent>
+		<spsf:Test>
+			<spsf:TestCases>
+				<spsf:TestCase Name="DefaultDelegateControlCS" Type="SolutionTestCase">
+					<spsf:TestCaseArguments>
+						<spsf:TestCaseArgument Name="DelegateControlName">DelegateControlCS</spsf:TestCaseArgument>
+						<spsf:TestCaseArgument Name="DelegateControlId">AdditionalPageHead</spsf:TestCaseArgument>
+					</spsf:TestCaseArguments>
+					<spsf:TestExpectedDeployResults>
+						<spsf:TestExpectedDeployResult Type="ManualCheck">In page content of page http://demo2010a/SitePages/Home.aspx a delegate in header is available</spsf:TestExpectedDeployResult>
+					</spsf:TestExpectedDeployResults>
+				</spsf:TestCase>
+			</spsf:TestCases>
+		</spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="./BaseDelegateControlArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="ControlTemplatesCodeFolder">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="CustomCode\$(DelegateControlName)" />
+    </Argument>
+    <Argument Name="ControlTemplatesCodeFileName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(DelegateControlName).cs" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+				<xi:include href="./BaseDelegateControlPage.include" xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <!-- elements.xml-->
+    <Action
+      Name="CreateElementsXml"
+      Type="AddElementsDefinitionAction"
+      ParentFeatureName="$(ParentFeatureName)"
+      ElementsName="$(DelegateControlName)"
+      ElementsCategory="$(ElementsCategory)"
+      TemplateFileName="Text\DelegateControlCS\elements.xml.t4"
+      SPDataTemplate="Text\DelegateControlCS\SharePointProjectItem.spdata.t4"
+      Open="true">
+      <Output Name="CreatedElementFolder" />
+      <Output Name="CreatedElementFile" />
+    </Action>
+
+    <!-- add code -->
+    <Action
+      Name="AddControlTemplate"
+      Type="AddTemplateToItemAction"
+      DeploymentType="CustomCode"
+      TemplateFileName="Text\DelegateControlCS\DelegateControlCode.cs.t4"
+      Open="true"
+      TargetFileName="$(DelegateControlName).cs">
+      <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+    </Action>
+
+    <xi:include href="../../BaseCASPolicyActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+  
+</Recipe>

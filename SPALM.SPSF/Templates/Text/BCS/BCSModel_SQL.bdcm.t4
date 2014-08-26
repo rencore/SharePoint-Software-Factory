@@ -1,0 +1,445 @@
+﻿<#@ template language="C#" #>
+<#@ include file="Templates/Text/BCS/BCSFunctions.t4" #><?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<#
+
+string entityNamespace = ProjectNamespace + "." + BCSModelName;
+string entityAssembly = ProjectAssemblyName;
+
+#>
+<Model Name="<#= BCSModelName #>" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns="http://schemas.microsoft.com/windows/2007/BusinessDataCatalog">
+  <#
+	  WritePermissions(BCSPermissions);
+	  int count = 0;
+  #>
+  <LobSystems>
+    <LobSystem Type="Database" Name="<#= BCSModelName #>" DefaultDisplayName="<#= BCSModelDisplayName #>" IsCached="<#= BCSModelIsCached.ToString().ToLower() #>">
+      <Properties>
+        <Property Name="WildcardCharacter" Type="System.String">%</Property>
+      </Properties>
+      <#
+	  WritePermissions(BCSPermissions);
+	  #>
+      <Proxy />
+      <LobSystemInstances>
+        <LobSystemInstance Name="<#= BCSModelName #>" DefaultDisplayName="<#= BCSModelDisplayName #>">
+          <Properties>
+            <Property Name="AuthenticationMode" Type="System.String">PassThrough</Property>
+            <Property Name="DatabaseAccessProvider" Type="System.String">SqlServer</Property>
+            <Property Name="RdbConnection Data Source" Type="System.String"><#= BCSServer #></Property>
+            <Property Name="RdbConnection Initial Catalog" Type="System.String"><#= BCSDatabase #></Property>
+            <Property Name="RdbConnection Integrated Security" Type="System.String">SSPI</Property>
+            <Property Name="RdbConnection Pooling" Type="System.String">True</Property>
+            <Property Name="ShowInSearchUI" Type="System.String"></Property>
+          </Properties>
+        </LobSystemInstance>
+      </LobSystemInstances>
+      <Entities>
+	  <#
+
+	  foreach(BCSEntity entity in BCSModel.Entities)
+	  {
+	    #>
+        <Entity Namespace="<#= ProjectNamespace #>.<#= BCSModelName #>" Version="<#= BCSModelVersion #>" EstimatedInstanceCount="<#= BCSEstimatedCount #>" Name="<#= entity.Name #>" DefaultDisplayName="<#= entity.DisplayName #>">
+        <#
+			WriteEntityProperties(entity, "");
+			WritePermissions(BCSPermissions);
+
+		  if(entity.Fields.Count > 0)
+		  {
+			#>
+			<Identifiers>
+			<#
+				foreach(BCSField field in entity.Fields)
+				{
+					if(field.IsKey)
+					{
+						#>
+						<Identifier TypeName="<#= field.DataType.ToString() #>" Name="<#= field.Name #>" />
+						<#
+					}
+				}
+			#>
+			</Identifiers>
+			<#
+		  }
+		  #>
+          <Methods>
+		    <#
+			if(entity.CreateReadOperation)
+			{				
+				#>
+				<Method Name="Read Item" DefaultDisplayName="Read <#= entity.DisplayName #> Item">
+				  <Properties>
+					<Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+					<Property Name="RdbCommandText" Type="System.String"><#
+
+					WriteSelectItemQuery(entity);
+					
+					#></Property>
+					<Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+					<Property Name="BackEndObject" Type="System.String"><#= entity.Name #></Property>
+					<Property Name="Schema" Type="System.String"><#= entity.Schema #></Property>
+				  </Properties>
+              <#
+
+			  WritePermissions(BCSPermissions);
+
+			  #>
+              <Parameters>
+			    <#
+				foreach(BCSField field in entity.Fields)
+				{
+					if(field.IsKey)
+					{
+						#>
+						<Parameter Direction="In" Name="@<#= field.Name #>">
+						   <#
+						   GetTypeDescriptor(entity, field, false, false, false, true, entityNamespace);	
+						   #>				
+						</Parameter>
+						<#
+					}						
+				}
+                #>
+                <Parameter Direction="Return" Name="Read Item">
+                  <TypeDescriptor TypeName="System.Data.IDataReader, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" IsCollection="true" Name="Read Item">
+                    <TypeDescriptors>
+                      <TypeDescriptor TypeName="System.Data.IDataRecord, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Name="Read ItemElement">
+                        <TypeDescriptors>
+						  <#
+						  foreach(BCSField field in entity.Fields)
+						  {
+							GetTypeDescriptor(entity, field, false, false, false, false, entityNamespace);						     
+						  }
+                          #>
+                        </TypeDescriptors>
+                      </TypeDescriptor>
+                    </TypeDescriptors>
+                  </TypeDescriptor>
+                </Parameter>
+              </Parameters>
+              <MethodInstances>
+                <MethodInstance Type="SpecificFinder" ReturnParameterName="Read Item" ReturnTypeDescriptorPath="Read Item[0]" Default="true" Name="Read Item" DefaultDisplayName="Read <#= entity.DisplayName #> Item">
+                  <Properties>
+				    <#
+					if(!string.IsNullOrEmpty(entity.OfficeItemType))
+					{
+						#><Property Name="LastDesignedOfficeItemType" Type="System.String"><#= entity.OfficeItemType #></Property><#
+					}
+					else
+					{
+						#><Property Name="LastDesignedOfficeItemType" Type="System.String">None</Property><#
+					}
+				  #>
+                  </Properties>
+                  <#
+				  WritePermissions(BCSPermissions);
+				  #>
+                </MethodInstance>
+              </MethodInstances>
+            </Method>         
+            <Method Name="Read List" DefaultDisplayName="Read <#= entity.DisplayName #> List">
+              <Properties>
+                <Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+                <Property Name="RdbCommandText" Type="System.String"><#
+
+				WriteSelectAllQuery(entity);
+
+				#></Property>
+                <Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+                <Property Name="BackEndObject" Type="System.String"><#= entity.Name #></Property>
+                <Property Name="Schema" Type="System.String"><#= entity.Schema #></Property>
+              </Properties>
+              <#
+				  WritePermissions(BCSPermissions);
+				#>
+              <Parameters>
+                <Parameter Direction="Return" Name="Read List">
+                  <TypeDescriptor TypeName="System.Data.IDataReader, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" IsCollection="true" Name="Read List">
+                    <TypeDescriptors>
+                      <TypeDescriptor TypeName="System.Data.IDataRecord, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Name="Read ListElement">
+                        <TypeDescriptors>                          
+                          <#
+						  foreach(BCSField field in entity.Fields)
+						  {
+							GetTypeDescriptor(entity, field, false, false, false, false, entityNamespace);						     
+						  }
+                          #>
+                        </TypeDescriptors>
+                      </TypeDescriptor>
+                    </TypeDescriptors>
+                  </TypeDescriptor>
+                </Parameter>
+              </Parameters>
+              <MethodInstances>
+                <MethodInstance Type="Finder" ReturnParameterName="Read List" Default="true" Name="Read List" DefaultDisplayName="Read <#= entity.DisplayName #> List">
+                  <Properties>
+                    <Property Name="UseClientCachingForSearch" Type="System.String"></Property>
+                    <Property Name="RootFinder" Type="System.String"></Property>
+                  </Properties>
+                  <#
+				  WritePermissions(BCSPermissions);
+				  #>
+                </MethodInstance>
+              </MethodInstances>
+            </Method>
+			<#
+			}
+
+			if(entity.CreateCreateOperation)
+			{
+				#>
+				<Method Name="<#= entity.CreateOperationName #>" DefaultDisplayName="Create <#= entity.DisplayName #> Item">
+              <Properties>
+                <Property Name="BackEndObject" Type="System.String"><#= entity.Name #></Property>
+                <Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+                <Property Name="RdbCommandText" Type="System.String"><#
+				
+				WriteCreateQuery(entity);
+
+				#></Property>
+                <Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+                <Property Name="Schema" Type="System.String"><#= entity.Schema #></Property>
+              </Properties>
+				<#
+					WritePermissions(BCSPermissions);
+				#>
+              <Parameters>
+				<#
+				foreach(BCSField field in entity.Fields)
+				{
+					if(!field.IsIdentity)
+					{
+						#>
+						<Parameter Direction="In" Name="@<#= field.Name #>">
+						<#
+						GetTypeDescriptor(entity, field, true, false, false, true, entityNamespace);	
+						#>
+						</Parameter>
+						<#
+					}						     
+				}
+                #>               
+                <Parameter Direction="Return" Name="Create">
+                  <TypeDescriptor TypeName="System.Data.IDataReader, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" IsCollection="true" Name="Create">
+                    <TypeDescriptors>
+                      <TypeDescriptor TypeName="System.Data.IDataRecord, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Name="CreateElement">
+                        <TypeDescriptors>
+						  <#
+							foreach(BCSField field in entity.Fields)
+							{
+							GetTypeDescriptor(entity, field, false, false, false, false, entityNamespace);						     
+							}
+						   #>                          
+                        </TypeDescriptors>
+                      </TypeDescriptor>
+                    </TypeDescriptors>
+                  </TypeDescriptor>
+                </Parameter>
+              </Parameters>
+              <MethodInstances>
+                <MethodInstance Type="Creator" ReturnParameterName="Create" ReturnTypeDescriptorPath="Create[0]" Default="true" Name="<#= entity.CreateOperationName #>" DefaultDisplayName="Create <#= entity.DisplayName #> Item">
+                  <#
+						WritePermissions(BCSPermissions);
+				  #>
+                </MethodInstance>
+              </MethodInstances>
+            </Method>
+			<#
+			}
+
+			if(entity.CreateDeleteOperation)
+			{
+				#>
+				<Method Name="<#= entity.DeleteOperationName #>" DefaultDisplayName="Delete <#= entity.DisplayName #> Item">
+				  <Properties>
+					<Property Name="BackEndObject" Type="System.String"><#= entity.Name #></Property>
+					<Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+					<Property Name="RdbCommandText" Type="System.String"><#
+
+					WriteDeleteStatement(entity);
+
+					#></Property>
+					<Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+					<Property Name="Schema" Type="System.String"><#= entity.Schema #></Property>
+				  </Properties>
+					<#
+						WritePermissions(BCSPermissions);
+					#>
+				  <Parameters>
+					<#
+						foreach(BCSField field in entity.Fields)
+						{
+							if(field.IsKey)
+							{
+								#>
+								<Parameter Direction="In" Name="<#= field.Name #>">
+								<#
+									GetTypeDescriptor(entity, field, false, false, false, true, entityNamespace);
+								#>
+								</Parameter>
+								<#
+							}						
+						}
+					#>
+				  </Parameters>
+				  <MethodInstances>
+					<MethodInstance Type="Deleter" Name="<#= entity.DeleteOperationName #>" DefaultDisplayName="Delete <#= entity.DisplayName #> Item">
+					  <#
+						WritePermissions(BCSPermissions);
+				      #>
+					</MethodInstance>
+				  </MethodInstances>
+				</Method>
+				<#
+			}
+
+			if(entity.CreateUpdateOperation)
+			{
+				#>
+				<Method Name="<#= entity.UpdateOperationName #>" DefaultDisplayName="Update <#= entity.DisplayName #> Item">
+					<Properties>
+						<Property Name="BackEndObject" Type="System.String"><#= entity.Name #></Property>
+						<Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+						<Property Name="RdbCommandText" Type="System.String"><#
+
+						WriteUpdateQuery(entity);
+
+						#></Property>
+						<Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+					</Properties>
+					<Parameters>
+						<#
+						foreach(BCSField field in GetUpdateFields(entity))
+						{
+							#>
+							<Parameter Direction="In" Name="@<#= field.Name #>">
+								<#
+								GetTypeDescriptor(entity, field, false, true, false, true, entityNamespace);	
+								#>
+							</Parameter>
+							<#					     
+						}
+						#>     
+						<#
+						if(EntityHasKeyWithIdentity(entity))
+						{
+							foreach(BCSField field in GetUpdateWhereClauseFields(entity))
+							{
+								#>
+								<Parameter Direction="In" Name="@<#= field.Name #>">
+									<#
+									GetTypeDescriptor(entity, field, false, true, false, true, entityNamespace);
+									#>					
+								</Parameter>
+								<#		
+							}
+						}
+						else
+						{	//needs preupdaterfields
+							foreach(BCSField field in GetUpdateWhereClauseFieldsPreUpdate(entity))
+							{
+								#>
+								<Parameter Direction="In" Name="@preupate<#= field.Name #>">
+									<#
+									GetTypeDescriptor(entity, field, false, false, true, true, entityNamespace);
+									#>					
+								</Parameter>
+								<#		
+							}
+						}							
+						#>	
+					</Parameters>
+					<MethodInstances>
+						<MethodInstance Type="Updater" Name="<#= entity.UpdateOperationName #>" DefaultDisplayName="Update <#= entity.DisplayName #> Item">
+						<#
+
+						WritePermissions(BCSPermissions);
+
+						#>
+						</MethodInstance>
+					</MethodInstances>
+				</Method>
+				<#
+			}
+
+			foreach(BCSEntity entityWhichReferencesMe in GetAssocationsToMe(entity))
+			{
+				foreach(BCSField fieldWithReference in entityWhichReferencesMe.Fields)
+				{
+					if(fieldWithReference.ReferencedEntity == entity.Name)
+					{
+						if(BCSModel.IsValidAssociation(fieldWithReference))
+						{
+							#>
+							<Method IsStatic="false" Name="<#= fieldWithReference.AssociationName #>">
+								<Properties>
+									<Property Name="BackEndObject" Type="System.String"><#= entity.Name #></Property>
+									<Property Name="BackEndObjectType" Type="System.String">SqlServerTable</Property>
+									<Property Name="RdbCommandText" Type="System.String"><#
+							
+									WriteAssocationNavigatorQuery(entityWhichReferencesMe, fieldWithReference);
+							
+									#></Property>
+									<Property Name="RdbCommandType" Type="System.Data.CommandType, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">Text</Property>
+									<Property Name="Schema" Type="System.String"><#= entity.Schema #></Property>
+								</Properties>
+								<#
+								WritePermissions(BCSPermissions);
+								#>
+							  <Parameters>
+								<Parameter Direction="In" Name="@<#= fieldWithReference.Name #>">
+								  <TypeDescriptor Name="<#= fieldWithReference.Name #>" TypeName="<#= GetTypeName(fieldWithReference) #>" IdentifierEntityName="<#= fieldWithReference.ReferencedEntity #>" IdentifierEntityNamespace="<#= ProjectNamespace #>.<#= BCSModelName #>" IdentifierName="<#= fieldWithReference.ReferencedField #>" ForeignIdentifierAssociationName="<#= fieldWithReference.AssociationName #>" />
+								</Parameter>
+								<Parameter Direction="Return" Name="return<#= fieldWithReference.AssociationName #>">
+								  <TypeDescriptor TypeName="System.Data.IDataReader, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" IsCollection="true" Name="<#= fieldWithReference.AssociationName #>">
+									<TypeDescriptors>
+									  <TypeDescriptor TypeName="System.Data.IDataRecord, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Name="<#= fieldWithReference.AssociationName #>Element">
+										<TypeDescriptors>
+										  <#
+										  foreach(BCSField field in entityWhichReferencesMe.Fields)
+										  {
+											GetTypeDescriptor(entityWhichReferencesMe, field, false, false, false, false, entityNamespace);						     
+										  }
+										  #>
+										</TypeDescriptors>
+									  </TypeDescriptor>
+									</TypeDescriptors>
+								  </TypeDescriptor>
+								</Parameter>
+							  </Parameters>
+							  <MethodInstances>
+								<Association Name="<#= fieldWithReference.AssociationName #>" Type="AssociationNavigator" ReturnParameterName="return<#= fieldWithReference.AssociationName #>" DefaultDisplayName="<#= fieldWithReference.AssociationName #>">
+								  <#
+									WritePermissions(BCSPermissions);
+									#>
+								  <SourceEntity Namespace="<#= ProjectNamespace #>.<#= BCSModelName #>" Name="<#= entity.Name #>" />
+								  <DestinationEntity Namespace="<#= ProjectNamespace #>.<#= BCSModelName #>" Name="<#= entityWhichReferencesMe.Name #>" />
+								</Association>
+							  </MethodInstances>
+							</Method>
+							<#
+						}
+					}
+				}
+			}
+		  #>
+          </Methods>
+		  <#
+
+		  WriteAssociationGroups(entity, entityNamespace);
+
+		  #>
+        </Entity>
+		<#
+
+		}
+
+	  #>
+      </Entities>
+    </LobSystem>
+  </LobSystems>
+</Model>

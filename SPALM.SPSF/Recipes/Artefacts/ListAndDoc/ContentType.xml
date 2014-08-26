@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="ContentType"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <DocumentationLinks>
+    <Link Caption="Content Type Definition Schema" Url="http://msdn.microsoft.com/en-us/library/ms463449.aspx" Kind="Documentation"/>
+  </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Content Type</Caption>
+  <Description>Adds a content type to the current selected feature</Description>
+  <HostData Priority="10">
+    <Icon File="Help/Icons/icon_ContentType.ico" />
+    <CommandBar Menu="SPSFProjectListAndDoc"/>
+    <CommandBar Menu="SPSFFolderListAndDoc"/>
+    <spsf:MetaData
+    Visible="true"
+    BindingType="ElementManifestReference"
+    BindingTypeTemplate="ElementManifestReferenceTemplate"
+    TestType="BaseSiteFeatureRecipeRunner"
+    Enabled="true"
+    CreateVSTemplate="true"
+    FeatureScopes="Web;Site"
+    Category="ListAndDoc"
+    xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:RelatedRecipes>
+        <spsf:RelatedRecipe>ContentTypeDocumentTemplate</spsf:RelatedRecipe>
+        <spsf:RelatedRecipe>ContentTypeFieldRef</spsf:RelatedRecipe>
+        <spsf:RelatedRecipe>ContentTypeCustomForm</spsf:RelatedRecipe>
+        <spsf:RelatedRecipe>ContentTypeEventReceiver</spsf:RelatedRecipe>
+      </spsf:RelatedRecipes>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="DefaultContentType">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="ContentTypeName">ContentTypeDefault</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+          <spsf:TestCase Name="ContentTypeWithReceiver" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="ContentTypeName">ContentTypeWithReceiver</spsf:TestCaseArgument>
+              <spsf:TestCaseArgument Name="ContentTypeEventItemAdding">True</spsf:TestCaseArgument>
+              <spsf:TestCaseArgument Name="ContentTypeEventItemAdded">True</spsf:TestCaseArgument>
+              <spsf:TestCaseArgument Name="ContentTypeEventItemDeleting">True</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+          <spsf:TestCase Name="ContentTypeWithCustomForm" Type="SolutionTestCase" NotSandboxSupported="true">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="ContentTypeName">ContentTypeWithCustomForm</spsf:TestCaseArgument>
+              <spsf:TestCaseArgument Name="ContentTypeCustomFormsDisplay">True</spsf:TestCaseArgument>
+              <spsf:TestCaseArgument Name="ContentTypeCustomFormsNew">True</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <!-- set standard parameters -->
+    <Argument Name="AllowedScopes" Type="System.String">
+      <ValueProvider Type="Evaluator" Expression="Site" />
+    </Argument>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="ElementsCategory">
+      <ValueProvider Type="Evaluator" Expression="ContentTypes" />
+    </Argument>
+
+    <Argument Name="ResourceKeyPrefix" Required="true">
+      <!-- provides the unique key with removed special chars -->
+      <ValueProvider Stage="OnBeforeActions" RecipeArgument="ContentTypeName" Type="ConvertedStringProvider" />
+    </Argument>
+
+    <Argument Name="ContentTypeResourceKey">
+      <ValueProvider Type="ConvertedStringProvider" RecipeArgument="ContentTypeName" />
+    </Argument>
+    <Argument Name="DocumentTemplatesFolder" Required="false">
+      <ValueProvider Type="Evaluator" Expression="DocumentTemplates" />
+    </Argument>
+
+    <!-- Content Type Arguments -->
+    <Argument Name="ContentTypeParentContentType" Type="NameValueItem" Required="true" >
+      <ValueProvider Type="DefaultNameValueItemProvider" Name="Item" Value="0x01" />
+    </Argument>
+    <Argument Name="ContentTypeID">
+      <ValueProvider Type="ContentTypeIDValueProvider" />
+    </Argument>
+    <Argument Name="ContentTypeName">
+      <Converter Type="NamespaceStringConverter" />
+      <ValueProvider Type="VisualStudioCreateItemName" MakeSafe="true" DefaultValue="ContentType1" />
+    </Argument>
+    <Argument Name="ContentTypeSafeName">
+      <ValueProvider Stage="OnBeforeActions" Type="ConvertedStringProviderUnderscore" RecipeArgument="ContentTypeName" />
+    </Argument>
+    <Argument Name="ContentTypeUniqueName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SafeAppName)_$(ContentTypeSafeName)" />
+    </Argument>
+    <Argument Name="ContentTypeDescription">
+      <ValueProvider Type="Evaluator" Expression="$(ContentTypeName) Description" />
+    </Argument>
+    <Argument Name="ContentTypeGroup" Type="System.String" >
+      <ValueProvider Type="Evaluator" Expression="Custom Content Types" />
+    </Argument>
+    <Argument Name="ContentTypeVersion">
+      <ValueProvider Type="Evaluator" Expression="0" />
+    </Argument>
+    <Argument Name="ContentTypeFieldRefs" Required="false" Type="NameValueItemArray" >
+      <ValueProvider Type="DefaultNameValueCollectionProvider"  />
+    </Argument>
+    <Argument Name="ContentTypeRemoveFieldRefs" Required="false" Type="NameValueItemArray" >
+      <ValueProvider Type="DefaultNameValueCollectionProvider"  />
+    </Argument>
+    <Argument Name="ContentTypeDocumentTemplate" Required="false">
+      <ValueProvider Type="Evaluator" Expression="" />
+    </Argument>
+    <Argument Name="ContentTypeDocumentTemplateFilename" Required="false">
+      <ValueProvider Stage="OnBeforeActions" Type="FilenameProvider" RecipeArgument="ContentTypeDocumentTemplate" />
+    </Argument>
+    <Argument Name="ContentTypeDocumentTemplateUniqueFilename" Required="false">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ContentTypeSafeName)_$(ContentTypeDocumentTemplateFilename)" />
+    </Argument>
+    <Argument Name="ContentTypeDocumentTemplatePlaceInLayouts" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="true" />
+    </Argument>
+    <Argument Name="ContentTypeDocumentTemplatePlaceInNotLayouts" Type="System.Boolean">
+      <ValueProvider Stage="OnBeforeActions" Type="BooleanOppositeProvider" RecipeArgument="ContentTypeDocumentTemplatePlaceInLayouts" />
+    </Argument>
+
+    <Argument Name="ContentTypeDocumentTemplateLayoutsFolder">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SharePointVersion)\Template\Layouts\$(SolutionSubFolder)" />
+    </Argument>
+
+    <Argument Name="ContentTypeEventClassName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ContentTypeSafeName)EventReceivers" />
+    </Argument>
+    <Argument Name="ContentTypeEventFileName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ContentTypeSafeName)EventReceivers.cs" />
+    </Argument>
+    <Argument Name="ContentTypeEventFolderName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="CustomCode\$(ContentTypeSafeName)EventReceivers" />
+    </Argument>
+    <Argument Name="ContentTypeEventItemAdding" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeEventItemAdded" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeEventItemUpdating" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeEventItemUpdated" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeEventItemDeleting" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeEventItemDeleted" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+
+    <Argument Name="ContentTypeCustomFormsDisplay" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeCustomFormsEdit" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeCustomFormsNew" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeCustomFormsInfoPath" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeCustomFormsFileName">
+      <ValueProvider Type="Evaluator" Expression="$(ContentTypeUniqueName)_FormTemplates.ascx" />
+    </Argument>
+    <Argument Name="ControlTemplatesFolderName">
+      <ValueProvider Type="Evaluator" Expression="$(SharePointVersion)\TEMPLATE\CONTROLTEMPLATES" />
+    </Argument>
+
+    <Argument Name="ContentTypeCustomFormsDisplayFormName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ContentTypeUniqueName)_Display.aspx" />
+    </Argument>
+
+    <Argument Name="ContentTypeHidden" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeReadOnly" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="ContentTypeSealed" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>Content Type Settings</Title>
+          <Fields>
+            <Field PanelType="SPALM.SPSF.Library.NameValueItemPanel, SPALM.SPSF.Library" ValueName="ContentTypeParentContentType" Label="Parent Content Type" >
+              <Help>Required. New content type will be derived from the selected parent content type.</Help>
+              <Editor Type="SPALM.SPSF.Library.ContentTypeEditor, SPALM.SPSF.Library" />
+            </Field>
+            <Field ValueName="ContentTypeName" Label="Name">
+              <Help>Required Text. Specifies the content type name.</Help>
+            </Field>
+            <Field ValueName="ContentTypeDescription" Label="Description">
+              <Help>Optional Text. Provides a description for the content type, to display in the Windows SharePoint Services user interface.</Help>
+            </Field>
+            <Field PanelType="SPALM.SPSF.Library.NameValueStringPanel, SPALM.SPSF.Library" ValueName="ContentTypeGroup" Label="Group" >
+              <Help>Optional Text. Specifies the content type group to which the content type is assigned. Content type groups are user-defined groups that help you organize your columns into logical categories.</Help>
+              <Editor Type="SPALM.SPSF.Library.ContentTypeGroupEditor, SPALM.SPSF.Library" />
+            </Field>
+          </Fields>
+        </Page>
+        <Page Width="600" Height="400">
+          <Title>Fields</Title>
+          <Fields>
+            <Field PanelType="SPALM.SPSF.Library.NameValueListPanel, SPALM.SPSF.Library" ValueName="ContentTypeFieldRefs" Label="Fields" >
+              <Help>Optional. Specifies a column to reference in this content type.</Help>
+              <Editor Type="SPALM.SPSF.Library.SiteColumnEditor, SPALM.SPSF.Library" />
+            </Field>
+            <Field ValueName="ContentTypeRemoveFieldRefs" PanelType="SPALM.SPSF.Library.NameValueListPanel, SPALM.SPSF.Library" Label="Remove Fields" >
+              <Help>Optional. Specifies a column reference, included in the parent content type, to be removed from this content type.</Help>
+              <Editor Type="SPALM.SPSF.Library.SiteColumnEditor, SPALM.SPSF.Library" />
+            </Field>
+          </Fields>
+        </Page>
+        <Page Width="600" Height="400">
+          <Title>Document Template</Title>
+          <Fields>
+            <Field ValueName="ContentTypeDocumentTemplate" Label="Document Template" >
+              <Help>Optional Text. Document template which is used for creation of new items based on this content type.</Help>
+              <Editor Type="SPALM.SPSF.Library.FileChooser, SPALM.SPSF.Library" />
+            </Field>
+            <Field ValueName="ContentTypeDocumentTemplatePlaceInLayouts" Label="Place template in _layouts folder for easier upgrade">
+              <Help>Optional Boolean. If checked, the selected document template will be placed inside the /_layouts/ in SharePoint and can be updated easier in the future. Otherwise the document template will be stored in the database.</Help>
+            </Field>
+          </Fields>
+        </Page>
+        <Page Width="600" Height="400">
+          <Title>Event Receivers</Title>
+          <Fields>
+            <Field ValueName="ContentTypeEventItemAdding" Label="Item Adding">
+              <Help>Optional Boolean. If checked an event handler for ItemAdding event is added to the content type.</Help>
+            </Field>
+            <Field ValueName="ContentTypeEventItemAdded" Label="Item Added">
+              <Help>Optional Boolean. If checked an event handler for ItemAdded event is added to the content type.</Help>
+            </Field>
+            <Field ValueName="ContentTypeEventItemUpdating" Label="Item Updating">
+              <Help>Optional Boolean. If checked an event handler for ItemUpdating event is added to the content type.</Help>
+            </Field>
+            <Field ValueName="ContentTypeEventItemUpdated" Label="Item Updated">
+              <Help>Optional Boolean. If checked an event handler for ItemUpdated event is added to the content type.</Help>
+            </Field>
+            <Field ValueName="ContentTypeEventItemDeleting" Label="Item Deleting">
+              <Help>Optional Boolean. If checked an event handler for ItemDeleting event is added to the content type.</Help>
+            </Field>
+            <Field ValueName="ContentTypeEventItemDeleted" Label="Item Deleted">
+              <Help>Optional Boolean. If checked an event handler for ItemDeleted event is added to the content type.</Help>
+            </Field>
+          </Fields>
+        </Page>
+        <Page Width="600" Height="400">
+          <Title>Custom Forms</Title>
+          <Fields>
+            <Field ValueName="ContentTypeCustomFormsDisplay" Label="Custom Display Form" >
+              <Help>Optional Boolean. If checked a custom form for the display mode of the content type is added.</Help>
+            </Field>
+            <Field ValueName="ContentTypeCustomFormsEdit" Label="Custom Edit Form" >
+              <Help>Optional Boolean. If checked a custom form for the edit mode of the content type is added.</Help>
+            </Field>
+            <Field ValueName="ContentTypeCustomFormsNew" Label="Custom New Form" >
+              <Help>Optional Boolean. If checked a custom form for the creation of the content type is added.</Help>
+            </Field>
+            <!--
+              <Field ValueName="ContentTypeCustomFormsInfoPath" Label="Create InfoPath Forms instead of ASPX forms">
+                <Help></Help>
+              </Field>
+              -->
+          </Fields>
+        </Page>
+        <Page Width="600" Height="400">
+          <Title>Advanced Settings</Title>
+          <Fields>
+            <Field ValueName="ContentTypeID" Label="Content Type ID">
+              <Help>Required Text. Specifies the content type ID of the content type.</Help>
+            </Field>
+            <Field ValueName="ContentTypeVersion" Label="Content Type Version" >
+              <Help>Reserved for future use.</Help>
+            </Field>
+            <Field ValueName="ContentTypeHidden" Label="Hidden">
+              <Help>Optional Boolean. TRUE to define the content type as hidden. If you define a content type as hidden, Windows SharePoint Services does not display that content type on the New button in list views. If you do not include this attribute, Windows SharePoint Services treats the content type as if this attributes was set to FALSE.</Help>
+            </Field>
+            <Field ValueName="ContentTypeReadOnly" Label="Read Only">
+              <Help>Optional Boolean. TRUE to define the content type as read-only. If you do not include this attribute, Windows SharePoint Services treats the content type as if this attributes was set to FALSE.</Help>
+            </Field>
+            <Field ValueName="ContentTypeSealed" Label="Sealed">
+              <Help>Optional Boolean. TRUE to define the content type as sealed. You must have site collection administrator rights to unseal and edit a content type defined as sealed. If you do not include this attribute, Windows SharePoint Services treats the content type as if this attributes was set to FALSE.</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <!-- elements.xml-->
+    <Action
+      Name="CreateElementsXml"
+      Type="AddElementsDefinitionAction"
+      ParentFeatureName="$(ParentFeatureName)"
+      ElementsName="$(ContentTypeSafeName)"
+      ElementsCategory="$(ElementsCategory)"
+      TemplateFileName="Text\ContentType\elements.xml.t4"
+      SPDataTemplate="Text\ContentType\SharePointProjectItem.spdata.t4"
+      Open="true">
+      <Output Name="CreatedElementFolder" />
+      <Output Name="CreatedElementFile" />
+    </Action>
+
+    <!-- Documenttemplate -->
+    <Action
+      Name="AddDocumentTemplateToLayouts"
+      Condition="$(ContentTypeDocumentTemplatePlaceInLayouts)"
+      Type="AddFileToItemAction"
+      DeploymentType="TemplateFile"
+      DeploymentPath="Layouts\$(SafeAppName)"
+      SourceFileName="$(ContentTypeDocumentTemplate)"
+      TargetFileName="$(ContentTypeDocumentTemplateUniqueFilename)">
+      <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+    </Action>
+    <!-- Document Template to forms -->
+    <Action
+      Name="AddDocumentTemplateToFeature"
+      Condition="$(ContentTypeDocumentTemplatePlaceInNotLayouts)"
+      Type="AddFileToItemAction"
+      DeploymentType="ElementFile"
+      DeploymentPath="$(ContentTypeSafeName)"
+      SourceFileName="$(ContentTypeDocumentTemplate)"
+      TargetFileName="$(ContentTypeDocumentTemplateUniqueFilename)">
+      <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+    </Action>
+
+    <!-- Resources -->
+    <Action
+      Condition="$(AutoCreateResxFiles)"
+      Name="AddResources"
+      Type="AddTemlateToResourcesFileAction"          
+      TemplateFileName="Text\ContentType\Resources.resx.t4"
+      FeatureResources="True" >
+        <Input Name="FeatureName" RecipeArgument="ParentFeatureName" />
+    </Action>
+
+    <!-- Event receiver code -->
+    <Action
+      Name="AddReceiverCode"
+      Type="AddTemplateToItemAction"
+      Open="true"
+      TemplateFileName="Text\ContentType\eventreceiver.cs.t4"
+      TargetFileName="$(ContentTypeSafeName).EventReceiver.cs">
+      <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+    </Action>
+
+    <!-- add custom forms to Controltemplates-->
+    <Action
+      Name="AddCustomForms"
+      Type="AddTemplateToItemAction"
+      DeploymentType="TemplateFile"
+      DeploymentPath="CONTROLTEMPLATES"
+      TemplateFileName="Text\ContentType\CustomForms.ascx.t4"
+      TargetFileName="$(ContentTypeUniqueName)_FormTemplates.ascx">
+      <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

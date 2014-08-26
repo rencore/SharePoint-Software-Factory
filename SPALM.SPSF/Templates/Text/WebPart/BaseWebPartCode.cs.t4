@@ -1,0 +1,19 @@
+﻿
+		private string mProperty1;			
+		public string Property1
+		{
+			set
+			{
+				mProperty1 = value;
+			}
+			get
+			{
+				return mProperty1;
+			}
+		}
+		
+		public <#= this.WebPartName #>()
+        {
+
+        }
+

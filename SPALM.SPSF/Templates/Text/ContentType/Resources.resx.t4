@@ -1,0 +1,11 @@
+﻿<#@ template language="C#" #>
+  <data name="<#= ResourceKeyPrefix #>_ContentTypeName">
+    <value><#= ContentTypeName #></value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_ContentTypeDescription">
+    <value><#= ContentTypeDescription #></value>
+  </data>  
+  <data name="<#= ResourceKeyPrefix #>_ContentTypeGroup">
+    <value><#= ContentTypeGroup #></value>
+  </data>
+		   

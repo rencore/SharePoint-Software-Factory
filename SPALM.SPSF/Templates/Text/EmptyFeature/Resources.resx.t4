@@ -1,0 +1,7 @@
+﻿<#@ template language="C#" #>
+  <data name="<#= FeatureName #>_FeatureTitle">
+    <value><#= FeatureTitle #></value>
+  </data>
+  <data name="<#= FeatureName #>_FeatureDescription">
+    <value><#= FeatureDescription #></value>
+  </data>  

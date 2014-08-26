@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="OpenSPSFHelp"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Open SPSF Help</Caption>
+	<Description>Opens the SPSF help in the browser.</Description>
+	<HostData Priority="9000">
+		<Icon File="Help/Icons/icon_Help.ico" />
+		<CommandBar Menu="SPSFProjectHelp"/>
+		<CommandBar Menu="SPSFSolutionHelp"/>
+		<CommandBar Menu="SPSFSolutionFolderHelp"/>
+		<CommandBar Menu="SPSFFolderHelp"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="AnyFileReference"
+		  Enabled="true"
+		  ExcludeFromTests="true"
+		  CreateVSTemplate="false"
+		  Category="Helpers" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Actions>
+		<Action Name="ShowHelp" Type="ShowHelp" />
+	</Actions>
+</Recipe>

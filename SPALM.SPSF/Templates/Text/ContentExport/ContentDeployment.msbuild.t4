@@ -1,0 +1,42 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ImportUpdateVersions" #>
+<#@ property processor="PropertyProcessor" name="IncludeSecurity" #>
+<#@ assembly name="System.dll" #>
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- enter here the url where to import the content in exportedData.cab -->
+	<PropertyGroup>
+		<ImportUrl>ENTERURLHERE</ImportUrl>
+		<ImportUpdateVersions><#= ImportUpdateVersions #></ImportUpdateVersions>
+		<ImportIncludeUserSecurity><#= IncludeSecurity #></ImportIncludeUserSecurity>
+     </PropertyGroup>
+     
+	<PropertyGroup>
+		<STSADM>"C:\Program Files\Common Files\Microsoft Shared\web server extensions\12\bin\stsadm.exe"</STSADM>
+		<ImportFilename>./ExportedData/exportedData.cab</ImportFilename>
+		<ImportLogFilename>./ExportedData/exportedData.cab.import.log</ImportLogFilename>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<ImportIncludeUserSecurityParameter Condition="$(ImportIncludeUserSecurity) == 'true'">-includeusersecurity</ImportIncludeUserSecurityParameter>
+	</PropertyGroup>
+
+	<Target Name="Deploy">
+		<Exec Command="$(STSADM) -o import -filename &quot;$(ImportFilename)&quot; -url $(ImportUrl) -updateversions $(ImportUpdateVersions) $(ImportIncludeUserSecurityParameter)" />
+	</Target>
+
+	<Target Name="Undeploy">
+		<Message Text="Undeployment of content in $(ImportFilename) is not possible in SharePoint." Importance="High" />
+	</Target>
+  
+	<Target Name="Upgrade" DependsOnTargets="Deploy">
+		<Message Text="Upgrade starts reimport." Importance="High" />
+	</Target>
+  
+	<Target Name="Redeploy" DependsOnTargets="Deploy">
+		<Message Text="Redeploy starts reimport." Importance="High" />
+	</Target>
+	
+</Project>
+

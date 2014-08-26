@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="Module"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Module</Caption>
+  <Description>Adds a module to the current selected feature to provision files</Description>
+  <HostData>
+    <Icon File="Help/Icons/icon_Module.ico" />
+    <CommandBar Menu="SPSFProjectListAndDoc"/>
+    <CommandBar Menu="SPSFFolderListAndDoc"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="ElementManifestReference"
+      BindingTypeTemplate="ElementManifestReferenceTemplate"
+      TestType="BaseSiteFeatureRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="true"
+      FeatureScopes="Web;Site"
+      Category="ListAndDoc" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="DefaultModule" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="ModuleName">ModuleDefault</spsf:TestCaseArgument>
+              <spsf:TestCaseArgument Name="FilesToAdd">F:\SPALM\SPSF\Dev\Source\TestData\TestFiles\Module.txt; F:\SPALM\SPSF\Dev\Source\TestData\TestFiles\ClassResourceFile.txt</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <Argument Name="AllowedScopes" Type="System.String">
+      <ValueProvider Type="Evaluator" Expression="Web;Site" />
+    </Argument>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="ElementsCategory">
+      <ValueProvider Type="Evaluator" Expression="Modules" />
+    </Argument>
+
+    <Argument Name="ResourceKeyPrefix" Required="true">
+      <!-- provides the unique key with removed special chars -->
+      <ValueProvider Type="Evaluator" Expression="ModuleFiles" />
+    </Argument>
+
+    <!-- Recipe specific parameters -->
+    <Argument Name="ModuleName">
+      <Converter Type="NamespaceStringConverter" />
+      <ValueProvider Type="VisualStudioCreateItemName" DefaultValue="Module1" />
+    </Argument>
+    <Argument Name="TargetUrl" Required="false">
+      <Converter Type="ModuleUrlConverter" />
+      <ValueProvider Type="Evaluator" Expression="_catalogs/masterpage" />
+    </Argument>
+    <Argument Name="ProvisionedFilesFolder">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="ProvisionedFiles_$(ModuleName)" />
+    </Argument>
+    <Argument Name="FilesToAdd" Required="true">
+      <ValueProvider Type="Evaluator" Expression="" />
+    </Argument>
+    <Argument Name="RootWebOnly" Type="System.Boolean" Required="true">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>Select Files</Title>
+          <Fields>
+            <Field ValueName="ModuleName" Label="Name" >
+              <Help>Required Text. Contains the name of the file set.</Help>
+            </Field>
+            <Field ValueName="TargetUrl" Label="Target Url" >
+              <Help>Optional Text. Specifies the virtual path of the folder in which to place the files when a site is instantiated. If Path is not specified, the value of Url is used for the physical path. Use the Url attribute to provision a folder through the Feature.</Help>
+            </Field>
+            <Field ValueName="FilesToAdd" Label="Files" >
+              <Help>Select the files which should be added to the module. The selected files will be copied into the project.</Help>
+              <Editor Type="SPALM.SPSF.Library.MultiFileChooser, SPALM.SPSF.Library" />
+            </Field>
+            <Field ValueName="RootWebOnly" Label="RootWebOnly" >
+              <Help>Optional Boolean. TRUE if the files specified in the module are installed only in the top-level Web site of the site collection.</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <!-- elements.xml-->
+    <Action
+      Name="CreateElementsXml"
+      Type="AddElementsDefinitionAction"
+      ParentFeatureName="$(ParentFeatureName)"
+      ElementsName="$(ModuleName)"
+      ElementsCategory="$(ElementsCategory)"
+      TemplateFileName="Text\Module\elements.xml.t4"
+      SPDataTemplate="Text\Module\SharePointProjectItem.spdata.t4"
+      Open="true">
+      <Output Name="CreatedElementFolder" />
+      <Output Name="CreatedElementFile" />
+    </Action>
+
+    <Action
+      Name="AddFiles"
+      Type="AddFileToItemAction"
+      DeploymentType="ElementFile" 
+      DeploymentPath="$(ModuleName)">
+      <Input Name="SourceFileName" RecipeArgument="FilesToAdd" />
+      <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

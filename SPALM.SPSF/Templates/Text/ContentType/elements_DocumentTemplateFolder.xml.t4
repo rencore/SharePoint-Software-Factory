@@ -1,0 +1,19 @@
+﻿<#@ template language="C#" #>
+<#
+if((ContentTypeDocumentTemplateFilename != null) && (ContentTypeDocumentTemplateFilename != ""))
+{
+	if(!ContentTypeDocumentTemplatePlaceInLayouts)
+	{			
+		#>
+		<Elements xmlns="http://schemas.microsoft.com/sharepoint/">				
+				<Module 
+				Name="Template_<#= ContentTypeSafeName #>" 
+				Url="_cts/<#= ContentTypeSafeName #>" 
+				RootWebOnly="TRUE">
+					<File Url="<#= ContentTypeDocumentTemplateUniqueFilename #>" Type="Ghostable" />
+				</Module>
+		</Elements>		
+		<#
+	}
+}
+#>

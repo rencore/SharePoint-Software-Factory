@@ -1,0 +1,42 @@
+New
+- Added support for Visual Studio 2012
+- Added support for SharePoint 2013
+- New PowerShell based solution deployment package based SharePoint Solution Deployer http://spsd.codeplex.com
+- Added a deployment project recpide to allow multiple deployment projects
+- Integrated SPCAF SharePoint CodeAnalysis Framework (http://www.spcaf.de)
+- Integrated SPCop SharePoint CodeCheck (http://sharepointcop.codeplex.com)
+- Added SP2013 MasterPage and PageLayout templates
+
+Changes
+- Removed support for Visual Studio 2008/2010 (use SPSF 3.2)
+- Removed support for Hive project structure (use SPSF 3.2)
+- Removed support for MOSS2007
+- Renamed SharePointTargets.targets to SPSF.targets
+- Removed Farm Solution Deployment recipes (use VS or CKSDev instead), sandboxed solution and quick deploy are still included.
+- Removed debugging recipes (use VS or CKSDev instead)
+- Removed configuration project template
+- SharePoint project will still create WSP on every build but won't copy them to the deployment project
+- Deployment project collects all WSPs from the whole solution and has a build dependency on als SharePoint projects
+- Updated SharePoint version recipe to include all known SharePoint versions
+- Updated images to look nicer in VS2012
+- Selection treeviews now sorted and "[Elements in this solution]" is now on the top to find elements easier.
+- Improved general usability of dialogs/wizards
+
+Fixes
+- Administration page recipe now generates designer.cs
+- Application page recipe now generates designer.cs
+- Uses any StyleCop Version
+- Fixed Feature Dependency dialog to show again "[Elements in this solution]"
+- Fixed Ribbon Tab Recipe
+- Fixed PSScript Recipe
+- Fixed Sequential Workflow not naming constructor correctly
+- Fixed multiple minor bugs and issues
+
+
+
+
+
+
+
+
+

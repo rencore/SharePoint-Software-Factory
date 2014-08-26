@@ -1,0 +1,19 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="WorkflowNamespace" #>
+<#@ property processor="PropertyProcessor" name="WorkflowName" #>
+<#@ assembly name="System.dll" #>
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="<#= WorkflowName #>Data">
+    <xs:complexType>
+      <xs:sequence>
+        <!-- Sample
+        <xs:element name="Approver" type="xs:string" minOccurs="0" />
+        <xs:element name="ApprovalScope" type="xs:string" minOccurs="0" />
+        <xs:element name="Instructions" type="xs:string" minOccurs="0" />
+        <xs:element name="Comments" type="xs:string" minOccurs="0" />
+        -->
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

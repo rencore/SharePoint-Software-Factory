@@ -1,0 +1,88 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<PermissionSet class="NamedPermissionSet">
+	<IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" <#
+
+	string flags = "";
+
+	if(SecurityAllFlags)
+	{
+		flags += ",AllFlags";
+	}
+	if(SecurityAssertion)
+	{
+		flags += ",Assertion";
+	}
+	if(SecurityBindingRedirects)
+	{
+		flags += ",BindingRedirects";
+	}
+	if(SecurityControlAppDomain)
+	{
+		flags += ",ControlAppDomain";
+	}
+	if(SecurityControlDomainPolicy)
+	{
+		flags += ",ControlDomainPolicy";
+	}
+	if(SecurityControlEvidence)
+	{
+		flags += ",ControlEvidence";
+	}
+	if(SecurityControlPolicy)
+	{
+		flags += ",ControlPolicy";
+	}
+	if(SecurityControlPrincipal)
+	{
+		flags += ",ControlPrincipal";
+	}
+	if(SecurityControlThread)
+	{
+		flags += ",ControlThread";
+	}
+	if(SecurityExecution)
+	{
+		flags += ",Execution";
+	}
+	if(SecurityInfrastructure)
+	{
+		flags += ",Infrastructure";
+	}
+	if(SecurityNoFlags)
+	{
+		flags += ",NoFlags";
+	}
+	if(SecurityRemotingConfiguration)
+	{
+		flags += ",RemotingConfiguration";
+	}
+	if(SecuritySerializationFormatter)
+	{
+		flags += ",SerializationFormatter";
+	}
+	if(SecuritySkipVerification)
+	{
+		flags += ",SkipVerification";
+	}
+	if(SecurityUnmanagedCode)
+	{
+		flags += ",UnmanagedCode";
+	}
+
+	//remove first comma
+	if(flags.StartsWith(","))
+	{
+		flags = flags.Substring(1);
+	}
+
+	if(PermissionIsUnrestricted)
+	{
+		#> Unrestricted="true" <#
+	}
+	else
+	{
+		#> Flags="<#= flags #>" <#
+	}
+	#> />
+</PermissionSet>

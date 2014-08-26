@@ -1,0 +1,28 @@
+﻿<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>Customization Project (WSP)</Name>
+    <Description>Used to create a SharePoint solution package (WSP)</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>CustomizationProject</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <EnableLocationBrowseButton>false</EnableLocationBrowseButton>
+    <Icon>spsf.ico</Icon>    
+  </TemplateData>
+  <TemplateContent>
+    <Project File="Runtime14.csproj" TargetFileName="$ResourcesProjectName$.csproj" ReplaceParameters="true">
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem TargetFileName="AssemblyInfo.cs" ReplaceParameters="true">AssemblyInfo.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Package">
+        <ProjectItem TargetFileName="Package.package" ReplaceParameters="true">Package.package</ProjectItem>
+        <ProjectItem TargetFileName="Package.Template.xml" ReplaceParameters="true">Package.Template.xml</ProjectItem>
+      </Folder>			
+    </Project>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.Practices.RecipeFramework.VisualStudio</Assembly>
+    <FullClassName>Microsoft.Practices.RecipeFramework.VisualStudio.Templates.UnfoldTemplate</FullClassName>
+  </WizardExtension>
+</VSTemplate>

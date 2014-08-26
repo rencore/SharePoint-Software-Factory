@@ -1,0 +1,36 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ThemeName" #>
+<#@ assembly name="System.dll" #>
+[info]
+title=<#= ThemeName #>
+codepage=65001
+version=3.00
+format=3.00
+readonly=true
+refcount=0
+
+[titles]
+1031=<#= ThemeName #>
+1036=<#= ThemeName #>
+1040=<#= ThemeName #>
+3082=<#= ThemeName #>
+1043=<#= ThemeName #>
+1046=<#= ThemeName #>
+1053=<#= ThemeName #>
+1044=<#= ThemeName #>
+1030=<#= ThemeName #>
+1035=<#= ThemeName #>
+1041=<#= ThemeName #>
+1042=<#= ThemeName #>
+1028=<#= ThemeName #>
+2052=<#= ThemeName #>
+1029=<#= ThemeName #>
+1045=<#= ThemeName #>
+1032=<#= ThemeName #>
+1038=<#= ThemeName #>
+1049=<#= ThemeName #>
+1055=<#= ThemeName #>
+2070=<#= ThemeName #>
+1025=<#= ThemeName #>
+1037=<#= ThemeName #>
+1054=<#= ThemeName #>

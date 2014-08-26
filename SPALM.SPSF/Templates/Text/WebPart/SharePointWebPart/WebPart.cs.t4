@@ -1,0 +1,103 @@
+<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;
+  using System.Collections.Generic;
+  using System.Runtime.InteropServices;
+  using System.Security.Permissions;
+  using System.Web.UI;
+  using Microsoft.SharePoint.Security;
+  using aspnetwebparts = System.Web.UI.WebControls.WebParts;
+  using wsswebparts = Microsoft.SharePoint.WebPartPages;
+
+  /// <summary>
+  /// TODO: Add comment for webpart <#= this.WebPartName #>
+  /// </summary>
+  [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+  [SharePointPermission(SecurityAction.InheritanceDemand, ObjectModel = true)]
+  public class <#= this.WebPartName #> : wsswebparts.WebPart
+  {
+    private bool error = false;
+
+    /// <summary>
+    /// Initializes a new instance of the <#= this.WebPartName #> class
+    /// </summary>
+    public <#= this.WebPartName #>()
+    {
+      ////TODO: Add code to constructor of webpart <#= this.WebPartName #>
+    }
+
+    /* Sample code:
+    private string mProperty1;
+    
+    public string Property1
+    {
+      set
+      {
+        this.mProperty1 = value;
+      }
+      get
+      {
+        return this.mProperty1;
+      }
+    }
+    */
+ 
+    /// <summary>
+    /// Create all your controls here for rendering.
+    /// Try to avoid using the RenderWebPart() method.
+    /// </summary>
+    protected override void CreateChildControls()
+    {
+      if (!this.error)
+      {
+        try
+        {
+          base.CreateChildControls();
+
+          ////TODO: Add code to CreateChildControls
+
+          /* Sample Code:
+          this.Controls.Add(new LiteralControl(this.MyProperty));
+          */
+        }
+        catch (Exception ex)
+        {
+          this.error = true;
+          this.Controls.Clear();
+          this.Controls.Add(new LiteralControl(ex.Message));
+        }
+      }
+    }
+
+    /// <summary>
+    /// Ensures that the CreateChildControls() is called before events.
+    /// Use CreateChildControls() to create your controls.
+    /// </summary>
+    /// <param name="e">EventArguments for OnLoad Event</param>
+    protected override void OnLoad(EventArgs e)
+    {
+      if (!this.error)
+      {
+        try
+        {
+          base.OnLoad(e);
+          this.EnsureChildControls();
+
+          ////TODO: Add webpart code to OnLoad event
+        }
+        catch (Exception ex)
+        {
+          this.error = true;
+          this.Controls.Clear();
+          this.Controls.Add(new LiteralControl(ex.Message));
+        }
+      }
+    }
+  }
+}

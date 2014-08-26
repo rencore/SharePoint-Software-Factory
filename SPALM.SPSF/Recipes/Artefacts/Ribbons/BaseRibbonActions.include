@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+  <!-- elements.xml-->
+  <Action
+	  Name="CreateElementsXml"
+	  Type="AddElementsDefinitionAction"
+	  ParentFeatureName="$(ParentFeatureName)"
+	  ElementsName="$(RibbonActionName)"
+	  ElementsCategory="$(ElementsCategory)"
+	  TemplateFileName="Text\Ribbons\$(RecipeName)\elements.xml.t4"
+	  SPDataTemplate="Text\Ribbons\SharePointProjectItem.spdata.t4"
+	  Open="true">
+    <Output Name="CreatedElementFolder" />
+    <Output Name="CreatedElementFile" />
+  </Action>
+
+  <!-- Resources -->
+  <Action
+	  Condition="$(AutoCreateResxFiles)"
+	  Name="AddRibbonResources"
+	  Type="AddTemlateToResourcesFileAction"
+	  TemplateFileName="Text\Ribbons\Resources.resx.t4"
+    FeatureResources="True">
+    <Input Name="FeatureName" RecipeArgument="ParentFeatureName" />
+  </Action>
+ 
+
+</Actions>

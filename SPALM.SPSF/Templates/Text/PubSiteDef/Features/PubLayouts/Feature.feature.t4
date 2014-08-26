@@ -1,0 +1,11 @@
+﻿<#@ template language="C#" #><?xml version="1.0" encoding="utf-8"?>
+<feature 
+	dslVersion="1.0.0.0" 
+	Id="<#= PubSiteLayoutsFeatureID #>" 
+	featureId="<#= PubSiteLayoutsFeatureID #>" 
+	scope="Site"
+	deploymentPath="$SharePoint.Feature.FileNameWithoutExtension$" 
+	title="<#= PubSiteLayoutsFeatureTitle #>"
+	description="<#= PubSiteLayoutsFeatureDescription #>"
+	xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/FeatureModel">
+</feature>

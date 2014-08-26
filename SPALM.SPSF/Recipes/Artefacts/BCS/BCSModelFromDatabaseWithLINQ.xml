@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="BCSModelFromDatabaseWithLINQ"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <!--
+  <DocumentationLinks>
+    <Link Caption="AdministrationPage" Url="http://msdn.microsoft.com/en-us/library/ms463449.aspx" Kind="Documentation"/>
+  </DocumentationLinks>
+  -->
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Import Model from Database as LINQ entities</Caption>
+  <Description>Add a BCS model from a database and generates the necessary LINQ classes to retrieve and change the data. The recipe will also generate a LINQ-to-SQL file (.dbml) from the database.</Description>
+  <HostData Priority="220">
+    <Icon File="Help/Icons/icon_BCS.ico" />
+    <CommandBar Menu="SPSFProjectBCS"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BCSBaseTest"
+      Enabled="true"
+      CreateVSTemplate="true"
+      VSTemplateDefaultName="BCSModel"
+	    NotSandboxSupported="true"
+      Category="BCS" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>		
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <Argument Name="AllowedScopes" Type="System.String">
+      <ValueProvider Type="Evaluator" Expression="Farm" />
+    </Argument>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="ElementsCategory">
+      <ValueProvider Type="Evaluator" Expression="BCSModels" />
+    </Argument>
+
+    <xi:include href="BaseBCSArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="BCSServer" Required="true">
+      <ValueProvider Type="MachineNameProvider" />
+    </Argument>
+    <Argument Name="BCSDatabase" Required="true">
+    </Argument>
+
+    <Argument Name="BCSModel" Type="BCSModel" Required="true">
+    </Argument>
+
+    <Argument Name="BCSType" Required="true">
+      <ValueProvider Type="Evaluator" Expression="DotNetAssembly" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>Model Settings</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="BCSModelName" Label="Name">
+              <Help>Enter the name of the BCS Model.</Help>
+            </Field>
+            <Field ValueName="BCSModelDisplayName" Label="Display Name">
+              <Help>Enter the display name of the BCS Model. This name is visible in dialogs to the user.</Help>
+            </Field>
+            <Field ValueName="BCSEstimatedCount" Label="Estimated Item Count">
+              <Help>Enter number of estimated count of elements in the data source.</Help>
+            </Field>
+            <Field ValueName="BCSModelIsCached" Label="Is Cached">
+              <Help>Check if the data should be cached.</Help>
+            </Field>
+          </Fields>
+        </Page>
+        <Page Width="600" Height="400">
+          <Title>Database Settings</Title>
+          <Fields>
+            <Field ValueName="BCSServer" Label="Server">
+              <Help>Enter the name of the database server.</Help>
+            </Field>
+            <Field ValueName="BCSDatabase" Label="Database">
+              <Help>Enter the name of the database.</Help>
+            </Field>
+          </Fields>
+        </Page>
+        <Page Width="600" Height="400" Type="SPALM.SPSF.Library.CustomWizardPages.BCSImportPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>Permissions</Title>
+          <Fields>
+            <Field ValueName="BCSPermissions" Label="Users">
+              <Help>Enter all users which should have permission to this model, separated by ';', e.g. 'NT AUTHORITY\Authenticated Users' or 'STS|SecurityTokenService|http://sharepoint.microsoft.com/claims/2009/08/isauthenticated|true|http://www.w3.org/2001/XMLSchema#string'.</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <!-- elements.xml-->
+    <Action
+      Name="AddBDCM"
+      Type="AddElementsDefinitionAction"
+      ParentFeatureName="$(ParentFeatureName)"
+      ElementsName="$(BCSModelName)"
+      ElementsCategory="BCSModels"
+      DeploymentType="ElementFile"
+      TemplateFileName="Text\BCS\BCSModel_Classes.bdcm.t4"
+      SPDataTemplate="Text\BCS\SharePointProjectItem.spdata.t4"
+      TargetFileName="$(BCSModelName).bdcm"
+      Open="false">
+      <Output Name="CreatedElementFolder" />
+      <Output Name="CreatedElementFile" />
+    </Action>
+    
+    <!--
+    <Action
+		  Name="AddBDCM"
+		  Type="AddSPDataTemplateAction"
+      SPDataName="$(BCSModelName)"
+      SPDataCategory="BCSModels"
+      SPDataTemplate="Text\BCS\SharePointProjectItem.spdata.t4"
+		  TemplateFileName="Text\BCS\BCSModel_Classes.bdcm.t4"
+		  TargetFileName="$(BCSModelName).bdcm"
+      DeploymentType="ElementFile"
+		  DeploymentPath="$(BCSModelName)"
+		  Open="false">
+      <Output Name="CreatedProjectItem" />
+      <Output Name="CreatedProjectFolder" />
+    </Action>
+    -->
+    
+    <Action
+      Name="AddDiagramCode"
+      Type="AddTemplateToItemAction"
+      DeploymentType="CustomCode"
+      TemplateFileName="Text\BCS\BCSModel_Classes.bdcm.diagram.t4"
+      TargetFileName="$(BCSModelName).bdcm.diagram">
+      <Input Name="ParentProjectItem" ActionOutput="AddBDCM.CreatedElementFile" />
+    </Action>    
+
+    <Action
+		  Name="AddEntityCode"
+		  Type="AddTemplateToItemAction"
+		  DeploymentType="CustomCode"
+		  TemplateFileName="Text\BCS\BCSModel_Classes.cs.t4"
+		  TargetFileName="$(BCSModelName)Entities.cs">
+      <Input Name="ParentProjectItem" ActionOutput="AddBDCM.CreatedElementFolder" />
+    </Action>
+
+    <Action
+		  Name="AddEntityServiceCode"
+		  Type="AddTemplateToItemAction"
+		  DeploymentType="CustomCode"
+		  TemplateFileName="Text\BCS\BCSModel_ClassesService_LINQ.cs.t4"
+		  TargetFileName="$(BCSModelName)EntityServices.cs">
+      <Input Name="ParentProjectItem" ActionOutput="AddBDCM.CreatedElementFolder" />
+    </Action>
+
+    <!--
+    <Action
+      Name="AddModelToFeature"
+      Type="AddFileToFeatureAction"
+      ParentFeatureName="$(ParentFeatureName)">
+      <Input Name="File" ActionOutput="AddBDCM.CreatedProjectFolder" />
+    </Action>
+    -->
+
+    <Action
+      Name="AddDBMLCode"
+      Type="AddTemplateToItemAction"
+      DeploymentType="CustomCode"
+      TemplateFileName="Text\BCS\BCSModel_DBML.dbml.t4"
+      TargetFileName="$(BCSDatabase).dbml">
+      <Input Name="ParentProjectItem" ActionOutput="AddBDCM.CreatedElementFolder" />
+    </Action>   
+
+    <Action 
+      Name="OpenModelInDesigner"
+      Type="OpenItemInDesigner">
+      <Input Name="Item" ActionOutput="AddBDCM.CreatedElementFile" />
+    </Action>
+
+    <xi:include href="BaseBCSActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

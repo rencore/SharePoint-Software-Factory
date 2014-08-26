@@ -1,0 +1,189 @@
+<#@ template language="C#" #><%@Master language="C#"%>
+<%@ Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %> 
+<%@ Register Tagprefix="Utilities" Namespace="Microsoft.SharePoint.Utilities" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %> 
+<%@ Import Namespace="Microsoft.SharePoint" %> 
+<%@ Assembly Name="Microsoft.Web.CommandUI, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Import Namespace="Microsoft.SharePoint.ApplicationPages" %>
+<%@ Register Tagprefix="WebPartPages" Namespace="Microsoft.SharePoint.WebPartPages" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register TagPrefix="wssuc" TagName="DesignModeConsole" src="~/_controltemplates/DesignModeConsole.ascx" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="<% $Resources:wss,language_value%>" dir="<!$Resources:wss,multipages_direction_dir_value%>" runat="server" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head runat="server">
+	<meta http-equiv="X-UA-Compatible" content="IE=8"/>
+	<meta name="GENERATOR" content="Microsoft SharePoint"/>
+	<meta name="progid" content="SharePoint.WebPartPage.Document"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="Expires" content="0">
+	<SharePoint:RobotsMetaTag runat="server"/>
+    
+    <!-- This placeholder contains the title of the page. -->
+	<title id="onetidTitle"><asp:ContentPlaceHolder id="PlaceHolderPageTitle" runat="server"/></title>
+    
+	<SharePoint:CssLink runat="server" Version="4"/>
+	<SharePoint:Theme runat="server"/>
+	<SharePoint:ULSClientConfig runat="server"/>
+    
+    <!-- This script is used to tell other EcmaScript (JavaScript, JScript) elements that you are using a v4 master page. -->
+	<script type="text/javascript">
+	var _fV4UI = true;
+	</script>
+    
+    <!-- This control is necessary to register the EcmaScript for many default controls to work. -->
+	<SharePoint:ScriptLink language="javascript" name="core.js" OnDemand="true" runat="server" />
+
+    <!-- This control is used to retrieve and render the CustomJsUrl property from the SPWeb object. -->    
+	<SharePoint:CustomJSUrl runat="server" />
+    
+	<SharePoint:SoapDiscoveryLink runat="server" />
+    
+    <!-- This control is used for extensibility to add controls to every page which inherits this masterpage. -->
+	<SharePoint:DelegateControl runat="server" ControlId="AdditionalPageHead" AllowMultipleControls="true"/>
+    
+    <!-- This control is used to interact with EcmaScript (JavaScript, JScript) and the server object model. -->
+	<SharePoint:SPPageManager runat="server" />
+    
+    <!-- This control enables the help menus and tooltips on the Server ribbon. -->
+	<SharePoint:SPHelpPageComponent Visible="false" runat="server" />
+    
+	<!-- The following placeholders should always reside inside the head tag. -->
+   	<asp:ContentPlaceHolder id="PlaceHolderAdditionalPageHead" runat="server"/>
+    <asp:ContentPlaceHolder id="PlaceHolderBodyAreaClass" runat="server"/>
+    <asp:ContentPlaceHolder id="PlaceHolderTitleAreaClass" runat="server"/>
+    
+</head>
+<body scroll="no" onload="if (typeof(_spBodyOnLoadWrapper) != 'undefined') _spBodyOnLoadWrapper();" class="v4master">
+    <form runat="server" onsubmit="if (typeof(_spFormOnSubmitWrapper) != 'undefined') {return _spFormOnSubmitWrapper();} else {return true;}">
+
+        <!-- Some placeholders that reside inside the form tag.  Hidden from the UI but can be moved to a non-hidden location in the master page if there is a use in your design. -->
+        <div class="ms-hide">
+            <asp:ContentPlaceHolder id="PlaceHolderSearchArea" runat="server" />
+            <asp:ContentPlaceHolder id="PlaceHolderTopNavBar" runat="server" />
+            <asp:ContentPlaceHolder id="PlaceHolderHorizontalNav" runat="server" />
+            <asp:ContentPlaceHolder id="PlaceHolderSiteName" runat="server"/>
+            <asp:ContentPlaceHolder id="PlaceHolderPageTitleInTitleArea" runat="server" />
+            <asp:ContentPlaceHolder id="PlaceHolderPageDescription" runat="server"/>
+            <asp:ContentPlaceHolder id="PlaceHolderLeftNavBarDataSource" runat="server" />
+            <asp:ContentPlaceHolder id="PlaceHolderCalendarNavigator" runat="server" />
+            <asp:ContentPlaceHolder id="PlaceHolderLeftActions" runat="server" />
+            <asp:ContentPlaceHolder id="PlaceHolderLeftNavBarTop" runat="server"/>
+            <asp:ContentPlaceHolder id="PlaceHolderLeftNavBar" runat="server" />
+            <asp:ContentPlaceHolder id="PlaceHolderQuickLaunchBottom" runat="server" />
+            <asp:ContentPlaceHolder id="PlaceHolderGlobalNavigation" runat="server" />
+            <asp:ContentPlaceHolder id="PlaceHolderTitleBreadcrumb" runat="server" />
+            <asp:ContentPlaceHolder id="PlaceHolderGlobalNavigationSiteMap" runat="server" Visible="false" />
+            <asp:ContentPlaceHolder ID="SPNavigation" runat="server" >
+                <SharePoint:DelegateControl runat="server" ControlId="PublishingConsole" />
+            </asp:ContentPlaceHolder>
+        </div>
+        <!-- End placeholders that reside inside the form tag but are hidden. -->
+
+        <asp:ScriptManager id="ScriptManager" runat="server" EnablePageMethods="false" EnablePartialRendering="true" EnableScriptGlobalization="false" EnableScriptLocalization="true" />
+        <WebPartPages:SPWebPartManager id="m" runat="Server" />
+        
+        <!-- This control shows an error to browsers that do not have EcmaScript (JavaScript, JScript) enabled. -->
+        <SharePoint:SPNoScript runat="server"/>
+        
+        <!-- This div contains the Server ribbon including surrounding elements.  If you do not want a ribbon on any of your pages, you can remove most of this content. -->
+        <div id="s4-ribbonrow" class="s4-pr s4-ribbonrowhidetitle">
+            <div id="s4-ribboncont">
+	            <SharePoint:SPRibbon
+		            runat="server"
+		            PlaceholderElementId="RibbonContainer"
+		            CssFile="">
+                    
+                    <!-- This section contains the content on the left side of the Server ribbon. -->
+                    <!-- By default, this contains the Site Actions menu, Breadcrumb menu, and Edit buttons (omitted for simplicity - can be found on v4.master).  -->
+		            <SharePoint:SPRibbonPeripheralContent
+			            runat="server"
+			            Location="TabRowLeft"
+			            CssClass="ms-siteactionscontainer s4-notdlg">
+		            </SharePoint:SPRibbonPeripheralContent>
+                    
+                    <!-- This section contains the content on the right side of the Server ribbon. -->
+                    <!-- By default, this contains the Developer Dashboard, Welcome Menu, and Social Networking (omitted for simplicity - can be found on v4.master). -->
+		            <SharePoint:SPRibbonPeripheralContent
+			            runat="server"
+			            Location="TabRowRight"
+			            ID="RibbonTabRowRight"
+			            CssClass="s4-trc-container s4-notdlg">
+		            </SharePoint:SPRibbonPeripheralContent>
+	            </SharePoint:SPRibbon>
+            </div>
+            
+            <!-- This div is used to display notifications on the page. -->
+            <div id="notificationArea" class="s4-noti"></div>
+            
+            <!-- This div is used to display the Web Part adder. -->
+            <div id="WebPartAdderUpdatePanelContainer">
+	            <asp:UpdatePanel
+		            ID="WebPartAdderUpdatePanel"
+		            UpdateMode="Conditional"
+		            ChildrenAsTriggers="false"
+		            runat="server">
+		            <ContentTemplate>
+			            <WebPartPages:WebPartAdder ID="WebPartAdder" runat="server" />
+		            </ContentTemplate>
+		            <Triggers>
+			            <asp:PostBackTrigger ControlID="WebPartAdder" />
+		            </Triggers>
+	            </asp:UpdatePanel>
+            </div>
+        </div>
+        <!-- Placeholders not visible in v4.master. -->
+        <div class="ms-hide">
+            <asp:ContentPlaceHolder id="PlaceHolderPageImage" runat="server" Visible="false"/>
+            <asp:ContentPlaceHolder id="PlaceHolderTitleLeftBorder" runat="server" Visible="false" />
+            <div id="onetidPageTitleAreaFrame" class='ms-pagetitleareaframe s4-pagetitle'></div>
+            <asp:ContentPlaceHolder id="PlaceHolderMiniConsole" runat="server" Visible="false"/>
+            <asp:ContentPlaceHolder id="PlaceHolderTitleRightMargin" runat="server" Visible="false"/>
+            <asp:ContentPlaceHolder id="PlaceHolderTitleAreaSeparator" runat="server" Visible="false"/>
+            <asp:ContentPlaceHolder id="PlaceHolderNavSpacer" runat="server" Visible="false" />
+            <asp:ContentPlaceHolder id="PlaceHolderLeftNavBarBorder" runat="server" Visible="false" />
+            <asp:ContentPlaceHolder id="PlaceHolderBodyLeftBorder" runat="server" Visible="false" />
+            <asp:ContentPlaceHolder id="PlaceHolderBodyRightMargin" runat="server" />
+        </div>
+        <!-- End placeholders not visible in v4.master -->
+
+        <div id="s4-workspace">
+	        <div id="s4-bodyContainer">
+		        <div id="s4-titlerow" class="s4-pr s4-notdlg s4-titlerowhidetitle"></div>
+                
+                <!-- The following divs are used for the status area. -->
+		        <div id="s4-statusbarcontainer">
+			        <div id="pageStatusBar" class="s4-status-s1"></div>
+		        </div>
+                
+		        <div id="s4-mainarea" class="s4-pr s4-widecontentarea">
+			        <div id="s4-leftpanel" class="s4-notdlg"></div>
+                    
+                    <!-- The MSO_ContentTable div must surround the content area. The id attribute is required. -->
+			        <div class="s4-ca s4-ca-dlgNoRibbon" id="MSO_ContentTable">
+				        <div class='s4-ba'>
+				            <div class='ms-bodyareacell'>
+					            <div id="MSO_ContentDiv" runat="server">
+				                    <asp:ContentPlaceHolder id="PlaceHolderMain" runat="server"></asp:ContentPlaceHolder>
+					            </div>
+				            </div>
+				        </div>
+			        </div>
+		        </div>
+	        </div>
+        </div>
+        
+        <!-- The FormDigest control must be inside the PlaceHolderFormDigest placeholder. -->
+        <asp:ContentPlaceHolder id="PlaceHolderFormDigest" runat="server">
+            <SharePoint:FormDigest runat="server"/>
+        </asp:ContentPlaceHolder>
+        
+        <!-- These must be inside the form at the bottom in order to handle the back button functionality -->
+        <input type="text" name="__spText1" title="text" style="display:none;" />
+        <input type="text" name="__spText2" title="text" style="display:none;" />
+    </form>
+    
+    <div id="ms-hide">
+        <!-- This Placeholder must be outside the form but inside the body -->
+        <asp:ContentPlaceHolder id="PlaceHolderUtilityContent" runat="server"/>
+    </div>
+    
+</body>
+</html>

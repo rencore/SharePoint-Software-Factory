@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="PrintingPermission"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Printing Permission</Caption>
+  <Description>Adds a PrintingPermission to the project. Controls access to printers.</Description>
+  <HostData Priority="220">
+    <Icon File="Help/Icons/icon_Security.ico" />
+    <CommandBar Menu="SPSFSolutionSecurity"/>
+    <CommandBar Menu="SPSFProjectSecurity"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseCustomizationRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="false"
+      Category="Security" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[Controls access to printers.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="BasePermissionArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="PrintingPermissionLevel" >
+      <Converter Type="StringCollectionConverter" Values="NoPrinting;SafePrinting;DefaultPrinting;AllPrinting" />
+      <ValueProvider Type="Evaluator" Expression="NoPrinting" />
+    </Argument>
+    
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Policy Settings</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="PrintingPermissionLevel" Label="Permission Level" >
+              <Help>Required text.
+AllPrinting: Provides full access to all printers.
+DefaultPrinting: Provides printing programmatically to the default printer, along with safe printing through semirestricted dialog box. DefaultPrinting is a subset of AllPrinting.
+NoPrinting: Prevents access to printers. NoPrinting is a subset of SafePrinting.
+SafePrinting: Provides printing only from a restricted dialog box. SafePrinting is a subset of DefaultPrinting.</Help>
+              <Editor Type="SPALM.SPSF.Library.ContentTypeEditor, SPALM.SPSF.Library" />
+            </Field>
+            <Field ValueName="PermissionIsUnrestricted" Label="Unrestricted" >
+              <Help>Optional Boolean. If Unrestricted is true, the value of Permission Level will be ignored.</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action
+       Name="AddCASPolicyAction"
+       Type="AddCASPolicyAction"
+       TemplateFileName="Text\Security\PrintingPermission.txt.t4">
+    </Action>
+    
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

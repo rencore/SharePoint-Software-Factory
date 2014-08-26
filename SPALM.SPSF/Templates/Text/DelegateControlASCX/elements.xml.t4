@@ -1,0 +1,10 @@
+﻿<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<Control
+		  ControlSrc="~/_controltemplates<#= VersionedFolderName #>/<#= SolutionSubFolder #>/<#= DelegateControlName #>.ascx"
+		  Id="<#= DelegateControlId #>"
+		  Sequence="<#= DelegateControlSequence #>"
+		  >
+			<!-- <Property Name="ReflectionProperty">Enter text</Property> -->
+	</Control>
+</Elements>

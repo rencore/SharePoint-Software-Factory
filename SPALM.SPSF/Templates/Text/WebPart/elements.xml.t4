@@ -1,0 +1,33 @@
+﻿<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<!--
+    ************************************************************************
+       Application: <#= AppName #>
+      Created date: <#= System.DateTime.Now.ToString("u") #>
+        Created by: <#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #>
+              Name: <#= WebPartName #>
+       Description: <#= WebPartDescription #>          
+    ************************************************************************
+    -->
+  <Module Name="<#= WebPartName #>" List="113" Url="_catalogs/wp">
+    <File Path="<#= WebPartName #>\\<#= WebPartName #>.webpart" Url="<#= WebPartName #>.webpart" Type="GhostableInLibrary">
+		<#
+		if(AutoCreateResxFiles && !ProjectIsSandboxedSolution)
+		{	
+			#>
+				<Property Name="Group" Value="$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_WebPartGroup;" />
+				<Property Name="QuickAddGroups" Value="$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_WebPartQuickAddGroup;" />
+			<#
+		}
+		else
+		{	
+			#>
+				<Property Name="Group" Value="<#= WebPartGroup #>" />
+				<Property Name="QuickAddGroups" Value="<#= WebPartQuickAddGroup #>" />
+			<#
+		}
+		
+		#>
+    </File>
+  </Module>
+</Elements>

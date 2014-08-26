@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="EmptyFeature"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+	<DocumentationLinks>
+		<Link Caption="MSDN: Creating a Custom Feature in SharePoint Server 2007" Url="http://msdn.microsoft.com/en-us/library/cc263911.aspx" Kind="Documentation"/>
+		<Link Caption="MSDN: Working with Features" Url="http://msdn.microsoft.com/en-us/library/ms460318.aspx" Kind="Documentation"/>
+		<Link Caption="Codeplex: Features" Url="http://www.codeplex.com/features" Kind="Documentation"/>
+	</DocumentationLinks>
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Empty Feature</Caption>
+	<Description>This recipe creates an empty farm, web application, site or web feature.</Description>
+	<HostData>
+		<Icon File="Help/Icons/icon_Features.ico" />
+		<CommandBar Menu="SPSFProjectFeatures"/>
+		<CommandBar Menu="SPSFFolderArtefacts"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="FeatureReference"
+		  BindingTypeTemplate="FeatureReferenceTemplate"
+		  TestType="BaseCustomizationRecipeRunner"
+		  Enabled="true"
+		  CreateVSTemplate="true"
+		  Category="Features" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+				<spsf:Author>Matthias Einig</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.1 Updated Documentation</spsf:VersionHistoryEntry>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[The recipe creates a new empty feature. It should be used as a start for every custom feature. 
+            It can be specified if the feature should be deployed in a farm, web application, site, or web scope.
+            Most of sharepoint custom components like content types, event handler etc. require a feature.
+            One feature can be used to deploy multiple of these components but it is also possible to make feature activation dependent of other features.
+        ]]>
+			</spsf:WebPageContent>
+			<spsf:Test>
+				<spsf:TestCases>
+					<spsf:TestCase Name="SiteFeature" Type="SolutionTestCase">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="FeatureName">SiteFeature</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="FeatureScope">Site</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+					<spsf:TestCase Name="FeatureWithReceiver" Type="SolutionTestCase">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="FeatureName">SiteFeatureWithReceiver</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="FeatureScope">Site</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="FeatureCreateReceiver">True</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+					<spsf:TestCase Name="WebFeature" Type="SolutionTestCase">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="FeatureName">WebFeature</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="FeatureScope">Web</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+					<spsf:TestCase Name="FeatureWithDependencies" Type="SolutionTestCase">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="FeatureName">WebFeature</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="FeatureScope">Web</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="FeatureActivationDependencies">Dependency;External Lists;00BFEA71-9549-43f8-B978-E47E54A10600|Dependency;Resources List;58160a6b-4396-4d6e-867c-65381fb5fbc9</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+				</spsf:TestCases>
+			</spsf:Test>
+		</spsf:MetaData>
+  </HostData>
+	<Arguments>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<Argument Name="FullFeatureName">
+			<ValueProvider Stage="OnBeforeActions" Expression="$(SafeAppName)_$(FeatureName)" Type="Evaluator" />
+		</Argument>
+
+		<Argument Name="SolutionId" Type="System.String" Required="false">
+			<ValueProvider Type="SolutionIdProvider" />
+		</Argument>
+
+		<Argument Name="FeatureID">
+			<ValueProvider Type="GuidValueProvider" />
+		</Argument>
+		<Argument Name="FeatureName" Required="true">
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="VisualStudioCreateItemName" DefaultValue="Feature1" MakeSafe="true" />
+		</Argument>
+		<Argument Name="FeatureTitle" Required="true">
+			<ValueProvider Type="Evaluator" Expression="$(FeatureName) Title" />
+		</Argument>
+		<Argument Name="FeatureDescription" Required="true">
+			<ValueProvider Type="Evaluator" Expression="$(FeatureName) Description" />
+		</Argument>
+		<Argument Name="FeatureScope">
+			<Converter Type="FeatureScopeConverter" />
+			<ValueProvider Type="Evaluator" Expression="Site" />
+		</Argument>
+		<Argument Name="FeatureHidden" Type="System.Boolean" >
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="FeatureVersion" Required="true">
+			<ValueProvider Type="Evaluator" Expression="1.0.0.0" />
+		</Argument>
+		<Argument Name="FeatureVersionSerialized" Required="true">
+			<ValueProvider Stage="OnBeforeActions" Type="SerializedVersionProvider" RecipeArgument="FeatureVersion" />
+		</Argument>
+		<Argument Name="FeatureCreateReceiver" Type="System.Boolean" >
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+
+		<Argument Name="FeatureActivationDependencies" Required="false" Type="NameValueItemArray" >
+			<ValueProvider Type="DefaultNameValueCollectionProvider"  />
+		</Argument>
+		<Argument Name="FeatureFiles" Required="false">
+			<ValueProvider Type="Evaluator" Expression="" />
+		</Argument>
+		<Argument Name="FeatureCreateDefaultElementsXML" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="FeatureActivateOnDefault" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="true" />
+		</Argument>
+		<Argument Name="FeatureAlwaysForceInstall" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="FeatureAutoActivateInCentralAdmin" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="FeatureRequireResources" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="FeatureCreator" Type="System.String" Required="false">
+			<ValueProvider Type="Evaluator" Expression="" />
+		</Argument>
+
+		<Argument Name="FeatureIconName" Required="true">
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="FeatureIcon_$(FeatureName).gif" />
+		</Argument>
+		<Argument Name="FeatureReceiverClass" Required="true">
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(FeatureName)EventReceiver" />
+		</Argument>
+
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Width="600" Height="400">
+					<Title>Feature settings</Title>
+					<Fields>
+						<Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+						<Field ValueName="FeatureName" Label="Name" InvalidValueMessage="A feature with this name already exists in a project in this solution or the name is not a valid feature name (e.g. it shouldn't contain whitespaces or special characters)">
+							<Help>Required Text. Internal name of the Feature. Limited to 255 characters. The name has to be unique within the project of this solution. It should not contain whitespaces or special characters.</Help>
+						</Field>
+						<Field ValueName="FeatureTitle" Label="Title">
+							<Help>Required Text. Title (friendly name) of the Feature. Limited to 255 characters.</Help>
+						</Field>
+						<Field ValueName="FeatureDescription" Label="Description">
+							<Help>Required Text. Longer description of the Features purpose.</Help>
+						</Field>
+						<Field ValueName="FeatureScope" Label="Scope">
+							<Help>Required Choice. Scope in which the Feature can be activated and contains one of the following values: Farm (farm), WebApplication (Web application), Site (site collection), Web (Web site).</Help>
+						</Field>
+						<Field ValueName="FeatureHidden" Label="Hidden">
+							<Help>Optional Boolean. Specifies if the feature should be hidden on the Feature activation webpages. This attribute equals FALSE by default.</Help>
+						</Field>
+						<Field ValueName="FeatureCreateReceiver" Label="Create Feature Receiver" >
+							<Help>Optional Boolean. When activated, a feature receiver class file will be created and linked to the Feature. This attribute equals FALSE by default.</Help>
+						</Field>
+						<Field ValueName="FeatureCreateDefaultElementsXML" Label="Create default elements.xml">
+							<Help>Optional Boolean. When activated the recipe creates a default elements.xml file. This attribute equals TRUE by default.</Help>
+						</Field>
+					</Fields>
+				</Page>
+				<Page Width="600" Height="400">
+					<Title>Advanced settings</Title>
+					<Fields>
+						<Field ValueName="FeatureID" Label="Feature ID">
+							<Help>Required GUID. The GUID will be autogenerated by the recipe, but can be customized if neccesary.</Help>
+						</Field>
+						<Field ValueName="FeatureVersion" Label="Feature Version">
+							<Help>Optional Text. Specifies a System.Version-compliant representation of the version of a Feature. This can be up to four numbers delimited by decimals that represent a version.</Help>
+						</Field>
+						<Field ValueName="FeatureCreator" Label="Creator">
+							<Help>Optional Text. Name of the creator of the Feature stored in the feature.xml.</Help>
+						</Field>
+						<Field ValueName="FeatureActivationDependencies" PanelType="SPALM.SPSF.Library.NameValueListPanel, SPALM.SPSF.Library" Label="Activation Dependencies" >
+							<Help>Optional GUID. One or multiple Features of which the activation of this Feature should depend on. The dependencies can be either out of the box SharePoint Features or custom Features of this project.</Help>
+							<Editor Type="SPALM.SPSF.Library.FeatureEditor, SPALM.SPSF.Library" />
+						</Field>
+					</Fields>
+				</Page>
+				<Page Width="600" Height="400">
+					<Title>Options</Title>
+					<Fields>
+						<Field ValueName="FeatureActivateOnDefault" Label="Activate On Default">
+							<Help>Optional Boolean. TRUE if the Feature is activated by default during installation or when a Web application is created; FALSE if the Feature is not activated. This attribute equals TRUE by default. The ActivateOnDefault attribute does not apply to site collection (Site) or Web site (Web) scoped Features. In general, Farm-scoped Features become activated during installation, and when a new Web application is created, all installed Web application-scoped Features in it become activated.</Help>
+						</Field>
+						<Field ValueName="FeatureAlwaysForceInstall" Label="Always Force Install">
+							<Help>Optional Boolean. TRUE if the Feature is installed by force during installation even if the Feature is already installed. For example, if set to TRUE, Feature installation callouts will always fire anytime a user tries to install the Feature (even if it is already installed) by using either the scanforFeatures or installfeature command-line operation. This attribute equals FALSE by default. The AlwaysForceInstall attribute affects Features of all scopes.</Help>
+						</Field>
+						<Field ValueName="FeatureAutoActivateInCentralAdmin" Label="Auto Activate In Central Admin">
+							<Help>Optional Boolean. TRUE if the Feature is activated by default in the Administrative Web site, site collection, or Web application. This attribute equals FALSE by default. The AutoActivateInCentralAdmin attribute does not apply to Farm-scoped Features.</Help>
+						</Field>
+						<Field ValueName="FeatureRequireResources" Label="Require Resources">
+							<Help>Optional Boolean. TRUE to specify that Windows SharePoint Services check whether resources exist for the Feature by verifying that the standard "sentinel" resource for the Feature is present for a particular culture. The RequireResources attribute allows you to constrict the visibility of certain Features depending on whether resources exist in a particular language for the Feature.</Help>
+						</Field>
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+		<xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<!-- Create the feature -->
+		<Action
+		  Name="AddFeatureXml"
+		  Type="AddFeatureAction"
+		  TemplateFileName="Text\EmptyFeature\feature.xml.t4"
+		  SPDataTemplate="Text\EmptyFeature\Feature.feature.t4"
+		  FeatureName="$(FullFeatureName)"
+		  Open="true">
+			<Output Name="CreatedProjectItem" />
+			<Output Name="CreatedProjectFolder" />
+		</Action>
+
+		<!-- FeatureReceiver -->
+		<Action
+		  Name="AddFeatureReceiverCode"
+		  Condition="$(FeatureCreateReceiver)"
+		  Type="AddTemplateToItemAction"
+		  TemplateFileName="Text\EmptyFeature\FeatureReceiver.cs.t4"
+		  TargetFileName="$(FeatureName).EventReceiver.cs">
+			<Input Name="ParentProjectItem" ActionOutput="AddFeatureXml.CreatedProjectItem" />
+		</Action>
+
+		<Action
+		  Condition="$(AutoCreateResxFiles)"
+		  Name="AddFeatureResources"
+		  Type="AddTemlateToResourcesFileAction"
+		  FeatureResources="true"
+		  FeatureName="$(FullFeatureName)"
+		  TemplateFileName="Text\EmptyFeature\Resources.resx.t4"
+		  ResourcesFileName="Resources.resx">
+		</Action>
+
+		<Action
+		  Name="AddFeatureIcon"
+		  Type="AddFileToItemAction"
+		  DeploymentType="TemplateFile"
+		  DeploymentPath="Images\$(SafeAppName)"
+		  SourceFileName="Text\EmptyFeature\FeatureIcon.gif"
+		  TargetFileName="$(FeatureIconName)">
+			<Input Name="ExcludeCondition" RecipeArgument="ProjectIsSandboxedSolution" />
+		</Action>
+
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Actions>
+</Recipe>

@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="MigrateSolutionSPSF"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Update Solution to current SPSF version</Caption>
+	<Description>Updates the current project or solution to the current installed SPSF version or adds it to a non .</Description>
+	<HostData Priority="100">
+		<Icon File="Help/Icons/icon_Update.ico" />
+		<CommandBar Menu="SPSFSolutionHelp"/>
+		<CommandBar Menu="SPSFSolutionFolderHelp"/>
+		<CommandBar Menu="SPSFProjectHelp"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="AnyElementReference"
+		  Enabled="true"
+		  ExcludeFromTests="true"
+		  CreateVSTemplate="false"
+		  Category="Configuration" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>4.1 Update</spsf:VersionHistoryEntry>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[Migrates the whole solution to the current installed version of SharePoint Software Factory. If already existing, the deployment project "Deployment" remains untouched. ]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<Argument Name="CopyrightCompanyName">
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="CopyrightCompanyName" DefaultValue="CompanyName" />
+		</Argument>
+		<Argument Name="AppName" Required="true">
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="ApplicationNameProvider" />
+		</Argument>
+		<Argument Name="AppVersion" Required="true">
+			<Converter Type="VersionConverter" />
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="AppVersion" DefaultValue="1.0.0.0" />
+		</Argument>
+
+		<Argument Name="DebuggingWebApp" Type="System.String" Required="false" >
+			<Converter Type="AvailableWebApplicationsConverter" />
+			<ValueProvider Type="DebuggingWebAppProvider" />
+		</Argument>
+		<Argument Name="StartupUrl" Type="System.String" Required="false" >
+			<Converter Type="AvailableWebApplicationsConverter" />
+			<ValueProvider Type="DebuggingWebAppProvider" />
+		</Argument>
+
+		<Argument Name="AutoGenerateManifest" Type="System.Boolean" Required="true">
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="AutoGenerateManifest" DefaultValue="true" />
+		</Argument>
+		<Argument Name="AutoCreateResxFiles" Type="System.Boolean">
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="AutoCreateResxFiles" DefaultValue="false" />
+		</Argument>
+		<Argument Name="SharePointVersion">
+			<Converter Type="SharePointVersionConverter" />
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="SharePointVersion" DefaultValue="15" />
+		</Argument>
+
+		<Argument Name="SolutionKeyFileName">
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="SolutionKeyFileName" DefaultValue="" />
+		</Argument>
+		<Argument Name="SolutionSignAssembly" Type="System.Boolean">
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="SolutionSignAssembly" DefaultValue="false" />
+		</Argument>
+
+		<Argument Name="SPSFBranding" >
+			<ValueProvider Type="BrandingImageProvider" Logo="\Branding\Logo.jpg" />
+		</Argument>
+		<Argument Name="CodeAnalysisEnableFxCop" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="true" />
+		</Argument>
+		<Argument Name="CodeAnalysisEnableStyleCop" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="true" />
+		</Argument>
+		<Argument Name="CodeAnalysisEnableSPCAF" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="true" />
+		</Argument>
+		<Argument Name="CodeAnalysisEnableSPDisposeChecker" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="true" />
+		</Argument>
+		
+		<Argument Name="DeploymentProjectIsMissing" Type="System.Boolean">
+			<ValueProvider Type="ProjectIsMissingProvider" ProjectName="Deployment" />
+		</Argument>
+
+		<Argument Name="WarningMessage" >
+			<ValueProvider Type="Evaluator" Expression="The recipe will migrate the whole solution and all contained projects to current SPSF version. Depending on your project this operation can lead to unintended results, in worst case it can make your project not readable by Visual Studio. If your are unsure make a backup of the whole solution first." />
+		</Argument>
+
+    <Argument Name="DeploymentProjectName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="Deployment" />
+    </Argument>
+
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.WarningPage, SPALM.SPSF.Library" />
+				<Page Width="600" Height="400" xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+					<Title>Application Settings</Title>
+					<Fields>
+						<Field ValueName="CopyrightCompanyName" Label="Company Name">
+							<Help>Required String. Specifies the company name of the SharePoint application, used in copyright statements.</Help>
+						</Field>
+						<Field ValueName="AppName" Label="Application Name">
+							<Help>Required String. Specifies the name of the SharePoint application, given by the name of the VS solution name.</Help>
+						</Field>
+						<Field ValueName="AppVersion" Label="Application Version" InvalidValueMessage="Must be a valid Version number (e.g. 1.0.0.0)" >
+							<Help>Required String. Specifies the version of the SharePoint application.</Help>
+						</Field>
+						<Field PanelType="SPALM.SPSF.Library.NameValueDropDownPanel, SPALM.SPSF.Library" ValueName="SharePointVersion" Label="SharePoint Version" >
+							<Help>Required String. Target SharePoint version (14 or 15).</Help>
+						</Field>
+						<Field PanelType="SPALM.SPSF.Library.NameValueDropDownPanel, SPALM.SPSF.Library" ValueName="DebuggingWebApp" Label="Local Site for debugging" >
+							<Help>Optional Url. Name of a SharePoint site for local debugging.</Help>
+						</Field>
+					</Fields>
+				</Page>
+				<Page Width="600" Height="400" xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+					<Title>Code Quality</Title>
+					<Help>
+						Code Quality settings
+					</Help>
+					<Fields>
+						<Field ValueName="CodeAnalysisEnableFxCop" Label="Check code with FxCop in 'Release' build" >
+							<Help>Optional Boolean. If true Microsoft FxCop will be executed during the 'Release' build to check the complied code against certain coding rules. Additionally a SharePoint specific FxCop settings file will be added to the solution.</Help>
+						</Field>
+						<Field ValueName="CodeAnalysisEnableStyleCop" Label="Check code with StyleCop in 'Release' build" >
+							<Help>Optional Boolean. If true Microsoft StyleCop will be executed during the 'Release' build to check the C# source code against certain style rules. Additionally a SharePoint specific StyleCop settings file will be added to the solution.</Help>
+						</Field>
+						<Field ValueName="CodeAnalysisEnableSPCAF" Label="Check code with SPCAF in 'Release' build" >
+							<Help>Optional Boolean. If true the SharePoint Code Analysis (SPCAF/SPCop) will be executed during the 'Release' build to check code against certain style rules. Additionally a SharePoint specific SPCAF settings file will be added to the solution.</Help>
+						</Field>
+						<Field ValueName="CodeAnalysisEnableSPDisposeChecker" Label="Check code with SPDisposeChecker in 'Release' build" >
+							<Help>Optional Boolean. If true SharePoint Dispose Checker will be executed during the 'Release' build to check the code for potential memory leaks.</Help>
+						</Field>						
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+		<Action
+		  Name="RenameSolutionFolderSolutionItems"
+		  Type="RenameSolutionFolder"
+		  SourceName="Solution Items"
+		  TargetName="ApplicationConfiguration">
+		</Action>
+		
+
+    <!-- Regenerate SharePoint Targets -->
+    <Action
+		  Name="GenerateSharePointTargets"
+		  Template="Text\SPSF.targets.t4"
+		  Type="TextTemplateAction">
+      <Input Name="CodeAnalysisEnableFxCop" RecipeArgument="CodeAnalysisEnableFxCop" />
+      <Input Name="CodeAnalysisEnableStyleCop" RecipeArgument="CodeAnalysisEnableStyleCop" />
+      <Input Name="CodeAnalysisEnableSPCAF" RecipeArgument="CodeAnalysisEnableSPCAF" />
+      <Input Name="CodeAnalysisEnableSPDisposeChecker" RecipeArgument="CodeAnalysisEnableSPDisposeChecker" />
+      <Output Name="Content" />
+    </Action>
+    
+    <Action
+		  Name="AddSharePointTargets"
+		  Type="AddItemToSolutionFolder"
+		  TargetFolder="ApplicationConfiguration"
+		  Overwrite="true"
+		  TargetFilename="SPSF.targets">
+      <Input Name="Content" ActionOutput="GenerateSharePointTargets.Content" />
+    </Action>
+    
+
+    <!-- Remove SharePoint Targets -->
+    <Action Name="RemoveGenerateTT"
+		  Type="RemoveItemFromSolutionFolder"
+		  TargetFolder="ApplicationConfiguration"
+      FileName="GenerateManifest.tt" />
+
+
+    <!-- Remove SharePoint Targets -->
+    <Action Name="RemoveOldSharePointTargets"
+		  Type="RemoveItemFromSolutionFolder"
+		  TargetFolder="ApplicationConfiguration"
+      FileName="SharePointTargets.targets" />
+    
+		<Action
+		  Name="MigrateProject"
+		  Type="MigrateSelectedProjects">
+      <Input Name="DeploymentProject" RecipeArgument="DeploymentProjectName" />
+    </Action>
+
+		<Action
+		  Name="RenameSolutionFolderCustomizations"
+		  Type="RenameSolutionFolder"
+		  SourceName="Customizations"
+		  TargetName="Solutions">
+		</Action>
+
+		<!-- Regenerate ApplicationConfig based on existing values; important for wsp-builder projects-->
+		<Action Name="GenerateApplicationConfig" Template="Text\Application.config.t4" Type="TextTemplateAction">
+			<Input Name="Company" RecipeArgument="CopyrightCompanyName" />
+			<Input Name="AppVersion" RecipeArgument="AppVersion" />
+			<Input Name="SharePointVersion" RecipeArgument="SharePointVersion" />
+			<Input Name="SolutionKeyFileName" RecipeArgument="SolutionKeyFileName" />
+			<Input Name="SolutionSignAssembly" RecipeArgument="SolutionSignAssembly" />
+			<Input Name="AutoCreateResxFiles" RecipeArgument="AutoCreateResxFiles" />
+			<Input Name="AutoGenerateManifest" RecipeArgument="AutoGenerateManifest" />
+			<Input Name="DebuggingWebApp" RecipeArgument="DebuggingWebApp" />
+			<Output Name="Content" />
+		</Action>
+		<Action Name="AddApplicationConfig"
+		  Type="AddItemToSolutionFolder"
+		  TargetFolder="ApplicationConfiguration"
+			Overwrite="true"
+		  TargetFilename="Application.config">
+			<Input Name="Content" ActionOutput="GenerateApplicationConfig.Content" />
+		</Action>
+
+		<!-- Add FxCop stuff -->
+		<Action Name="AddFxCopTargets"
+		  Condition="$(CodeAnalysisEnableFxCop)"
+		  Type="AddItemToSolutionFolder"
+		  TargetFolder="ApplicationConfiguration"
+		  Overwrite="true"
+		  SourceFileName="Text\FxCop\FxCop.targets"
+		  TargetFilename="FxCop.targets" />
+		<Action Name="AddFxCopSettings"
+		  Condition="$(CodeAnalysisEnableFxCop)"
+		  Type="AddItemToSolutionFolder"
+		  TargetFolder="ApplicationConfiguration"
+		  Overwrite="true"
+		  SourceFileName="Text\FxCop\Settings.FxCop"
+		  TargetFilename="Settings.FxCop" />
+		<Action Name="AddFxCopXslt"
+		  Condition="$(CodeAnalysisEnableFxCop)"
+		  Type="AddItemToSolutionFolder"
+		  TargetFolder="ApplicationConfiguration"
+		  Overwrite="true"
+		  SourceFileName="Text\FxCop\FxCopConsoleOutput.xsl"
+		  TargetFilename="FxCopConsoleOutput.xsl" />
+		<Action Name="AddFxCopDictionary"
+		  Condition="$(CodeAnalysisEnableFxCop)"
+		  Type="AddItemToSolutionFolder"
+		  Overwrite="true"
+		  TargetFolder="ApplicationConfiguration"
+		  SourceFileName="Text\FxCop\FxCopDictionary.xml"
+		  TargetFilename="FxCopDictionary.xml"
+		  />
+
+		<!-- StyleCop -->
+		<Action Name="AddStyleCopSettings"
+		  Condition="$(CodeAnalysisEnableStyleCop)"
+		  Type="AddItemToSolutionFolder"
+		  TargetFolder="ApplicationConfiguration"
+		  Overwrite="true"
+		  SourceFileName="Text\StyleCop\Settings.StyleCop"
+		  TargetFilename="Settings.StyleCop" />
+
+    <!-- SPCAF -->
+    <Action Name="GenerateSPCAFSettings"
+      Condition="$(CodeAnalysisEnableSPCAF)"
+             Template="Text\SPCAF\settings.spruleset.t4"
+            Type="TextTemplateAction">
+      <Input Name="SharePointVersion" RecipeArgument="SharePointVersion" />
+      <Output Name="Content" />
+    </Action>
+
+    <Action Name="AddSPCAFSettings"
+      Condition="$(CodeAnalysisEnableSPCAF)"
+      Type="AddItemToSolutionFolder"
+      TargetFolder="ApplicationConfiguration"
+      Overwrite="true"
+      TargetFilename="Settings.spruleset">
+      <Input Name="Content" ActionOutput="GenerateSPCAFSettings.Content" />
+    </Action>
+
+    <!-- SPDisposeChecker -->
+    <Action Name="AddSPDisposeCheckerTargets"
+      Condition="$(CodeAnalysisEnableSPDisposeChecker)"
+      Type="AddItemToSolutionFolder"
+      TargetFolder="ApplicationConfiguration"
+      SourceFileName="Text\SPDisposeChecker\SPDisposeChecker.targets"
+      TargetFilename="SPDisposeChecker.targets"
+    />
+    
+		<!-- Add newest SharePointConfiguration.xml-->
+		<Action Name="AddSharePointConfigurationXml"
+		  Type="AddItemToSolutionFolder"
+		  Overwrite="true"
+		  TargetFolder="ApplicationConfiguration"
+		  SourceFileName="Text\SharePointConfiguration$(SharePointVersion).xml"
+		  TargetFilename="SharePointConfiguration.xml" />
+
+		<!-- Deployment if it does not exist e.g. for WSP-Builder Projects-->
+		<Action
+		  Name="UnfoldDeploymentProjectTemplate"
+		  Condition="$(DeploymentProjectIsMissing)"
+		  ProjectName="Deployment"
+      UseSolutionFolder="False"         
+		  Type="ExtendedUnfoldTemplateAction"
+		  Template="Solutions\Projects\Deployment\Root.vstemplate">
+    </Action>
+
+	</Actions>
+</Recipe>

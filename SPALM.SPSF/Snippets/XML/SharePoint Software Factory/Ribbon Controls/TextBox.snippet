@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>TextBox</Title>
+			<Author>Torsten Mandelkow</Author>
+			<Shortcut>ribbontextbox</Shortcut>
+			<HelpUrl>http://msdn.microsoft.com/en-us/library/ff458386.aspx</HelpUrl>
+			<Description>Adds a ribbon TextBox</Description>
+			<SnippetTypes>
+				<SnippetType>SurroundsWith</SnippetType>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>id</ID>
+					<ToolTip>Required. A string that identifies the control, such as "Ribbon.Library.Share.NewRibbonTextBox".</ToolTip>
+					<Default>AppName.TextBox</Default>
+				</Literal>
+				<Literal>
+					<ID>sequence</ID>
+					<ToolTip>Optional. An integer that specifies the order of placement among sibling XML nodes.</ToolTip>
+					<Default>10</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="XML">
+				<![CDATA[<TextBox
+                    Id="Ribbon.$id$"
+                    Sequence="$sequence$"
+                    Command="Ribbon.$id$_command"
+                    MaxLength="512"
+                    TemplateAlias="o2"/>]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

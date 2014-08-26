@@ -1,0 +1,52 @@
+﻿<#@ template language="C#" #>
+<?xml version="1.0" encoding="utf-8" ?>
+<FieldTypes>
+  <FieldType>
+    <Field Name="TypeName"><#= FieldTypeUniqueName #></Field>
+    <Field Name="ParentType"><#= FieldTypeParentType #></Field>
+    <#
+    if(AutoCreateResxFiles)
+    {
+    #>
+    <Field Name="TypeDisplayName">$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_DisplayName;</Field>
+    <Field Name="TypeShortDescription">$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_Description;</Field>
+    <#
+    }
+    else
+    {
+    #>
+    <Field Name="TypeDisplayName"><#= FieldTypeDisplayName #></Field>
+    <Field Name="TypeShortDescription"><#= FieldTypeDescription #></Field>
+    <#
+    }
+    #>
+    <Field Name="UserCreatable">TRUE</Field>
+    <Field Name="ShowOnListCreate">TRUE</Field>
+    <Field Name="ShowOnSurveyCreate">TRUE</Field>
+    <Field Name="ShowOnDocumentLibraryCreate">TRUE</Field>
+    <Field Name="ShowOnColumnTemplateCreate">TRUE</Field>
+    <Field Name="ShowOnListAuthoringPages">TRUE</Field>
+	<Field Name="ShowOnDocumentLibraryAuthoringPages">TRUE</Field>
+	<Field Name="ShowOnSurveyAuthoringPages">TRUE</Field>
+	<Field Name="ShowOnColumnTemplateAuthoringPages">TRUE</Field>
+    <Field Name="FieldTypeClass"><#= ProjectNamespace #>.<#= FieldTypeTypeName #>, <#= ProjectAssemblyName #></Field>
+	<RenderPattern Name="DisplayPattern">
+		<Switch>
+			<Expr>
+				<Column />
+			</Expr>
+			<Case Value="" />
+			<Default>
+				<Column SubColumnNumber="1" HTMLEncode="TRUE" />
+				<HTML><![CDATA[<br/>]]></HTML>
+				<Column SubColumnNumber="2" HTMLEncode="TRUE" />
+				<HTML><![CDATA[<br/>]]></HTML>
+				<Column SubColumnNumber="3" HTMLEncode="TRUE" />
+				<HTML><![CDATA[,&nbsp;]]></HTML>
+				<Column SubColumnNumber="4" HTMLEncode="TRUE" />
+			</Default>
+		</Switch>
+	</RenderPattern>
+  </FieldType>
+</FieldTypes>
+

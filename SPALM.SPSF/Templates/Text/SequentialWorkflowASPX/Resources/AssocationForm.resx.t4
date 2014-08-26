@@ -1,0 +1,29 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="WorkflowName" #>
+<#@ assembly name="System.dll" #>
+
+  <data name="InputFormSection1_Title" xml:space="preserve">
+    <value>Input Form Section1 Title</value>
+  </data>
+  <data name="InputFormSection1_Description" xml:space="preserve">
+    <value>Input Form Section1 Description</value>
+  </data>
+    <data name="InputFormControl1_Label" xml:space="preserve">
+    <value>Input Form Control1 Label</value>
+  </data>
+   <data name="InputFormSection2_Title" xml:space="preserve">
+    <value>Input Form Section2 Title</value>
+  </data>
+  <data name="InputFormSection2_Description" xml:space="preserve">
+    <value>Input Form Section2 Description</value>
+  </data>
+    <data name="InputFormControl2_Label" xml:space="preserve">
+    <value>Input Form Control2 Label</value>
+  </data> 
+  <data name="btn_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+    <data name="btn_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data> 
+

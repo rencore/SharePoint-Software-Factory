@@ -1,0 +1,4 @@
+﻿*.html
+_img\*.*
+Screenshots\*
+Styles\*.*

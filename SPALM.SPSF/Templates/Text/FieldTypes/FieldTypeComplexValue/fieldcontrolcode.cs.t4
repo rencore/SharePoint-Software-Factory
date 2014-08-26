@@ -1,0 +1,147 @@
+<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;  
+  using System.Globalization;
+  using System.Runtime.InteropServices;
+  using System.Text;
+  using System.Web.UI;  
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.WebControls;
+     
+  /// <summary>
+  /// Defines an object that will hold the values for the new field control
+  /// </summary>
+  [Guid("<#= System.Guid.NewGuid().ToString() #>")]
+  public class <#= FieldTypeTypeName #>Control : BaseFieldControl
+  {
+    public <#= FieldTypeTypeName #>Control()
+      : base()
+    {
+    }
+
+    /// <summary>
+    /// Returns a string that is used to locate a ASCX template file
+    /// </summary>
+    protected override string DefaultTemplateName
+    {
+      get
+      {
+        return "<#= FieldTypeRenderingTemplateId #>";
+      }
+    }
+
+    protected TextBox column1TextBox;
+    protected TextBox column2TextBox;
+    protected TextBox column3TextBox;
+    protected TextBox column4TextBox;
+
+    protected <#= FieldTypeTypeName #>Value fieldValue = new <#= FieldTypeTypeName #>Value();
+
+    /// <summary>
+    /// The Render method has been 
+    /// overloaded to provide apropiate rendering 
+    /// for each of the supported multimedia files.
+    /// </summary>
+    /// <param name="output">Rendered html content</param>
+    protected override void Render(HtmlTextWriter output)
+    {
+      base.Render(output);
+
+      if (this.ControlMode == SPControlMode.Display)
+      {
+        fieldValue = (<#= FieldTypeTypeName #>Value)this.ListItemFieldValue;
+        if (fieldValue != null)
+        {
+          string column1 = fieldValue.Column1;
+          string column2 = fieldValue.Column2;
+          string column3 = fieldValue.Column3;
+          string column4 = fieldValue.Column4;
+                    
+          output.WriteLine(column1 + "," + column2 + "," + column3 + "," + column4);                      
+        }
+      }
+    }
+
+    /// <summary>
+    /// Gets the TextBoxes from the Template
+    /// </summary>
+    protected override void CreateChildControls()
+    {
+      if (Field == null)
+      {
+        return;
+      }
+
+      base.CreateChildControls();
+
+      if (ControlMode == SPControlMode.Display)
+      {
+        return;
+      }
+
+      column1TextBox = (TextBox)TemplateContainer.FindControl("column1Control");
+      column2TextBox = (TextBox)TemplateContainer.FindControl("column2Control");
+      column3TextBox = (TextBox)TemplateContainer.FindControl("column3Control");
+      column4TextBox = (TextBox)TemplateContainer.FindControl("column4Control");
+    }
+
+    /// <summary>
+    /// Gets or Sets the MultimediaValue
+    /// </summary>
+    public override object Value
+    {
+      get
+      {
+        EnsureChildControls();
+        fieldValue = new <#= FieldTypeTypeName #>Value();
+        fieldValue.Column1 = (column1TextBox != null) ? column1TextBox.Text : "value not set";
+        fieldValue.Column2 = (column2TextBox != null) ? column2TextBox.Text : "value not set";
+        fieldValue.Column3 = (column3TextBox != null) ? column3TextBox.Text : "value not set";
+        fieldValue.Column4 = (column4TextBox != null) ? column4TextBox.Text : "value not set";
+        return fieldValue;
+      }
+      set
+      {
+        EnsureChildControls();
+        fieldValue = (<#= FieldTypeTypeName #>Value)value;
+        column1TextBox.Text = fieldValue.Column1;
+        column2TextBox.Text = fieldValue.Column2;
+        column3TextBox.Text = fieldValue.Column3;
+        column4TextBox.Text = fieldValue.Column4;
+      }
+    }
+
+    /// <summary>
+    /// Makes sure that only links to 
+    /// supported multimedia files are specified
+    /// </summary>
+    public override void Validate()
+    {
+      if (((this.ControlMode != SPControlMode.Display) && this.IsValid) && this.Visible)
+      {
+        base.Validate();
+
+        <#= FieldTypeTypeName #>Value value = Value as <#= FieldTypeTypeName #>Value;
+
+        if (value != null)
+        {
+          if(value.Column1 == string.Empty)
+          {
+            this.ErrorMessage = "Column1 needs to be set";
+            this.IsValid = false;
+          }
+          else
+          {
+            this.IsValid = true;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+  <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <Action
+		  Name="AddOnet"
+		  Type="AddSPDataTemplateAction"
+      SPDataName="$(SiteDefinitionName)"
+      SPDataCategory="SiteDefinitions"
+      SPDataTemplate="Text\SiteDefinitions\SharePointProjectItem.spdata.t4"
+		  TemplateFileName="$(TemplateOnetXml)"
+		  TargetFileName="onet.xml"
+      DeploymentType="TemplateFile"
+      DeploymentPath="SiteTemplates\$(SiteDefinitionName)\XML"
+		  Open="false">
+    <Output Name="CreatedProjectItem" />
+    <Output Name="CreatedProjectFolder" />
+  </Action>
+	  
+	<!-- generate webtemp xml -->
+	<Action
+      Name="AddWebTemp"
+      Type="AddTemplateToItemAction"
+      DeploymentType="TemplateFile"
+      DeploymentPath="1033\XML"
+      TemplateFileName="$(TemplateWebtempXml)"
+      TargetFileName="WEBTEMP$(SiteDefinitionName).xml"
+      Open="true">
+    <Input Name="ParentProjectItem" ActionOutput="AddOnet.CreatedProjectFolder" />
+	</Action>
+
+	<!-- Resources -->
+	<Action
+      Condition="$(AutoCreateResxFiles)"
+      Name="AddResources"
+      Type="AddTemlateToResourcesFileAction"
+      TemplateFileName="Text\SiteDefinitions\Resources.resx.t4">
+	</Action>
+
+	<!-- add preview image icon to _images -->
+	<Action
+      Name="AddImage"
+      Type="AddFileToItemAction"
+      DeploymentType="TemplateFile"
+      DeploymentPath="Images\$(SafeAppName)"
+      SourceFileName="Text/SiteDefinitions/Preview.gif"
+      TargetFileName="$(SiteDefinitionImage)">
+    <Input Name="ParentProjectItem" ActionOutput="AddOnet.CreatedProjectFolder" />
+	</Action>
+
+	<!-- add default.aspx to folder \TEMPLATE\SiteTemplates\SiteDefinitionName-->
+	<Action
+      Name="AddDefaultASPX"
+      Type="AddTemplateToItemAction"
+      DeploymentType="TemplateFile"
+      DeploymentPath="SiteTemplates\$(SiteDefinitionName)"
+      TemplateFileName="$(TemplateDefaultAspx)"
+      TargetFileName="default.aspx">
+    <Input Name="ParentProjectItem" ActionOutput="AddOnet.CreatedProjectFolder" />
+	</Action>
+
+</Actions>

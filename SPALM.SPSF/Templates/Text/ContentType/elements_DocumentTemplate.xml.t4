@@ -1,0 +1,22 @@
+﻿<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<ContentType>
+	<#
+
+		if(ContentTypeDocumentTemplatePlaceInLayouts)
+		{
+			#>
+			<DocumentTemplate TargetName="/_layouts<#= VersionedFolderName #>/<#= SolutionSubFolder #>/<#= ContentTypeDocumentTemplateUniqueFilename #>"/>
+			<#
+		}
+		else
+		{
+			#>
+			<DocumentTemplate TargetName="<#= ContentTypeDocumentTemplateUniqueFilename #>"/>
+			<Folder TargetName="<#= ContentTypeSafeName #>" />
+			<#
+		}
+		
+	#>
+	</ContentType>
+</Elements>

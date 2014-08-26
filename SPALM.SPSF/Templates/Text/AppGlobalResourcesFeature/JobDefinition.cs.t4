@@ -1,0 +1,135 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="FeatureReceiverNamespace" #>
+<#@ property processor="PropertyProcessor" name="FeatureReceiverClass" #>
+<#@ assembly name="System.dll" #>
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Xml;
+using System.Xml.XPath;
+using Microsoft.SharePoint;
+using Microsoft.SharePoint.Administration;
+using Microsoft.SharePoint.Utilities;
+
+namespace <#= FeatureReceiverNamespace #>
+{
+	public class <#= FeatureReceiverClass #>Job : SPJobDefinition
+	{
+		[Persisted]
+		private bool _delete = false;
+
+		[Persisted]
+		private string sourcePath;
+
+		public <#= FeatureReceiverClass #>Job()
+		  : base()
+		{ }
+
+		public <#= FeatureReceiverClass #>Job(SPWebApplication webApp, string featureName, bool delete)
+		  : base("<#= FeatureReceiverClass #>Job" + featureName, webApp, null, SPJobLockType.None)
+		{
+			_delete = delete;
+
+			// Detrmine the path to the feature's resource files
+			sourcePath = string.Format("{0}\\FEATURES\\{1}\\AppGlobalResources\\",
+									  SPUtility.GetGenericSetupPath("Template"),
+									  featureName);
+		}
+
+		public void DeleteRunningJobs()
+		{
+			foreach (SPJobDefinition job in this.WebApplication.JobDefinitions)
+			{	
+				if (job.Name == this.Name)
+				{	
+					job.Delete();
+				}
+			}
+		}
+
+		public static void DeployResources(SPFeatureReceiverProperties properties)
+		{
+			DeployResourcesJob(properties, false);
+		}
+		public static void UndeployResources(SPFeatureReceiverProperties properties)
+		{
+			DeployResourcesJob(properties, true);
+		}
+
+		private static void DeployResourcesJob(SPFeatureReceiverProperties properties, bool delete)
+		{
+			SPWebApplication webapp = null;
+			if (properties.Feature.Parent is SPWeb)
+			{
+				SPWeb web = properties.Feature.Parent as SPWeb;
+				webapp = web.Site.WebApplication;
+			}
+			if (properties.Feature.Parent is SPSite)
+			{
+				SPSite site = properties.Feature.Parent as SPSite;
+				webapp = site.WebApplication;
+			}
+			if (properties.Feature.Parent is SPWebApplication)
+			{
+				webapp = properties.Feature.Parent as SPWebApplication;
+			}
+
+			//start the job
+			<#= FeatureReceiverClass #>Job itj = new <#= FeatureReceiverClass #>Job(webapp, properties.Definition.DisplayName, delete);
+			itj.SubmitJobNow();
+		}
+
+		private void SubmitJobNow()
+		{
+			DeleteRunningJobs();
+
+			this.Schedule = new SPOneTimeSchedule(DateTime.Now.AddHours(-2));
+			this.Title = string.Format("Deploy resources to App_GlobalResources");
+			this.Update();
+		}
+
+		public override void Execute(Guid targetInstanceId)
+		{
+			try
+			{
+				SPWebApplication webApp = this.Parent as SPWebApplication;
+
+				foreach (SPUrlZone zone in webApp.IisSettings.Keys)
+				{
+					// The settings of the IIS application to update
+					SPIisSettings oSettings = webApp.IisSettings[zone];
+
+					// Determine the destination path
+					string destPath = Path.Combine(oSettings.Path.ToString(), "App_GlobalResources");
+					string[] filePaths = Directory.GetFiles(sourcePath, "*.resx");
+					
+					if (_delete)
+					{
+						//remove the files
+						// Copy the files
+						foreach (string filePath in filePaths)
+						{
+							string fileName = Path.GetFileName(filePath);
+							File.Delete(Path.Combine(destPath, fileName));
+						}
+					}
+					else
+					{
+						// Copy the files
+						foreach (string filePath in filePaths)
+						{
+							string fileName = Path.GetFileName(filePath);
+							File.Copy(filePath, Path.Combine(destPath, fileName), true);
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("Failed to copy global resources");
+				Debug.WriteLine(ex);
+				throw;
+			}
+		}
+	}
+}

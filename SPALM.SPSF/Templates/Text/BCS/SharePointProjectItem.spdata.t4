@@ -1,0 +1,26 @@
+﻿<#@ template language="C#" #>
+<?xml version="1.0" encoding="utf-8"?>
+  <ProjectItem Type="Microsoft.VisualStudio.SharePoint.BusinessDataConnectivity" DefaultFile="<#= BCSModelName #>.bdcm" FeatureReceiverClass="Microsoft.Office.SharePoint.ClientExtensions.Deployment.ImportModelReceiver" FeatureReceiverAssembly="Microsoft.Office.SharePoint.ClientExtensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" SupportedTrustLevels="FullTrust" SupportedDeploymentScopes="Farm" xmlns="http://schemas.microsoft.com/VisualStudio/2010/SharePointTools/SharePointProjectItemModel">
+    <Files>
+      <ProjectItemFile Source="<#= BCSModelName #>.bdcm" Target="<#= BCSModelName #>\" Type="ElementFile" />
+      <#
+	  if(BCSType == "DotNetAssembly")
+	  {
+		#><ProjectOutputFile ProjectId="<#= ProjectId #>" ProjectPath="<#= CurrentProjectName #>.csproj" Target="BdcAssemblies\" Type="ElementFile" />
+		<#
+	  }
+	  #>
+      </Files>
+    <FeatureProperties>
+	  <#
+	  if(BCSType == "DotNetAssembly")
+	  {
+		#>
+		<FeatureProperty Key="<#= BCSModelName #>" Value="BdcAssemblies\$SharePoint.Project.AssemblyFileName$" />
+		<#
+	  }
+	  #>
+      <FeatureProperty Key="IncrementalUpdate" Value="true" />
+      <FeatureProperty Key="ModelFileName" Value="$SharePoint.ProjectItem.Name$\\<#= BCSModelName #>.bdcm" />
+    </FeatureProperties>
+  </ProjectItem>

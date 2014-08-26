@@ -1,0 +1,67 @@
+<#@ template language="C#" #>
+<?xml version="1.0" encoding="utf-8" ?>
+<FieldTypes>
+  <FieldType>
+    <Field Name="TypeName"><#= FieldTypeUniqueName #></Field>
+    <Field Name="ParentType"><#= FieldTypeParentType #></Field>
+    <#
+    if(AutoCreateResxFiles)
+    {
+    #>
+    <Field Name="TypeDisplayName">$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_DisplayName;</Field>
+    <Field Name="TypeShortDescription">$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_Description;</Field>
+    <#
+    }
+    else
+    {
+    #>
+    <Field Name="TypeDisplayName"><#= FieldTypeDisplayName #></Field>
+    <Field Name="TypeShortDescription"><#= FieldTypeDescription #></Field>
+    <#
+    }
+    #>
+    <Field Name="UserCreatable">TRUE</Field>
+    <Field Name="ShowInListCreate">TRUE</Field>
+    <Field Name="ShowInDocumentLibraryCreate">FALSE</Field>
+    <Field Name="ShowInSurveyCreate">FALSE</Field>
+    <Field Name="ShowInColumnTemplateCreate">TRUE</Field>
+    <Field Name="FieldTypeClass"><#= ProjectNamespace #>.<#= FieldTypeTypeName #>, <#= ProjectAssemblyName #></Field>
+	<PropertySchema>
+      <Fields>
+		<Field Name="DefaultColumn1" DisplayName="Default Column 1" 
+          MaxLength="50" DisplaySize="15" Type="Text">
+          <Default></Default>
+        </Field>
+        <Field Name="DefaultColumn2" DisplayName="Default Column 2" 
+          MaxLength="50" DisplaySize="15" Type="Text">
+          <Default></Default>
+        </Field>
+        <Field Name="DefaultColumn3" DisplayName="Default Column 3" 
+          MaxLength="50" DisplaySize="15" Type="Text">
+          <Default></Default>
+        </Field>
+        <Field Name="DefaultColumn4" DisplayName="Default Column 4" 
+          MaxLength="50" DisplaySize="15" Type="Text">
+          <Default></Default>
+        </Field>
+      </Fields>
+    </PropertySchema>
+	<RenderPattern Name="DisplayPattern">
+      <Switch>
+        <Expr>
+          <Column/>
+        </Expr>
+        <Case Value="" />
+        <Default>
+          <Column SubColumnNumber="0" HTMLEncode="TRUE"/>
+          <HTML><![CDATA[<br/>]]></HTML>
+          <Column SubColumnNumber="1" HTMLEncode="TRUE"/>
+          <HTML><![CDATA[,&nbsp;]]></HTML>
+          <Column SubColumnNumber="2" HTMLEncode="TRUE"/>
+          <HTML><![CDATA[&nbsp;&nbsp;]]></HTML>
+          <Column SubColumnNumber="3" HTMLEncode="TRUE"/>
+        </Default>
+      </Switch>
+    </RenderPattern>
+  </FieldType>  
+</FieldTypes>

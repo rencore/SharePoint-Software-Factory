@@ -1,0 +1,54 @@
+﻿<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;
+  using System.Collections.Generic;
+  using System.Linq;
+  using System.Text;
+  using System.Collections;
+  using Microsoft.SharePoint.UserCode;
+  using Microsoft.SharePoint;
+ 
+  public class <#= WorkflowActionName #>
+  {
+    public Hashtable <#= WorkflowActionFunctionName #>(SPUserCodeWorkflowContext context, string url, string title, string description, string template)
+    {
+      Hashtable result = new Hashtable();
+
+      SPSite currentSite = null;
+      SPWeb currentWeb = null;
+      SPWeb newWeb = null;
+
+      try
+      {
+        currentSite = new SPSite(context.CurrentWebUrl);
+        currentWeb = currentSite.OpenWeb();
+
+        newWeb = currentWeb.Webs.Add(url, title, description, currentWeb.Language, 
+                    template, false, false);
+                
+        result["output"] = newWeb.Url;
+        result["error"] = String.Empty;
+
+      }
+      catch (Exception ex)
+      {
+        result["output"] = String.Empty;
+        result["error"] = ex.Message;
+      }
+      finally
+      {
+        if (newWeb != null) newWeb.Dispose();
+        if (currentWeb != null) currentWeb.Dispose();
+        if (currentSite != null) currentSite.Dispose();
+      }
+
+      return result;
+    }
+  }
+}

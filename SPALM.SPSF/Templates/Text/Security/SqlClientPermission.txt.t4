@@ -1,0 +1,21 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<PermissionSet class="NamedPermissionSet">	
+	<IPermission class="SqlClientPermission" version="1" 
+	<#
+	if(PermissionIsUnrestricted)
+	{
+		#> Unrestricted="true" <#
+	}
+	else
+	{
+		#> AllowBlankPassword="<#= SqlClientAllowBlankPassword #>" <#
+	}
+	#>>
+	<!--
+	<add ConnectionString="Data Source=(local);Integrated Security=SSPI;"
+           KeyRestrictions="Initial Catalog=;Connection Timeout=;Encrypt=;Packet Size=;" 
+           KeyRestrictionBehavior="AllowOnly" />
+	-->
+	</IPermission>
+</PermissionSet>

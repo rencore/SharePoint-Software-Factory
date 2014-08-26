@@ -1,0 +1,50 @@
+﻿<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+	using System;
+	using System.Collections;
+	using System.ComponentModel;
+	using System.ComponentModel.Design;
+	using System.Drawing;
+	using System.Linq;
+  using System.Workflow.Activities;
+	using System.Workflow.Activities.Rules;
+	using System.Workflow.ComponentModel;
+  using System.Workflow.ComponentModel.Compiler;
+	using System.Workflow.ComponentModel.Design;
+  using System.Workflow.ComponentModel.Serialization;
+	using System.Workflow.Runtime;
+	using Microsoft.SharePoint;
+	using Microsoft.SharePoint.Workflow;
+	using Microsoft.SharePoint.WorkflowActions;
+
+	/// <summary>
+	/// TODO: Add comment for workflow <#= WorkflowName #>
+	/// </summary> 
+	public sealed partial class <#= WorkflowName #> : SequentialWorkflowActivity
+  {
+    public <#= WorkflowName #>()
+    {
+        WorkflowId = default(System.Guid);
+        WorkflowProperties = new SPWorkflowActivationProperties();
+
+        InitializeComponent();
+    }
+        
+    public Guid WorkflowId { get; set; }
+    public SPWorkflowActivationProperties WorkflowProperties { get; set; }
+
+    private void CodeActivity1_ExecuteCode(object sender, EventArgs e)
+    {
+        /*
+        SPWeb site = workflowProperties.Web;
+        site.Title = "Auto-started workflow";
+        site.Update();
+        */
+    }
+  }
+}

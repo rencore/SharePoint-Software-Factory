@@ -1,0 +1,249 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	  <html xmlns="http://www.w3.org/1999/xhtml">
+	    <head>
+		    <link rel="stylesheet" type="text/css" href="Styles/branding.css"/>				
+		    		<title>How to update projects to the current version of SPSF?</title>
+				<meta name="Description" content="" />
+		<style type="text/css">
+
+		.OH_TocResize
+		{	
+			top: 126px;
+		}
+
+		</style>
+	</head>	
+	<body class="primary-mtps-offline-document" 
+	 style="max-width: 1220px;" >		<table class="noSpace" style="width: 100%;"> 
+			<tr>
+			  <td colspan="2" style="background-color: #6685A2;">&nbsp;</td>
+			</tr>
+			<tr>
+			  <td>
+				<img src="./_img/header_left.jpg" height="66" style="margin-top: 10px; margin-bottom: 20px" />
+			  </td>
+			  <td align="right" valign="top" rowspan="2">
+				<img src="./_img/header_right.jpg" style="margin-top: 2px" height="72"/>
+			  </td>
+			</tr>			
+		</table>
+		<div class="OH_outerDiv">
+			<div style="WIDTH: 350px" id="LeftNav" class="OH_leftNav">
+				<div id="toc">
+					<div id="toc_parent">
+						<div class="OH_parentTocLinks">		
+							<div class="OH_link">				
+								<a title="SharePoint Software Factory" href="SPSF_ROOT.html">SharePoint Software Factory</a>
+							</div>
+									
+							<div class="OH_link">				
+								<a title="Overview" href="SPSF_OVERVIEW_INDEX.html">Overview</a>
+							</div>
+							</div></div>					
+						<div id="toc_children">
+							<div class="OH_selfTocLinks">										<div class="OH_link">	
+											<a title="About SPSF" href="SPSF_OVERVIEW_100_ABOUT.html">About SPSF</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Authors" href="SPSF_OVERVIEW_110_AUTHORS.html">Authors</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="System Requirements" href="SPSF_OVERVIEW_200_SYSTEMREQUIREMENTS.html">System Requirements</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="How to use the SPSF?" href="SPSF_OVERVIEW_500_HOWTOUSESPSF.html">How to use the SPSF?</a>
+										</div>
+
+										<div title="How to update projects to the current version of SPSF?" class="OH_selectedChild">How to update projects to the current version of SPSF?</div>										<div class="OH_link">	
+											<a title="How to (re-)activate SPSF on existing projects?" href="SPSF_OVERVIEW_520_HOWTOACTIVATESPSF.html">How to (re-)activate SPSF on existing projects?</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="System Files" href="SPSF_OVERVIEW_700_SYSTEMFILES.html">System Files</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="License" href="SPSF_OVERVIEW_800_LICENSE.html">License</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Release Notes" href="SPSF_OVERVIEW_810_RELEASENOTES.html">Release Notes</a>
+										</div>
+
+										</div></div><div id="toc_siblings"><div class="OH_siblingTocHeader">Related Links</DIV><div class="OH_siblingTocLinks">							<br /></div></div></div></div><div style="LEFT: 279px" id="TocResize" class="OH_TocResize"></div>
+				<div class="OH_outerContent">
+				  
+		<div class="OH_topic">		 
+     
+		  <div id="mainHeader">
+			<table>
+			  <tbody>
+				<tr>
+				  <td>
+					<h1>How to update projects to the current version of SPSF?</h1>
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+		<div id="mainSection">
+			<div id="mainBody">            
+				<div class="introduction"><p></p></div>
+				
+    <h3>How to update projects to the current version of SPSF?</h3>
+    After installing a new version of the SharePoint Software Factory it is recommended to update the Visual Studio projects which have been created with an earlier version in order to assure that changes/new features and bug fixes of SPSF kick in. This applies only to files which are used to configure SPSF or assure the build and deployment procedure. Other files in your solution (like xml, cs, images etc.) will not be touched.
+        <h3>Scenarios</h3>
+    The steps described in this post can be used for the following scenarios:
+        <ul>
+            <li>Upgrade a SharePoint solution already using any SPSF version to the newest version</li>
+            <li>Configure a standard VisualStudio SharePoint solution to use SPSF (meaning adding SPSF functionality)</li>
+            <li>Add a new standard SharePoint project into an SPSF solution, so that it is included in the deployment package</li>
+            <li>Fix an SPSF solution which doesn't package or build as expected</li>
+        </ul>
+    <h3>Files affected by the Update</h3>
+    The upgrade process creates/updates some or all of following files:
+
+        <strong>Files responsible for a correct build and packaging of the SPSF project</strong>
+    <ul>
+        <li>[SolutionDirectory]\SPSF.targets</li>
+    </ul>
+    <strong>Files used during the deployment of SharePoint solutions</strong>
+    <ul>
+        <li>[SolutionDirectory]\Deployment\Batches\Deploy.bat</li>
+        <li>[SolutionDirectory]\Deployment\Batches\Retract.bat</li>
+        <li>[SolutionDirectory]\Deployment\Batches\Undeploy.bat</li>
+        <li>[SolutionDirectory]\Deployment\Batches\Update.bat</li>
+        <li>[SolutionDirectory]\Deployment\Scripts\SPSD_Main.ps1</li>
+        <li>[SolutionDirectory]\Deployment\Scripts\SPSD_Base.ps1</li>
+        <li>[SolutionDirectory]\Deployment\Scripts\SPSD_Deployment.ps1</li>
+        <li>[SolutionDirectory]\Deployment\Scripts\SPSD_Utilities.ps1</li>
+        <li>[SolutionDirectory]\Deployment\Scripts\SharePointVersions.xml</li>
+    </ul>
+    <strong>Settings files for code analysis tools (if activated in the solution)</strong>
+    <ul>
+        <li>[SolutionDirectory]\Settings.spruleset (used by <a href="http://www.spcaf.de/">SPCAF</a>/<a href="http://www.spcop.de/">SPCop</a>)</li>
+        <li>[SolutionDirectory]\Settings.StyleCop</li>
+        <li>[SolutionDirectory]\Settings.FxCop</li>
+        <li>[SolutionDirectory]\FxCop.targets</li>
+    </ul>
+    Following non-SPSF files will be modified during upgrade:
+
+        <strong>Files of the solution</strong>
+    <ul>
+        <li>[SolutionDirectory]\[solution].sln</li>
+        <li>[SolutionDirectory]\[project]\[project].csproj</li>
+    </ul>
+    <blockquote>
+        <strong>Note:</strong> For projects which have been created with <a href="http://visualstudiogallery.msdn.microsoft.com/4c5664f6-fefc-446b-b91c-36bec0c87e35" target="_blank">SPSF for Visual Studio 2010</a>, the project "ApplicationDeployment" which contains the MSBuild tasks for the deployment package will be untouched. The new PowerShell deployment project of <a href="http://matte.in/SPSF2012" target="_blank">SPSF for VS2012</a> based on the <a href="http://matte.in/YVJ8tq" target="_blank">SharePoint Solution Deployer</a> PowerShell scripts will be added as new "Deployment" project. The original deployment project will not collect the WSP files anymore, but it will allow you to migrate your deployment settings and custom deployment targets to PowerShell. When you have done that, you can remove the "ApplicationDeployment" project from your solution.
+The file named SharePointTargets.targets will be replaced by the new SPSF.targets file in the "ApplicationConfiguration" solution folder.
+    </blockquote>
+
+    To update the VS solution perform the following steps:
+    <h3>Make a backup copy of your VS solution.</h3>
+    This is recommended to avoid breaking changes in your solution. If you are using source control you could skip this step as long as you have checked in all changes before you start the update.   
+
+ <h3>Update the Solution</h3>
+    Execute the recipe "SPSF Helpers -&gt; Update solution to current SPSF version" from the context menu in the Solution Explorer.
+In case the menus are not available follow the steps described in the post <a href="SPSF_OVERVIEW_520_HOWTOACTIVATESPSF.html">How to (re-)activate SPSF on existing projects?</a> first.<br />
+
+    <a href="./_img/UpgradeSolution.jpg">
+        <img alt="UpgradeSolution" src="./_img/UpgradeSolution.jpg" width="640" height="223" /></a><br />
+
+
+    Follow the instructions of the wizard.<br />
+
+    <a href="./_img/UpgradeSolutionWizard.jpg">
+        <img alt="UpgradeSolutionWizard" src="./_img/UpgradeSolutionWizard.jpg" width="640" height="468" /></a><br />
+
+
+    After completion all changes and replaced files are listed in the output window of Visual Studio<br />
+
+    <a href="./_img/UpgradeSolutionOutput.jpg">
+        <img alt="UpgradeSolutionOutput" src="./_img/UpgradeSolutionOutput.jpg" width="640" height="281" /></a><br />
+
+
+    To verify everything went alright, check if the solution now has:
+    <ul>
+        <li>A solution folder called "ApplicationConfiguration" which includes all SPSF settings files</li>
+        <li>A solution folder called "Solutions" which will be used for all SharePoint projects</li>
+        <li>A project called "Deployment" which collects all WSPs on build and creates deployment packaged based on the <a href="http://gallery.technet.microsoft.com/SPSD-SharePoint-Solution-25eaa48b" target="_blank">SharePoint Solution Deployer PowerShell scripts</a></li>
+    </ul>
+    In case SPSF was not used for this solution before the SharePoint projects might still reside outside of the "Solutions" solution folder.
+
+    <br />
+    <a href="./_img/UpgradeSucceededSolutionExplorer.png">
+        <img alt="UpgradeSucceededSolutionExplorer" src="./_img/UpgradeSucceededSolutionExplorer.png" width="439" height="427" /></a><br />
+
+
+    To fix this (and to make sure that the projects are configured correctly)
+    <h2>Update the SharePoint projects</h2>
+    If your SharePoint projects
+    <ul>
+        <li>are not placed in the "Solutions" solution folder,</li>
+        <li>are not creating a WSP package on build automatically,</li>
+        <li>do not run the SPSF Code Quality Checks on "Release" build or</li>
+        <li>are not built before the "Deployment" project when building the whole solution</li>
+    </ul>
+    you should perform the following steps for each SharePoint project in your solution (if SPSF for VS2012 was used initally to create the project, you could skip this step, though it doesn't hurt).
+
+Right click on the SharePoint project in the solution explorer to open the context menu and choose "SPSF Helpers -&gt; Update Project to current SPSF version"
+    <br />
+    <a href="./_img/UpgradeProject.png">
+        <img alt="UpgradeProject" src="./_img/UpgradeProject.png" width="640" height="218" /></a><br />
+
+
+    In the recipe dialog click "Finish"
+    <br />
+    <a href="./_img/UpdateProjectWizard.png">
+        <img alt="UpdateProjectWizard" src="./_img/UpdateProjectWizard.png" width="640" height="437" /></a><br />
+
+
+    SPSF will make following changes to the project:
+
+1. Move the project into the "Solutions" solution folder
+    <br />
+    <a href="./_img/UpdateProjectSucceeded.png">
+        <img alt="UpdateProjectSucceeded" src="./_img/UpdateProjectSucceeded.png" width="442" height="180" /></a><br />
+
+
+    2. Checkout the csproj file and add following MSBuild lines to it
+    <pre class="brush: xml; gutter: true">&lt;Import Project="$(VSToolsPath)\SharePointTools\Microsoft.VisualStudio.SharePoint.targets" Condition="'$(VSToolsPath)' != ''" /&gt;
+&lt;Import Condition="!Exists('$(MSBuildProjectDirectory)\..\SPSF.targets')" Project="$(SolutionDir)\SPSF.targets" /&gt;
+&lt;Import Condition=" Exists('$(MSBuildProjectDirectory)\..\SPSF.targets')" Project="$(MSBuildProjectDirectory)\..\SPSF.targets" /&gt;
+&lt;Target Name="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)" /&gt;
+&lt;Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn)" /&gt;</pre>
+    to let Visual Studio package the WSP on every build and to run the SPSF Code Quality Checks on "Release" build (only in case you have configured them and the necessary tools  like FxCop, StyleCop, SPDisposeChecker and SPCop/SPCAF are installed of course)
+
+3. Add a build dependency to the "Deployment" project so that every time you build it the SharePoint wsp files are created beforehand
+    <br />
+    <a href="./_img/ProjectDependency.png">
+        <img alt="ProjectDependency" src="./_img/ProjectDependency.png" width="459" height="427" /></a><br />
+    4. Use SPSF
+
+Now you are ready to use SPSF, read more about <a href="SPSF_OVERVIEW_500_HOWTOUSESPSF.html">how to use the SPSF</a>.
+
+
+				</div>			
+			</div>
+		</div>
+	</div>
+			<br />
+		<table width="100%">
+		<tr>
+			<td>
+				<div class="OH_feedbacklink">
+						<b>Disclaimer:</b> The views and opinions expressed in this documentation and in SPSF are those of the <a href="SPSF_OVERVIEW_110_AUTHORS.html">authors</a> and do not necessarily reflect the opinions and recommendations of Microsoft or any member of Microsoft. All trademarks, service marks, collective marks, copyrights, registered names, and marks used or cited by this documentation are the property of their respective owners.<br />
+						SharePoint Software Factory, Version 4.1.3.2705, <a href="SPSF_OVERVIEW_800_LICENSE.html">GPLv2</a>, see <a href="http://spsf.codeplex.com">http://spsf.codeplex.com</a> for more information
+				</div>
+				<br />
+			</td>
+		</tr>
+		</table>
+		<br />
+			</body>
+</html>
+

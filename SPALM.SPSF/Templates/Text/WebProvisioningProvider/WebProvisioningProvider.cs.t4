@@ -1,0 +1,46 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ProjectAssemblyName" #>
+<#@ property processor="PropertyProcessor" name="ProjectNamespace" #>
+<#@ property processor="PropertyProcessor" name="ClassName" #>
+<#@ assembly name="System.dll" #>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.SharePoint;
+using Microsoft.SharePoint.Administration;
+	
+namespace <#= ProjectNamespace #>
+{
+	/// <summary>
+	/// Include the SPWebProvisioningProvider within the onet.xml of a site definition
+	/// <Templates xmlns:ows="Microsoft SharePoint">
+	///		<Template 
+	///			Name="CustomTemplate" 
+	///			ID="200000">
+	///				<Configuration ID="100"
+	///					Title="Custom Template"
+	///					Hidden="False"
+	///					ImageUrl=""
+	///					Description=""     
+	///					ProvisionAssembly="<#= ProjectAssemblyName #>"
+	///					ProvisionClass="<#= ProjectNamespace #>.<#= ClassName #>"
+	///					ProvisionData="CustomProperty"      
+	///				/>
+	///		</Template>
+	///	</Templates>
+	/// </summary>	
+	public class <#= ClassName #> : SPWebProvisioningProvider
+	{
+		public override void Provision(SPWebProvisioningProperties props)
+		{
+			//get the value of property ProvisionData, e.g. filename, template name
+			string data = props.Data;
+			
+			//Apply the web template
+			SPWeb web = props.Web;
+            web.ApplyWebTemplate("SPS#0");
+
+            //TODO: Perform operations after provisioning
+		}
+	}
+}

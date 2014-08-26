@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="ApplicationResourceFile"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">    
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Add Application Resource Files</Caption>
+  <Description>This recipe allows to add a file which should be deployed to the Global Assembly Cache.</Description>
+  <HostData Priority="40">    
+    <Icon File="Help/Icons/icon_Resource.ico" />
+    <CommandBar Menu="SPSFProjectFiles"/>
+    <spsf:MetaData 
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseCustomizationRecipeRunner"
+      Enabled="true" 
+      CreateVSTemplate="false" 
+	  NotSandboxSupported="true"
+      Category="Files" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+          <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[Application resource files are mainly used for .resx files in application pages. They are deployed to folder VirtualDirectories\80\App_GlobalResources of a web application.
+        
+        This functionality only works in SharePoint 2010. In earlier versions files could not be deployed to VirtualDirectories\80\App_GlobalResources with wsp solutions.
+        
+        In SharePoint 2010 application resource files are deployed with wsp solutions to folder 12/CONFIG/Resources/ and copied to VirtualDirectories\80\App_GlobalResources with stsadm -o copyappbincontent.
+        
+        Alternatively these files could be copied with a feature receiver:
+        - For Central Administration resources (and sitemaps): SPWebService.AdministrationService.ApplyApplicationContentToLocalServer();
+        - For Application Page resources (and sitemaps): SPFarm.Local.Services.GetValue().ApplyApplicationContentToLocalServer();
+        
+        In the Visual Studio project application resource files are located here:
+        80/BIN/resources
+        
+        Application resource files are located in manifest.xml here:        
+        <Solution xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" SolutionId="00000000-0000-0000-0000-000000000000" ResetWebServer="True" xmlns="http://schemas.microsoft.com/sharepoint/">
+        &nbsp;<ApplicationResourceFiles>
+        &nbsp;&nbsp;<b><ApplicationResourceFile Location="80\resources\testfile.gif/></b>
+        &nbsp;</ApplicationResourceFiles>
+        &nbsp;<!-- new in SharePoint 2010 -->
+        &nbsp;<App_GlobalResources>
+        &nbsp;&nbsp;<b><App_GlobalResourceFile Location="80\resources\testfile.gif/></b>
+        &nbsp;</App_GlobalResources>    
+        </Solution>
+        
+        These files are deployed to C:\inetpub\wwwroot\wss\VirtualDirectories\80\App_GlobalResources in a webapplication.
+        ]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="Default" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="SourceFiles">F:\SPALM\SPSF\Dev\Source\TestData\TestFiles\ApplicationResourceFile.txt</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>         
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+   </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    
+    <Argument Name="SourceFiles" Required="true" />
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Source Files</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="SourceFiles" Label="Source Files">
+              <Editor Type="SPALM.SPSF.Library.MultiFileChooser, SPALM.SPSF.Library" />
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+    <Action
+      Name="CreateSPDataElement"
+      Type="AddSPDataAction"
+      ElementsName="AppGlobalResources"
+      ElementsCategory="Resources"
+      SPDataTemplate="Text\Resources\SharePointProjectItem.spdata.t4">
+      <Output Name="CreatedElementFolder" />
+    </Action>
+    <Action
+      Name="AddFiles"
+      Type="AddFileToItemAction"
+      DeploymentType="AppGlobalResource">
+      <Input Name="SourceFileName" RecipeArgument="SourceFiles" />
+      <Input Name="ParentProjectFolder" ActionOutput="CreateSPDataElement.CreatedElementFolder" />
+    </Action>
+  </Actions>
+</Recipe>

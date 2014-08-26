@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Unregister event</Title>
+      <Author>Torsten Mandelkow</Author>
+      <Description>Unregisters an event receiver in a list or web. Code is used typically in a feature receiver during feature deactivation.</Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>UnregisterEvent</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>WebUrl</ID>
+          <ToolTip>Url of SPWeb</ToolTip>
+          <Default>http://MyServer/sites/MySiteCollection/MyWebSite</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ListName</ID>
+          <ToolTip>Name of the list</ToolTip>
+          <Default>Shared Documents</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>EventName</ID>
+          <ToolTip>Name of the event</ToolTip>
+          <Default>UniqueEventName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>oWebsite</ID>
+          <ToolTip>SPWeb object</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+          <Type>SPWeb</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>list</ID>
+          <ToolTip>SPList object</ToolTip>
+          <Default>list</Default>
+          <Function>
+          </Function>
+          <Type>SPList</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>receivers</ID>
+          <ToolTip>Receivers Collection</ToolTip>
+          <Default>receivers</Default>
+          <Function>
+          </Function>
+          <Type>SPEventReceiverDefinitionCollection</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>def</ID>
+          <ToolTip>Receiver Definition</ToolTip>
+          <Default>def</Default>
+          <Function>
+          </Function>
+          <Type>SPEventReceiverDefinition</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[using (SPWeb $oWebsite$ = new SPSite("$WebUrl$").OpenWeb())
+{
+	SPList $list$ = web.Lists["$ListName$"];
+
+	SPEventReceiverDefinitionCollection $receivers$ = $list$.EventReceivers;
+	foreach (SPEventReceiverDefinition $def$ in $receivers$)
+	{
+		if ($def$.Name == "$EventName$")
+		{
+			$def$.Delete();        
+		}
+	}
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

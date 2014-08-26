@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="GetAssemblyName"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Get AssemblyName</Caption>
+  <Description>Displays the full assembly name of the current selected project.</Description>
+  <HostData Priority="200">
+    <Icon File="Help/Icons/icon_Info.ico" />
+    <CommandBar Menu="SPSFProjectHelpers"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      Enabled="true"
+	  ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="Helpers" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[The assembly name of often needed during development, e.g. to specify the assembly of a feature receiver in the feature.xml.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+    <Argument Name="ProjectAssemblyName">
+      <ValueProvider Type="AssemblyProvider" />
+    </Argument>
+    <Argument Name="SPSFBranding" >
+      <ValueProvider Type="BrandingImageProvider" Logo="\Branding\Logo.jpg" />
+    </Argument>
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Assembly name</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="ProjectAssemblyName" Label="Assembly Name" />
+          </Fields>
+        </Page>        
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+</Recipe>

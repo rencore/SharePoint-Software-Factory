@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="EmailEventReceiver"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+	<DocumentationLinks>
+		<xi:include href="BaseEventsDocumentation.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:DocumentationLinks/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	</DocumentationLinks>
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Email Event Receiver</Caption>
+	<Description>Adds a event receivers to handle events like EmailReceived</Description>
+	<HostData Priority="40">
+		<Icon File="Help/Icons/icon_Events.ico" />		
+		<CommandBar Menu="SPSFProjectEvents"/>
+    <CommandBar Menu="SPSFFolderEvents"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="ElementManifestReference"
+		  BindingTypeTemplate="ElementManifestReferenceTemplate"
+		  TestType="BaseWebFeatureRecipeRunner"
+		  Enabled="true"
+		  CreateVSTemplate="true"
+      NotSandboxSupported="true"
+		  FeatureScopes="Web;Site"
+		  Category="Events" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+				<spsf:Author>Matthias Einig</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.1 Updated Documentation</spsf:VersionHistoryEntry>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[Debugging of email events requires attaching to ows timer service.
+    After changing code the ows timer needs to be restarted. IISReset will not load new assembly to ows timer.]]>
+			</spsf:WebPageContent>
+			<spsf:Test>
+				<spsf:TestCases>
+					<spsf:TestCase Name="Default" Type="SolutionTestCase">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="EventReceiverName">EmailEvent</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="EventReceiverTypes">EmailReceived;EmailReceived;EmailReceived|</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+						<spsf:TestCaseExpectedResults>
+							<spsf:TestCaseExpectedResult Type="AssemblyContainsClass">EmailEvent</spsf:TestCaseExpectedResult>
+						</spsf:TestCaseExpectedResults>
+					</spsf:TestCase>
+				</spsf:TestCases>
+			</spsf:Test>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<Argument Name="EventReceiverTypes" Type="NameValueItemArray" Required="true" >
+			<Converter XPath="/RecipeParameters/SPEventReceivers/SPEmailEventReceiver" Type="RecipeParametersConverter" />
+			<ValueProvider Type="DefaultNameValueCollectionProvider"  />
+		</Argument>
+
+		<Argument Name="TemplatePathFeatureCode" Type="System.String">
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="Text\Events\FeatureReceiverCode.xml.t4"/>
+		</Argument>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="BaseEventsArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Arguments>
+
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+				<xi:include href="BaseEventsPages.include"  parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-wizards) xpointer(/p:Pages/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+
+	<xi:include href="BaseEventsActions.include" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</Recipe>
+
+

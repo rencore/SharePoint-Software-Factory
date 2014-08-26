@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Pages xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+	<Page Width="600" Height="400">
+		<Title>General Settings</Title>
+		<Fields>
+			<Field ValueName="RibbonActionName" Label="Name" >
+				<Help>Required Text. Specifies the name of the button control.</Help>
+			</Field>
+			<Field ValueName="RibbonActionTitle" Label="Title" >
+				<Help>Required Text. The text to label the control.</Help>
+			</Field>
+			<Field ValueName="RibbonActionDescription" Label="Description" >
+				<Help>Required Text. The text that appears as the description of the tooltip.</Help>
+			</Field>
+			<Field ValueName="RibbonActionSequence" Label="Sequence" >
+				<Help>Required Integer. An integer that specifies the order of placement among sibling XML nodes.</Help>
+			</Field>
+		</Fields>
+	</Page>
+	<Page Width="600" Height="400">
+		<Title>Optional Permission Settings</Title>
+		<Help>If needed the availability of a Ribbon element can be limited to a certain permission level or to the site administrator.</Help>
+		<Fields>
+			<Field PanelType="SPALM.SPSF.Library.NameValueListPanel, SPALM.SPSF.Library" ValueName="CustomActionRights" Label="Rights" >
+				<Help>Optional Text. Specifies a set of rights that the user must have in order for the link to be visible. If not specified, then the action always appears in the list of actions. The set of rights are grouped logically according to AND logic.</Help>
+				<Editor Type="SPALM.SPSF.Library.CustomActionRightsEditor, SPALM.SPSF.Library" />
+			</Field>
+			<Field ValueName="CustomActionRequireSiteAdministrator" Label="Require Site Administrator" >
+				<Help>Optional Boolean. TRUE to specify that the item be displayed only if the user is a site administrator; otherwise, FALSE. Using the RequireSiteAdministrator attribute for the drop-down menu of Windows SharePoint Services commands associated with list items is not supported.</Help>
+			</Field>
+		</Fields>
+	</Page>		
+</Pages>

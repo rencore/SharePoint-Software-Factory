@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="WebConfigModification"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+    <DocumentationLinks>
+        <Link Url="http://msdn.microsoft.com/en-us/library/microsoft.sharepoint.administration.spwebconfigmodification.aspx" Caption="MSDN: SPWebConfigModification Class"  Kind="Documentation"/>
+        <Link Url="http://www.crsw.com/mark/Lists/Posts/Post.aspx?ID=32" Caption="Mark Wagner: How To: Modify the web.config file in SharePoint using SPWebConfigModification" Kind="Documentation"/>
+        <Link Url="http://blogs.devhorizon.com/reza/?p=459" Caption="Reza Alirezaei: SPWebConfigModification’s Top 6 Issues"  Kind="Documentation"/>
+    </DocumentationLinks>
+    <Caption>web.config Modification</Caption>
+  <Description>Adds a web.config modification feature</Description>
+  <HostData>
+    <Icon File="Help/Icons/icon_Advanced.ico" />
+    <CommandBar Menu="SPSFSolutionAdvanced"/>
+    <CommandBar Menu="SPSFProjectAdvanced"/>
+    <spsf:MetaData
+      Visible="false"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      Enabled="false"
+      CreateVSTemplate="true"
+	  NotSandboxSupported="true"
+      Category="Advanced" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+        <spsf:Author>Matthias Einig</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+          <spsf:VersionHistoryEntry>1.1 Updated Documentation</spsf:VersionHistoryEntry>
+          <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[In some occasions modifications of the web.config are required when activating a feature i.e. defining web application wide configuration settings.
+        A web.config modification feature can be utilized to make the neccessary configurations and undo them when the feature is deactivated.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+</Recipe>

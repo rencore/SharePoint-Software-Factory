@@ -1,0 +1,81 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="html" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ include file="../../T4Functions.tt" #>
+<?xml version="1.0" encoding="utf-8" ?> 
+<#
+
+string itemTemplatesDirectory = Path.GetDirectoryName(Host.TemplateFile);
+
+IServiceProvider hostServiceProvider = (IServiceProvider)Host;
+EnvDTE.DTE dte = (EnvDTE.DTE)hostServiceProvider.GetService(typeof(EnvDTE.DTE));
+EnvDTE.ProjectItem containingProjectItem = dte.Solution.FindProjectItem(Host.TemplateFile);
+Project project = containingProjectItem.ContainingProject;
+ 
+
+List<string> createdTemplates = new List<string>();
+
+int sortOrder = 1;
+SPSFBase spsfbase = new SPSFBase(Host as IServiceProvider, Host.TemplateFile);
+foreach(RecipeClass recipeClass in spsfbase.GetAllRecipes())
+{
+	if(recipeClass.Enabled)
+	{
+		#><#= recipeClass.Title #><br><#
+		if(recipeClass.CreateVSTemplate)
+		{
+			createdTemplates.Add(recipeClass.Name + ".vstemplate");
+
+			string itemTemplatet4 = Path.Combine(itemTemplatesDirectory, "ItemTemplate.vstemplate.t4");
+			string templateContent = File.ReadAllText(Host.ResolvePath(itemTemplatet4));
+			Engine engine = new Engine();
+			
+			CallContext.SetData("Recipe", SerializeRecipeClass(recipeClass));
+			CallContext.SetData("RecipeSortOrder", sortOrder);
+			
+			string output = engine.ProcessTemplate(templateContent, Host);
+		
+			string templateName = recipeClass.Name + ".vstemplate";
+			string itemTemplatePath = Path.Combine(itemTemplatesDirectory, templateName);
+			File.WriteAllText(itemTemplatePath, output);
+			createdTemplates.Add(templateName);
+			
+			ProjectItem pitem = containingProjectItem.ProjectItems.AddFromFile(itemTemplatePath);
+			pitem.Properties.Item("CopyToOutputDirectory").Value = 1;
+			pitem.Properties.Item("BuildAction").Value = 2;
+
+			try
+			{
+				pitem.Properties.Item("VsixContentItemObjectExtender.IncludeInVSIX").Value = true;
+			}
+			catch(Exception ex)
+			{
+			}
+					
+			sortOrder++;
+		}
+	}
+}
+
+/*
+//delete templates which have not been created
+foreach (ProjectItem childProjectItem in containingProjectItem.ProjectItems)
+{
+  if (childProjectItem.Name.EndsWith(".vstemplate"))
+  {
+	if(!createdTemplates.Contains(childProjectItem.Name))
+	{
+		childProjectItem.Delete();
+	}
+  }
+}
+*/
+
+#>

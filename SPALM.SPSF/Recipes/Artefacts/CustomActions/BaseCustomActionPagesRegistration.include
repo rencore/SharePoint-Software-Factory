@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Pages xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+  <Page Width="600" Height="400">
+    <Title>Options</Title>
+		<Fields>
+			<Field ValueName="CustomActionShowInLists" Label="Show In Lists" >
+				<Help></Help>
+			</Field>
+			<Field ValueName="CustomActionShowInReadyOnlyContentTypes" Label="Show In ReadyOnly ContentTypes" >
+				<Help>Optional Boolean. TRUE if the custom action is only displayed for read-only content types on the page for managing content types. The default value is FALSE.</Help>
+			</Field>
+			<Field ValueName="CustomActionShowInSealedContentTypes" Label="Show In Sealed ContentTypes" >
+				<Help>Optional Boolean. TRUE if the custom action is only displayed for sealed content types on the page for managing content types. The default value is FALSE.</Help>
+			</Field>
+			<Field ValueName="CustomActionRequireSiteAdministrator" Label="Require Site Administrator" >
+				<Help>Optional Boolean. TRUE to specify that the item be displayed only if the user is a site administrator; otherwise, FALSE. Using the RequireSiteAdministrator attribute for the drop-down menu of Windows SharePoint Services commands associated with list items is not supported.</Help>
+			</Field>
+			<Field PanelType="SPALM.SPSF.Library.NameValueListPanel, SPALM.SPSF.Library" ValueName="CustomActionRights" Label="Rights" >
+				<Help>Optional Text. Specifies a set of rights that the user must have in order for the link to be visible. If not specified, then the action always appears in the list of actions. The set of rights are grouped logically according to AND logic.</Help>
+				<Editor Type="SPALM.SPSF.Library.CustomActionRightsEditor, SPALM.SPSF.Library" />
+			</Field>
+		</Fields>
+	</Page>
+</Pages>
+
+
+

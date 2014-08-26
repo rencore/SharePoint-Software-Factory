@@ -1,0 +1,80 @@
+﻿<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= SilverlightApplicationFullName #>
+{
+  using System;
+  using System.Collections.Generic;
+  using System.Linq;
+  using System.Net;
+  using System.Windows;
+  using System.Windows.Controls;
+  using System.Windows.Documents;
+  using System.Windows.Input;
+  using System.Windows.Media;
+  using System.Windows.Media.Animation;
+  using System.Windows.Shapes;
+  using Microsoft.SharePoint.Client;
+
+  public partial class MainPage : UserControl
+  {
+    private ClientContext ctx;
+    private ListItemCollection contactsListItems;
+
+    public MainPage()
+    {
+      // Required to initialize variables
+      InitializeComponent();
+
+      // Get SharePoint List after page loads
+      this.Loaded += MainPage_Loaded;
+    }
+
+    private void MainPage_Loaded(object sender, RoutedEventArgs e)
+    {
+      // LoadClientOM
+      LoadClientOM loadClientOM = new LoadClientOM(delegate { LoadData(); });
+      loadClientOM.Run();
+    }
+
+    private void LoadData()
+    {
+      // Get Client Context
+      ctx = ClientContext.Current;
+
+      if (ctx != null)
+      {
+        // Get Contacts from SharePoint
+        List contactsList = ctx.Web.Lists.GetByTitle("Contacts");
+        contactsListItems = contactsList.GetItems(CamlQuery.CreateAllItemsQuery());
+
+        ctx.Load(contactsListItems);
+        ctx.ExecuteQueryAsync(ContactsLoaded, ContactsLoadedFail);
+      }
+    }
+
+    private void ContactsLoadedFail(object sender, ClientRequestFailedEventArgs args)
+    {
+      // TODO: Handle any Error;
+    }
+
+    private void ContactsLoaded(object sender, ClientRequestSucceededEventArgs args)
+    {
+      int cnt = contactsListItems.Count;
+
+      // foreach (string key in contactsListItems[0].FieldValues.Keys)
+      // {
+      //   System.Diagnostics.Debug.WriteLine(key + " = " + contactsListItems[0].FieldValues[key]);
+      // }
+
+      // call back on the UI thread
+      this.Dispatcher.BeginInvoke(() =>
+      {
+        ContactsListBox.ItemsSource = contactsListItems;
+      });
+    }
+  }
+}

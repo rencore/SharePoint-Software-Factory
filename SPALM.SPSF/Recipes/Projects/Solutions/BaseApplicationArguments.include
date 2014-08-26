@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains standard arguments which are necessary in all recipes -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+	<Argument Name="DestinationDirectory" Required="true">
+		<ValueProvider Type="VisualStudioCreateSolutionDestinationDirectory" />
+	</Argument>
+	<Argument Name="CopyrightCompanyName">
+		<ValueProvider Type="DefaultCompanyNameProvider" />
+	</Argument>
+	<Argument Name="MachineName">
+		<ValueProvider Type="MachineNameProvider" />
+	</Argument>
+	<Argument Name="AppName" Required="true">
+		<Converter Type="NamespaceStringConverter" />
+		<ValueProvider Type="VisualStudioCreateSolutionName" />
+	</Argument>
+	<Argument Name="AppVersion" Required="true">
+		<Converter Type="VersionConverter" />
+		<ValueProvider Type="Evaluator" Expression="1.0.0.0" />
+	</Argument>
+
+	<Argument Name="AutoGenerateManifest" Type="System.Boolean" Required="true">
+		<ValueProvider Type="Evaluator" Expression="true" />
+	</Argument>
+	<Argument Name="AutoCreateResxFiles" Type="System.Boolean">
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+	<Argument Name="UseSolutionFolder" Type="System.Boolean">
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+	<Argument Name="IsSandBoxedSolution" Type="System.Boolean">
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+
+  <Argument Name="ProjectID1" Required="true">
+	<ValueProvider Type="GuidValueProvider" />
+  </Argument>
+  <Argument Name="ProjectID2" Required="true">
+	<ValueProvider Type="GuidValueProvider" />
+  </Argument>
+  <Argument Name="ProjectID3" Required="true">
+    <ValueProvider Type="GuidValueProvider" />
+  </Argument>
+  <Argument Name="SPSFBranding" >
+		<ValueProvider Type="BrandingImageProvider" Logo="\Branding\Logo.jpg" />
+	</Argument>
+
+	<Argument Name="WSPProjectName" Required="true">
+	<Converter Type="NamespaceStringConverter" />
+		<ValueProvider Type="Evaluator" Expression="Components" />    
+	</Argument>
+	<Argument Name="WSPProjectNameTemp">
+		<ValueProvider Type="Evaluator" Expression="$(AppName).$(WSPProjectName).wsp">
+			<MonitorArgument Name="WSPProjectName" />
+		</ValueProvider>
+	</Argument>
+	<Argument Name="WSPSolutionID" Required="true">
+		<ValueProvider Type="GuidValueProvider" />
+	</Argument>
+	<Argument Name="WSPDeploymentServerType" Required="true">
+		<Converter Type="SolutionDeploymentServerTypeConverter" />
+		<ValueProvider Type="Evaluator" Expression="WebFrontEnd" />
+	</Argument>
+	<Argument Name="WSPDeploymentTarget" Required="true">
+		<Converter Type="SolutionDeploymentTargetConverter" />
+		<ValueProvider Type="Evaluator" Expression="GlobalAssemblyCache" />
+	</Argument>
+	<Argument Name="WSPResetServer" Type="System.Boolean" Required="true">
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+	<Argument Name="WSPFileName">
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(AppName).$(WSPProjectName)" />
+	</Argument>
+
+
+	<Argument Name="WSPSolutionSignAssembly" Type="System.Boolean" >
+		<ValueProvider Type="Evaluator" Expression="true" />
+	</Argument>
+	<Argument Name="WSPSolutionKeyFileName" Required="true" Type="System.String" >
+		<ValueProvider Type="Evaluator" Expression="$(AppName).snk" />
+	</Argument>
+
+	<Argument Name="AddResourcesProject" Type="System.Boolean">
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+	<Argument Name="ResourcesProjectName">
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="Resources" />
+	</Argument>
+	<Argument Name="ResourcesSolutionID" Required="true">
+		<ValueProvider Type="GuidValueProvider" />
+	</Argument>
+	<Argument Name="ResourcesWSPFileName">
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(AppName).$(ResourcesProjectName)" />
+	</Argument>
+
+  <Argument Name="DeploymentProjectName">
+    <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="Deployment" />
+  </Argument>
+
+  <Argument Name="DebuggingWebApp" Type="System.String" Required="false" >
+		<Converter Type="AvailableWebApplicationsConverter" />
+		<ValueProvider Type="DefaultWebAppProvider" />
+	</Argument>
+
+	<Argument Name="CodeAnalysisEnableFxCop" Type="System.Boolean">
+		<ValueProvider Type="Evaluator" Expression="true" />
+	</Argument>
+	<Argument Name="CodeAnalysisEnableStyleCop" Type="System.Boolean">
+		<ValueProvider Type="Evaluator" Expression="true" />
+	</Argument>
+	<Argument Name="CodeAnalysisEnableSPCAF" Type="System.Boolean">
+		<ValueProvider Type="Evaluator" Expression="true" />
+	</Argument>
+	<Argument Name="CodeAnalysisEnableSPDisposeChecker" Type="System.Boolean">
+		<ValueProvider Type="Evaluator" Expression="true" />
+	</Argument>
+
+</Arguments>

@@ -1,0 +1,267 @@
+﻿<html>
+<head>
+    <title>Release Notes</title>
+</head>
+<body>
+<h2>4.1.3.2705 (2013-05-27)</h2>
+<h4>Changes</h4>
+<ul>
+    <li>Updated: <a href="http://www.matthiaseinig.de/files/SharePointVersions.xml" target="_blank">SharePointVersions.xml</a></li>
+    <li>Updated: <a href="http://spsd.codeplex.com" target="_blank">SharePoint Solution Deployer</a>-based deployment projects to release 4.1.2.2805</li>
+    <li>Changed: Showing help page after running solution creation recipes</li>
+</ul>
+<h4>Fixes</h4>
+<ul>
+    <li>Fixed: Updated spsf.targets because disabling SPCAF in local release was not possible due to a false MSBuild property (<a href="http://go.spcaf.com/VSGallery" target="_blank">Get SPCAF</a>)</li>
+    <li>Fixed: Integration of StyleCop on RELEASE build with project specific setting.StyleCop</li>
+    <li>Fixed: Integration of SPDisposeChecker on RELEASE build</li>
+    <li>Fixed: Integration of FxCop on RELEASE build with project specific setting.FxCop</li>
+	<li>Fixed: Creating a CodeAnalysisResults subfolder in the output directory</li>
+	<li>Fixed (Almost): <a href="https://spsf.codeplex.com/workitem/7458" target="_blank">CP7458</a> VS2012: SPSF Projects Context Menu not showing. Still requires to restart Visual Studio and opening the created solution again to show up...</li>    
+    <li>Fixed: <a href="https://spsf.codeplex.com/workitem/7459" target="_blank">CP7459</a> Localization issue with SPSD_Deployment.ps1</li>
+    <li>Fixed: <a href="https://spsf.codeplex.com/workitem/7436" target="_blank">CP7436</a> Error when creating a new Custom Action</li>
+    <li>Fixed: <a href="https://spsf.codeplex.com/workitem/7433" target="_blank">CP7433</a> Exception when trying to add Custom Form to ContentType</li>
+    <li>Fixed: <a href="https://spsf.codeplex.com/workitem/7174" target="_blank">CP7174</a> Error creating any Publishing Site Column</li>
+    <li>Fixed: <a href="https://spsf.codeplex.com/workitem/6168" target="_blank">CP6168</a> Crash on add new site column type of "Image with formatting and constraints for publishing"</li>
+    <li>Fixed: <a href="https://spsf.codeplex.com/workitem/7173" target="_blank">CP7173</a> Type or namespace error when creating ribbon custom action</li>
+    <li>Fixed: <a href="https://spsf.codeplex.com/workitem/7045" target="_blank">CP7045</a>/<a href="https://spsf.codeplex.com/workitem/6066" target="_blank">CP6066</a> Exception when Import List Instance</li>
+    <li>Fixed: <a href="https://spsf.codeplex.com/workitem/6847" target="_blank">CP6847</a> Exception when Import List Definition</li>
+    <li>Fixed: <a href="https://spsf.codeplex.com/workitem/6868" target="_blank">CP6868</a> Page Layout with custom content type used Welcome Page content type</li>
+ </ul> 
+
+<h2>4.1.2.2904 (2013-04-29)</h2>
+<h4>New</h4>
+<ul>
+    <li>New: Delegate control recipe now provides all new delegate controls in SP2013 projects</li>
+    <li>New: New ItemEventReceivers added for SP2013 projects</li>
+</ul>
+<h4>Changes</h4>
+<ul>
+    <li>Updated: <a href="http://www.matthiaseinig.de/files/SharePointVersions.xml" target="_blank">SharePointVersions.xml</a> to include build numbers and names up until SP2013 CU April 2013</li>
+    <li>Changed: Set the SPCAF default rules to the "ExtendedRecommendedRules.spruleset" for SPCAF (includes SP2010/2013 compatibility check)</li>
+    <li>Changed License to the weaker MS-PL to make it easier to use SPSF in customer projects</li>
+    <li>Changed: Removed unnecessary detailed logging to c:\SPSF.log file</li>
+    <li>Updated: <a href="http://www.matthiaseinig.de/docs/SPSF/OutputHTML/SPSF_OVERVIEW_INDEX.html" target="_blank">HowTo's in SPSF help</a></li>
+</ul>
+<h4>Fixes</h4>
+<ul>
+    <li>Fixed: Encoding issue which happened in some environments with the PowerShell scripts of the deployment project (run "Update solution to current SPSF" recipe to fix existing projects)</li>
+    <li>Fixed: ItemEventReceivers recipe was not working correctly</li>
+    <li>Fixed: Site Column -> Person & Group was not setting "ShowField" property to "ImnName"</li>
+    <li>Fixed: List Definition property values for "Default" now in uppercase. "EnableModeration" remains CamelCase as requried by the XML schema</li>
+    <li>Fixed: Integrating SPCAF in local Release build failed in some cases (<a href="http://go.spcaf.com/VSGallery" target="_blank">Get SPCAF</a>)</li>
+    <li>Fixed: Integrating FxCop caused error in local Release build</li>
+ </ul> 
+<h2>v4.1.1.2493 (2013-03-27)</h2>
+<h4>Fixes</h4>
+<ul>
+    <li>Generated links to resources in the _layouts folder were not linked correctly in SP2013 projects. The links have to point to _layouts/15, _controltemplates/15 etc. see also <a href="http://matte.in/10On2L1">http://matte.in/10On2L1</a></li>
+    <li>Due to a bug in Visual Studio, SharePoint projects which reside in a solution folder are missing the "Deploy" command. So currently SPSF creates all projects in the solution root instead.</li>
+    <li>Fixed error in recipe "Update Solution to current SPSF" when trying to crate the deployment project</li>
+    <li>Fixed wrong VS version in csproj file of resources projects</li>
+ </ul> 
+<h2>v4.1.0.7601 (2013-03-17)</h2>
+<h4>Prerequisites</h4>
+<ul>
+    <li>Visual Studio 2012</li>
+    <li>SharePoint 2010/2013</li>
+    <li><a href="http://opengax.codeplex.com">OpenGAX</a></li>
+    <li><a href="http://msdn.microsoft.com/en-US/office/apps/fp123627">MS Office Developer Tools for Visual Studio 2012</a></li>   
+</ul>           
+<h4>New</h4>
+<ul>
+    <li>Added support for Visual Studio 2012</li>
+    <li>Added support for SharePoint 2013</li>
+    <li>New PowerShell based solution deployment package based SharePoint Solution Deployer http://spsd.codeplex.com</li>
+    <li>Added a deployment project recpide to allow multiple deployment projects</li>
+    <li>Integrated <a href="http://www.spcaf.de">SPCAF SharePoint CodeAnalysis Framework</a></li>
+    <li>Integrated <a href="http://sharepointcop.codeplex.com">SPCop SharePoint CodeCheck</a></li>
+    <li>Added SP2013 MasterPage and PageLayout templates</li>
+</ul>
+<h4>Changes</h4>
+ <ul>
+    <li>Removed support for Visual Studio 2008/2010 (use SPSF 3.2)</li>
+    <li>Removed support for Hive project structure (use SPSF 3.2)</li>
+    <li>Removed support for MOSS2007</li>
+    <li>Renamed SharePointTargets.targets to SPSF.targets</li>
+    <li>Removed Farm Solution Deployment recipes (use VS or CKSDev instead), sandboxed solution and quick deploy are still included.</li>
+    <li>Removed debugging recipes (use VS or CKSDev instead)</li>
+    <li>Removed configuration project template</li>
+    <li>SharePoint project will still create WSP on every build but won't copy them to the deployment project</li>
+    <li>Deployment project collects all WSPs from the whole solution and has a build dependency on als SharePoint projects</li>
+    <li>Updated SharePoint version recipe to include all known SharePoint versions</li>
+    <li>Updated images to look nicer in VS2012</li>
+    <li>Selection treeviews now sorted and "[Elements in this solution]" is now on the top to find elements easier.</li>
+    <li>Improved general usability of dialogs/wizards</li>
+</ul>
+<h4>Fixes</h4>
+  <ul>
+    <li>Administration page recipe now generates designer.cs</li>
+    <li>Application page recipe now generates designer.cs</li>
+    <li>Uses any StyleCop Version</li>
+    <li>Fixed Feature Dependency dialog to show again "[Elements in this solution]"</li>
+    <li>Fixed Ribbon Tab Recipe</li>
+    <li>Fixed PSScript Recipe</li>
+    <li>Fixed Sequential Workflow not naming constructor correctly</li>
+    <li>Fixed multiple minor bugs and issues</li>
+</ul>
+<h4>Known Bugs</h4>
+    <ul>
+    <li>Project templates are not yet working, to add a new SharePoint project use the VS standard templates, move the project into the "Solutions" folder and run the "Update Project to current SPSF version" recipe</li>
+    <li>Site Definitions recipes are not yet updated to SP2013</li>
+</ul>
+    <h2>v3.2 (2012-02-13)</h2>
+    <h4>New Recipes</h4>
+    <ul>
+        <li>Menu "List And Doc": Linq to SharePoint (imports the schema of several lists to LINQ classes)</li>
+        <li>Menu "BCS": Simple BCS Model</li>
+        <li>Menu "BCS": Import BCS Model from Database</li>
+        <li>Menu "BCS": Model BCS Model with classes</li>
+        <li>Menu "BCS": Quick Deploy BCS Model (undeploys/deploys BCS model via powershell)</li>
+        <li>Menu "Security": Minimal CAS, Medium CAS, recipes for single CAS Policy Items etc.</li>
+        <li>Menu "ASP.NET": WCF Webservice </li>   
+        <li>code snippets added, partly from <a href="http://spcodesnippets.codeplex.com">http://spcodesnippets.codeplex.com</a> Thx to Ayman El-Hattab (<a href="http://aymanelhattab.com">http://aymanelhattab.com</a>) </li>
+        <li>Added custom FxCopDictionary to allow project specific exclusions for abbreviations, keyword, acronyns etc. Dictionary will be automatically used in Realase build configuration.</li>
+    </ul>
+
+    <h4>Improvements</h4>
+    <ul>
+        <li>ParametersDefault.msbuild sets RestartIIS to false by default </li> 
+        <li>ParametersDefault.msbuild updated sample structure to allow easy setup of multiple deployment environments </li> 
+        <li>In selection form of fields or content types the group is displayed (e.g. for field "Title" there are 6 results and no difference)</li> 
+        <li>SharePointVersions.xml with current version numbers </li> 
+        <li>Added BCS extensions (DBML, BDCM) to function "IsExcludedExtension" to avoid that model layout is saved to the WSP file </li> 
+        <li>Change default.aspx in site defition Team Site and Blank Site to version 2010 </li> 
+        <li>In feature selection dialog a existing feature of allowed scope is selected by default </li> 
+        <li>StartDeploy.bat: Made verbosity for ULSLogger configurable (previously it was always diagnostic)</li> 
+    </ul>
+
+    <h4>Bug Fixes</h4>
+    <ul>
+        <li>Deployment.msbuild added &quot; by default for stsadm path </li>
+        <li>Deployment.targets corrected stsadm and powershell examples </li>
+        <li>Codeplex ID 6253: Typo for Ribbon Group Document</li>
+        <li>Codeplex ID 6170: Webservice Error creating WSDL and DISCO when Windows SDK is not installed </li>
+        <li>Codeplex ID 6190: Code Snippets are not correct </li>
+        <li>Corrected FxCopConsoleOutput.xls to display Critical and Errors of FXCop in Release build as errors instead of warnings in the Error List of VS </li>
+        <li>Create inital .csproj.user with SiteDebuggingUrl for SharePoint WSP projects </li>
+        <li>ListInstance recipe refrenced language resources in global resource file, instead of feature resource file</li> 
+        <li>Search for gacutil fixed </li>
+        <li>SharePointTargets.targets for HIVE: added parameter for text templating generation (" -P &lt;path to referenced assemblies&gt;") to allow loading of assemblies needed for SafeControl entry </li>
+        <li>SharePointTargets.targets: Changed $(IsDesktopBuild) to $(BuildingInsideVisualStudio) to allow team build in TFS 2010 </li>
+        <li>MSBuild ULSLogger: Changed date format to InvariantCulture to overcome issues with ULSViewer </li>
+        <li>MSBuild ULSLogger: Applying log level to all messages to be able to reduce file size of log files for larger deployments</li>
+    </ul>
+
+    <h2>v3.1.2.2008 (2011-05-24)</h2>
+    <ul>
+        <li>Recipe "ContentType": Add attribute Inherits="True" by default to ContentTypes</li>
+        <li>All Recipes: Changed boolean attributes to uppercase value ("TRUE" instead of "true") </li>
+        <li>Recipe "Empty Feature": Changed name of feature receiver class to make it more readable </li>
+        <li>Recipe "Empty Feature": Added method FeatureUpgrading to feature receiver template </li>
+        <li>DeploymentTargets.msbuild: Better sample for PowerShell execution during deployment </li>
+        <li>Deployment.msbuild: Moved BeforeDeploy later to ensure stable undeployment </li>
+        <li>SharePointTargets.targets: Moved quality checks at the end to execute checks at last step during build </li>
+        <li>Upgrade Setup for VS2008 to WIX 3.5 </li>
+        <li>Fix in ListInstance Recipe: Attribute FeatureId points to correct parent feature id of list template </li>
+        <li>Fix: If no projects are in the solution add new WSP created a HIVE template instead of VS template</li>
+    </ul>
+
+    <h2>v3.1.2.1804 (2011-04-19)</h2>
+    <ul>
+        <li>Fix in MSBuild task because of timeout issue of a customer</li>
+        <li>Fix in SharePointTargets.targets for customer TeamBuild</li>
+    </ul>
+
+    <h2>v3.1.2.1109</h2>
+    <ul>
+        <li>Improved installer (support for deinstallation of previous versions)</li>
+        <li>Fix in SharePointTargets.targets for a customer</li>
+        <li>changed installation to "AllUsers" for central provision of SPSF in companies</li>
+    </ul>
+
+    <h2>v3.1.1.1112</h2>
+    <ul>
+        <li>Fixed recipe "ListInstance", Attribute "FeatureId" not set correctly</li>
+    </ul>
+
+    <h2>v3.1.1.1110</h2>
+    <ul>
+        <li>Fixed recipe "Migrate solution to current SPSF version", file SharePointTargets.targets not updated</li>
+    </ul>
+
+    <h2>v3.1 (2011-03-21)</h2>
+    <h4>New Recipes</h4>
+    <ul>
+        <li>Migration of projects created with previous SPSF versions</li>
+        <li>New recipes for Silverlight</li>
+        <li>New recipes for PowerShell</li>
+        <li>New recipes for ribbons</li>
+        <li>New recipes for Upgrade Actions for Features</li>
+        <li>New recipes for application resources and classresources</li>
+        <li>New recipes for workflows</li>
+        <li>New recipes for Site Definitions</li>
+        <li>Reworked multilanguage with resources</li>
+    </ul>
+
+    <h4>Improvements</h4>
+
+    Project Structure
+    <ul>
+        <li>Fully supports VS 2010 solution format</li>
+        <li>Removed Texttemplating in VS2010 format (not needed anymore)</li>
+        <li>Added fix in SharePointTargets.targets for sandboxed solutions</li>
+        <li>Supports Team Build on TFS for 2008 and 2010 solutions (2010 need /p:isPackaging=true parameter)</li>
+        <li>Support Quality Checks FxCop, StyleCop 4.4, SPDisposeChecker, SPCop</li>
+    </ul>
+
+    Deployment 
+    <ul>
+        <li>Added support for deployment of sandboxed solutions</li>
+        <li>Reworked msbuild deployment scripts, now completely based on custom msbuild tasks</li>
+    </ul>
+
+    <h4>Bug Fixes</h4>
+    <ul>
+        <li>Fixed bugs for Site Columns, Application Pages></li>
+        <li>Content Type Custom Forms </li>
+        <li>List Defnition, List Instances</li>
+    </ul>
+    <h2>v3.0.2 beta (2010-09-28)</h2>
+    <ul>
+        <li>Fixed "path to long"-exception during installation in VS 2010 on 32bit systems</li>
+        <li>SharePointBridge crash on Windows 7 (64bit) systems</li>
+   </ul>
+    <h2>v3.0.1 beta (2010-09-26)</h2>
+    <ul>
+        <li>Support for Visual Studio 2010</li>
+        <li>Support for SharePoint 2010</li>
+   </ul>
+    <h2>v2.4.3 beta (2010-02-27)</h2>
+    <ul>
+        <li>WSPBuilder support<li>
+        <li>Simple Application now with optional multilanguage support<li>
+        <li>Extending deployment skript for large deployments<li>
+        <li>Fixing issues with Windows Server 2003 x64<li>
+        <li>Added validation of wizards for Import Site Column, Import Content Type, Import List Definition<li>
+        <li>Fixed issue with webapp deployment<li>
+   </ul>
+    <h2>v2.4.2 (2010-02-12)</h2>
+    <ul>
+        <li>Complete installation which guides you through the installation of all required components</li>
+        <li>BugFixes for 3 Recipes: Import List Instance, Import List Template, Import Content Type</li>
+        <li>Changed installer to .NET 2.0</li>
+   </ul>
+    <h2>v2.0 (2009-02-05)</h2>
+    <ul>
+        <li>Support for Visual Studio 2008</li>
+   </ul>
+
+    <h2>v1.0 (2008-01-19)</h2>
+    <ul>
+        <li>Initial version with support for Visual Studio 2005</li>
+        <li>Initial version with support for SharePoint 2007</li>
+   </ul>
+
+</body>
+</html>

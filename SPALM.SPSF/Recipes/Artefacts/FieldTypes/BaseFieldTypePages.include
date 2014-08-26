@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Pages xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+	
+	<Page Width="600" Height="400">
+		<Title>Field Type Settings</Title>
+		<Fields>
+			<Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+			<Field ValueName="FieldTypeTypeName" Label="Field Type Name">
+				<Help>Required Text. Name of the Field Type. Limited to 255 characters. The name has to be unique within the project of this solution. It should not contain whitespaces or special characters.</Help>
+			</Field>
+			<Field ValueName="FieldTypeDescription" Label="Description">
+				<Help>Required Text. Longer description about the purpose of the field type (will be displayed in "Create Column" next to the field selector).</Help>
+			</Field>
+			<Field ValueName="FieldTypeDisplayName" Label="Display Name in column 'Type'">
+				<Help>Required Text. The display name for this field type.</Help>
+			</Field>
+		</Fields>
+	</Page>
+	
+</Pages>
+  

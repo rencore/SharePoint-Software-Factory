@@ -1,0 +1,50 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<UsingTask TaskName="GenerateMenuResource" AssemblyFile="Microsoft.Practices.RecipeFramework.VisualStudio.dll" />
+	<UsingTask TaskName="GenerateGuidancePackageRegistry" AssemblyFile="Microsoft.Practices.RecipeFramework.VisualStudio.dll" />
+	<UsingTask TaskName="FindGuidancePackageConfiguration" AssemblyFile="Microsoft.Practices.RecipeFramework.VisualStudio.dll" />
+
+	<Target Name="GenerateGuidancePackageRegistration" BeforeTargets="CreateVsixContainer" >
+
+		<ItemGroup>
+			<GuidancePackageTemplates Include="Templates\Items\*.vstemplate;
+									  		   Templates\Items\*\*.vstemplate;
+											   Templates\Projects\*.vstemplate;
+											   Templates\Projects\*\*.vstemplate;
+											   Templates\Solutions\*.vstemplate;
+											   Templates\Solutions\*\*.vstemplate;
+											   Templates\Solutions\Projects\*.vstemplate;
+											   Templates\Solutions\Projects\*\*.vstemplate" /> 
+		</ItemGroup>		
+		
+		<FindGuidancePackageConfiguration
+					VsixManifest="source.extension.vsixmanifest">
+			<Output TaskParameter="Configuration"
+					ItemName="GuidancePackageConfiguration" />
+		</FindGuidancePackageConfiguration>
+		
+		<PropertyGroup>
+			<SatelliteDllFile>$(OutputPath)@(GuidancePackageConfiguration->'%(Name)')UI.dll</SatelliteDllFile>
+      <RegistryFragmentFile>$(OutputPath)@(GuidancePackageConfiguration->'%(Name)')Registration.pkgdef</RegistryFragmentFile>
+    </PropertyGroup>
+		
+		<GenerateMenuResource
+			ConfigurationFile="@(GuidancePackageConfiguration)"
+			Templates="@(GuidancePackageTemplates)"
+			OutputPath="$(OutputPath)"
+			OutputFile="$(SatelliteDllFile)">
+		</GenerateMenuResource>
+
+		<GenerateGuidancePackageRegistry
+			ConfigurationFile="@(GuidancePackageConfiguration)"
+			OutputFile="$(RegistryFragmentFile)"
+			OutputPath="$(OutputPath)"
+			SatelliteDllFile="$(SatelliteDllFile)"
+			Templates="@(GuidancePackageTemplates)">
+			<Output TaskParameter="CacheFiles" ItemName="GuidancePackageTemplateCacheFiles" />
+		</GenerateGuidancePackageRegistry>
+
+		<ItemGroup>			
+			<VSIXSourceItem Include="$(SatelliteDllFile);$(RegistryFragmentFile);@(GuidancePackageTemplateCacheFiles)" />	
+		</ItemGroup>		
+	</Target>
+</Project>

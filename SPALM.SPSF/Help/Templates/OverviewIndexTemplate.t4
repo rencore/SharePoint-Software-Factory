@@ -1,0 +1,28 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="html" hostspecific="true" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ include file="../HelpFunctions.tt" #><#
+
+OverviewIndex overviewIndex = OverviewIndex.Deserialize(CallContext.GetData("OverviewIndex") as byte[]);
+overviewIndex.SetSPSFBase(Host);
+
+SPSFHelpElement helpItem = overviewIndex;
+
+#><#@ include file="../Templates/Header.include" #>
+<ul>
+<#
+
+foreach(SPSFHelpElement child in overviewIndex.GetChilds())
+{
+	#><li><a href="<#= GetHelpLink(child) #>"><#= child.Title #></a></li><#
+}
+
+#>
+</ul>       
+<#@ include file="../Templates/Footer.include" #>

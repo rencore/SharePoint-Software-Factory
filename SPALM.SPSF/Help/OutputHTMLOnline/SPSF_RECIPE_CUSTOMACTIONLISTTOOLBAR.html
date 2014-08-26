@@ -1,0 +1,199 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	  <html xmlns="http://www.w3.org/1999/xhtml">
+	    <head>
+		    <link rel="stylesheet" type="text/css" href="Styles/branding.css"/>				
+		    		<title>Custom Action for List Toolbar</title>
+				<meta name="Description" content="Adds a custom action to a toolbar in a list (View, Edit, Display etc.)" />
+		<style type="text/css">
+
+		.OH_TocResize
+		{	
+			top: 126px;
+		}
+
+		</style>
+	</head>	
+	<body class="primary-mtps-offline-document" 
+	 style="max-width: 1220px;" >		<table class="noSpace" style="width: 100%;"> 
+			<tr>
+			  <td colspan="2" style="background-color: #6685A2;">&nbsp;</td>
+			</tr>
+			<tr>
+			  <td>
+				<img src="./_img/header_left.jpg" height="66" style="margin-top: 10px; margin-bottom: 20px" />
+			  </td>
+			  <td align="right" valign="top" rowspan="2">
+				<img src="./_img/header_right.jpg" style="margin-top: 2px" height="72"/>
+			  </td>
+			</tr>			
+		</table>
+		  
+		<div class="OH_topic">		 
+     
+		  <div id="mainHeader">
+			<table>
+			  <tbody>
+				<tr>
+				  <td>
+					<h1>Custom Action for List Toolbar</h1>
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+		<div id="mainSection">
+			<div id="mainBody">            
+				<div class="introduction"><p>Adds a custom action to a toolbar in a list (View, Edit, Display etc.)</p></div>
+				      					<DIV class="OH_CollapsibleAreaRegion">
+						<DIV class="OH_regiontitle">Screens</DIV>
+						<DIV class="OH_RegionToggle"></DIV>
+					</DIV>
+					<DIV class="OH_clear"></DIV>
+					<p>				
+					<span class="spsfscreenshot"><span>
+							            <img class="screenshot" src="./Screenshots/CustomActionListToolbar/100_Screen.gif" />
+							            <br />
+						            </span></span>
+					</p>
+                    <div class="spsfclear"></div>           
+                           <DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">Arguments</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>
+				<p>
+				<div class="tableSection">
+                <table id="argumentTable" width="100%">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>							<tr>
+								<td class="name" colspan="2">List Type</td>
+							</tr>                
+														<tr>
+								<td>List Type</td>
+								<td>Select the list type where the action should be added.</td>
+							</tr>                
+														<tr>
+								<td>Toolbar</td>
+								<td>Select the toolbar where the action should be added.</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">Custom Actions Settings</td>
+							</tr>                
+														<tr>
+								<td>Title</td>
+								<td>Required Text. Specifies the end user description for this action.</td>
+							</tr>                
+														<tr>
+								<td>Description</td>
+								<td>Optional Text. Specifies a longer description for the action that is exposed as a tooltip or sub-description for the action.</td>
+							</tr>                
+														<tr>
+								<td>Sequence</td>
+								<td>Optional Integer. Specifies the ordering priority for actions.</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">Advanced Settings</td>
+							</tr>                
+														<tr>
+								<td>Custom Action ID</td>
+								<td>Optional Text. Specifies a unique identifier for the custom action. The ID may be a GUID, or it may be a unique term, for example, "HtmlViewer".</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">Options</td>
+							</tr>                
+														<tr>
+								<td>Show In Lists</td>
+								<td></td>
+							</tr>                
+														<tr>
+								<td>Show In ReadyOnly ContentTypes</td>
+								<td>Optional Boolean. TRUE if the custom action is only displayed for read-only content types on the page for managing content types. The default value is FALSE.</td>
+							</tr>                
+														<tr>
+								<td>Show In Sealed ContentTypes</td>
+								<td>Optional Boolean. TRUE if the custom action is only displayed for sealed content types on the page for managing content types. The default value is FALSE.</td>
+							</tr>                
+														<tr>
+								<td>Require Site Administrator</td>
+								<td>Optional Boolean. TRUE to specify that the item be displayed only if the user is a site administrator; otherwise, FALSE. Using the RequireSiteAdministrator attribute for the drop-down menu of Windows SharePoint Services commands associated with list items is not supported.</td>
+							</tr>                
+														<tr>
+								<td>Rights</td>
+								<td>Optional Text. Specifies a set of rights that the user must have in order for the link to be visible. If not specified, then the action always appears in the list of actions. The set of rights are grouped logically according to AND logic.</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">Url Settings</td>
+							</tr>                
+														<tr>
+								<td>Type of action</td>
+								<td>Required. Select the type of action that should be performed after click.</td>
+							</tr>                
+														<tr>
+								<td>Url Page</td>
+								<td>Optional Text. Select a page where the custom action should link to. Only required if field 'Type of action' is 'UrlAction'.</td>
+							</tr>                
+														<tr>
+								<td>Use URL Prefix</td>
+								<td>Optional Text. Select the prefix which should be placed at the beginning of the url action.</td>
+							</tr>                
+							                </table>
+				</div>
+				</p>
+                           <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Authors</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+			<p>
+           <ul>
+           <li>Torsten Mandelkow</li>           </ul>
+           </p>
+           
+		   <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Version history</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+		   <p>
+           <ul>
+           <li>1.0 Initial Recipe</li>           </ul>
+		   </p>
+
+
+
+     
+				</div>			
+			</div>
+		</div>
+	</div>
+			<br />
+		<table width="100%">
+		<tr>
+			<td>
+				<div class="OH_feedbacklink">
+						<b>Disclaimer:</b> The views and opinions expressed in this documentation and in SPSF are those of the <a href="SPSF_OVERVIEW_110_AUTHORS.html">authors</a> and do not necessarily reflect the opinions and recommendations of Microsoft or any member of Microsoft. All trademarks, service marks, collective marks, copyrights, registered names, and marks used or cited by this documentation are the property of their respective owners.<br />
+						SharePoint Software Factory, Version 4.1.2.2904, <a href="SPSF_OVERVIEW_800_LICENSE.html">GPLv2</a>, see <a href="http://spsf.codeplex.com">http://spsf.codeplex.com</a> for more information
+				</div>
+				<br />
+			</td>
+		</tr>
+		</table>
+		<br />
+					<script type="text/javascript">
+			  var _gaq = _gaq || [];
+			  _gaq.push(['_setAccount', 'UA-6735734-1']);
+			  _gaq.push(['_trackPageview']);
+
+			  (function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			  })();
+			</script>
+			</body>
+</html>
+
+

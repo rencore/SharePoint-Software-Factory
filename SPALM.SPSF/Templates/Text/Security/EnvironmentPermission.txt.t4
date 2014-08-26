@@ -1,0 +1,29 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<PermissionSet class="NamedPermissionSet">	
+	<IPermission class="EnvironmentPermission" version="1" 
+	<#
+	if(PermissionIsUnrestricted)
+	{
+		#> Unrestricted="true" <#
+	}
+	else
+	{	if(!string.IsNullOrEmpty(EnvironmentAllAccess))
+		{
+			#> AllAccess="<#= EnvironmentAllAccess #>" <#
+		}
+		if(!string.IsNullOrEmpty(EnvironmentNoAccess))
+		{
+			#> NoAccess="<#= EnvironmentNoAccess #>" <#
+		}
+		if(!string.IsNullOrEmpty(EnvironmentRead))
+		{
+			#> Read="<#= EnvironmentRead #>" <#
+		}
+		if(!string.IsNullOrEmpty(EnvironmentWrite))
+		{
+			#> Write="<#= EnvironmentWrite #>" <#
+		}
+	}
+	#> />
+</PermissionSet>

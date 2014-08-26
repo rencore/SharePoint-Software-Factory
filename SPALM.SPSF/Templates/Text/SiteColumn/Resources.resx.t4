@@ -1,0 +1,12 @@
+<#@ template language="C#" #>
+<data name="<#= ResourceKeyPrefix #>_SiteColumnDisplayName">
+	<value><#= SiteColumnDisplayName #></value>
+</data>
+<data name="<#= ResourceKeyPrefix #>_SiteColumnGroup">
+	<value><#= SiteColumnGroup #></value>
+</data>
+<data name="<#= ResourceKeyPrefix #>_SiteColumnDescription">
+	<value><#= SiteColumnDescription #></value>
+</data>
+  
+		   

@@ -1,0 +1,169 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="CopyrightCompanyName" #>
+<#@ property processor="PropertyProcessor" name="CopyrightFileName" #>
+<#@ property processor="PropertyProcessor" name="ThemeName" #>
+<#@ property processor="PropertyProcessor" name="FeatureReceiverNamespace" #>
+<#@ property processor="PropertyProcessor" name="FeatureReceiverClass" #>
+<#@ assembly name="System.dll" #>
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Xml;
+using System.Xml.XPath;
+using Microsoft.SharePoint;
+using Microsoft.SharePoint.Administration;
+using Microsoft.SharePoint.Utilities;
+// <copyright file="<#= CopyrightFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= FeatureReceiverNamespace #>
+{
+  public class <#= FeatureReceiverClass #>Job : SPJobDefinition
+  {
+    [Persisted]
+    private Guid _featureID = Guid.Empty;
+    [Persisted]
+    private bool _delete = false;
+
+    public <#= FeatureReceiverClass #>Job()
+      : base()
+    { }
+
+    public <#= FeatureReceiverClass #>Job(SPService service, Guid featureID, bool delete)
+      : base("Feature Themes", service, null, SPJobLockType.None)
+    {
+      _featureID = featureID;
+      _delete = delete;
+    }
+
+    public void SubmitJobNow()
+    {
+      if (Farm.TimerService.Instances.Count < 1)
+        throw new SPException("Could not run job. Timer service not found.");
+
+      foreach (SPJobDefinition job in Service.JobDefinitions)
+        if (job.Name == this.Name)
+          job.Delete();
+
+      this.Schedule = new SPOneTimeSchedule(DateTime.Now.AddHours(-2));
+      this.Title = string.Format("{0} Themes for Feature {1}",
+          (_delete ? "Delete" : "Install"), _featureID);
+      this.Update();
+    }
+
+    public static void InstallThemes(SPFeatureDefinition def)
+    {
+      MergeFeatureThemes(def, false);
+    }
+    public static void DeleteThemes(SPFeatureDefinition def)
+    {
+      MergeFeatureThemes(def, true);
+    }
+
+    private static void MergeFeatureThemes(SPFeatureDefinition def, bool delete)
+    {
+      if (def == null)
+        throw new ArgumentNullException("def");
+
+      SPFarm f = def.Farm;
+      if (f == null)
+        f = SPFarm.Local;
+
+      foreach (SPWebService svc in new SPWebServiceCollection(f))
+      {
+        <#= FeatureReceiverClass #>JobJob itj = new <#= FeatureReceiverClass #>JobJob(svc, def.Id, delete);
+        itj.SubmitJobNow();
+      }
+    }
+
+    
+    private const string ERR_FEATURE_NOT_FOUND = "Feature '{0}' not found in farm.";
+    private const string ERR_MISSING_PROPERTY = "Feature '{0}' is missing property '{1}'.";
+    internal string ThemesFilePath
+    {
+      get
+      {
+        SPFeatureDefinition fDef = Farm.FeatureDefinitions[_featureID];
+        if (fDef == null)
+          throw new SPException(string.Format(ERR_FEATURE_NOT_FOUND, _featureID));
+
+        return Path.Combine(fDef.RootDirectory, "SPTHEMES.XML");
+      }
+    }
+
+    private const string SPTHEMES_PATH = @"TEMPLATE\LAYOUTS\1033\SPTHEMES.XML";
+    public override void Execute(Guid targetInstanceId)
+    {
+      DoMerge(SPUtility.GetGenericSetupPath(SPTHEMES_PATH), ThemesFilePath);
+    }
+
+    public void DoMerge(string pathToSPThemes, string pathToMerge)
+    {
+      try
+      {
+        XmlDocument docThemes = new XmlDocument();
+        docThemes.Load(pathToSPThemes);
+        string nsThemes = docThemes.DocumentElement.NamespaceURI;
+
+        XPathNavigator navThemes = docThemes.CreateNavigator();
+        XmlNamespaceManager mgrThemes = new XmlNamespaceManager(navThemes.NameTable);
+        mgrThemes.AddNamespace("t", nsThemes);
+
+        XmlDocument docMerge = new XmlDocument();
+        docMerge.Load(pathToMerge);
+
+        XPathNavigator navMerge = docMerge.CreateNavigator();
+        XmlNamespaceManager mgrMerge = new XmlNamespaceManager(navMerge.NameTable);
+        mgrMerge.AddNamespace("t", docMerge.DocumentElement.NamespaceURI);
+
+        bool shouldSave = false;
+
+        XmlNodeList mergeNodes = docMerge.SelectNodes("/t:SPThemes/t:Templates/t:TemplateID", mgrMerge);
+        foreach (XmlNode mergeNode in mergeNodes)
+        {
+          try
+          {
+            string xpath = string.Format("/t:SPThemes/t:Templates[t:TemplateID = '{0}']", mergeNode.InnerText);
+
+            XmlNode node = docThemes.SelectSingleNode(xpath, mgrThemes);
+            if (_delete)
+            {
+              if (node != null)
+                node.ParentNode.RemoveChild(node);
+            }
+            else
+            {
+              XmlNode newNodeParent = mergeNode.ParentNode;
+              XmlElement toInsert = docThemes.CreateElement(newNodeParent.Name, nsThemes);
+              toInsert.InnerXml = newNodeParent.InnerXml;
+              foreach (XmlElement xe in toInsert.ChildNodes)
+                xe.RemoveAllAttributes();
+
+              if (node == null)
+                docThemes.DocumentElement.AppendChild(toInsert);
+              else
+                node.ParentNode.ReplaceChild(toInsert, node);
+            }
+            shouldSave = true;
+          }
+          catch (Exception ex)
+          {
+            Debug.WriteLine("Error importing theme '" + mergeNode.InnerText + "'!");
+            Debug.WriteLine(ex);
+          }
+        }
+
+        if (shouldSave)
+          docThemes.Save(pathToSPThemes);
+      }
+      catch (Exception ex)
+      {
+        Debug.WriteLine("Failed to merge themes");
+        Debug.WriteLine(ex);
+        throw;
+      }
+    }
+  }
+}

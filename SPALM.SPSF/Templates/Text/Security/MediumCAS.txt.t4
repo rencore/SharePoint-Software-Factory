@@ -1,0 +1,20 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<PermissionSet class="NamedPermissionSet">
+  <IPermission class="AspNetHostingPermission" version="1" Level="Medium" />
+  <IPermission class="System.Security.Permissions.EnivronmentPermission, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Read="TEMP,TMP,OS,USERNAME,COMPUTERNAME" />
+  <IPermission class="FileIOPermission" version="1" Read="$AppDir$" Write="$AppDir$" Append="$AppDir$" PathDiscovery="$AppDir$" />
+  <IPermission class="IsolatedStorageFilePermission" version="1" Allowed="AssemblyIsolationByUser" UserQuota="9223372036854775807" />
+  <IPermission class="SqlClientPermission" version="1" Unrestricted="true" />
+  <IPermission class="WebPermission" version="1">
+    <ConnectAccess>
+      <URI uri="$OriginHost$" />
+    </ConnectAccess>
+  </IPermission>
+  <IPermission class="DnsPermission" version="1" Unrestricted="true" /> 
+  <IPermission class="SmtpPermission" version="1" Access="Connect" />
+  <IPermission class="PrintingPermission" version="1" Level="DefaultPrinting" />
+  <IPermission class="SharePointPermission" version="1" ObjectModel="True" />
+  <IPermission class="WebPartPermission" version="1" Connections="True" />
+  <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="Execution, Assertion, ControlPrincipal, ControlThread, RemotingConfiguration" />
+</PermissionSet>

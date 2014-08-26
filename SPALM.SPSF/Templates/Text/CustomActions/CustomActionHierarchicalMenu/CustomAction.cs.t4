@@ -1,0 +1,49 @@
+<#@ template language="C#" #>
+namespace <#= ProjectNamespace #>
+{
+  using System;
+  using System.IO;
+  using System.Text;
+  using System.Web;
+  using System.Web.UI;
+  using System.Web.UI.WebControls;
+  using System.Web.UI.HtmlControls;
+  using System.Xml;
+  using System.Xml.Serialization;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.Utilities;
+  using Microsoft.SharePoint.WebControls;
+  using Microsoft.SharePoint.Workflow;
+
+  public class ListSettingsMenu: System.Web.UI.WebControls.WebControl
+  {
+    protected override void CreateChildControls()
+    {
+      SubMenuTemplate listSettings = new SubMenuTemplate();
+      listSettings.Text = "<#= CustomActionTitle #>";
+      listSettings.Description = "<#= CustomActionDescription #>";
+      listSettings.ImageUrl = "<#= CustomActionIconName #>";
+
+      foreach (SPList list in SPContext.Current.Web.Lists)
+      {
+        if (!list.Hidden)
+        {
+          MenuItemTemplate listItem = new MenuItemTemplate();
+          listItem.Text = list.Title;
+          listItem.Description = string.Format(
+            "Manage settings for {0}", list.Title);
+          listItem.ImageUrl = list.ImageUrl;
+
+          string url = string.Format(
+            "{0}/_layouts<#= VersionedFolderName #>/listedit.aspx?List={{{1}}}",
+            SPContext.Current.Web.Url, list.ID.ToString());
+          listItem.ClientOnClickNavigateUrl = url;
+
+          listSettings.Controls.Add(listItem);
+        }
+      }
+
+      this.Controls.Add(listSettings);
+    }
+  }
+}

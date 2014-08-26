@@ -1,0 +1,32 @@
+﻿<VSTemplate Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>SharePoint Class Library (.dll)</Name>
+    <Description>Creates a new SharePoint class library (.dll) with all necessary references. Projects of this type typically contain business logic.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>500</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>Classes</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Icon>icon_Project.ico</Icon>    
+  </TemplateData>
+  <TemplateContent>
+    <Project File="Runtime.csproj"  TargetFileName="$ClassLibraryProjectName$.csproj" ReplaceParameters="true">
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+      </Folder>
+		<ProjectItem ReplaceParameters="true" TargetFileName="Class1.cs">Class1.cs</ProjectItem>
+    </Project>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.Practices.RecipeFramework.VisualStudio</Assembly>
+    <FullClassName>Microsoft.Practices.RecipeFramework.VisualStudio.Templates.UnfoldTemplate</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <Template
+      xmlns="http://schemas.microsoft.com/pag/gax-template"
+      SchemaVersion="1.0"
+      Recipe="ClassLibraryProject" />
+  </WizardData>
+</VSTemplate>

@@ -1,0 +1,329 @@
+<#@ output extension="xml" hostspecific="true" #>
+<#@ include file="../T4Functions.tt" #><?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="CreateBindings"
+  xmlns="http://schemas.microsoft.com/pag/gax-core">  
+  <Types>
+    <TypeAlias Name="Evaluator" Type="Microsoft.Practices.RecipeFramework.Library.ValueProviders.ExpressionEvaluatorValueProvider2,Microsoft.Practices.RecipeFramework.Library" />
+    <TypeAlias Name="ShowHelp" Type="SPALM.SPSF.Library.Actions.ShowHelp, SPALM.SPSF.Library" />
+    <TypeAlias Name="ShowMessageBox" Type="SPALM.SPSF.Library.Actions.ShowMessageBox, SPALM.SPSF.Library" />
+   
+    <TypeAlias
+        Name="RefCreator"
+        Type="Microsoft.Practices.RecipeFramework.Library.Actions.CreateUnboundReferenceAction, Microsoft.Practices.RecipeFramework.Library"/>
+    
+    <TypeAlias
+        Name="AddProjectReference"
+        Type="SPALM.SPSF.Library.References.AddProjectReference, SPALM.SPSF.Library"/>
+    <TypeAlias
+        Name="AddProjectReferenceTemplate"
+        Type="SPALM.SPSF.Library.References.AddProjectReferenceTemplate, SPALM.SPSF.Library"/>
+
+
+    <TypeAlias
+        Name="SolutionFolderWSPReference"
+        Type="SPALM.SPSF.Library.References.SolutionFolderWSPReference, SPALM.SPSF.Library"/>
+
+    <TypeAlias
+        Name="ContentReference"
+        Type="SPALM.SPSF.Library.References.ContentReference, SPALM.SPSF.Library"/>
+    <TypeAlias
+        Name="ContentReferenceTemplate"
+        Type="SPALM.SPSF.Library.References.ContentReferenceTemplate, SPALM.SPSF.Library"/>
+
+    <TypeAlias
+        Name="ConfigurationReference"
+        Type="SPALM.SPSF.Library.References.ConfigurationReference, SPALM.SPSF.Library"/>
+    <TypeAlias
+        Name="ConfigurationReferenceTemplate"
+        Type="SPALM.SPSF.Library.References.ConfigurationReferenceTemplate, SPALM.SPSF.Library"/>
+
+    <TypeAlias
+        Name="CustomizationReference"
+        Type="SPALM.SPSF.Library.References.CustomizationReference, SPALM.SPSF.Library"/>
+    <TypeAlias
+        Name="CustomizationReferenceTemplate"
+        Type="SPALM.SPSF.Library.References.CustomizationReferenceTemplate, SPALM.SPSF.Library"/>
+   
+   <TypeAlias
+        Name="FeatureReference"
+        Type="SPALM.SPSF.Library.References.FeatureReference, SPALM.SPSF.Library"/>
+    <TypeAlias
+        Name="FeatureReferenceTemplate"
+        Type="SPALM.SPSF.Library.References.FeatureReferenceTemplate, SPALM.SPSF.Library"/>
+   
+
+   <TypeAlias
+        Name="ElementManifestReference"
+        Type="SPALM.SPSF.Library.References.ElementManifestReference, SPALM.SPSF.Library"/>
+    <TypeAlias
+        Name="ElementManifestReferenceTemplate"
+        Type="SPALM.SPSF.Library.References.ElementManifestReferenceTemplate, SPALM.SPSF.Library"/>
+   
+   
+       
+    <TypeAlias
+        Name="TestReference"
+        Type="SPALM.SPSF.Library.References.TestReferenceTemplate, SPALM.SPSF.Library"/>
+    <TypeAlias
+        Name="TestReferenceTemplate"
+        Type="SPALM.SPSF.Library.References.TestReferenceTemplateeTemplate, SPALM.SPSF.Library"/>
+    
+    <TypeAlias
+        Name="SolutionFolderMSBuildReference"
+        Type="SPALM.SPSF.Library.References.SolutionFolderMSBuildReference, SPALM.SPSF.Library"/>
+    <TypeAlias
+        Name="SolutionFolderMSBuildReferenceTemplate"
+        Type="SPALM.SPSF.Library.References.SolutionFolderMSBuildReferenceTemplate, SPALM.SPSF.Library"/>
+
+    <TypeAlias
+            Name="SolutionDeploymentReference"
+            Type="SPALM.SPSF.Library.References.SolutionDeploymentReference, SPALM.SPSF.Library"/>
+
+    <TypeAlias
+      Name="ConfigureDeploymentReference"
+      Type="SPALM.SPSF.Library.References.ConfigureDeploymentReference, SPALM.SPSF.Library"/>
+ 
+    <TypeAlias
+        Name="AnyElementReference"
+        Type="SPALM.SPSF.Library.References.AnyElementReference, SPALM.SPSF.Library"/>
+    <TypeAlias
+        Name="AnyElementReferenceTemplate"
+        Type="SPALM.SPSF.Library.References.AnyElementReferenceTemplate, SPALM.SPSF.Library"/>
+	<TypeAlias
+        Name="SharePointConfigReference"
+        Type="SPALM.SPSF.Library.References.SharePointConfigReference, SPALM.SPSF.Library"/>
+    <TypeAlias
+        Name="AnyFileReference"
+        Type="SPALM.SPSF.Library.References.AnyFileReference, SPALM.SPSF.Library"/>
+
+    <TypeAlias
+        Name="TTFileReference"
+        Type="SPALM.SPSF.Library.References.TTFileReference, SPALM.SPSF.Library"/>
+    <TypeAlias
+        Name="SCCFileReference"
+        Type="SPALM.SPSF.Library.References.SCCFileReference, SPALM.SPSF.Library"/>
+    <TypeAlias
+        Name="MSTargetsReference"
+        Type="SPALM.SPSF.Library.References.MSTargetsReference, SPALM.SPSF.Library"/>
+
+    <TypeAlias
+            Name="SolutionHiveReference"
+            Type="SPALM.SPSF.Library.References.SolutionHiveReference, SPALM.SPSF.Library"/>
+
+    <TypeAlias
+        Name="BatchFileReference"
+        Type="SPALM.SPSF.Library.References.BatchFileReference, SPALM.SPSF.Library"/>
+    <TypeAlias
+        Name="WebFileReference"
+        Type="SPALM.SPSF.Library.References.WebFileReference, SPALM.SPSF.Library"/>
+
+    <TypeAlias
+           Name="WebServiceReference"
+           Type="SPALM.SPSF.Library.References.WebServiceReference, SPALM.SPSF.Library"/>
+    <TypeAlias
+          Name="WebServiceReferenceTemplate"
+          Type="SPALM.SPSF.Library.References.WebServiceReferenceTemplate, SPALM.SPSF.Library"/>
+	<TypeAlias
+        Name="XmlMergeReference"
+        Type="SPALM.SPSF.Library.References.XmlMergeReference, SPALM.SPSF.Library"/>
+    
+	<TypeAlias
+        Name="CheckOpenSourceControlExplorer"
+        Type="SPALM.SPSF.Library.Actions.CheckOpenSourceControlExplorer, SPALM.SPSF.Library"/>
+
+   
+
+    <TypeAlias
+          Name="BCSModelReference"
+          Type="SPALM.SPSF.Library.References.BCSModelReference, SPALM.SPSF.Library"/>
+    <TypeAlias
+          Name="BCSModelReferenceTemplate"
+          Type="SPALM.SPSF.Library.References.BCSModelReferenceTemplate, SPALM.SPSF.Library"/>
+
+  </Types>
+  <Caption>SharePoint Software Factory - Recipe Bindings</Caption>
+  <HostData>
+    <Icon File="spsf.ico" />
+    <spsf:MetaData
+      Visible="false"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      Enabled="true"
+	  ExcludeFromTests="true"
+	  HideInHelpNavigation="true"
+      CreateVSTemplate="false"
+      Category="None" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+        <spsf:Author>Matthias Einig</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+          <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <Argument Name="RecipeName">
+      <ValueProvider Type="Evaluator" Expression="CreateBindings" />
+    </Argument>
+    
+  </Arguments>
+  <Actions>
+    <Action Name="CheckOpenSourceControlExplorer" Type="CheckOpenSourceControlExplorer" />
+	<#
+	
+	SPSFBase spsfbase = new SPSFBase(Host as IServiceProvider, Host.TemplateFile);
+
+    foreach(RecipeClass recipe in spsfbase.GetAllRecipes())
+    {    #>
+
+  <!-- <#= recipe.Name #>, enabled: <#= recipe.Enabled #>, visible: <#= recipe.Visible #> --> 
+    
+<#
+  if((recipe.Enabled == true) && (recipe.Visible == true))
+  //if((recipe.Enabled == true) && (recipe.Name != "CreateBindings"))
+  {
+
+  if(!((recipe.CreateVSTemplate == true) || (recipe.TemplatePath != "")))
+  {
+  #>
+
+  <Action
+			   Name="<#= recipe.Name #>Ref"
+			   Type="RefCreator"
+			   AssetName="<#= recipe.Name #>"
+			   ReferenceType="<#= recipe.BindingType #>"
+			   <#
+			   if(recipe.SharePointVersions != "")
+			   {
+					#>SharePointVersions="<#= recipe.SharePointVersions #>"
+					<#
+			   }
+			   #>
+<#
+				if(recipe.VSTemplate != "")
+				{
+					#>VSTemplate="<#= recipe.VSTemplate #>"
+					<#
+				}
+				#>
+<#
+			   if(recipe.FeatureScopes != "")
+			   {
+					#>FeatureScopes="<#= recipe.FeatureScopes #>"
+					<#
+			   }
+			   #>
+<#
+			   if(recipe.XPath != "")
+			   {
+					#>XPath="<#= recipe.XPath #>"
+					<#
+			   }
+			   #>
+<#
+			   if(recipe.XPathNamespace != "")
+			   {
+					#>XPathNamespace="<#= recipe.XPathNamespace #>"
+<#
+			   }
+			   #>
+			   <#
+			   if(recipe.NotSandboxSupported)
+			   {
+					#>NotSandboxSupported="true"
+<#
+			   }
+			   #> 
+         />
+			<#
+			}
+			if((recipe.CreateVSTemplate == true) || (recipe.TemplatePath != ""))
+			{
+				if(recipe.TemplatePath != "")
+				{	
+					#>
+					<Action Type="RefCreator" 
+						ReferenceType="<#= recipe.BindingTypeTemplate #>"
+						Name="<#= recipe.Name #>TemplateRef"
+						AssetName="<#= recipe.TemplatePath #>"
+						<#
+					   if(recipe.SharePointVersions != "")
+					   {
+							#>SharePointVersions="<#= recipe.SharePointVersions #>"
+							<#
+					   }
+					   #>
+					   <#
+					   if(recipe.VSTemplate != "")
+					   {
+							#>VSTemplate="<#= recipe.VSTemplate #>"
+							<#
+					   }
+					   #>
+					   <#
+					   if(recipe.FeatureScopes != "")
+					   {
+							#>FeatureScopes="<#= recipe.FeatureScopes #>"
+							<#
+					   }
+					   #>
+					   <#
+					   if(recipe.NotSandboxSupported)
+					   {
+							#>NotSandboxSupported="true"
+							<#
+					   }
+					   #> />
+					<#
+				}
+				else
+				{
+					#>
+					<Action Type="RefCreator" 
+						ReferenceType="<#= recipe.BindingTypeTemplate #>"
+						Name="<#= recipe.Name #>TemplateRef"
+						AssetName="Items\\<#= recipe.Name #>.vstemplate"
+						<#
+					   if(recipe.SharePointVersions != "")
+					   {
+							#>SharePointVersions="<#= recipe.SharePointVersions #>"
+							<#
+					   }
+					   #>
+					   <#
+					   if(recipe.VSTemplate != "")
+					   {
+							#>VSTemplate="<#= recipe.VSTemplate #>"
+							<#
+					   }
+					   #>
+					   <#
+					   if(recipe.FeatureScopes != "")
+					   {
+							#>FeatureScopes="<#= recipe.FeatureScopes #>"
+							<#
+					   }
+					   #>
+					   <#
+					   if(recipe.NotSandboxSupported)
+					   {
+							#>NotSandboxSupported="true"
+							<#
+					   }
+					   #> />
+					<#
+				}
+			}
+		}
+	}
+	
+	#>
+
+  <Action Name="ShowMessage" Type="ShowMessageBox" Message="After installation of a new version of SPSF it is recommended to upgrade the Visual Studio solution to the new version. Follow the steps provided in the following help page." />
+
+	</Actions>
+</Recipe>

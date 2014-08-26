@@ -1,0 +1,17 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="html" hostspecific="true" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ include file="../HelpFunctions.tt" #><#
+
+SnippetClass snippetClass = SnippetClass.Deserialize(CallContext.GetData("Snippet") as byte[]);
+snippetClass.SetSPSFBase(Host);
+
+SPSFHelpElement helpItem = snippetClass;
+
+#><#@ include file="Snippet.include" #>

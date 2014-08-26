@@ -1,0 +1,36 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ProjectNamespace" #>
+<#@ property processor="PropertyProcessor" name="ControlName" #>
+<#@ assembly name="System.dll" #>
+using System;
+using System.IO;
+using System.Text;
+using System.Drawing;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using Microsoft.SharePoint;
+using Microsoft.SharePoint.Utilities;
+using Microsoft.SharePoint.WebControls;
+
+namespace <#= ProjectNamespace #>
+{
+	public class <#= ControlName #> : UserControl
+	{   
+		public <#= ControlName #>()
+		{
+		}
+
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
+			SPWeb contextWeb = SPControl.GetContextWeb(this.Context);
+		}
+	
+		protected override void OnInit(EventArgs e)
+		{
+			base.OnInit(e);
+			SPWeb contextWeb = SPControl.GetContextWeb(this.Context);
+		}
+	}
+}

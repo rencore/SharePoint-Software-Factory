@@ -1,0 +1,34 @@
+- Fix: Deployment.msbuild added &quot; by default for stsadm path
+- Fix: Deployment.targets corrected stsadm and powershell examples 
+- Change: ParametersDefault.msbuild sets RestartIIS to false by default
+- Change: ParametersDefault.msbuild updated sample structure to allow easy setup of multple deployment environments
+- Fix: Codeplex ID 6253: Typo for Ribbon Group Document<s>
+- Fix: Codeplex ID 6170: Webservice Error creating WSDL and DISCO when Windows SDK is not installed
+- Fix: Codeplex ID 6190: Code Snippets are not correct
+- New: New C# code snippets added, partly from http://spcodesnippets.codeplex.com Thx to Ayman El-Hattab (http://aymanelhattab.com)
+- Fix: Corrected FxCopConsoleOutput.xls to display Critical and Errors of FXCop in Release build as errors instead of warnings in the Error List of VS
+- New: Added custom FxCopDictionary to allow project specific exclusions for abbreviations, keyword, acronyns etc. Dictionary will be automatically used in Realase build configuration.
+- Fix: ListInstance recipe refrenced language resources in global resource file, instead of feature resource file
+- Improved: In selection form of fields or content types the group is displayed (e.g. for field "Title" there are 6 results and no difference)
+- Update: SharePointVersions.xml with current version numbers
+- Improved: In feature selection dialog a existing feature of allowed scope is selected by default
+- Update: Added BCS extensions (DBML, BDCM) to function "IsExcludedExtension" to avoid that model layout is saved to the WSP file
+- Update: Change default.aspx in site defition Team Site and Blank Site to version 2010
+- Fix: Search for gacutil fixed
+
+- New recipe in "List And Doc": Linq to SharePoint (imports the schema of several lists to LINQ classes)
+- New recipes in "BCS": Simple BCS Model, Import BCS Model from Database
+- New recipes in "Security": Minimal CAS, Medium CAS, recipes for single CAS Policy Items
+- New recipe in "ASP.NET": WCF Webservice
+- New recipe: Quick Deploy BCS Model (undeploys/deploys BCS model via powershell)
+
+Probleme von Dirk Helwig
+Subfolders für CT/LD/LI/SC
+- Fix: SharePointTargets.targets for HIVE: added parameter for text templating generation (" -P <Path to referenced assemblies>") to allow loading of assemblies needed for SafeControl entry
+- Fix: SharePointTargets.targets: Changed $(IsDesktopBuild) to $(BuildingInsideVisualStudio) to allow team build in TFS 2010
+- Fix: MSBuild ULSLogger: Changed date format to InvariantCulture to overcome issues with ULSViewer
+- Fix: MSBuild ULSLogger: Applying log level to all messages to be able to reduce file size of log files for larger deployments
+- Change: StartDeploy.bat: Made verbosity for ULSLogger configurable (previously it was always diagnostic)
+
+How to upgrade existing projects:
+Migrate Deployment project...

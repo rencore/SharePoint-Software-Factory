@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Add existing SiteColumn to ContentType</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>ContentType</ID>
+          <ToolTip>ContentType</ToolTip>
+          <Default>ContentType</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>field</ID>
+          <ToolTip>SPField</ToolTip>
+          <Default>field</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>FieldName</ID>
+          <ToolTip>FieldName</ToolTip>
+          <Default>FieldName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ContentTypeName</ID>
+          <ToolTip>ContentTypeName</ToolTip>
+          <Default>ContentTypeName</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+      SPContentType $ContentType$;
+                SPField $field$ ;
+                if (web.AvailableFields.ContainsField("$FieldName$") && web.AvailableContentTypes["$ContentTypeName$"]!=null)
+                {
+                    $ContentType$ = web.AvailableContentTypes["$ContentTypeName$"];
+                    $field$ = web.AvailableFields["$FieldName$"];
+                    $ContentType$.FieldLinks.Add(new SPFieldLink($field$));
+                    $ContentType$.Update(true);
+                }
+      ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

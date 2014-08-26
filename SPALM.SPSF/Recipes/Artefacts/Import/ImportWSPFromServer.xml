@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="ImportWSPFromServer"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Import .wsp solution from local farm</Caption>
+  <Description>Imports an existing WSP solution from the local SharePoint farm into the project</Description>
+  <HostData Priority="110">
+    <Icon File="Help/Icons/icon_Import.ico" />
+    <CommandBar Menu="SPSFSolutionImport"/>
+    <CommandBar Menu="SPSFProjectImport"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      Enabled="true"
+	  ExcludeFromTests="true"
+      CreateVSTemplate="true"
+      Category="Import" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[This recipes imports a single .wsp file from the local SharePoint farm into an existing project. To run the recipe an existing customization project is needed.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+    <Arguments>
+
+      <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+      <!-- WSP File for Import -->
+      <Argument Name="WSPFilename" Type="System.String" Required="false" >
+        <Converter Type="AvailableWSPSolutionsConverter" />        
+      </Argument>
+
+    </Arguments>
+    <GatheringServiceData>
+      <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+        <Pages>
+          <Page Width="600" Height="400">
+            <Title>WSP Import</Title>
+            <Fields>
+              <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+              <Field PanelType="SPALM.SPSF.Library.NameValueListViewPanel, SPALM.SPSF.Library" ValueName="WSPFilename" Label="WSP Solution" >
+                <Help>Select the wsp from the local farm for the import</Help>
+              </Field>
+            </Fields>
+          </Page>
+        </Pages>
+      </Wizard>
+    </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action Name="ImportWSPFromServer" Type="ImportWSPFromServer">
+        <Input Name="TargetProject" RecipeArgument="CurrentProject" />
+        <Input Name="WSPFilename" RecipeArgument="WSPFilename" />
+      </Action>
+
+      <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    </Actions>
+  </Recipe>

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Set default ContentType on a list</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Object Editable="true">
+          <ID>defaultContentType</ID>
+          <ToolTip>defaultContentType</ToolTip>
+          <Default>defaultContentType</Default>
+          <Function>
+          </Function>
+          <Type>string</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>list</ID>
+          <ToolTip>SPList</ToolTip>
+          <Default>list</Default>
+          <Function>
+          </Function>
+          <Type>SPList</Type>
+        </Object>
+        <Literal Editable="true">
+          <ID>defaultContentTypeName</ID>
+          <ToolTip>Default ContentType name</ToolTip>
+          <Default>DefaultContentTypeName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>folder</ID>
+          <ToolTip>SPFolder</ToolTip>
+          <Default>folder</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>orderedContentTypes</ID>
+          <ToolTip>orderedContentTypes</ToolTip>
+          <Default>orderedContentTypes</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+      SPContentType $defaultContentType$ = $list$.ContentTypes["$defaultContentTypeName$"];
+                    $list$.ContentTypesEnabled = true;
+
+                    SPFolder $folder$ = $list$.RootFolder;
+                    SPContentType[] $orderedContentTypes$ = new SPContentType[1];
+                    $orderedContentTypes$[0] = $defaultContentType$;
+
+                    $folder$.UniqueContentTypeOrder = $orderedContentTypes$;
+                    $folder$.Update();
+      ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

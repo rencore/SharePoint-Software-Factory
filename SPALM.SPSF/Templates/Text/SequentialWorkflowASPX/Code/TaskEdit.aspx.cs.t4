@@ -1,0 +1,134 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="WorkflowNamespace" #>
+<#@ property processor="PropertyProcessor" name="WorkflowName" #>
+<#@ property processor="PropertyProcessor" name="ResourceFilename" #>
+<#@ assembly name="System.dll" #>
+using System;
+using System.Collections;
+using System.Web;
+using System.Web.UI.WebControls;
+using Microsoft.SharePoint;
+using Microsoft.SharePoint.Utilities;
+using Microsoft.SharePoint.WebControls;
+using Microsoft.SharePoint.Workflow;
+
+namespace <#= WorkflowNamespace #>
+{
+    /// <summary>
+    /// Task Edit Form 
+    /// </summary>
+    public class <#= WorkflowName #>TaskEditForm : LayoutsPageBase
+    {
+        #region Protected fields
+        protected string ListId;
+        protected SPList TaskList;
+        protected SPListItem TaskItem;
+        protected Guid WorkflowInstanceId;
+        protected SPWorkflow WorkflowInstance;
+        protected SPList ItemList;
+        protected SPListItem Item;
+        protected SPWorkflowTask Task;
+
+        protected string TaskData;
+        protected string TaskName;
+        protected SPWorkflowAssociation WorkflowAssociation;
+
+        protected HyperLink LinkToItem;
+        protected Label ListName;
+        protected Label SiteUrl;
+
+        protected string PageTitle;
+        protected string PageTitleInArea;
+        protected string PageDescription;
+
+        #endregion
+
+        #region Protectged Event Methods
+        /// <summary>
+        /// Load all Workflow and Task Realted Informations and set vars for the fontend
+        /// </summary>
+        /// <param name="ea"></param>
+        protected override void OnLoad(EventArgs ea)
+        {
+            string ListItemName = RetrieveParamSetVars();
+
+            PageTitle = GetResourceString("PageTitle");
+            PageTitleInArea = string.Format(GetResourceString("PageTitleInArea"), ListItemName);
+            PageDescription = string.Format(GetResourceString("PageDescription"), ListItemName);
+        }
+
+
+        /// <summary>
+        /// Command to Process the Task
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void Ok_OnClick(object sender, EventArgs e)
+        {
+            Hashtable taskHash = new Hashtable();
+            taskHash["TaskStatus"] = "Completed";
+
+            //Additional Code goes here
+
+            SPWorkflowTask.AlterTask(TaskItem, taskHash, true);
+            SPUtility.Redirect(ItemList.DefaultViewUrl, SPRedirectFlags.UseSource, HttpContext.Current);
+        }
+
+        /// <summary>
+        /// Cancel the edit of this Task.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void Cancel_OnClick(object sender, EventArgs e)
+        {
+            SPUtility.Redirect(ItemList.DefaultViewUrl, SPRedirectFlags.UseSource, HttpContext.Current);
+        }
+
+        #endregion
+
+        #region Private Helper Methods
+        /// <summary>
+        /// Get the Resource String for this page
+        /// </summary>
+        /// <param name="resourceID">ID of the resource to get</param>
+        /// <returns>Localized string</returns>
+        private static string GetResourceString(string resourceID)
+        {
+            resourceID = string.Format("<#= WorkflowName #>TaskEditForm_{0}", resourceID);
+            return HttpContext.GetGlobalResourceObject("<#= ResourceFilename #>", resourceID).ToString();
+        }
+
+        /// <summary>
+        /// Retrieve the Parameters ans Set the local variables
+        /// </summary>
+        private string RetrieveParamSetVars()
+        {
+            ListId = Request.QueryString["List"];
+            TaskList = Web.Lists[new Guid(ListId)];
+            TaskItem = TaskList.GetItemById(Convert.ToInt32(Request.Params["ID"]));
+            WorkflowInstanceId = new Guid((string)TaskItem["WorkflowInstanceID"]);
+            WorkflowInstance = new SPWorkflow(Web, WorkflowInstanceId);
+            Task = WorkflowInstance.Tasks[0];
+            ItemList = WorkflowInstance.ParentList;
+            Item = ItemList.GetItemById(WorkflowInstance.ItemId);
+
+            WorkflowAssociation = ItemList.WorkflowAssociations[WorkflowInstance.AssociationId];
+
+            TaskName = TaskItem["Title"].ToString();
+
+            string UrlToItem = Web.Site.MakeFullUrl(ItemList.RootFolder.Url +
+                                                    @"\DispForm.aspx?ID=" +
+                                                    Item.ID);
+
+            string ItemName = Item.File != null ? Item.File.Name : Item.Title;
+
+            LinkToItem.Text = ItemName;
+            LinkToItem.NavigateUrl = UrlToItem;
+            ListName.Text = ItemList.Title;
+            SiteUrl.Text = Web.Url;
+            return ItemName;
+        }
+
+        #endregion
+    }
+}

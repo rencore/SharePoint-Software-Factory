@@ -1,0 +1,9 @@
+﻿<CodeAccessSecurity>
+  <PolicyItem>
+    <PermissionSet class="NamedPermissionSet" version="1">      
+    </PermissionSet>
+    <Assemblies>
+      <Assembly Name="$SharePoint.Project.AssemblyName$" Version="$SharePoint.Project.AssemblyVersion$" PublicKeyBlob="$SharePoint.Project.AssemblyPublicKeyBlob$"/>
+    </Assemblies>
+  </PolicyItem>
+</CodeAccessSecurity>

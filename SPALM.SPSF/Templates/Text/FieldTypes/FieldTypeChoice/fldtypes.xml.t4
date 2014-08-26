@@ -1,0 +1,37 @@
+<#@ template language="C#" #>
+<?xml version="1.0" encoding="utf-8" ?>
+<FieldTypes>
+  <FieldType>
+    <Field Name="TypeName"><#= FieldTypeUniqueName #></Field>
+    <Field Name="ParentType"><#= FieldTypeParentType #></Field>
+    <#
+    if(AutoCreateResxFiles)
+    {
+    #>
+    <Field Name="TypeDisplayName">$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_DisplayName;</Field>
+    <Field Name="TypeShortDescription">$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_Description;</Field>
+    <#
+    }
+    else
+    {
+    #>
+    <Field Name="TypeDisplayName"><#= FieldTypeDisplayName #></Field>
+    <Field Name="TypeShortDescription"><#= FieldTypeDescription #></Field>
+    <#
+    }
+    #>
+    <Field Name="UserCreatable">TRUE</Field>
+    <Field Name="ShowInColumnTemplateCreate">TRUE</Field>
+    <Field Name="FieldTypeClass"><#= ProjectNamespace #>.<#= FieldTypeTypeName #>, <#= ProjectAssemblyName #></Field>
+	<PropertySchema>
+      <Fields>
+        <Field Name="AllowContractors" DisplayName="Allow for Contractors" Type="Boolean">
+          <Default>0</Default>
+        </Field>
+        <Field Name="AllowInterns" DisplayName="Allow for Interns" Type="Boolean">
+          <Default>0</Default>
+        </Field>
+      </Fields>
+    </PropertySchema>
+  </FieldType>
+</FieldTypes>

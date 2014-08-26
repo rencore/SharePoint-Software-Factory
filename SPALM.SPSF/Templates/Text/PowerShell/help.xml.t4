@@ -1,0 +1,96 @@
+﻿<#@ template language="C#" #><?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HelpItems xmlns="http://msh" schema="maml">
+	<command:command xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+		<command:details>
+			<command:name><#= SPCmdLetVerb #>-<#= SPCmdLetNoun #></command:name>
+			<maml:description>
+				<maml:para><#= SPCmdLetVerbHelpDescription #></maml:para>
+				<maml:para />
+			</maml:description>
+			<maml:copyright>
+				<maml:para />
+			</maml:copyright>
+			<command:verb><#= SPCmdLetVerb #></command:verb>
+			<command:noun><#= SPCmdLetNoun #></command:noun>
+			<dev:version />
+		</command:details>
+		<command:syntax>
+			<command:syntaxItem>
+				<maml:name><#= SPCmdLetVerb #>-<#= SPCmdLetNoun #></maml:name>
+				<command:parameter required="False" position="1">
+					<maml:name>Identity</maml:name>
+					<command:parameterValue required="True"><#= SPCmdLetNoun #>PipeBind</command:parameterValue>
+				</command:parameter>
+				<!-- Add additional parameters here
+				<command:parameter required="False" position="Named">
+					<maml:name>AssignmentCollection</maml:name>
+					<command:parameterValue required="True">SPAssignmentCollection</command:parameterValue>
+				</command:parameter>
+				-->
+			</command:syntaxItem>
+		</command:syntax>
+		<command:parameters>
+			<command:parameter required="False" variableLength="False" globbing="False" pipelineInput="True" position="1">
+				<maml:name>Identity</maml:name>
+				<maml:description>
+					<maml:para>[TODO: Add description of the parameter here]</maml:para>
+				</maml:description>
+				<command:parameterValue required="True"><#= SPCmdLetNoun #>PipeBind</command:parameterValue>
+				<dev:type>
+					<maml:name><#= SPCmdLetNoun #>PipeBind</maml:name>
+					<maml:uri href="" />
+				</dev:type>
+				<dev:defaultValue>
+				</dev:defaultValue>
+			</command:parameter>
+			<command:parameter required="False" variableLength="False" globbing="False" pipelineInput="True" position="Named">
+				<maml:name>AssignmentCollection</maml:name>
+				<maml:description>
+					<maml:para>[TODO: Add description of the parameter here]</maml:para>
+				</maml:description>
+				<command:parameterValue required="True">SPAssignmentCollection</command:parameterValue>
+				<dev:type>
+					<maml:name>SPAssignmentCollection</maml:name>
+					<maml:uri href="" />
+				</dev:type>
+				<dev:defaultValue>
+				</dev:defaultValue>
+			</command:parameter>
+		</command:parameters>
+		<maml:description>
+			<maml:para><#= SPCmdLetVerbHelpDescription #></maml:para>
+			<maml:para />
+		</maml:description>
+		<command:inputTypes />
+		<command:returnValues />
+		<command:examples>
+			<command:example>
+				<maml:title>--------------EXAMPLE 1--------------</maml:title>
+				<dev:code>C:\PS><#= SPCmdLetVerb #>-<#= SPCmdLetNoun #> "Parameter"</dev:code>
+				<dev:remarks>
+					<maml:para>[Add description of sample here]</maml:para>
+					<maml:para />
+				</dev:remarks>
+			</command:example>
+		</command:examples>
+		<!-- Add related cmdlets here 
+		<maml:relatedLinks>
+			<maml:navigationLink>
+				<maml:linkText>New-<#= SPCmdLetNoun #></maml:linkText>
+				<maml:uri />
+			</maml:navigationLink>
+			<maml:navigationLink>
+				<maml:linkText>Set-<#= SPCmdLetNoun #></maml:linkText>
+				<maml:uri />
+			</maml:navigationLink>
+		</maml:relatedLinks>
+		-->
+	</command:command>
+
+	<UserDefinedData xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns="">
+		<name><#= SPCmdLetVerb #>-<#= SPCmdLetNoun #></name>
+		<role />
+		<functionality />
+		<component />
+	</UserDefinedData>
+</HelpItems>

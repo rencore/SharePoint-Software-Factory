@@ -1,0 +1,15 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<PermissionSet class="NamedPermissionSet">	
+	<IPermission class="PrintingPermission" version="1" 
+	<#
+	if(PermissionIsUnrestricted)
+	{
+		#> Unrestricted="true" <#
+	}
+	else
+	{
+		#> Level="<#= PrintingPermissionLevel #>" <#
+	}
+	#> />
+</PermissionSet>

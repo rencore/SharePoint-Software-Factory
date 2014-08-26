@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+  <!-- Do not show help page
+  <Action Name="ShowHelpPageForRecipe" Type="ShowHelpPageForRecipe" />
+  -->
+	
+  <Action Name="DeleteDummyFile" Type="DeleteDummyFile">
+		<Input Name="ParentItem" RecipeArgument="VisualStudioSelectedItem" />
+    <Input Name="Filename" RecipeArgument="VisualStudioTempItem" />
+  </Action>
+  
+</Actions>

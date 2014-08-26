@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="Theme"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+    <DocumentationLinks>
+        <Link Url="http://www.sharingthepoint.com/Lists/Posts/Post.aspx?ID=55" Caption="Sharing the point: Create a Custom Theme for WSS 3.0 or MOSS 2007" Kind="Documentation"/>
+        <Link Url="http://msdn.microsoft.com/en-us/library/aa830818.aspx" Caption="MSDN: Customizing and Branding Web Content Management-Enabled SharePoint Sites" Kind="Documentation"/>
+        <Link Url=" http://www.heathersolomon.com/content/sp07cssreference.htm" Caption="Heather Solomon: CSS Reference Chart for SharePoint 2007 " Kind="Documentation"/>
+        <Link Url="http://msdn.microsoft.com/en-us/library/ee354191.aspx" Caption="MSDN: Real World Branding with SharePoint Server 2007 Publishing Sites" Kind="Documentation"/>
+        <Link Url="http://brandingtool.codeplex.com/" Caption="CodePlex: SharePoint Branding Tool" Kind="Documentation"/>
+        <Link Url="http://hermansberghem.googlepages.com/themegenerator.htm" Caption="Servé Hermans: SharePoint Theme Generator" Kind="Documentation"/>
+        <Link Caption="MS SharePoint Team Blog: Customizing MOSS 2007 My Sites within the enterprise" Url="http://blogs.msdn.com/sharepoint/archive/2007/03/22/customizing-moss-2007-my-sites-within-the-enterprise.aspx" Kind="Documentation"/>
+    </DocumentationLinks>
+    <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Theme</Caption>
+  <Description>Adds a theme to the project</Description>
+  <HostData Priority="500">
+    <Icon File="Help/Icons/icon_SiteDefinition.ico" />
+    <CommandBar Menu="SPSFProjectSites"/>
+    <CommandBar Menu="SPSFSolutionSites"/>
+    <spsf:MetaData
+    Visible="false"
+    BindingType="CustomizationReference"
+    BindingTypeTemplate="CustomizationReferenceTemplate"
+    TestType="BaseFarmFeatureRecipeRunner"
+    Enabled="false"
+    CreateVSTemplate="true"
+	NotSandboxSupported="true"
+    Category="Sites" xmlns:spsf="http://spsf.codeplex.com">
+        <spsf:Authors>
+            <spsf:Author>Torsten Mandelkow</spsf:Author>
+            <spsf:Author>Matthias Einig</spsf:Author>
+        </spsf:Authors>
+        <spsf:VersionHistory>
+            <spsf:VersionHistoryEntry>1.1 Updated Documentation</spsf:VersionHistoryEntry>
+            <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+        </spsf:VersionHistory>
+        <spsf:WebPageContent>
+        <![CDATA[With a theme SharePoint Look and Feel can be altered only by modifying cascading stylesheets (CSS) and images.
+        Opposing to master pages, also affect the MOSS backend without the need to modify application.master (which is not recommended anyway).
+        This recipe creates a new basic theme which can be deployed to a farm with a feature.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+   
+    <Argument Name="AllowedScopes" Type="System.String">
+      <ValueProvider Type="Evaluator" Expression="Farm" />
+    </Argument>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    
+    <Argument Name="ResourceKeyPrefix" Required="true">
+      <!-- provides the unique key with removed special chars -->
+      <ValueProvider Stage="OnBeforeActions" RecipeArgument="RecipeName" Type="ConvertedStringProvider" />
+    </Argument>
+    
+    <Argument Name="TargetFeatureFolder">
+      <ValueProvider Stage="OnBeforeActions" Expression="$(SharePointVersion)\TEMPLATE\FEATURES\$(ParentFeatureName)" Type="Evaluator" />
+    </Argument>
+
+    <Argument Name="ThemeName" Required="true">
+      <Converter Type="NamespaceStringConverter" />
+      <ValueProvider Type="VisualStudioCreateItemName" DefaultValue="ThemeName" />
+    </Argument>
+    <Argument Name="ThemeDisplayName" Required="true">
+      <ValueProvider Type="Evaluator" Expression="Theme Display Name" />
+    </Argument>
+    <Argument Name="ThemeDescription" Required="true" >
+      <ValueProvider Type="Evaluator" Expression="Theme Description" />
+    </Argument>
+
+    <Argument Name="ThemeINFFilename">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ThemeName).INF" />
+    </Argument>
+    <Argument Name="ThemeTargetFolder">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SharePointVersion)\TEMPLATE\THEMES\$(ThemeName)" />
+    </Argument>
+    <Argument Name="ThemeTargetFolderLayouts">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SharePointVersion)\TEMPLATE\Layouts\$(SolutionSubFolder)_$(ThemeName)" />
+    </Argument>
+    <Argument Name="ThemeTargetFolderLayoutsName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SolutionSubFolder)_$(ThemeName)" />
+    </Argument>
+
+
+    <Argument Name="ThemeJobFileName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ThemeName)Job.cs" />
+    </Argument>
+    <Argument Name="ThemeCodeFolder">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="CustomCode\$(ThemeName)" />
+    </Argument>
+    <Argument Name="ThemeJobClass">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ThemeName)Job" />
+    </Argument>
+    <Argument Name="ThemeUseCSSImport" Type="System.Boolean">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="true" />
+    </Argument>
+
+    <Argument Name="ThemePreviewImageName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="Preview_$(ThemeName).gif" />
+    </Argument>
+    <Argument Name="ThemePreviewImageFolder">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SharePointVersion)\Template\Images\$(SolutionSubFolder)" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>Theme settings</Title>
+          <Fields>
+              <Field ValueName="ThemeName" Label="Name">
+                  <Help>Required Text. Internal name of the Feature. Limited to 255 characters. The name has to be unique within the project of this solution. It should not contain whitespaces or special characters.</Help>
+              </Field>
+              <Field ValueName="ThemeDisplayName" Label="Display Name">
+                  <Help>Required Text. Display name of the Theme. Limited to 255 characters.</Help>
+              </Field>
+              <Field ValueName="ThemeDescription" Label="Description">
+                  <Help>Optional String. Longer description ofthe theme.</Help>
+              </Field>
+              <!--
+              <Field ValueName="ThemeUseCSSImport" Label="Use @import of css to enable easier update of the theme">
+                  <Help>Required String. CSS File which should be imported.</Help>
+              </Field>
+              -->
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action Name="GenerateFeatureActivation" Template="Text\ThemeFeature\FeatureReceiverCode.xml.t4" Type="TextTemplateAction">
+      <Input Name="ThemeJobClass" RecipeArgument="ThemeJobClass" />
+    </Action>
+    <Action Name="GenerateFeatureReceiverCode" Type="TextTemplateAction" Template="Text\FeatureReceiver.cs.t4" >
+      <Input Name="CopyrightCompanyName" RecipeArgument="CopyrightCompanyName" />
+      <Input Name="CopyrightFileName" RecipeArgument="FeatureReceiverFileName" />
+      <Input Name="FeatureReceiverNamespace" RecipeArgument="ProjectNamespace" />
+      <Input Name="FeatureReceiverClass" RecipeArgument="FeatureReceiverClass" />
+    </Action>
+    <Action Name="GenerateFeatureReceiverGeneratedCode" Type="TextTemplateAction" Template="Text\FeatureReceiver.generated.cs.t4" >
+      <Input Name="CopyrightCompanyName" RecipeArgument="CopyrightCompanyName" />
+      <Input Name="CopyrightFileName" RecipeArgument="FeatureReceiverGeneratedFileName" />
+      <Input Name="FeatureReceiverNamespace" RecipeArgument="ProjectNamespace" />
+      <Input Name="FeatureReceiverClass" RecipeArgument="FeatureReceiverClass" />
+    </Action>
+    <Action Name="AddFeatureActivation" Type="AddContentToFeatureReceiver" Method="FeatureActivated">
+      <Input Name="Content" ActionOutput="GenerateFeatureActivation.Content" />
+      <Input Name="FeatureReceiverContent" ActionOutput="GenerateFeatureReceiverCode.Content" />
+      <Input Name="FeatureReceiverGeneratedContent" ActionOutput="GenerateFeatureReceiverGeneratedCode.Content" />
+      <Input Name="AssemblyName" RecipeArgument="ProjectAssemblyName" />
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+      <Input Name="ParentFeatureName" RecipeArgument="ParentFeatureName" />
+      <Input Name="DefaultNamespace" RecipeArgument="ProjectNamespace" />
+      <Input Name="FeatureReceiverClass" RecipeArgument="FeatureReceiverClass" />      
+    </Action>
+    
+    <Action Name="GenerateThemeJob" Template="Text\ThemeFeature\ThemeJob.cs.t4" Type="TextTemplateAction" InputValue="Configured Static Value">
+      <Input Name="CopyrightCompanyName" RecipeArgument="CopyrightCompanyName" />
+      <Input Name="CopyrightFileName" RecipeArgument="ThemeJobFileName" />
+      <Input Name="ThemeJobClass" RecipeArgument="ThemeJobClass" />
+      <Input Name="ThemeJobNamespace" RecipeArgument="ProjectNamespace" />
+      <Output Name="Content" />
+    </Action>
+    <Action Name="AddFeatureReceiverJob" Type="SPALM.SPSF.Library.Actions.AddItemToFolderFromStringAction, SPALM.SPSF.Library" Open="false">
+      <Input Name="Content" ActionOutput="GenerateThemeJob.Content" />
+      <Input Name="TargetFileName" RecipeArgument="ThemeJobFileName" />
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+      <Input Name="TargetFolder" RecipeArgument="ThemeCodeFolder" />
+    </Action>
+
+    <Action Name="GenerateSPSTheme" Template="Text\ThemeFeature\SPTHEMES.xml.t4" Type="TextTemplateAction" InputValue="Configured Static Value">
+      <Input Name="ThemeName" RecipeArgument="ThemeName" />
+      <Input Name="ThemeDisplayName" RecipeArgument="ThemeDisplayName" />
+      <Input Name="ThemeDescription" RecipeArgument="ThemeDescription" />
+      <Input Name="ThemePreviewImageFolder" RecipeArgument="SolutionSubFolder" />
+      <Input Name="ThemePreviewImageName" RecipeArgument="ThemePreviewImageName" />    
+      <Output Name="Content" />
+    </Action>
+    <Action Name="AddSPSTheme" Type="AddItemToFolderFromStringAction" TargetFileName="SPTHEMES.xml" Open="false">
+      <Input Name="Content" ActionOutput="GenerateSPSTheme.Content" />
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+      <Input Name="TargetFolder" RecipeArgument="TargetFeatureFolder" />
+    </Action>
+
+    <Action Name="GenerateThemeINF" Template="Text\ThemeFeature\THEME.INF.t4" Type="TextTemplateAction" InputValue="Configured Static Value">
+      <Input Name="ThemeName" RecipeArgument="ThemeName" />
+      <Input Name="ThemeDisplayName" RecipeArgument="ThemeDisplayName" />
+      <Input Name="ThemeDescription" RecipeArgument="ThemeDescription" />
+      <Output Name="Content" />
+    </Action>
+    <Action Name="AddThemeINF" Type="AddItemToFolderFromStringAction" Open="false">
+      <Input Name="Content" ActionOutput="GenerateThemeINF.Content" />
+      <Input Name="TargetFileName" RecipeArgument="ThemeINFFilename" />
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+      <Input Name="TargetFolder" RecipeArgument="ThemeTargetFolder" />
+    </Action>
+
+    <Action Name="GenerateThemeCSS" Template="Text\ThemeFeature\THEME.CSS.t4" Type="TextTemplateAction" InputValue="Configured Static Value">
+      <Input Name="ThemeTargetFolderLayoutsName" RecipeArgument="ThemeTargetFolderLayoutsName" />
+      <Output Name="Content" />
+    </Action>
+    <Action Name="AddThemeCSS" Type="AddItemToFolderFromStringAction" TargetFileName="theme.css" Open="false">
+      <Input Name="Content" ActionOutput="GenerateThemeCSS.Content" />
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+      <Input Name="TargetFolder" RecipeArgument="ThemeTargetFolder" />
+    </Action>
+
+    <!-- add feature icon -->
+    <Action Name="AddImage" Type="AddItemToFolder"
+      SourceFileName="Text/ThemeFeature/PreviewImage.gif">
+      <Input Name="TargetFileName" RecipeArgument="ThemePreviewImageName" />
+      <Input Name="TargetFolder" RecipeArgument="ThemePreviewImageFolder" />
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+    </Action>
+
+    <Action Name="AddThemeFiles" Type="AddFolderItemsToFolder" SourceFolder="Text\ThemeFeature\ThemeFiles">
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+      <Input Name="TargetFolder" RecipeArgument="ThemeTargetFolder" />
+    </Action>
+    
+    <Action Name="AddThemeFilesInLayout" Type="AddFolderItemsToFolder" SourceFolder="Text\ThemeFeature\ThemeFilesInLayouts">
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+      <Input Name="TargetFolder" RecipeArgument="ThemeTargetFolderLayouts" />
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains standard arguments which are necessary in all recipes -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+	<Argument Name="FieldTypeTypeName" Type="System.String" >
+		<Converter Type="NamespaceStringConverter" />
+		<ValueProvider Type="VisualStudioCreateItemName" RecipeArgument="RecipeName" DefaultValue="FieldType1" />
+	</Argument>
+	
+	<Argument Name="TextTemplateFileFldTypes" Type="System.String" >
+		<ValueProvider Type="Evaluator" Expression="Text\FieldTypes\$(RecipeName)\fldtypes.xml.t4" />
+	</Argument>
+	<Argument Name="TextTemplateFileCode" Type="System.String" >
+		<ValueProvider Type="Evaluator" Expression="Text\FieldTypes\$(RecipeName)\fieldcode.cs.t4" />
+	</Argument>
+	<Argument Name="TextTemplateFileWebControl" Type="System.String" >
+		<ValueProvider Type="Evaluator" Expression="Text\FieldTypes\$(RecipeName)\fieldcontrol.ascx.t4" />
+	</Argument>	
+	
+	<Argument Name="FieldTypeDisplayName" Type="System.String" >
+		<ValueProvider Type="Evaluator" Expression="$(FieldTypeTypeName)" />
+	</Argument>
+	<Argument Name="FieldTypeDescription" Type="System.String" >
+		<ValueProvider Type="Evaluator" Expression="$(FieldTypeTypeName)" />
+	</Argument>
+	<Argument Name="FieldTypeUniqueName" Type="System.String" >
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SafeAppName)_$(FieldTypeTypeName)" />
+	</Argument>
+	<Argument Name="FieldTypeRenderingTemplateId" Type="System.String" >
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(FieldTypeUniqueName)_RenderingTemplate" />
+	</Argument>
+
+  <Argument Name="ResourceKeyPrefix" Required="true">
+		<ValueProvider Stage="OnBeforeActions" RecipeArgument="FieldTypeTypeName" Type="ConvertedStringProvider" />
+	</Argument>
+
+</Arguments>

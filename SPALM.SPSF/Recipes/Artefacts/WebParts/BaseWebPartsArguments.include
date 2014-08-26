@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains arguments which are used in all custom actions -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+  <Argument Name="AllowedScopes" Type="System.String">
+		<ValueProvider Type="Evaluator" Expression="Site" />
+	</Argument>	
+  <Argument Name="ResourceKeyPrefix" Required="true">
+    <ValueProvider Stage="OnBeforeActions" RecipeArgument="WebPartName" Type="ConvertedStringProvider" />
+  </Argument>
+  <Argument Name="ElementsCategory">
+    <ValueProvider Type="Evaluator" Expression="WebParts" />
+  </Argument>
+
+  <Argument Name="WebPartName">
+    <Converter Type="NamespaceStringConverter" />
+    <ValueProvider Type="VisualStudioCreateItemName" RecipeArgument="RecipeName" DefaultValue="WebPart1" />
+  </Argument>
+  <Argument Name="WebPartTitle" Type="System.String">
+    <ValueProvider Type="Evaluator" Expression="$(WebPartName) Title" />
+  </Argument>
+  <Argument Name="WebPartDescription" Type="System.String">
+    <ValueProvider Type="Evaluator" Expression="$(WebPartName) Description" />
+  </Argument>
+  <Argument Name="WebPartGroup" Type="System.String">
+    <ValueProvider Type="Evaluator" Expression="$(AppName) Webparts" />
+  </Argument>
+  <Argument Name="WebPartQuickAddGroup" Type="System.String">
+    <ValueProvider Type="Evaluator" Expression="$(AppName) QuickAdd Webparts" />
+  </Argument>
+
+  <!--
+  <Argument Name="TargetClassFile">
+    <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(WebPartName).cs" />
+  </Argument>
+  <Argument Name="TargetWebpartFile">
+    <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(WebPartName).webpart" />
+  </Argument>
+  <Argument Name="TargetWebpartFolder">
+    <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="CustomCode\$(WebPartName)" />
+  </Argument>
+  -->
+  
+  <!-- connections provider -->
+  <Argument Name="ICellProvider" Type="System.Boolean">
+    <ValueProvider Type="Evaluator" Expression="false" />
+  </Argument>
+  <Argument Name="IRowProvider" Type="System.Boolean">
+    <ValueProvider Type="Evaluator" Expression="false" />
+  </Argument>
+  <Argument Name="IListProvider" Type="System.Boolean">
+    <ValueProvider Type="Evaluator" Expression="false" />
+  </Argument>
+  <Argument Name="IFilterProvider" Type="System.Boolean">
+    <ValueProvider Type="Evaluator" Expression="false" />
+  </Argument>
+  <Argument Name="IParametersInProvider" Type="System.Boolean">
+    <ValueProvider Type="Evaluator" Expression="false" />
+  </Argument>
+  <Argument Name="IParametersOutProvider" Type="System.Boolean">
+    <ValueProvider Type="Evaluator" Expression="false" />
+  </Argument>
+
+  <Argument Name="ICellConsumer" Type="System.Boolean">
+    <ValueProvider Type="Evaluator" Expression="false" />
+  </Argument>
+  <Argument Name="IRowConsumer" Type="System.Boolean">
+    <ValueProvider Type="Evaluator" Expression="false" />
+  </Argument>
+  <Argument Name="IListConsumer" Type="System.Boolean">
+    <ValueProvider Type="Evaluator" Expression="false" />
+  </Argument>
+  <Argument Name="IFilterConsumer" Type="System.Boolean">
+    <ValueProvider Type="Evaluator" Expression="false" />
+  </Argument>
+  <Argument Name="IParametersInConsumer" Type="System.Boolean">
+    <ValueProvider Type="Evaluator" Expression="false" />
+  </Argument>
+  <Argument Name="IParametersOutConsumer" Type="System.Boolean">
+    <ValueProvider Type="Evaluator" Expression="false" />
+  </Argument>
+
+  <Argument Name="WebPartIconName">
+    <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="WebPartIcon_$(WebPartName).gif" />
+  </Argument>
+  <Argument Name="WebPartIconFolder">
+    <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="/_layouts$(VersionedFolderName)/images/$(SafeAppName)" />
+  </Argument>
+  
+	<Argument Name="WebPartUserControl">
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(WebPartName)UserControl" />
+	</Argument>
+
+</Arguments>
+  

@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe Name="ClassLibraryProject"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.microsoft.com/pag/gax-core"
+    Bound="false">
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>SharePoint Class Library (.dll)</Caption>
+	<Description>Creates a new SharePoint class library (.dll). Projects of this type typically contain business logic. The project template generates the correct assembly name, automatically signs the project with the key file of the application and adds the necessary references to SharePoint to the project.</Description>
+	<HostData Priority="500">
+    <Icon File="Help/Icons/icon_Project.ico" />
+    <CommandBar Menu="SPSFSolutionProjects" />
+		<CommandBar Menu="SPSFSolutionFolderProjects" />
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="AddProjectReference"
+		  BindingTypeTemplate="AddProjectReferenceTemplate"
+		  TemplatePath="Projects\ClassLibrary\Root.vstemplate"
+		  Enabled="true"
+		  CreateVSTemplate="false"
+		  Category="Projects" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+		<Argument Name="RecipeName">
+			<ValueProvider Type="Evaluator" Expression="ClassLibraryProject" />
+		</Argument>
+		<Argument Name="AppName" Required="true">
+			<ValueProvider Type="ApplicationNameProvider" />
+		</Argument>
+		<Argument Name="AppVersion" Required="true">
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="ApplicationVersion" DefaultValue="1.0.0.0" />
+		</Argument>
+		<Argument Name="SolutionSignAssembly" Type="System.Boolean" Required="true">
+			<ValueProvider Type="SolutionKeyFilenameExistsProvider" />
+		</Argument>
+		<Argument Name="SolutionKeyFileName" Required="true">
+			<ValueProvider Type="SolutionKeyFilenameProvider" />
+		</Argument>
+		<Argument Name="ClassLibraryProjectName" Required="true">
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="VisualStudioCreateProjectName" />
+		</Argument>
+		<Argument Name="TargetFrameworkVersion" Required="true">
+			<ValueProvider Type="TargetFrameworkVersionProvider" />
+		</Argument>
+	</Arguments>
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <Action
+			Name="AddReference1"
+			Type="AddReferenceToProject"
+			ReferenceName="System.Core">
+			<Input Name="ProjectName" RecipeArgument="ClassLibraryProjectName" />
+		</Action>
+		<Action
+			Name="AddReference2"
+			Type="AddReferenceToProject"
+			ReferenceName="System.Data">
+			<Input Name="ProjectName" RecipeArgument="ClassLibraryProjectName" />
+		</Action>
+		<Action
+			Name="AddReference3"
+			Type="AddReferenceToProject"
+			ReferenceName="System.Data.DataSetExtensions">
+			<Input Name="ProjectName" RecipeArgument="ClassLibraryProjectName" />
+		</Action>
+		<Action
+			Name="AddReference5"
+			Type="AddReferenceToProject"
+			ReferenceName="System.Xml.Linq">
+			<Input Name="ProjectName" RecipeArgument="ClassLibraryProjectName" />
+		</Action>
+		<Action
+			Name="AddReference6"
+			Type="AddReferenceToProject"
+			ReferenceName="System.Web.Extensions">
+			<Input Name="ProjectName" RecipeArgument="ClassLibraryProjectName" />
+		</Action>
+
+    <!-- Action Name="MoveProjectToSolutionFolder"
+      SolutionFolder="BusinessLogic"
+      Type="MoveProjectToSolutionFolder" >
+      <Input Name="ProjectName" RecipeArgument="ClassLibraryProjectName" />
+    </Action -->
+
+	</Actions>
+</Recipe>

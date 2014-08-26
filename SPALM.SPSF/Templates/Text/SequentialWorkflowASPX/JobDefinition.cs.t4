@@ -1,0 +1,88 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="TimerJobNamespace" #>
+<#@ property processor="PropertyProcessor" name="TimerJobClass" #>
+<#@ property processor="PropertyProcessor" name="TimerJobName" #>
+<#@ assembly name="System.dll" #>
+namespace <#= TimerJobNamespace #>
+{
+	using System;
+	using System.Collections.Generic;
+	using System.Text;
+	using Microsoft.SharePoint;
+	using Microsoft.SharePoint.Administration;
+	using Microsoft.SharePoint.Utilities;
+	using System.IO;
+	using System.Diagnostics;
+	
+	/// <summary>
+	/// Author: Mikhail Dikov
+    /// Class to create a SharePoint job, which copies resource files to the App_GlobalResources fodler.
+    /// Resource files are included as element files of the feature.
+    /// (c) 2007 Mikhail Dikov - http://dikov.blogspot.com 
+    /// </summary>
+	public class <#= TimerJobClass #> : SPJobDefinition
+    {
+        #region Fields
+        [Persisted]
+        private string sourcePath;
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Default constructor used by the system.
+        /// </summary>
+        public <#= TimerJobClass #>() : base() { }
+
+
+        /// <summary>
+        /// Contructor used to create an instance, which deploys the resource files.
+        /// </summary>
+        /// <param name="WebApp">The SPWebApplication which needs to be updated</param>
+        public <#= TimerJobClass #>(string jobName, SPWebApplication webApp, string featureName)
+            : base(jobName, webApp, null, SPJobLockType.None)
+        {
+            // Detrmine the path to the feature's resource files
+            sourcePath = string.Format("{0}\\FEATURES\\{1}\\AppGlobalResources\\", 
+                                        SPUtility.GetGenericSetupPath("Template"), 
+                                        featureName);
+        }
+
+        #endregion
+
+        #region Job Handling
+        /// <summary>
+        /// Called by OWSTIMER when the job runs on a server. Overriden from SPJobDefinition.
+        /// </summary>
+        public override void Execute(Guid targetInstanceId)
+        {
+            try
+            {
+                SPWebApplication webApp = this.Parent as SPWebApplication;
+
+                foreach (SPUrlZone zone in webApp.IisSettings.Keys)
+                {
+                    // The settings of the IIS application to update
+                    SPIisSettings oSettings = webApp.IisSettings[zone];
+
+                    // Determine the destination path
+                    string destPath = Path.Combine(oSettings.Path.ToString(), "App_GlobalResources");
+                    string[] filePaths = Directory.GetFiles(sourcePath, "*.resx");
+
+                    // Copy the files
+                    foreach (string filePath in filePaths)
+                    {
+                        string fileName = Path.GetFileName(filePath);
+                        File.Copy(filePath, Path.Combine(destPath, fileName), true);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Failed to copy global resources");
+                Debug.WriteLine(ex);
+                throw;
+            }
+        }
+        #endregion
+    }  
+}

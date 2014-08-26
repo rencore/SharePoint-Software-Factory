@@ -1,0 +1,14 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<PermissionSet class="NamedPermissionSet">	
+	<IPermission class="ReflectionPermission" version="1" <#
+	if(PermissionIsUnrestricted)
+	{
+		#> Unrestricted="true" <#
+	}
+	else
+	{
+		#> Flags="<#= ReflectionFlag #>" <#
+	}
+	#> />
+</PermissionSet>

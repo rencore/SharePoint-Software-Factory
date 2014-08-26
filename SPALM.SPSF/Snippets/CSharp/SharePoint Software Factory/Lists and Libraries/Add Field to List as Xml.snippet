@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Add Field to List as Xml</Title>
+      <Author>Torsten Mandelkow</Author>
+      <Description>Creates a field based on the specified schema, Boolean value, and field options.</Description>
+      <HelpUrl>http://msdn.microsoft.com/en-us/library/ms457586.aspx</HelpUrl>
+      <Shortcut>AddFieldAsXmlToList</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Object Editable="true">
+          <ID>oWebsite</ID>
+          <ToolTip>SPWeb Object</ToolTip>
+          <Default>oWeb</Default>
+          <Function>
+          </Function>
+          <Type>SPWeb</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>collFields</ID>
+          <ToolTip>collFields</ToolTip>
+          <Default>collFields</Default>
+          <Function>
+          </Function>
+          <Type>SPFieldCollection</Type>
+        </Object>
+        <Literal Editable="true">
+          <ID>strNewField</ID>
+          <ToolTip>New Field</ToolTip>
+          <Default>strNewField</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>WebName</ID>
+          <ToolTip>Web Name</ToolTip>
+          <Default>WebName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ListName</ID>
+          <ToolTip>ListName</ToolTip>
+          <Default>ListName</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[using (SPWeb $oWebsite$ = SPContext.Current.Site.AllWebs["$WebName$"])
+{
+    SPFieldCollection $collFields$ = $oWebsite$.Lists["$ListName$"].Fields;
+
+    string $strNewField$ = "<Field Type=\"Calculated\" " +
+    "DisplayName=\"New_Field_Display_Name\" ResultType=\"Currency\" " +
+    "ReadOnly=\"TRUE\" Name=\"New_Field_Internal_Name\">" +
+    "<Formula>=Currency_Field_Name*100</Formula>" +
+    "<FieldRefs><FieldRef Name=\"Currency_Field_Name\" />" + 
+    "</FieldRefs></Field>";
+
+    $collFields$.AddFieldAsXml($strNewField$);
+}
+]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

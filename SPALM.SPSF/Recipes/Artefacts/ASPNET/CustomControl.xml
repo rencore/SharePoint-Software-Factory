@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="CustomControl"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Custom Control</Caption>
+  <Description>Adds a custom control</Description>
+  <HostData>
+    <Icon File="Help/Icons/icon_UserControl.ico" />
+    <CommandBar Menu="SPSFProjectASPNET"/>
+    <CommandBar Menu="SPSFFolderASPNET"/>
+    <spsf:MetaData
+      Visible="false"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      Enabled="false"
+      CreateVSTemplate="true"
+	  NotSandboxSupported="true"
+      Category="ASPNET" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="ResourceKeyPrefix" Required="true">
+      <!-- provides the unique key -->
+      <ValueProvider Stage="OnBeforeActions" Expression="$(ControlName)" Type="Evaluator" />
+    </Argument>
+
+    <Argument Name="ControlName">
+      <Converter Type="NamespaceStringConverter" />
+      <ValueProvider Type="Evaluator" Expression="Control1" />
+    </Argument>
+
+    <Argument Name="TargetASPXFolder">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SharePointVersion)\Template\Layouts\$(SolutionSubFolder)" />
+    </Argument>
+    <Argument Name="TargetASPXFile">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ControlName).aspx" />
+    </Argument>
+
+    <Argument Name="TargetCSFolder">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="CustomCode\$(ControlName)" />
+    </Argument>
+    <Argument Name="TargetCSFile">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ControlName).cs" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Layouts Page Name</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="ControlName" Label="Name" >
+              <Help>Enter the name of the control (used as class name of the control).</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <Action Name="GenerateASPX" Template="Text\CustomControl\CustomControl.aspx.t4" Type="TextTemplateAction">
+      <Input Name="ResourceFilename" RecipeArgument="ResourceFilename" />
+      <Input Name="ResourceKeyPrefix" RecipeArgument="ResourceKeyPrefix" />
+      <Input Name="ProjectAssemblyName" RecipeArgument="ProjectAssemblyName" />
+      <Input Name="ProjectNamespace" RecipeArgument="ProjectNamespace" />
+      <Input Name="ApplicationPageName" RecipeArgument="ControlName" />
+      <Output Name="Content" />
+    </Action>
+    <Action Name="AddASPX" Type="AddItemToFolderFromStringAction">
+      <Input Name="Content" ActionOutput="GenerateASPX.Content" />
+      <Input Name="TargetFileName" RecipeArgument="TargetASPXFile" />
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+      <Input Name="TargetFolder" RecipeArgument="TargetASPXFolder" />
+    </Action>
+
+    <Action Name="GenerateCS" Template="Text\CustomControl\CustomControl.cs.t4" Type="TextTemplateAction">
+      <Input Name="ProjectNamespace" RecipeArgument="ProjectNamespace" />
+      <Input Name="ApplicationPageName" RecipeArgument="ControlName" />
+      <Output Name="Content" />
+    </Action>
+    <Action Name="AddCS" Type="AddItemToFolderFromStringAction">
+      <Input Name="Content" ActionOutput="GenerateCS.Content" />
+      <Input Name="TargetFileName" RecipeArgument="TargetCSFile" />
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+      <Input Name="TargetFolder" RecipeArgument="TargetCSFolder" />
+    </Action>   
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

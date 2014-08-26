@@ -1,0 +1,7 @@
+﻿<#@ template language="C#" #>
+  <data name="<#= ResourceKeyPrefix #>_CustomActionTitle">
+    <value><#= CustomActionTitle #></value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_CustomActionDescription">
+    <value><#= CustomActionDescription #></value>
+  </data>  		   

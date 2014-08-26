@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="SecurityPermission"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Security Permission</Caption>
+  <Description>Adds a SecurityPermission to the project. Describes a set of security permissions applied to code.</Description>
+  <HostData Priority="400">
+    <Icon File="Help/Icons/icon_Security.ico" />
+    <CommandBar Menu="SPSFSolutionSecurity"/>
+    <CommandBar Menu="SPSFProjectSecurity"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseCustomizationRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="false"
+      Category="Security" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[The recipe adds a line for the permission to the Package.Template.xml (for VS 2010 projects) or to the file CASPolicy.txt (for HIVE projects). Warning: Existing permissions with the same name are replaced completely.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="BasePermissionArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="SecurityAllFlags" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecurityAssertion" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecurityBindingRedirects" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecurityControlAppDomain" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecurityControlDomainPolicy" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecurityControlEvidence" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecurityControlPolicy" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecurityControlPrincipal" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecurityControlThread" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecurityExecution" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecurityInfrastructure" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecurityNoFlags" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecurityRemotingConfiguration" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecuritySerializationFormatter" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecuritySkipVerification" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="SecurityUnmanagedCode" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Typical Permissions</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="SecurityAssertion" Label="Assertion" >
+              <Help>Optional Boolean. Ability to assert that all this code's callers have the requisite permission for the operation.</Help>
+            </Field>
+            <Field ValueName="SecurityBindingRedirects" Label="BindingRedirects" >
+              <Help>Optional Boolean. Permission to perform explicit binding redirection in the application configuration file. This includes redirection of .NET Framework assemblies that have been unified as well as other assemblies found outside the .NET Framework.</Help>
+            </Field>
+            <Field ValueName="SecurityExecution" Label="Execution" >
+              <Help>Optional Boolean. Permission for the code to run. Without this permission, managed code will not be executed. This flag has no effect when used dynamically with stack modifiers such as Deny, Assert, and PermitOnly.</Help>
+            </Field>
+            <Field ValueName="SecurityInfrastructure" Label="Infrastructure" >
+              <Help>Optional Boolean. Permission to plug code into the common language runtime infrastructure, such as adding Remoting Context Sinks, Envoy Sinks and Dynamic Sinks.</Help>
+            </Field>
+            <Field ValueName="SecurityNoFlags" Label="NoFlags" >
+              <Help>Optional Boolean. No security access.</Help>
+            </Field>
+            <Field ValueName="SecurityRemotingConfiguration" Label="RemotingConfiguration" >
+              <Help>Optional Boolean. Permission to configure Remoting types and channels.</Help>
+            </Field>
+            <Field ValueName="SecuritySerializationFormatter" Label="SerializationFormatter" >
+              <Help>Optional Boolean. Ability to provide serialization services. Used by serialization formatters.</Help>
+            </Field>
+          </Fields>
+        </Page>
+        <Page Width="600" Height="400">
+          <Title>Advanced Permissions</Title>
+          <Fields>
+            <Field ValueName="SecurityAllFlags" Label="AllFlags" >
+              <Help>Optional Boolean. The unrestricted state of the permission.</Help>
+            </Field>
+            <Field ValueName="SecurityControlPolicy" Label="ControlPolicy" >
+              <Help>Optional Boolean. Ability to view and modify policy. This is a powerful permission that should only be granted to highly trusted code.</Help>
+            </Field>
+            <Field ValueName="SecurityControlThread" Label="ControlThread" >
+              <Help>Optional Boolean. Ability to use certain advanced operations on threads.</Help>
+            </Field>
+            <Field ValueName="SecurityControlEvidence" Label="ControlEvidence" >
+              <Help>Optional Boolean. Ability to provide evidence, including the ability to alter the evidence provided by the common language runtime. This is a powerful permission that should only be granted to highly trusted code.</Help>
+            </Field>
+            <Field ValueName="SecurityControlAppDomain" Label="ControlAppDomain" >
+              <Help>Optional Boolean. Ability to create and manipulate an AppDomain.</Help>
+            </Field>
+            <Field ValueName="SecurityControlDomainPolicy" Label="ControlDomainPolicy" >
+              <Help>Optional Boolean. Ability to specify domain policy.</Help>
+            </Field>
+            <Field ValueName="SecurityControlPrincipal" Label="ControlPrincipal" >
+              <Help>Optional Boolean. Ability to manipulate the principal object.</Help>
+            </Field>
+            <Field ValueName="SecuritySkipVerification" Label="SkipVerification" >
+              <Help>Optional Boolean. Ability to skip verification of code in this assembly. Code that is unverifiable can be run if this permission is granted. This is a powerful permission that should be granted only to highly trusted code. This flag has no effect when used dynamically with stack modifiers such as Deny, Assert, and PermitOnly.</Help>
+            </Field>
+            <Field ValueName="SecurityUnmanagedCode" Label="UnmanagedCode" >
+              <Help>Optional Boolean. Ability to call unmanaged code. Since unmanaged code potentially allows other permissions to be bypassed, this is a dangerous permission that should only be granted to highly trusted code. It is used for such applications as calling native code using PInvoke or using COM interop.</Help>
+            </Field>
+          </Fields>
+        </Page>
+        <Page Width="600" Height="400">
+          <Title>No Permissions</Title>
+          <Fields>
+            <Field ValueName="PermissionIsUnrestricted" Label="Unrestricted" >
+              <Help>Required Boolean. If Unrestricted is true, all other permission will be ignored.</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action
+       Name="AddCASPolicyAction"
+       Type="AddCASPolicyAction"
+       TemplateFileName="Text\Security\SecurityPermission.txt.t4">
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

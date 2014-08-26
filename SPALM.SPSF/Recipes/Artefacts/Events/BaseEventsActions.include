@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+  <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <!-- elements.xml-->
+  <Action
+    Name="CreateElementsXml"
+    Type="AddElementsDefinitionAction"
+    ParentFeatureName="$(ParentFeatureName)"
+    ElementsName="$(EventReceiverName)"
+    ElementsCategory="$(ElementsCategory)"
+    SPDataTemplate="Text\Events\ItemEventReceiver\SharePointProjectItem.spdata.t4"
+    Open="true">
+    <Input Name="TemplateFileName" RecipeArgument="TemplatePathElements" />
+    <Output Name="CreatedElementFolder" />
+    <Output Name="CreatedElementFile" />
+  </Action>
+  
+  <!-- generate C# Code for event handlers-->
+  <Action
+      Name="AddReceiverCode"
+      Type="AddTemplateToItemAction"
+      Open="true"
+      TargetFileName="$(EventReceiverName).cs">
+    <Input Name="TemplateFileName" RecipeArgument="TemplatePathCode" />
+    <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+  </Action>
+
+  <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</Actions>

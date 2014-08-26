@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>MRUSplitButton</Title>
+			<Author>Torsten Mandelkow</Author>
+			<Shortcut>mrubutton</Shortcut>
+			<HelpUrl>http://msdn.microsoft.com/en-us/library/ff458360.aspx</HelpUrl>
+			<Description>Adds a button used to execute a recently used menu action. </Description>
+			<SnippetTypes>
+				<SnippetType>SurroundsWith</SnippetType>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>id</ID>
+					<ToolTip>Required. A string that identifies the control, such as "Ribbon.Library.Share.NewRibbonMRUSplitButton".</ToolTip>
+					<Default>AppName.MRUSplitButton</Default>
+				</Literal>
+				<Literal>
+					<ID>alt</ID>
+					<ToolTip>Optional. Alternative text for the button.</ToolTip>
+					<Default>MRUSplitButton</Default>
+				</Literal>
+				<Literal>
+					<ID>labeltext</ID>
+					<ToolTip>Optional. The text to label the control.</ToolTip>
+					<Default>MRUSplitButton</Default>
+				</Literal>
+				<Literal>
+					<ID>tooltiptitle</ID>
+					<ToolTip>Optional. The text that appears as the title of the tooltip.</ToolTip>
+					<Default>Title</Default>
+				</Literal>
+				<Literal>
+					<ID>tooltipdescription</ID>
+					<ToolTip>Optional. The text that appears in the body of the tooltip.</ToolTip>
+					<Default>Description</Default>
+				</Literal>
+				<Literal>
+					<ID>sequence</ID>
+					<ToolTip>Optional. An integer that specifies the order of placement among sibling XML nodes.</ToolTip>
+					<Default>10</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="XML">
+				<![CDATA[<MRUSplitButton
+                Id="Ribbon.$id$"
+                Sequence="$sequence$"
+                Alt="$alt$"
+                Command="Ribbon.$id$_CMD"
+                MenuCommand="Ribbon.$id$_Menu_CMD"
+                InitialItem="Ribbon.$id$.Button1"                
+                TemplateAlias="o1"
+                ToolTipTitle="$tooltiptitle$"
+                ToolTipDescription="$tooltipdescription$">
+                <Menu Id="Ribbon.$id$.Menu">
+                  <MenuSection Id="Ribbon.$id$.Menu.MenuSection" Sequence="10" DisplayMode="Menu32">
+                    <Controls Id="Ribbon.$id$.Menu.MenuSection.Controls">
+                      <Button
+                        Id="Ribbon.$id$.Menu.MenuSection.Button1"
+                        MenuItemId="Ribbon.$id$.Button1"
+                        Sequence="10"
+                        Alt="Ribbon.$id$.Menu.MenuSection.Button1_ALT"
+                        CommandType="OptionSelection"
+                        Command="Ribbon.$id$.Menu.MenuSection.Button1_CMD"
+                        CommandValueId="Ribbon.$id$.Menu.MenuSection.Button1_ValueID_CMD"
+						Image16by16="/_layouts/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+						Image32by32="/_layouts/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+                        LabelText="MRU_Btn1"/>
+                      <Button
+                        Id="Ribbon.$id$.Menu.MenuSection.Button2"
+                        MenuItemId="Ribbon.$id$.Button2"
+                        Sequence="20"
+                        Alt="Ribbon.$id$.Menu.MenuSection.Button2_ALT"
+                        CommandType="OptionSelection"
+                        Command="Ribbon.$id$.Menu.MenuSection.Button2_CMD"
+                        CommandValueId="Ribbon.$id$.Menu.MenuSection.Button2_ValueID_CMD"
+						Image16by16="/_layouts/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+						Image32by32="/_layouts/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+                        LabelText="MRU_Btn2"/>
+                    </Controls>
+                  </MenuSection>
+                </Menu>
+              </MRUSplitButton>]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

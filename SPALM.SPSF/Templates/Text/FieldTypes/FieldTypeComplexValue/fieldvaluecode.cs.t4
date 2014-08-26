@@ -1,0 +1,58 @@
+<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;  
+  using System.Globalization;
+  using System.Runtime.InteropServices;
+  using System.Text;
+  using System.Web.UI;  
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.WebControls;
+
+  /// <summary>
+  /// Defines an object that will hold the values for the new field control
+  /// </summary>
+  public class <#= FieldTypeTypeName #>Value : SPFieldMultiColumnValue
+  {
+    private const int NUMBEROFFIELDS = 4;
+
+    public <#= FieldTypeTypeName #>Value()
+      : base(NUMBEROFFIELDS)
+    { 
+    }
+
+    public <#= FieldTypeTypeName #>Value(string value)
+      : base(value)
+    { 
+    }
+
+    public string Column1
+    {
+      get { return this[0]; }
+      set { this[0] = value; }
+    }
+
+    public string Column2
+    {
+      get { return this[1]; }
+      set { this[1] = value; }
+    }
+
+    public string Column3
+    {
+      get { return this[2]; }
+      set { this[2] = value; }
+    }
+            
+    public string Column4
+    {
+      get { return this[3]; }
+      set { this[3] = value; }
+    }
+  }    
+}

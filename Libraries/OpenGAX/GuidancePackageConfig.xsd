@@ -1,0 +1,880 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="IPGSchema.xslt" type="text/xsl"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/pag/gax-core" xmlns:gax="http://schemas.microsoft.com/pag/gax-core" version="1.0" targetNamespace="http://schemas.microsoft.com/pag/gax-core">
+	<xs:element name="GuidancePackage">
+		<xs:annotation>
+			<xs:documentation>
+				The main configuration object that holds all recipe configuration.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Overview" minOccurs="0" />
+				<xs:element name="HostData" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							Contains definitions of one or more cascading menus.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="RegistrationSettings" type="xs:string"  minOccurs="0" maxOccurs="1" >
+								<xs:annotation>
+									<xs:documentation>Specifies registration settings as registry root suffix and RANU</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element ref="Icon" minOccurs="0" maxOccurs="1" />
+							<xs:element ref="Menu" minOccurs="0" maxOccurs="unbounded" />
+							<xs:any namespace="##other" processContents="lax" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Recipes" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							Contains definitions of one or more recipes.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Recipe" maxOccurs="unbounded" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="Name" type="gax:DotNetNamespace" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						A unique identifier for the guidance package, which must conform to .NET namespace naming conventions.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Caption" use="required" type="gax:NonEmptyString">
+				<xs:annotation>
+					<xs:documentation>
+						A friendly short description of the guidance package.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Description" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						A full-length description of the purpose of the guidance package, its features, and requirements.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Version" type="xs:string" default="1.0">
+				<xs:annotation>
+					<xs:documentation>
+						An optional package version for side by side package installation.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Guid" type="gax:Guid">
+				<xs:annotation>
+					<xs:documentation>
+						An optional GUID that identifies the guidance package. If the VisualStudio host
+						is used, this attribute is required. Other hosts may also require
+						this value. The value must be unique across all installed guidance packages, and
+						it cannot contain enclosing brackets or parentheses.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="SchemaVersion" type="xs:string" use="required" fixed="1.0">
+				<xs:annotation>
+					<xs:documentation>
+						A fixed version string indicating the version of the guidance package schema being used. The
+						value of this attribute must be the string "1.0".
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Host" type="xs:string" default="VisualStudio">
+				<xs:annotation>
+					<xs:documentation>
+						<summary xmlns="">
+							The arbitrary name of the host this guidance package will run on.
+						</summary>
+						<remarks xmlns="">
+							When recipe manager loaded on a host, it uses this attribute to identify
+							the host's type and determine which guidance packages can be loaded. If this
+							attribute is omitted, the package uses a default host name of "VisualStudio," which is
+							the host name of the Visual Studio integration package.
+						</remarks>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="BindingRecipe" type="gax:DotNetIdentifier">
+				<xs:annotation>
+					<xs:documentation>
+						<summary xmlns="">An optional recipe to execute whenever the guidance package is loaded into the recipe manager.</summary>
+						<remarks xmlns="">Must be a valid XML name without colons (NCName) or dots.</remarks>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="TraceLevel" type="TraceLevel" default="Error">
+				<xs:annotation>
+					<xs:documentation>
+						Allows specification of the trace level to use for the framework and
+						all guidance packages (except when overriden).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="SortPriority" type="xs:int" default="100">
+				<xs:annotation>
+					<xs:documentation>
+						Sets the priority order that will be used to display
+						in the new project dialog.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute processContents="lax" />
+		</xs:complexType>
+		<xs:key name="RecipeNameKey">
+			<xs:annotation>
+				<xs:documentation>
+					Recipe names must be unique.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="gax:Recipes/gax:Recipe" />
+			<xs:field xpath="@Name" />
+		</xs:key>
+		<xs:keyref name="RecipeBindingRef" refer="RecipeNameKey">
+			<xs:annotation>
+				<xs:documentation>
+					Binding recipe must point to a recipe defined in the current guidance package.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="." />
+			<xs:field xpath="@BindingRecipe" />
+		</xs:keyref>
+		<xs:key name="MenuNameKey">
+			<xs:annotation>
+				<xs:documentation>
+					Menu names must be unique inside a package definition.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="gax:HostData/gax:Menu" />
+			<xs:field xpath="@Name" />
+		</xs:key>
+	</xs:element>
+	<xs:element name="Recipe">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a recipe.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="DocumentationLinks" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							A list of documentation links to be displayed by the Guidance Navigator
+							window as part of the information for a given recipe.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Link" maxOccurs="unbounded" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Types" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							A list of CLR type aliases, which can be referenced anywhere a type name is needed.
+							Can have an Include child element to include sets of reusable type definitions from an
+							external file. This external file must be an XML fragment that contains one or
+							more Alias elements.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" ref="TypeAlias" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Caption">
+					<xs:annotation>
+						<xs:documentation>
+							A caption that represents a recipe reference at a launch point such as a context menu.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1" />
+							<xs:pattern value="[^\n\r\t]+" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Description" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							A description of the recipe. Some launch points, such as the Add New dialog box
+							or the task list, can show the description string along with the recipe's caption.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="HostData" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							Contains optional configuration information processed by the host. VisualStudio host
+							uses command information. Other hosts can use arbitrary data in this element.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Icon" minOccurs="0" />
+							<xs:element ref="CommandBar" minOccurs="0" maxOccurs="unbounded" />
+							<xs:any namespace="##other" processContents="lax" minOccurs="0" />
+						</xs:sequence>
+						<xs:attribute name="Priority" type="xs:int" default="1536" />
+						<xs:anyAttribute processContents="lax" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Arguments" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							A list of the arguments the recipe takes. Each argument is described by
+							an Argument element.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" ref="Argument" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="GatheringServiceData" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							Data for the argument-gathering service associated with the recipe.
+							The service knows how to validate and interpret this data.
+							This data can be described in the same file, or included from another file.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:any namespace="##other" processContents="lax" minOccurs="0" />
+						</xs:sequence>
+						<xs:attribute name="ServiceType" type="gax:NonEmptyString" use="optional">
+							<xs:annotation>
+								<xs:documentation>
+									Name of a CLR type/class/alias that implements the IValueGatheringService interface.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:anyAttribute processContents="lax" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Actions" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							A list of actions that the recipe invokes after collecting all arguments.
+							Each action is described by an Action element.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Action" maxOccurs="unbounded" />
+							<xs:any namespace="##other" processContents="lax" minOccurs="0" />
+						</xs:sequence>
+						<xs:attribute name="CoordinatorServiceType" type="gax:NonEmptyString" use="optional">
+							<xs:annotation>
+								<xs:documentation>
+									Name of a CLR type/class/alias that implements the IActionCoordinationService interface, which
+									provides custom coordination of action execution.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="ExecutionServiceType" type="gax:NonEmptyString" use="optional">
+							<xs:annotation>
+								<xs:documentation>
+									Name of a CLR type/class/alias that implements the IActionExecutionService interface, which
+									provides custom action execution.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:anyAttribute processContents="lax" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="Name" type="gax:DotNetIdentifier" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						<summary xmlns="">The name of the recipe.</summary>
+						<remarks xmlns="">Must be a valid XML name without colons (NCName) or dots.</remarks>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Recurrent" type="xs:boolean" default="true">
+				<xs:annotation>
+					<xs:documentation>
+						<summary xmlns="">Specifies whether the recipe remains in place after each execution.</summary>
+						<remarks xmlns="">This attribute defaults to true, which means that the recipe will remain in place after it is executed. Setting this attribute to false removes the recipe after it is executed for the first time.</remarks>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Bound" type="xs:boolean" default="true">
+				<xs:annotation>
+					<xs:documentation>
+						<summary xmlns="">Specifies whether the recipe is bound or unbound.</summary>
+						<remarks xmlns="">
+							This attribute defaults to true, which means that the recipe is
+							bound, and no unbound references can point to it.
+						</remarks>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute processContents="lax" />
+		</xs:complexType>
+		<xs:key name="RecipeArgumentKey">
+			<xs:annotation>
+				<xs:documentation>
+					Argument names must be unique inside a recipe definition.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="gax:Arguments/gax:Argument" />
+			<xs:field xpath="@Name" />
+		</xs:key>
+		<xs:unique name="ActionNameKey">
+			<xs:annotation>
+				<xs:documentation>
+					Action names must be unique inside a recipe definition.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="gax:Actions/gax:Action" />
+			<xs:field xpath="@Name" />
+		</xs:unique>
+		<xs:keyref name="ActionRecipeArgumentRef" refer="RecipeArgumentKey">
+			<xs:annotation>
+				<xs:documentation>
+					An action contains inputs that in turn can reference arguments through the
+					RecipeArgument attribute. The referenced argument must be defined in the recipe.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="gax:Actions/gax:Action/gax:Input" />
+			<xs:field xpath="@RecipeArgument" />
+		</xs:keyref>
+		<xs:keyref name="MonitorArgumentRef" refer="RecipeArgumentKey">
+			<xs:annotation>
+				<xs:documentation>
+					A value provider can monitor other arguments for changes.
+					The referenced argument must be defined in the recipe.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="gax:Arguments/gax:Argument/gax:ValueProvider/gax:MonitorArgument" />
+			<xs:field xpath="@Name" />
+		</xs:keyref>
+	</xs:element>
+	<xs:element name="Action">
+		<xs:annotation>
+			<xs:documentation>
+				The operation to be executed by the recipe.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="Input" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							Zero or more action inputs that may be bound to recipe arguments or to an action output.
+							The parameter/argument pairs are passed in a dictionary maintained by the framework.
+							Each argument is described in the Parameter element.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="Output" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							Zero or more action outputs.
+							The parameter/argument pairs are passed in a dictionary maintained by the framework.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:any namespace="##other" processContents="lax" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="Type" type="gax:NonEmptyString" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						Name of a CLR type, class, or alias that implements the IAction interface.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Name" type="gax:NonEmptyString" use="required" />
+			<xs:anyAttribute processContents="lax" />
+		</xs:complexType>
+		<xs:key name="InputNameKey">
+			<xs:annotation>
+				<xs:documentation>
+					Input names must be unique inside an action definition.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="gax:Input" />
+			<xs:field xpath="@Name" />
+		</xs:key>
+		<xs:key name="OutputNameKey">
+			<xs:annotation>
+				<xs:documentation>
+					Output names must be unique inside an action definition.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="gax:Output" />
+			<xs:field xpath="@Name" />
+		</xs:key>
+	</xs:element>
+	<xs:element name="Icon">
+		<xs:annotation>
+			<xs:documentation>
+				Specifies an icon to use to represent the command in dialog boxes, command bars, and menus.
+				Icons can be specified using either a file name or a combination of a GUID (optional) and
+				a numeric identifier. If no icon is specified, the default icon will be used.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Guid" type="gax:Guid">
+				<xs:annotation>
+					<xs:documentation>
+						The GUID of the package that contains the icon to use.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ID" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>
+						The ID number of the icon in a DLL specified by the Guid attribute, if present. If no
+						GUID is supplied, the ID attribute specifies an icon in the Microsoft Office library
+						by default.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="File" type="gax:NonEmptyString">
+				<xs:annotation>
+					<xs:documentation>
+						The path and name of an icon (.ico) file to use, given as a relative reference from
+						the root level of the guidance package. If the File attribute is specified, the Guid
+						and ID attributes will be ignored.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Menu">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a submenu and associates it with a command bar in Visual Studio. Submenus can hold one
+				or more recipes and are a convenient way to group related recipes.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CommandBar" minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
+			<xs:attribute name="Name" type="gax:DotNetIdentifier" />
+			<xs:attribute name="Text">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1" />
+						<xs:pattern value="[^\n\r\t]+" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Priority" type="xs:int" default="1536" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CommandBar">
+		<xs:annotation>
+			<xs:documentation>
+				The Visual Studio command bar on which to place the submenu or the command for the recipe.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Name" type="CommandBarName" />
+			<xs:attribute name="Menu" type="xs:string" />
+			<xs:attribute name="Guid" type="gax:Guid" />
+			<xs:attribute name="ID" type="xs:int" />
+		</xs:complexType>
+		<xs:keyref name="MenuNameRef" refer="MenuNameKey">
+			<xs:annotation>
+				<xs:documentation>
+					The referenced menu must be defined in the package.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="." />
+			<xs:field xpath="@Menu" />
+		</xs:keyref>
+	</xs:element>
+	<xs:element name="Input">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any namespace="##other" processContents="lax" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="Name" type="gax:NonEmptyString" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						The name of the bound action parameter. The recipe argument provides the value for
+						the action parameter.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="RecipeArgument" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The name of the recipe argument that provides the value to the action parameter.
+						This attribute is optional and can be replaced by the Value attribute.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ActionOutput" type="ActionParemeterIdentifier">
+				<xs:annotation>
+					<xs:documentation>
+						The name of an action output argument that provides the value to the action parameter.
+						This attribute is optional.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute processContents="lax" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Output">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any namespace="##other" processContents="lax" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="Name" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>
+						A name to use to represent an action's output. Other actions can subsequently use this
+						name as input.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute processContents="lax" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Argument">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Converter" minOccurs="0" />
+				<xs:element ref="ValueProvider" minOccurs="0" />
+				<xs:any namespace="##other" processContents="lax" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="Name" type="gax:NonEmptyString" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						The name of the argument used in the recipe argument table and
+						throughout the configuration file.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Type" type="xs:string" default="System.String">
+				<xs:annotation>
+					<xs:documentation>
+						The type of the argument, specified as either a full CLR type or an alias.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Required" type="xs:boolean" default="true">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies whether the argument is required; that is, that its value cannot be Null before actions are executed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute processContents="lax" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Converter">
+		<xs:annotation>
+			<xs:documentation>
+				An optional component that can convert and validate the argument value.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any namespace="##other" processContents="lax" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="Type" use="required" type="gax:NonEmptyString">
+				<xs:annotation>
+					<xs:documentation>
+						The name of a CLR type, class, or alias that implements the IValueProvider interface.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute processContents="lax" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ValueProvider">
+		<xs:annotation>
+			<xs:documentation>
+				A component that can provide a value for the argument.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="MonitorArgument" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							<summary xmlns="">An optional list of arguments that will be monitored for changes.</summary>
+							<remarks xmlns="">The IValueProvider.OnArgumentChanged method will be called whenever an argument in the list changes.</remarks>
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:any namespace="##other" processContents="lax" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="Type" use="required" type="gax:NonEmptyString">
+				<xs:annotation>
+					<xs:documentation>
+						Name of a CLR type, class, or alias that implements the IValueProvider interface.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute processContents="lax" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MonitorArgument">
+		<xs:annotation>
+			<xs:documentation>
+				Points to an argument that will be monitored by a value provider.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Name" type="gax:NonEmptyString" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Link">
+		<xs:annotation>
+			<xs:documentation>
+				Documentation link to be displayed by the Guidance Navigator window
+				that when clicked will open a new window containing a web page or ms help topic.
+				A link could also point to a recipe to be executed if the "Kind" attribute is set to "NextStep".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Url" type="gax:NonEmptyString" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						URL to display in a help widow. You can point to a web page (http://) or a MS help topic (ms-help://).
+						You can also use the format "recipe://RecipeName" to execute a recipe when the link is clicked. For this to work
+						the "Kind" attribute needs to be set to "NextStep".
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Caption" type="gax:NonEmptyString" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						This is an user-friendly text to be used for the link, i.e., "How to Create a Service".
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Kind" type="gax:DocumentationKind" use="optional">
+				<xs:annotation>
+					<xs:documentation>
+						The Kind attribute determines the location where the link should be displayed inside the Guidance Navigator window.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute processContents="lax" />
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="DocumentationKind">
+		<xs:annotation>
+			<xs:documentation>
+				The kind of documentation link
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Documentation">
+				<xs:annotation>
+					<xs:documentation>
+						Documentation links get displayed under both the "Available Guidance" and "History" tabs.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NextStep">
+				<xs:annotation>
+					<xs:documentation>
+						NextStep links get displayed only under the "History" tab.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="TypeAlias">
+		<xs:annotation>
+			<xs:documentation>
+				Defines an alias that can be used to represent a fully-qualified CLR type in the
+				configuration file.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Name" type="gax:NonEmptyString" use="required" />
+			<xs:attribute name="Type" type="gax:NonEmptyString" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="ActionParemeterIdentifier">
+		<xs:annotation>
+			<xs:documentation>
+				A type definition that only allows valid .NET identifiers of the form x.y.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z][a-zA-Z0-9]*.[a-zA-Z][a-zA-Z0-9]*" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TraceLevel">
+		<xs:annotation>
+			<xs:documentation>
+				A type definition that only allows values defined by the .NET Framework's
+				System.Diagnostics.TraceLevel enumeration. See the .NET Framework documentation
+				for more information.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Error" />
+			<xs:enumeration value="Info" />
+			<xs:enumeration value="Off" />
+			<xs:enumeration value="Warning" />
+			<xs:enumeration value="Verbose" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CommandBarName">
+		<xs:annotation>
+			<xs:documentation>
+				A type definition that enumerates a list of friendly names for Visual Studio command bars.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Solution">
+				<xs:annotation>
+					<xs:documentation>
+						The root level context menu of the solution in Solution Explorer.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Project">
+				<xs:annotation>
+					<xs:documentation>
+						The context menu of a single project in Solution Explorer.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Web Project">
+				<xs:annotation>
+					<xs:documentation>
+						The context menu of a single web project in Solution Explorer.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Item">
+				<xs:annotation>
+					<xs:documentation>
+						The context menu of a single item in Solution Explorer.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Web Item">
+				<xs:annotation>
+					<xs:documentation>
+						The context menu of a single item inside a web project in Solution Explorer.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Folder">
+				<xs:annotation>
+					<xs:documentation>
+						The context menu of a folder inside a project in Solution Explorer.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Web Folder">
+				<xs:annotation>
+					<xs:documentation>
+						The context menu of a folder inside a web project in Solution Explorer.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Solution Folder">
+				<xs:annotation>
+					<xs:documentation>
+						The context menu of a solution folder in Solution Explorer.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Project Add">
+				<xs:annotation>
+					<xs:documentation>
+						The context menu of the Add menu of a project in Solution Explorer. Use it to Add New Items.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Solution Add">
+				<xs:annotation>
+					<xs:documentation>
+						The context menu of the Add menu of the solution root in Solution Explorer. Use it to Add New Projects.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Solution Folder Add">
+				<xs:annotation>
+					<xs:documentation>
+						The context menu of the Add menu of a solution folder in Solution Explorer. Use it to Add New Projects.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NonEmptyString">
+		<xs:annotation>
+			<xs:documentation>
+				A type definition that requires a string to contain at least one character.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Guid">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DotFreeName">
+		<xs:annotation>
+			<xs:documentation>
+				A type definition that doesn't allow dot (".") characters in a string.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[^.]+" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DotNetIdentifier">
+		<xs:annotation>
+			<xs:documentation>
+				A type definition that only allows valid .NET identifiers.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="[^.]+" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DotNetNamespace">
+		<xs:annotation>
+			<xs:documentation>
+				A type definition that only allows valid .NET identifiers.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="[a-zA-Z][a-zA-Z_0-9]*(\.[a-zA-Z][a-zA-Z_0-9]*)*" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Overview">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any namespace="##other" minOccurs="0" processContents="lax" />
+			</xs:sequence>
+			<xs:attribute name="Url" type="xs:string" use="optional" />
+			<xs:anyAttribute processContents="lax" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

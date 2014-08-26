@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="GoToHive"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Open Item in SharePoint Hive</Caption>
+	<Description>Opens the current selected item in SharePoint Hive.</Description>
+	<HostData Priority="220">
+		<Icon File="Help/Icons/icon_Goto.ico" />
+		<CommandBar Name="Item"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="SolutionHiveReference"
+		  Enabled="true"
+		  ExcludeFromTests="true"
+		  CreateVSTemplate="false"
+		  Category="Shortcuts" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+		<Argument Name="SelectedItem" Type="EnvDTE.ProjectItem, EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+			<ValueProvider Type="CurrentItemProvider" />
+		</Argument>
+	</Arguments>
+	<Actions>
+		<Action Name="OpenItemInHive" Type="OpenItemInHive">
+			<Input Name="SelectedItem" RecipeArgument="SelectedItem" />
+		</Action>
+	</Actions>
+</Recipe>

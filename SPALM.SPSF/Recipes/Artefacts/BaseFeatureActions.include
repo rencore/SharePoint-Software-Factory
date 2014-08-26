@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+  <!-- Create the feature -->
+  <Action
+    Name="AddFeatureXml"
+    Condition="$(CreateNewFeature)"
+    Type="AddFeatureAction"
+    TemplateFileName="Text\EmptyFeature\feature.xml.t4"
+    SPDataTemplate="Text\EmptyFeature\Feature.feature.t4"
+    FeatureName="$(FullFeatureName)"
+    Open="true">
+    <Output Name="CreatedProjectItem" />
+    <Output Name="CreatedProjectFolder" />
+  </Action>
+
+  <!-- FeatureReceiver -->
+  <Action
+    Name="AddFeatureReceiverCode"
+    Condition="$(FeatureCreateReceiver)"
+    Type="AddTemplateToItemAction"
+    DeploymentType="CustomCode"
+    TemplateFileName="Text\EmptyFeature\FeatureReceiver.cs.t4"
+    TargetFileName="$(FullFeatureName).EventReceiver.cs">
+    <Input Name="ParentProjectItem" ActionOutput="AddFeatureXml.CreatedProjectItem" />
+  </Action>
+
+  <Action
+      Condition="$(CreateNewFeature)"
+		  Name="AddFeatureResources"
+		  Type="AddTemlateToResourcesFileAction"
+		  FeatureResources="true"
+		  FeatureName="$(ParentFeatureName)"
+		  TemplateFileName="Text\EmptyFeature\Resources.resx.t4"
+		  ResourcesFileName="Resources.resx" >
+    <Input Name="AdditionalCondition" RecipeArgument="AutoCreateResxFiles" />
+  </Action>
+
+  <Action
+    Name="AddFeatureIcon"
+    Condition="$(CreateNewFeature)"
+    Type="AddFileToItemAction"
+    DeploymentType="TemplateFile"
+    DeploymentPath="Images\$(SafeAppName)"
+    SourceFileName="Text\EmptyFeature\FeatureIcon.gif"
+    TargetFileName="$(FeatureIconName)">
+    <Input Name="ExcludeCondition" RecipeArgument="ProjectIsSandboxedSolution" />    
+  </Action>
+
+</Actions>

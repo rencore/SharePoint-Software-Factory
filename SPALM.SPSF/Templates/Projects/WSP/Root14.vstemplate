@@ -1,0 +1,34 @@
+﻿<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>Sharepoint 2010 - Solution Package</Name>
+    <Description>Creates a new SharePoint 2010 solution project (.wsp).</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>100</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>SPSolution</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <EnableLocationBrowseButton>false</EnableLocationBrowseButton>
+    <Icon>icon_sp14project.ico</Icon>    
+  </TemplateData>
+  <TemplateContent>
+    <Project File="Runtime14.csproj" TargetFileName="$WSPProjectName$.csproj" ReplaceParameters="true">
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem TargetFileName="AssemblyInfo.cs" ReplaceParameters="true">AssemblyInfo.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Package">
+        <ProjectItem TargetFileName="Package.package" ReplaceParameters="true">Package.package</ProjectItem>
+        <ProjectItem TargetFileName="Package.Template.xml" ReplaceParameters="true">Package.Template.xml</ProjectItem>       
+      </Folder>
+    </Project>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.Practices.RecipeFramework.VisualStudio</Assembly>
+    <FullClassName>Microsoft.Practices.RecipeFramework.VisualStudio.Templates.UnfoldTemplate</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <Template
+      xmlns="http://schemas.microsoft.com/pag/gax-template"
+      SchemaVersion="1.0"
+      Recipe="CustomizationProject14" />
+  </WizardData>
+</VSTemplate>

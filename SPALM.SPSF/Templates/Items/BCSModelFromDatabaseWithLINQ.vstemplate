@@ -1,0 +1,28 @@
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Import Model from Database as LINQ entities</Name>
+    <Description>Add a BCS model from a database and generates the necessary LINQ classes to retrieve and change the data. The recipe will also generate a LINQ-to-SQL file (.dbml) from the database.</Description>
+    <DefaultName>BCSModel</DefaultName>
+    <SortOrder>14</SortOrder>
+    <Icon>../../Help/Icons/icon_BCS.ico</Icon>
+    <CreateNewFolder>false</CreateNewFolder>
+    <LocationField>Hidden</LocationField>
+    <ProjectType>CSharp</ProjectType>  
+	<TemplateGroupID>SharePointItemTemplateGroupID</TemplateGroupID>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <ShowByDefault>false</ShowByDefault>
+    <FrameworkVersion>3.5</FrameworkVersion>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ReplaceParameters="true" TargetFileName="dummy.txt">dummy.txt</ProjectItem>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.Practices.RecipeFramework.VisualStudio</Assembly>
+    <FullClassName>Microsoft.Practices.RecipeFramework.VisualStudio.Templates.UnfoldTemplate</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <Template xmlns="http://schemas.microsoft.com/pag/gax-template"
+      SchemaVersion="1.0"
+      Recipe="BCSModelFromDatabaseWithLINQ" />
+  </WizardData>
+</VSTemplate>

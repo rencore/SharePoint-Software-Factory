@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe Name="CustomizationProject14"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.microsoft.com/pag/gax-core"
+    Bound="false">
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Sharepoint 2010 - Solution Package</Caption>
+	<Description>Creates a new SharePoint 2010 solution project (.wsp).</Description>
+	<HostData Priority="100">
+		<Icon File="Help/Icons/icon_sp14project.ico" />
+		<CommandBar Menu="SPSFSolutionProjects" />
+		<CommandBar Menu="SPSFSolutionFolderProjects" />
+		<spsf:MetaData
+		  Visible="true"
+				BindingType="AddProjectReference"
+		  BindingTypeTemplate="AddProjectReferenceTemplate"
+		  TemplatePath="Projects\WSP\Root14.vstemplate"
+		  Enabled="true"
+		  ExcludeFromTests="true"
+		  CreateVSTemplate="false"
+		  Category="Projects" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[A customation project is the core wsp solution project type to deploy a .wsp solution to SharePoint.]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<Argument Name="SharePointVersion" Required="true">
+			<ValueProvider Type="Evaluator" Expression="14" />
+		</Argument>
+    <Argument Name="TargetFramework" Required="true">
+      <ValueProvider Type="Evaluator" Expression="3.5" />
+    </Argument>
+		<Argument Name="RecipeName">
+			<ValueProvider Type="Evaluator" Expression="CustomizationProject" />
+		</Argument>
+
+		<Argument Name="AppName" Required="true">
+			<ValueProvider Type="ApplicationNameProvider" />
+		</Argument>
+		<Argument Name="AppVersion" Required="true">
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="ApplicationVersion" DefaultValue="1.0.0.0" />
+		</Argument>
+		<Argument Name="AutoGenerateManifest" Type="System.Boolean" Required="true">
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="AutoGenerateManifest" DefaultValue="true" />
+		</Argument>
+		<Argument Name="DebuggingWebApp" Required="false">
+			<ValueProvider Type="DebuggingWebAppProvider" />
+		</Argument>
+
+    <Argument Name="ProjectID1" Required="true">
+      <ValueProvider Type="GuidValueProvider" />
+    </Argument>
+    
+		<Argument Name="WSPSolutionSignAssembly" Type="System.Boolean" Required="true">
+			<ValueProvider Type="SolutionKeyFilenameExistsProvider" />
+		</Argument>
+		<Argument Name="WSPSolutionKeyFileName" Required="true">
+			<ValueProvider Type="SolutionKeyFilenameProvider" />
+		</Argument>
+
+		<Argument Name="WSPProjectName" Required="true">
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="VisualStudioCreateProjectName" />
+		</Argument>
+		<Argument Name="WSPProjectNameTemp">
+			<ValueProvider Type="Evaluator" Expression="$(AppName).$(WSPProjectName).wsp">
+				<MonitorArgument Name="WSPProjectName" />
+			</ValueProvider>
+		</Argument>
+		<Argument Name="WSPSolutionID" Required="true">
+			<ValueProvider Type="SPALM.SPSF.Library.ValueProviders.GuidValueProvider, SPALM.SPSF.Library" />
+		</Argument>
+		<Argument Name="WSPDeploymentServerType" Required="true">
+			<Converter Type="SPALM.SPSF.Library.Converters.SolutionDeploymentServerTypeConverter, SPALM.SPSF.Library" />
+			<ValueProvider Type="Evaluator" Expression="WebFrontEnd" />
+		</Argument>
+		<Argument Name="WSPDeploymentTarget" Required="true">
+			<Converter Type="SPALM.SPSF.Library.Converters.SolutionDeploymentTargetConverter, SPALM.SPSF.Library" />
+			<ValueProvider Type="Evaluator" Expression="GlobalAssemblyCache" />
+		</Argument>
+		<Argument Name="WSPResetServer" Type="System.Boolean" Required="true">
+		</Argument>
+
+		<Argument Name="SPSFBranding" >
+			<ValueProvider Type="BrandingImageProvider" Logo="\Branding\Logo.jpg" />
+		</Argument>
+		<Argument Name="IsSandBoxedSolution" Type="System.Boolean" Required="true">
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+    
+    <Argument Name="DeploymentProjectName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="Deployment" />
+    </Argument>
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Width="600" Height="400">
+					<Title>SharePoint WSP Information</Title>
+					<LinkTitle>WSP Solution</LinkTitle>
+					<Help>
+						Enter the WSP Solution Name.
+					</Help>
+					<Fields>
+						<Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+						<Field ValueName="WSPProjectNameTemp" ReadOnly="true" Label="Final WSP Solution Filename">
+							<Help>Optional String. Displays the final name of the wsp solution file</Help>
+						</Field>
+            <Field ValueName="WSPProjectName" ReadOnly="true" Label="Solution Name">
+              <Help>Required String. Name of the project without full namespace.</Help>
+            </Field>            
+            <Field ValueName="WSPDeploymentServerType" Label="Deployment Server Type">
+							<Help>Optional String. Specifies the type of deployment server.</Help>
+						</Field>
+						<Field ValueName="WSPDeploymentTarget" Label="Deployment Target">
+							<Help>Optional String. Specifies the deployment target.</Help>
+						</Field>
+						<Field ValueName="DebuggingWebApp" Label="Site Url for debugging">
+							<Help>Optional String. Specifies the local web application which is used for debugging and deployment.</Help>
+						</Field>
+						<Field ValueName="WSPResetServer" Label="Reset Webserver">
+							<Help>Optional Boolean. If checked the option "ResetWebServer" in the solution manifest is set to TRUE.</Help>
+						</Field>
+						<Field ValueName="IsSandBoxedSolution" Label="Sandboxed solution">
+							<Help>Optional Boolean. If checked a sandboxed solutions will be created.</Help>
+						</Field>
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+		<!-- Settings the site url in all projects -->
+		<Action
+		  Name="SetSiteUrl"
+		  Type="SetSiteUrl">
+			<Input Name="SiteUrl" RecipeArgument="DebuggingWebApp" />
+			<Input Name="CurrentProjectName" RecipeArgument="WSPProjectName" />
+		</Action>
+		<Action
+		  Name="SetDeploymentTarget"
+		  Type="SetDeploymentTarget">
+			<Input Name="DeploymentTarget" RecipeArgument="WSPDeploymentTarget" />
+			<Input Name="CurrentProjectName" RecipeArgument="WSPProjectName" />
+		</Action>
+
+    <!--Action Name="MoveProjectToSolutionFolder"
+		  SolutionFolder="Solutions"
+		  Type="MoveProjectToSolutionFolder" >
+			<Input Name="ProjectName" RecipeArgument="WSPProjectName" />
+		</Action -->
+
+    <Action Name="DeploymentProjecDependsOnWSP"
+      Type="MakeProjectDependentOnOther">
+      <Input Name="DependingProject" RecipeArgument="DeploymentProjectName" />
+      <Input Name="SourceProject" RecipeArgument="WSPProjectName" />
+    </Action>
+
+  </Actions>
+</Recipe>

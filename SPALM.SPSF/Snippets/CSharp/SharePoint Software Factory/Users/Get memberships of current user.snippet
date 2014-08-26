@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Get memberships of current user</Title>
+      <Author>Matthias Einig</Author>
+      <Description>Retrieves the memberships of the current logged in user through the UserProfileManager. 
+</Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <References>
+        <Reference>
+          <Assembly>Microsoft.SharePoint.dll</Assembly>
+        </Reference>
+        <Reference>
+          <Assembly>Microsoft.Office.Server.dll</Assembly>
+        </Reference>
+      </References>
+      <Imports>
+        <Import>
+          <Namespace>SharePoint = Microsoft.SharePoint</Namespace>
+        </Import>
+        <Import>
+          <Namespace>UserProfiles = Microsoft.Office.Server.UserProfiles</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Object Editable="true">
+          <ID>mgr</ID>
+          <ToolTip>UserProfileManager</ToolTip>
+          <Default>profileMgr</Default>
+          <Function>
+          </Function>
+          <Type>UserProfileManager</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>profile</ID>
+          <ToolTip>UserProfile of current logged in user</ToolTip>
+          <Default>currentUser</Default>
+          <Function>
+          </Function>
+          <Type>UserProfile</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>m</ID>
+          <ToolTip>Membership</ToolTip>
+          <Default>membership</Default>
+          <Function>
+          </Function>
+          <Type>Membership</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+UserProfileManager $mgr$ = new UserProfileManager(ServerContext.GetContext(SPControl.GetContextSite(Context)));
+UserProfile $profile$ = $mgr$.GetUserProfile(SPControl.GetContextWeb(Context).CurrentUser.LoginName);
+if($profile$ != null){
+    foreach (Membership $m$ in $profile$.Memberships.GetItems()) {
+
+    }
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

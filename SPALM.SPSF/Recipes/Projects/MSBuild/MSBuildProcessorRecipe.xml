@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="MSBuildProcessorRecipe"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Run MSBuild Target</Caption>
+  <Description>Runs a target from an msbuild file.</Description>
+  <HostData>
+    <Icon File="Help/Icons/icon_MSBuildProject.ico" />
+    <CommandBar Menu="SPSFItemProjects"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="MSTargetsReference"
+      BindingTypeTemplate="MSTargetsReferenceTemplate"
+      Enabled="true"
+      CreateVSTemplate="false"
+      Category="Helpers" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+    <Arguments>
+      <Argument Name="SelectedFile" Type="EnvDTE.ProjectItem, EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+        <ValueProvider Type="CurrentItemProvider" />
+      </Argument>
+      
+      <Argument Name="BuildTarget" Type="System.String" Required="true">
+        <Converter Type="MSBuildTargetsConverter" />
+      </Argument>
+
+      <Argument Name="SPSFBranding" >
+        <ValueProvider Type="BrandingImageProvider" Logo="\Branding\Logo.jpg" />
+      </Argument>
+      
+    </Arguments>
+    <GatheringServiceData>
+      <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+        <Pages>
+          <Page Width="600" Height="400">
+            <Title>Select target settings</Title>
+            <Fields>
+              <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+              <Field ValueName="BuildTarget" Label="Build Target">
+                <Help>Name of the target to be executed.</Help>
+              </Field>
+            </Fields>
+          </Page>          
+        </Pages>
+      </Wizard>
+    </GatheringServiceData>
+    <Actions>
+       <Action Name="ExecuteMSBuild" Type="ExecuteMSBuildTarget">
+        <Input Name="BuildTarget" RecipeArgument="BuildTarget" />
+        <Input Name="TargetsFile" RecipeArgument="SelectedFile" />
+      </Action>
+  </Actions>
+</Recipe>

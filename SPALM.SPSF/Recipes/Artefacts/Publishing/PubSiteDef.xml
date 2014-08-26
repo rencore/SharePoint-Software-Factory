@@ -1,0 +1,484 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="PubSiteDef"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+	<DocumentationLinks>
+		<Link Caption=".Net Journal: Creating Custom Site Definitions in Microsoft Windows SharePoint Services" Url="http://dotnet.sys-con.com/node/48162?page=0,0" Kind="Documentation" />
+		<Link Url="http://msdn.microsoft.com/en-us/library/ee354191.aspx" Caption="MSDN: Real World Branding with SharePoint Server 2007 Publishing Sites " Kind="Documentation"/>
+		<Link Caption="MSDN: Configuration Node" Url="http://msdn.microsoft.com/en-us/library/ms476942.aspx" Kind="Documentation" />
+		<Link Caption="MSDN: Schema Onet.xml" Url="http://msdn.microsoft.com/en-us/library/ms474369.aspx" Kind="Documentation" />
+	</DocumentationLinks>
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Publishing Site Definition</Caption>
+	<Description>Adds a standard publishing site definition along with the required features.</Description>
+	<HostData Priority="100">
+		<Icon File="Help/Icons/icon_SiteDefinition.ico" />
+		<CommandBar Menu="SPSFProjectPublishing"/>
+		<CommandBar Menu="SPSFSolutionPublishing"/>
+		<spsf:MetaData
+		Visible="true"
+		BindingType="CustomizationReference"
+		BindingTypeTemplate="CustomizationReferenceTemplate"
+			TestType="BaseCustomizationRecipeRunner"
+		Enabled="true"
+		CreateVSTemplate="true"
+		Category="Publishing" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+				<spsf:Author>Matthias Einig</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.1 Updated Documentation</spsf:VersionHistoryEntry>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[The publishing site definition creates a site with the publishing infrastructure and publishing site feature enabled and provides functionalities for web content management.
+It creates three features which are required to activate the several components of the publishing site.]]>
+			</spsf:WebPageContent>
+			<spsf:Test>
+				<spsf:TestCases TestType="BaseCustomizationRecipeTest">
+					<spsf:TestCase Name="PublishingSiteDefinitionDefault" Type="SolutionTestCase">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="PubSiteDefName">PUBSITE1</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+					<spsf:TestCase Name="PublishingSiteDefinitionWithProvisioningXML">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="PubSiteDefName">PUBSITE2</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="PubSiteDefCreateProvisioningXML">True</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+					<spsf:TestCase Name="PublishingSiteDefinitionWithProvisioningHandler">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="PubSiteDefName">PUBSITE3</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="PubSiteDefCreateProvisioningXML">True</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="PubSiteDefCreateProvisioningHandler">True</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+				</spsf:TestCases>
+			</spsf:Test>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<Argument Name="ResourceKeyPrefix" Required="true">
+			<!-- provides the unique key with removed special chars -->
+			<ValueProvider Stage="OnBeforeActions" RecipeArgument="PubSiteDefName" Type="ConvertedStringProvider" />
+		</Argument>
+
+		<Argument Name="PubSiteDefName" Required="true">
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="VisualStudioCreateItemName" MakeSafe="True" DefaultValue="SiteDefinition1" />
+		</Argument>
+
+		<Argument Name="FullSiteDefinitionName" Required="true" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SafeAppName)_$(PubSiteDefName)" />
+		</Argument>
+
+		<Argument Name="PubSiteDefTitle" Required="true" >
+			<ValueProvider Type="Evaluator" Expression="$(PubSiteDefName) Title" />
+		</Argument>
+		<Argument Name="PubSiteDefID" Required="true" >
+			<ValueProvider Type="Evaluator" Expression="10000" />
+		</Argument>
+		<Argument Name="PubSiteDefDescription" Required="true" >
+			<ValueProvider Type="Evaluator" Expression="$(PubSiteDefName) Description" />
+		</Argument>
+		<Argument Name="PubSiteDefDisplayCategory" Required="true" >
+			<ValueProvider Type="Evaluator" Expression="Custom Site Definitions" />
+		</Argument>
+		<Argument Name="PubSiteDefHidden" Type="System.Boolean" Required="true" >
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="PubSiteDefAllowGlobalFeatureAssociations" Type="System.Boolean" Required="true" >
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="PubSiteDefRootWebOnly" Type="System.Boolean" Required="true" >
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="PubSiteDefSubWebOnly" Type="System.Boolean" Required="true" >
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+
+		<Argument Name="PubSiteDefCreateProvisioningXML" Type="System.Boolean" Required="true" >
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="PubSiteDefCreateProvisioningHandler" Type="System.Boolean" Required="true" >
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="PubSiteDefProvisioningHandlerClass">
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(PubSiteDefName)ProvisioningHandler" />
+		</Argument>
+
+		<!--Arguments for the PublishingWeb Feature-->		
+		<Argument Name="PubSiteWebFeatureName" Required="true" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(PubSiteDefName) Web" />
+		</Argument>
+		<Argument Name="PubSiteWebFeatureTitle" Required="false" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(PubSiteDefName) Web Feature" />
+		</Argument>
+		<Argument Name="PubSiteWebFeatureDescription" Required="false" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(PubSiteDefName) Web Feature" />
+		</Argument>
+		<Argument Name="PubSiteWebFeatureID" Required="true" >
+			<ValueProvider Stage="OnBeforeActions" Type="GuidValueProvider" />
+		</Argument>
+
+		<!--Arguments for the PublishingSite Feature-->
+		<Argument Name="PubSiteSiteFeatureName" Required="true" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(PubSiteDefName)Site" />
+		</Argument>
+		<Argument Name="PubSiteSiteFeatureTitle" Required="true" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(PubSiteDefName) Site Feature" />
+		</Argument>
+		<Argument Name="PubSiteSiteFeatureDescription" Required="false" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(PubSiteDefName) Site Feature" />
+		</Argument>
+		<Argument Name="PubSiteSiteFeatureID" Required="true" >
+			<ValueProvider Stage="OnBeforeActions" Type="GuidValueProvider" />
+		</Argument>
+
+		<!--Arguments for the PublishingLayouts Feature-->
+		<Argument Name="PubSiteLayoutsFeaturePageLayoutsFolder">
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SharePointVersion)\Template\Features\$(SafeAppName)_$(PubSiteDefName)_PageLayouts\PageLayouts" />
+		</Argument>
+		<Argument Name="PubSiteLayoutsFeatureMasterPagesFolder">
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SharePointVersion)\Template\Features\$(SafeAppName)_$(PubSiteDefName)_PageLayouts\MasterPages" />
+		</Argument>
+		<Argument Name="PubSiteLayoutsFeaturePreviewImageFolder">
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SharePointVersion)\Template\Features\$(SafeAppName)_$(PubSiteDefName)_PageLayouts\en-us" />
+		</Argument>
+		<Argument Name="PubSiteLayoutsFeatureName" Required="true" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SafeAppName)_$(PubSiteDefName)_PageLayouts" />
+		</Argument>
+		<Argument Name="PubSiteLayoutsFeatureTitle" Required="true" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(PubSiteDefName) PageLayouts Feature" />
+		</Argument>
+		<Argument Name="PubSiteLayoutsFeatureDescription" Required="false" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(PubSiteDefName) Feature" />
+		</Argument>
+		<Argument Name="PubSiteLayoutsFeatureID" Required="true" >
+			<ValueProvider Stage="OnBeforeActions" Type="GuidValueProvider" />
+		</Argument>
+
+		<Argument Name="MasterPageName" Required="true" Type="System.String" >
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="Evaluator" Expression="$(PubSiteDefName)MasterPage" />
+		</Argument>
+		<Argument Name="MasterPageTitle" Required="true" Type="System.String" >
+			<ValueProvider Type="Evaluator" Expression="Master Page Title" />
+		</Argument>
+		<Argument Name="MasterPageDescription" Required="true" Type="System.String" >
+			<ValueProvider Type="Evaluator" Expression="Master Page Description" />
+		</Argument>
+		<Argument Name="MasterPageFileName" Required="true" Type="System.String" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(MasterPageName).master" />
+		</Argument>
+		<Argument Name="MasterPageNameImage" Required="true" Type="System.String" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(MasterPageName).png" />
+		</Argument>
+
+		<Argument Name="PageLayoutContentType" Type="NameValueItem" Required="true" >
+			<ValueProvider Type="DefaultNameValueItemProvider" Name="Welcome Page" Value="0x010100C568DB52D9D0A14D9B2FDCC96666E9F2007948130EC3DB064584E219954237AF390064DEA0F50FC8C147B0B6EA0636C4A7D4" />
+		</Argument>
+		<Argument Name="PageLayoutName" Required="true" Type="System.String" >
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="Evaluator" Expression="$(PubSiteDefName)PageLayout" />
+		</Argument>
+		<Argument Name="PageLayoutTitle" Required="true" Type="System.String" >
+			<ValueProvider Type="Evaluator" Expression="Default Page Layout Title" />
+		</Argument>
+		<Argument Name="PageLayoutDescription" Required="true" Type="System.String" >
+			<ValueProvider Type="Evaluator" Expression="Default Page Layout Description" />
+		</Argument>
+		<Argument Name="PageLayoutFileName" Required="true" Type="System.String" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(PageLayoutName).aspx" />
+		</Argument>
+		<Argument Name="PageLayoutNameImage" Required="true" Type="System.String" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(PageLayoutName).png" />
+		</Argument>
+
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Width="600" Height="400">
+					<Title>Site Template settings</Title>
+					<Fields>
+						<Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+						<Field ValueName="PubSiteDefName" Label="Name">
+							<Help>Required Text. Specify the name of the folder which will be created in folder SiteTemplates. Limited to 255 characters. The name has to be unique within the project of this solution. It should not contain whitespaces or special characters.</Help>
+						</Field>
+						<Field ValueName="PubSiteDefTitle" Label="Title">
+							<Help>Required Text. Title of the site template as it appears in the selection of Create Site dialog. Limited to 255 characters.</Help>
+						</Field>
+						<Field ValueName="PubSiteDefID" Label="ID">
+							<Help>Required Number. Id of the site template. Should be unique on the farm and greater than 10000.</Help>
+						</Field>
+						<Field ValueName="PubSiteDefDescription" Label="Description">
+							<Help>Required Text. Longer description of the purpose of this site definition.</Help>
+						</Field>
+						<Field ValueName="PubSiteDefDisplayCategory" Label="Display Category">
+							<Help>Required Text. Title of the cateogry in which the site definition should appear in the Create Site dialog. Limited to 255 characters.</Help>
+						</Field>
+					</Fields>
+				</Page>
+				<Page Width="600" Height="400">
+					<Title>Master Page Settings</Title>
+					<Fields>
+						<Field ValueName="MasterPageName" Label="Name">
+							<Help>Required Text. Name of the Master Page. Limited to 255 characters. The name has to be unique within the project of this solution. It should not contain whitespaces or special characters.</Help>
+						</Field>
+						<Field ValueName="MasterPageTitle" Label="Title">
+							<Help>Required Text. Title (friendly name) of the Page Layout. Limited to 255 characters.</Help>
+						</Field>
+						<Field ValueName="MasterPageDescription" Label="Description">
+							<Help>Optional Text. Description of the Master Page.</Help>
+						</Field>
+					</Fields>
+				</Page>
+				<Page Width="600" Height="400">
+					<Title>Page Layout Settings</Title>
+					<Fields>
+						<Field PanelType="SPALM.SPSF.Library.NameValueItemPanel, SPALM.SPSF.Library" ValueName="PageLayoutContentType" Label="Page Layout Content Type" >
+							<Help>Required Content Type. Content Type of this Page Layout.</Help>
+							<Editor Type="SPALM.SPSF.Library.ContentTypeEditor, SPALM.SPSF.Library" />
+						</Field>
+						<Field ValueName="PageLayoutName" Label="Name">
+							<Help>Required Text. Name of the Page Layout class file. Limited to 255 characters. The name has to be unique within the project of this solution. It should not contain whitespaces or special characters.</Help>
+						</Field>
+						<Field ValueName="PageLayoutTitle" Label="Title">
+							<Help>Required Text. Title (friendly name) of the Page Layout. Limited to 255 characters.</Help>
+						</Field>
+						<Field ValueName="PageLayoutDescription" Label="Description">
+							<Help>Optional Text. Description of the Page Layout.</Help>
+						</Field>
+					</Fields>
+				</Page>
+				<Page Width="600" Height="400">
+					<Title>Options</Title>
+					<Help>Custom options for the site template</Help>
+					<Fields>
+						<Field ValueName="PubSiteDefCreateProvisioningXML" Label="Create Provisioning XML">
+							<Help>Optional Boolean. If TRUE creates a file named Portal.XML with XML data for the creation of subsites after provisioning this site template.</Help>
+						</Field>
+						<Field ValueName="PubSiteDefCreateProvisioningHandler" Label="Create Provisioning Handler (.cs)">
+							<Help>Optional Boolean. If TRUE creates a cs.file for handling the event of provisioning.</Help>
+						</Field>
+						<Field ValueName="PubSiteDefHidden" Label="Hidden">
+							<Help>Optional Boolean. If TRUE hides the site definition from the Create Site dialog. Creation of sites with this definition through code will be still possible.</Help>
+						</Field>
+						<Field ValueName="PubSiteDefAllowGlobalFeatureAssociations" Label="Allow global Feature associations">
+							<Help>Optional Boolean. If TRUE the site definition is allowed to be associated to global features.</Help>
+						</Field>
+						<Field ValueName="PubSiteDefRootWebOnly" Label="Root Web Only">
+							<Help>Optional Boolean. If TRUE the site created from the configuration can only exist as the root Web site in a site collection. This attribute is not enforced in site templates (.stp files).</Help>
+						</Field>
+						<Field ValueName="PubSiteDefSubWebOnly" Label="Sub Web Only">
+							<Help>Optional Boolean. If TRUE tthe site created from the configuration can only exist as a subsite within a site collection.</Help>
+						</Field>
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+		<xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action
+		  Name="AddOnet"
+		  Type="AddSPDataTemplateAction"
+      SPDataName="$(PubSiteDefName)"
+      SPDataCategory="SiteDefinitions"
+      SPDataTemplate="Text\SiteDefinitions\SharePointProjectItem.spdata.t4"
+		  TemplateFileName="Text\PubSiteDef\SiteTemplates\xml\onet.xml.t4"
+		  TargetFileName="onet.xml"
+      DeploymentType="TemplateFile"
+      DeploymentPath="SiteTemplates\$(PubSiteDefName)\XML"
+		  Open="true">
+      <Output Name="CreatedProjectItem" />
+      <Output Name="CreatedProjectFolder" />
+    </Action>
+
+		<!-- generate webtemp xml -->
+		<Action
+		  Name="AddWebTemp"
+		  Type="AddTemplateToItemAction"
+		  DeploymentType="TemplateFile"
+		  DeploymentPath="1033\XML"
+		  TemplateFileName="Text\PubSiteDef\1033\xml\WEBTEMPname.XML.t4"
+		  TargetFileName="WEBTEMP$(PubSiteDefName).xml">
+      <Input Name="ParentProjectItem" ActionOutput="AddOnet.CreatedProjectFolder" />
+		</Action>
+
+
+		<!-- if checked create a provisioning file for subsites -->
+		<Action
+		  Name="AddWebTempProvisioning"
+		  Condition="$(PubSiteDefCreateProvisioningXML)"
+		  Type="AddTemplateToItemAction"
+		  DeploymentType="TemplateFile"
+		  DeploymentPath="1033\XML"
+		  TemplateFileName="Text\PubSiteDef\1033\xml\Portal.XML.t4"
+		  TargetFileName="$(PubSiteDefName)Portal.xml">
+      <Input Name="ParentProjectItem" ActionOutput="AddOnet.CreatedProjectItem" />
+		</Action>
+
+		<!-- if checked create a provisioning handler cs -->
+		<Action
+			Name="AddProvisioningCode"
+			Condition="$(PubSiteDefCreateProvisioningHandler)"
+			Type="AddTemplateToItemAction"
+			Open="true"
+			DeploymentType="CustomCode"
+			TemplateFileName="Text\PubSiteDef\1033\xml\WebProvisioningProvider.cs.t4"
+			TargetFileName="$(PubSiteDefProvisioningHandlerClass).cs">
+      <Input Name="ParentProjectItem" ActionOutput="AddOnet.CreatedProjectItem" />
+		</Action>
+
+		<!-- add preview image -->
+		<Action
+			Name="AddPreviewImage"
+			Type="AddFileToItemAction"
+			DeploymentType="TemplateFile"
+			DeploymentPath="Layouts\1033\images"
+			SourceFileName="Text\PubSiteDef\1033\Images\PreviewImage.gif"
+			TargetFileName="Preview$(PubSiteDefName).gif">
+      <Input Name="ParentProjectItem" ActionOutput="AddOnet.CreatedProjectFolder" />
+		</Action>
+
+		<!-- add default.aspx -->
+		<Action
+			Name="AddDefaultASPX"
+			Type="AddTemplateToItemAction"
+			DeploymentType="TemplateFile"
+			DeploymentPath="SiteTemplates\$(PubSiteDefName)"
+			TemplateFileName="Text\PubSiteDef\SiteTemplates\default.aspx.t4"
+			TargetFileName="default.aspx">
+      <Input Name="ParentProjectItem" ActionOutput="AddOnet.CreatedProjectFolder" />
+		</Action>
+
+		<!-- Create WebFeature for Site Definition -->
+		<Action
+			  Name="AddWebFeature"
+			  Type="AddFeatureAction"
+			  TemplateFileName="Text\PubSiteDef\Features\PublishingWeb\Feature.xml.t4"
+			  SPDataTemplate="Text\PubSiteDef\Features\PublishingWeb\Feature.feature.t4"
+			  FeatureName="$(SafeAppName)_$(PubSiteDefName)_Web" >
+			<Output Name="CreatedProjectItem" />
+			<Output Name="CreatedProjectFolder" />
+		</Action>
+
+		<!-- Create SiteFeature for Site Definition -->
+		<Action
+			  Name="AddSiteFeature"
+			  Type="AddFeatureAction"
+			  TemplateFileName="Text\PubSiteDef\Features\PublishingSite\Feature.xml.t4"
+			  SPDataTemplate="Text\PubSiteDef\Features\PublishingSite\Feature.feature.t4"
+			  FeatureName="$(SafeAppName)_$(PubSiteDefName)_Site" >
+			<Output Name="CreatedProjectItem" />
+			<Output Name="CreatedProjectFolder" />
+		</Action>
+
+		<!-- Create PageLayouts Feature for Site Definition -->
+		<Action
+			  Name="AddPageLayoutFeature"
+			  Type="AddFeatureAction"
+			  TemplateFileName="Text\PubSiteDef\Features\PubLayouts\Feature.xml.t4"
+			  SPDataTemplate="Text\PubSiteDef\Features\PubLayouts\Feature.feature.t4"
+			  FeatureName="$(SafeAppName)_$(PubSiteDefName)_PageLayouts" >
+			<Output Name="CreatedProjectItem" />
+			<Output Name="CreatedProjectFolder" />
+		</Action>
+
+		<!-- Add default master page to the feature -->
+		<Action
+		  Name="AddElementsXmlForMasterPages"
+		  Type="AddElementsDefinitionAction"
+		  ParentFeatureName="$(SafeAppName)_$(PubSiteDefName)_PageLayouts"
+		  ElementsName="$(PubSiteDefName)_MasterPages"
+		  ElementsCategory="MasterPages"
+		  TemplateFileName="Text\PubSiteDef\Features\PubLayouts\MasterPages.xml.t4"
+		  SPDataTemplate="Text\PubSiteDef\Features\PubLayouts\MasterPages.spdata.t4"
+		  Open="true">
+			<Output Name="CreatedElementFolder" />
+			<Output Name="CreatedElementFile" />
+		</Action>		
+		<Action
+		  Name="AddMasterPageToFeature"
+		  Type="AddTemplateToItemAction"
+		  DeploymentType="ElementFile"
+		  DeploymentPath="$(PubSiteDefName)_MasterPages"
+		  TemplateFileName="Text/PubSiteDef/Features/PubLayouts/MasterPages/template.master.t4"
+		  TargetFileName="$(MasterPageFileName)">
+			<Input Name="ParentProjectFolder" ActionOutput="AddElementsXmlForMasterPages.CreatedElementFolder" />
+		</Action>
+		<Action
+		  Name="AddMasterPageImageToFeature"
+		  Type="AddFileToItemAction"
+		  DeploymentType="ElementFile"
+		  DeploymentPath="$(PubSiteDefName)_MasterPages"
+		  SourceFileName="Text/PubSiteDef/Features/PubLayouts/MasterPages/template.png"
+		  TargetFileName="$(MasterPageNameImage)">
+			<Input Name="ParentProjectFolder" ActionOutput="AddElementsXmlForMasterPages.CreatedElementFolder" />
+		</Action>
+
+		<Action
+		  Name="AddElementsXmlForPageLayouts"
+		  Type="AddElementsDefinitionAction"
+		  ParentFeatureName="$(SafeAppName)_$(PubSiteDefName)_PageLayouts"
+		  ElementsName="$(PubSiteDefName)_PageLayouts"
+		  ElementsCategory="PageLayouts"
+		  TemplateFileName="Text\PubSiteDef\Features\PubLayouts\PageLayouts.xml.t4"
+		  SPDataTemplate="Text\PubSiteDef\Features\PubLayouts\PageLayouts.spdata.t4"
+		  Open="true">
+			<Output Name="CreatedElementFolder" />
+			<Output Name="CreatedElementFile" />
+		</Action>
+		<Action
+		  Name="AddPageLayoutToFeature"
+		  Type="AddTemplateToItemAction"
+		  DeploymentType="ElementFile"
+		  DeploymentPath="$(PubSiteDefName)_PageLayouts"
+		  TemplateFileName="Text/PubSiteDef/Features/PubLayouts/PageLayouts/template.aspx.t4"
+		  TargetFileName="$(PageLayoutFileName)">
+			<Input Name="ParentProjectFolder" ActionOutput="AddElementsXmlForPageLayouts.CreatedElementFolder" />
+		</Action>
+		<Action
+		  Name="AddPageLayoutImageToFeature"
+		  Type="AddFileToItemAction"
+		  DeploymentType="ElementFile"
+		  DeploymentPath="$(PubSiteDefName)_PageLayouts"
+		  SourceFileName="Text/PubSiteDef/Features/PubLayouts/PageLayouts/template.png"
+		  TargetFileName="$(PageLayoutNameImage)">
+			<Input Name="ParentProjectFolder" ActionOutput="AddElementsXmlForPageLayouts.CreatedElementFolder" />
+		</Action>
+
+
+		<!-- generate masterpage resources -->
+		<Action
+		  Condition="$(AutoCreateResxFiles)"
+		  Name="AddMasterPageResources"
+		  Type="AddTemlateToResourcesFileAction"
+		  TemplateFileName="Text\PubSiteDef\Features\PubLayouts\MasterPages\Resources.resx.t4">
+		</Action>
+
+		<!-- generate pagelayouts resources -->
+		<Action
+		  Condition="$(AutoCreateResxFiles)"
+		  Name="AddPageLayoutResources"
+		  Type="AddTemlateToResourcesFileAction"
+		  TemplateFileName="Text\PubSiteDef\Features\PubLayouts\PageLayouts\Resources.resx.t4">
+		</Action>
+		
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Actions>
+
+</Recipe>

@@ -1,0 +1,26 @@
+﻿<#@ template language="C#" #>
+<%@ Control Language="C#" Debug="true" %>
+<%@ Assembly Name="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register TagPrefix="SharePoint" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" Namespace="Microsoft.SharePoint.WebControls" %>
+<SharePoint:RenderingTemplate ID="<#= FieldTypeRenderingTemplateId #>" runat="server">
+  <Template>
+    <table class="ms-authoringcontrols" >
+      <tr>
+        <td>Street:</td>
+        <td><asp:TextBox ID="txtStreet" runat="server" Width="328px" /></td>
+      </tr>
+      <tr>
+        <td>City:</td>
+        <td><asp:TextBox ID="txtCity" runat="server" Width="328px" /></td>
+      </tr>
+      <tr>
+        <td>State:</td>
+        <td><asp:TextBox ID="txtState" runat="server" MaxLength="2" Width="120px" /></td>
+      </tr>
+      <tr>
+        <td>Zipcode:</td>
+        <td><asp:TextBox ID="txtZipcode" runat="server" MaxLength="10" Width="120px" /></td>
+      </tr>          
+    </table>
+  </Template>
+</SharePoint:RenderingTemplate>

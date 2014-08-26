@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="RibbonSampleContentTypeButton"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+	<DocumentationLinks>
+		<Link Caption="MSDN: How to: Modify the User Interface Using Custom Actions" Url="http://msdn.microsoft.com/en-us/library/ms473643.aspx" Kind="Documentation"/>
+		<Link Caption="MSDN: Server Ribbon XML" Url="http://msdn.microsoft.com/en-us/library/ff407290.aspx" Kind="Documentation"/>
+		<Link Caption="MSDN: Default Server Ribbon Customization Locations" Url="http://msdn.microsoft.com/en-us/library/ee537543.aspx" Kind="Documentation"/>
+	</DocumentationLinks>
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Sample: Add Ribbon Button to Content Type</Caption>
+	<Description>Adds a Button to a Content Type specific ribbon.</Description>
+	<HostData Priority="3050">
+		<Icon File="Help/Icons/icon_Ribbon.ico" />
+		<CommandBar Menu="SPSFProjectCustomActions"/>
+		<CommandBar Menu="SPSFFolderCustomActions"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="ElementManifestReference"
+		  BindingTypeTemplate="ElementManifestReferenceTemplate"
+		  TestType="BaseSiteFeatureRecipeRunner"
+		  Enabled="true"
+		  CreateVSTemplate="true"
+		  SharePointVersions="14;15"
+      FeatureScopes="Web;Site;WebApplication;Farm"
+		  Category="CustomActions" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[In this sample a custom ribbon button is added to the edit form of the content type Document (0x0101). The following code adds the button to the actions group.
+	
+	<CustomAction
+		Id="Ribbon.RibbonContentType"
+		Location="CommandUI.Ribbon"
+		Title="RibbonContentType"
+		RegistrationType="ContentType"
+		RegistrationId="0x0101">
+		<CommandUIExtension>
+			<CommandUIDefinitions>
+				<CommandUIDefinition
+					Location="Ribbon.DocLibListForm.Edit.Actions.Controls._children">
+					<Button
+						Id="Ribbon.RibbonContentType.Button"
+						Command="RibbonContentType.ButtonCommand"
+						Sequence="500"
+						Image16by16="/_layouts/images/RibbonIcon_RibbonContentType_16.gif"
+						Image32by32="/_layouts/images/RibbonIcon_RibbonContentType_32.gif"
+						LabelText="ContentType Button"
+						ToolTipTitle="ContentType Button"
+						ToolTipDescription="Description of ContentType Button"
+						TemplateAlias="o2" />
+				</CommandUIDefinition>
+			</CommandUIDefinitions>
+			<CommandUIHandlers>
+				<CommandUIHandler
+					Command="RibbonContentType.ButtonCommand"
+					CommandAction="javascript:alert('Hello, world');" />
+			</CommandUIHandlers>
+		</CommandUIExtension>
+	</CustomAction>
+				]]>
+			</spsf:WebPageContent>
+			<spsf:Test>
+				<spsf:TestCases>
+					<spsf:TestCase Name="DefaultRibbonGroup">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="RibbonActionName">DefaultContentTypeRibbon</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+					<spsf:TestCase Name="RibbonGroupForList" Type="SolutionTestCase">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="RibbonActionName">RibbonForContentType</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="RibbonActionTitle">ContentType Button</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="CustomActionRegistrationType">ContentType</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="CustomActionRegistrationId">0x0101</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="CustomActionLocation">CommandUI.Ribbon</spsf:TestCaseArgument>	
+							<spsf:TestCaseArgument Name="RibbonCommandUIDefinitionLocation">Ribbon.DocLibListForm.Edit.Actions;Ribbon.DocLibListForm.Edit.Actions;Ribbon.DocLibListForm.Edit.Actions</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+						<spsf:TestExpectedDeployResults>
+							<spsf:TestExpectedDeployResult Type="ManualCheck">In dialog 'Edit Properties' for content type 'document' is in tab 'Action' a new Ribbon Button 'ContentType Button' http://demo2010a/Shared%20Documents/Forms/AllItems.aspx</spsf:TestExpectedDeployResult>
+						</spsf:TestExpectedDeployResults>
+					</spsf:TestCase>
+				</spsf:TestCases>
+			</spsf:Test>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="BaseRibbonArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<!-- optional target Location -->
+		<Argument Name="CustomActionLocation" Required="true">
+			<Converter Type="StringCollectionConverter" Values="CommandUI.Ribbon.ListView|Customization appears when the list view Web Part is present;CommandUI.Ribbon.EditForm|Customization appears on the edit form;CommandUI.Ribbon.NewForm|Customization appears on the new form;CommandUI.Ribbon.DisplayForm|Customization appears on the display form" />
+			<ValueProvider Type="Evaluator" Expression="CommandUI.Ribbon" />
+		</Argument>
+
+		<!-- Optional List Settings -->
+		<Argument Name="CustomActionRegistrationType" Required="true">
+			<ValueProvider Type="Evaluator" Expression="ContentType" />
+		</Argument>
+		<Argument Name="CustomActionRegistrationId" Type="NameValueItem" Required="true" >
+			<ValueProvider Type="DefaultNameValueItemProvider" Name="Document" Value="0x0101" />
+		</Argument>
+		
+		<Argument Name="RibbonCommandUIDefinitionLocation" Type="NameValueItem" Required="true" >
+			<ValueProvider Type="DefaultNameValueItemProvider" Name="Ribbon.DocLibListForm.Edit.Actions" Value="Ribbon.DocLibListForm.Edit.Actions" />
+		</Argument>	
+
+		<Argument Name="RibbonControlType" Required="true" >
+			<Converter Type="StringCollectionConverter" Values="Button;CheckBox;Label" />
+			<ValueProvider Type="Evaluator" Expression="Button" />
+		</Argument>
+		<Argument Name="RibbonControlImage16" Required="true" >
+			<ValueProvider Type="Evaluator" Expression="RibbonIcon_$(RibbonActionName)_16.gif" />
+		</Argument>
+		<Argument Name="RibbonControlImage32" Required="true" >
+			<ValueProvider Type="Evaluator" Expression="RibbonIcon_$(RibbonActionName)_32.gif" />
+		</Argument>
+
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+				<xi:include href="BaseRibbonPagesMinimal.include"  parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-wizards) xpointer(/p:Pages/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+				<Page Width="600" Height="400">
+					<Title>Form Settings</Title>
+					<Help>The appearance of the ribbon customization can be available globally or within list views or item forms.</Help>
+					<Fields>
+						<Field PanelType="SPALM.SPSF.Library.NameValueListViewPanel, SPALM.SPSF.Library" ValueName="CustomActionLocation" Label="Custom Action Location" >
+							<Help>Required Text. Location element of the custom action.</Help>
+						</Field>
+					</Fields>
+				</Page>
+				<Page Width="600" Height="400">
+					<Title>Optional List Settings</Title>
+					<Help>If needed the availability of a Ribbon element can be limited to a certain list type or content type.</Help>
+					<Fields>
+						<Field PanelType="SPALM.SPSF.Library.NameValueItemPanel, SPALM.SPSF.Library" ValueName="CustomActionRegistrationId" Label="Content Type" >
+							<Help>Select the content type where the action should be added.</Help>
+							<Editor Type="SPALM.SPSF.Library.ContentTypeEditor, SPALM.SPSF.Library" />
+						</Field>
+					</Fields>
+				</Page>
+				<Page Width="600" Height="400">
+					<Title>Location Settings</Title>
+					<Fields>
+						<Field PanelType="SPALM.SPSF.Library.NameValueItemPanel, SPALM.SPSF.Library" ValueName="RibbonCommandUIDefinitionLocation" Label="Parent Ribbon Group" >
+							<Help>Required Text. Specifies the existing ribbon group into which the new button should be added.</Help>
+							<Editor Type="SPALM.SPSF.Library.RibbonGroupEditor, SPALM.SPSF.Library" />
+						</Field>
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+		<xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="BaseRibbonActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<!-- add button icon 16-->
+		<Action
+		  Name="AddIcon16"
+		  Type="AddFileToItemAction"
+		  DeploymentType="TemplateFile"
+		  DeploymentPath="Images\$(SafeAppName)"
+		  SourceFileName="Text/Ribbons/CustomAction16.gif"
+		  TargetFileName="$(RibbonControlImage16)">
+			<Input Name="ExcludeCondition" RecipeArgument="ProjectIsSandboxedSolution" />
+      <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+		</Action>
+
+		<!-- add button icon 32-->
+		<Action
+		  Name="AddIcon32"
+		  Type="AddFileToItemAction"
+		  DeploymentType="TemplateFile"
+		  DeploymentPath="Images\$(SafeAppName)"
+		  SourceFileName="Text/Ribbons/CustomAction32.gif"
+		  TargetFileName="$(RibbonControlImage32)">
+			<Input Name="ExcludeCondition" RecipeArgument="ProjectIsSandboxedSolution" />
+      <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+		</Action>
+
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+	</Actions>
+
+</Recipe>

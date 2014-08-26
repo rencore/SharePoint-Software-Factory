@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Table Flyout</Title>
+			<Author>Torsten Mandelkow</Author>
+			<Shortcut>ribbontable</Shortcut>
+			<HelpUrl>http://msdn.microsoft.com/en-us/library/ff458372.aspx</HelpUrl>
+			<Description>Adds a 10x10 table flyout table</Description>
+			<SnippetTypes>
+				<SnippetType>SurroundsWith</SnippetType>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>id</ID>
+					<ToolTip>Required. A string that identifies the control, such as "Ribbon.Library.Share.NewRibbonTableFlyout".</ToolTip>
+					<Default>AppName.TableFlyout</Default>
+				</Literal>
+				<Literal>
+					<ID>alt</ID>
+					<ToolTip>Optional. Alternative text for the control.</ToolTip>
+					<Default>TableFlyout</Default>
+				</Literal>
+				<Literal>
+					<ID>labeltext</ID>
+					<ToolTip>Optional. The text to label the control.</ToolTip>
+					<Default>TableFlyout</Default>
+				</Literal>
+				<Literal>
+					<ID>sequence</ID>
+					<ToolTip>Optional. An integer that specifies the order of placement among sibling XML nodes.</ToolTip>
+					<Default>10</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="XML">
+				<![CDATA[
+        <FlyoutAnchor
+                Id="Ribbon.$id$"
+                Sequence="$sequence$"
+                Alt="$alt$"
+                LabelText="$labeltext$"
+                Command="Ribbon.$id$_CMD"
+                PopulateDynamically="false"
+                PopulateOnlyOnce="true"
+                PopulateQueryCommand="Ribbon.$id$_Query_CMD"
+                TemplateAlias="o2"
+                Image16by16="/_layouts/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+				Image32by32="/_layouts/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+                ToolTipTitle="Table flyout"
+                ToolTipDescription="inserts a custom table">
+                <Menu Id="Ribbon.$id$.Menu">
+                  <MenuSection
+                    Id="Ribbon.$id$.Menu.MenuSection"
+                    Title="Custom InsertTable">
+                    <Controls Id="Ribbon.$id$.Menu.MenuSection.Controls">
+                      <InsertTable
+                        Id="Ribbon.$id$.Menu.MenuSection.InsertTable"
+                        Sequence="10"
+                        Alt="Insert a {0}x{1} Table"
+                        Command="Ribbon.$id$.Menu.MenuSection.InsertTable_CMD"
+                        CommandPreview="Ribbon.$id$.Menu.MenuSection.InsertTablePreview_CMD"
+                        CommandRevert="Ribbon.$id$.Menu.MenuSection.InsertTablePreviewRevert_CMD"
+                        MenuSectionTitle="Custom Insert Table"
+                        MenuSectionInitialTitle="InsertTable"/>
+                    </Controls>
+                  </MenuSection>
+                </Menu>
+              </FlyoutAnchor>]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

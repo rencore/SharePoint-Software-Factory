@@ -1,0 +1,191 @@
+<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<CustomAction
+		Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>"
+		Location="<#= CustomActionLocation #>"
+		Title="<#= RibbonActionTitle #>"	
+		<# 
+		if(CustomActionRegistrationId != null && CustomActionRegistrationId.ToString() != "None")
+		{
+			#>
+			RegistrationType="<#= CustomActionRegistrationType #>"
+			RegistrationId="<#= CustomActionRegistrationId.ToString() #>"
+			<#
+		}
+		#>	
+		<#
+		if(CustomActionRights.Length > 0)
+		{
+			#>
+			Rights="<#
+			bool showcomma = false;
+			foreach(NameValueItem right in CustomActionRights)
+			{		
+				if(showcomma)
+				{
+					#>,<#
+				}
+				showcomma = true;
+				#><#= right.Value #><#
+			}
+			#>" <#
+		}
+		if(CustomActionRequireSiteAdministrator)
+		{
+			#>
+			RequireSiteAdministrator="<#= CustomActionRequireSiteAdministrator #>"
+			<#
+		}
+		#>>
+    <CommandUIExtension>
+      <CommandUIDefinitions>
+        <CommandUIDefinition
+          Location="Ribbon.Tabs._children">
+          <Tab
+            Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>"
+            <#
+				if(AutoCreateResxFiles)
+				{
+					#>
+					Title="$Resources:<#= ResourceKeyPrefix #>_Title;"
+					Description="$Resources:<#= ResourceKeyPrefix #>_Description;"
+					<#
+				}
+				else
+				{
+					#>
+					Title="<#= RibbonActionTitle #>"
+					Description="<#= RibbonActionDescription #>"
+					<#
+				}
+				#>
+              Sequence="<#= RibbonActionSequence #>">
+            <Scaling
+              Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.Scaling">
+              <MaxSize
+                Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.MaxSize"
+                GroupId="Ribbon.<#= AppName #>.<#= RibbonActionName #>.CustomGroupExample"
+                Size="OneLargeTwoMedium"/>
+              <Scale
+                Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.Scaling.CustomTabScaling"
+                GroupId="Ribbon.<#= AppName #>.<#= RibbonActionName #>.CustomGroupExample"
+                Size="OneLargeTwoMedium" />
+            </Scaling>
+            <Groups Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.Groups">
+              <Group
+                Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.CustomGroupExample"
+                Description="Custom Group Description"
+                Title="Custom Group"
+                Sequence="52"
+                Template="Ribbon.Templates.<#= AppName #>.<#= RibbonActionName #>.CustomTemplateExample">
+                <Controls Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.CustomGroupExample.Controls">
+                  <Button
+                    Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.CustomGroupExample.HelloWorld"
+                    Command="<#= AppName #>.<#= RibbonActionName #>.HelloWorldCommand"
+                    Sequence="15"
+                    Description="Says hello to the World!"
+                    LabelText="Hello, World!"
+					<#
+					if(!ProjectIsSandboxedSolution)
+					{
+					#>
+					Image16by16="/_layouts<#= VersionedFolderName #>/images/<#= SafeAppName #>/<#= RibbonControlImage16HelloWorld #>"
+					Image32by32="/_layouts<#= VersionedFolderName #>/images/<#= SafeAppName #>/<#= RibbonControlImage32HelloWorld #>"
+					<#
+					}
+					else
+					{
+					#>
+					Image16by16="/_layouts<#= VersionedFolderName #>/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+					Image32by32="/_layouts<#= VersionedFolderName #>/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+					<#
+					}
+					#>
+                    TemplateAlias="cust1"/>
+                  <Button
+                    Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.CustomGroupExample.GoodbyeWorld"
+                    Command="<#= AppName #>.<#= RibbonActionName #>.GoodbyeWorldCommand"
+                    Sequence="17"
+                    Description="Says good-bye to the World!"
+                    LabelText="Good-bye, World!"
+					<#
+					if(!ProjectIsSandboxedSolution)
+					{
+					#>
+					Image16by16="/_layouts<#= VersionedFolderName #>/images/<#= SafeAppName #>/<#= RibbonControlImage16GoodbyeWorld #>"
+					Image32by32="/_layouts<#= VersionedFolderName #>/images/<#= SafeAppName #>/<#= RibbonControlImage32GoodbyeWorld #>"
+					<#
+					}
+					else
+					{
+					#>
+					Image16by16="/_layouts<#= VersionedFolderName #>/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+					Image32by32="/_layouts<#= VersionedFolderName #>/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+					<#
+					}
+					#>
+                    TemplateAlias="cust2"/>
+                  <Button
+                    Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.CustomGroupExample.LoveWorld"
+                    Command="<#= AppName #>.<#= RibbonActionName #>.LoveWorldCommand"
+                    Sequence="19"
+                    Description="Says I love the World!"
+                    LabelText="I love you, World!"
+					<#
+					if(!ProjectIsSandboxedSolution)
+					{
+					#>
+					Image16by16="/_layouts<#= VersionedFolderName #>/images/<#= SafeAppName #>/<#= RibbonControlImage16LoveWorld #>"
+					Image32by32="/_layouts<#= VersionedFolderName #>/images/<#= SafeAppName #>/<#= RibbonControlImage32LoveWorld #>"
+					<#
+					}
+					else
+					{
+					#>
+					Image16by16="/_layouts<#= VersionedFolderName #>/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+					Image32by32="/_layouts<#= VersionedFolderName #>/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+					<#
+					}
+					#>
+                    TemplateAlias="cust3"/>
+                </Controls>
+              </Group>
+            </Groups>
+          </Tab>
+        </CommandUIDefinition>
+        <CommandUIDefinition Location="Ribbon.Templates._children">
+          <GroupTemplate Id="Ribbon.Templates.<#= AppName #>.<#= RibbonActionName #>.CustomTemplateExample">
+            <Layout
+              Title="OneLargeTwoMedium"
+              LayoutTitle="OneLargeTwoMedium">
+              <Section Alignment="Top" Type="OneRow">
+                <Row>
+                  <ControlRef DisplayMode="Large" TemplateAlias="cust1" />
+                </Row>
+              </Section>
+              <Section Alignment="Top" Type="TwoRow">
+                <Row>
+                  <ControlRef DisplayMode="Medium" TemplateAlias="cust2" />
+                </Row>
+                <Row>
+                  <ControlRef DisplayMode="Medium" TemplateAlias="cust3" />
+                </Row>
+              </Section>
+            </Layout>
+          </GroupTemplate>
+        </CommandUIDefinition>
+      </CommandUIDefinitions>
+      <CommandUIHandlers>
+        <CommandUIHandler
+          Command="<#= AppName #>.<#= RibbonActionName #>.HelloWorldCommand"
+          CommandAction="javascript:alert('Hello, world!');" />
+        <CommandUIHandler
+          Command="<#= AppName #>.<#= RibbonActionName #>.GoodbyeWorldCommand"
+          CommandAction="javascript:alert('Good-bye, world!');" />
+        <CommandUIHandler
+          Command="<#= AppName #>.<#= RibbonActionName #>.LoveWorldCommand"
+          CommandAction="javascript:alert('I love you, world!');" />
+      </CommandUIHandlers>
+    </CommandUIExtension>
+  </CustomAction>
+</Elements>

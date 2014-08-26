@@ -1,0 +1,34 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="cs" hostspecific="true" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ include file="../HelpFunctions.tt" #><#
+
+SnippetCategory snippetCategory = SnippetCategory.Deserialize(CallContext.GetData("SnippetCategory") as byte[]);
+snippetCategory.SetSPSFBase(Host);
+
+SPSFHelpElement helpItem = snippetCategory;
+
+#><#@ include file="../Templates/Header.include" #>
+<UL><#
+
+//all child categories
+foreach(SnippetCategory snippetSubCategory in snippetCategory.GetSnippetCategories())
+{
+	#><LI><a href="<#= GetHelpLink(snippetSubCategory) #>"><#= snippetSubCategory.Title #></a></LI><#
+}
+
+//all child snippets
+foreach(SnippetClass snippet in snippetCategory.GetSnippets())
+{
+	#><LI><p><#= snippet.Title #></p><p><#= snippet.InnerDescription #></p></LI><#
+}
+
+#>
+</UL>      
+<#@ include file="../Templates/Footer.include" #>

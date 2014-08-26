@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+  
+  <Action Name="AddKeyFile" Type="AddKeyFileToSolution" Condition="$(WSPSolutionSignAssembly)">
+		<Input Name="KeyFileName" RecipeArgument="WSPSolutionKeyFileName" />
+	</Action>
+
+	<Action Name="GenerateApplicationConfig" Template="Text\Application.config.t4" Type="TextTemplateAction">
+		<Input Name="Company" RecipeArgument="CopyrightCompanyName" />
+		<Input Name="AppVersion" RecipeArgument="AppVersion" />
+		<Input Name="SharePointVersion" RecipeArgument="SharePointVersion" />
+		<Input Name="SolutionKeyFileName" RecipeArgument="WSPSolutionKeyFileName" />
+		<Input Name="SolutionSignAssembly" RecipeArgument="WSPSolutionSignAssembly" />
+		<Input Name="AutoCreateResxFiles" RecipeArgument="AutoCreateResxFiles" />
+		<Input Name="AutoGenerateManifest" RecipeArgument="AutoGenerateManifest" />
+		<Input Name="DebuggingWebApp" RecipeArgument="DebuggingWebApp" />
+		<Output Name="Content" />
+	</Action>
+  
+	<Action Name="AddApplicationConfig"
+	  Type="AddItemToSolutionFolder"
+	  TargetFolder="ApplicationConfiguration"
+	  TargetFilename="Application.config">
+		<Input Name="Content" ActionOutput="GenerateApplicationConfig.Content" />
+	</Action>
+
+  <Action
+	  Name="GenerateSharePointTargets"
+	  Template="Text\SPSF.targets.t4"
+	  Type="TextTemplateAction">
+    <Input Name="CodeAnalysisEnableFxCop" RecipeArgument="CodeAnalysisEnableFxCop" />
+    <Input Name="CodeAnalysisEnableStyleCop" RecipeArgument="CodeAnalysisEnableStyleCop" />
+    <Input Name="CodeAnalysisEnableSPCAF" RecipeArgument="CodeAnalysisEnableSPCAF" />
+    <Input Name="CodeAnalysisEnableSPDisposeChecker" RecipeArgument="CodeAnalysisEnableSPDisposeChecker" />
+    <Output Name="Content" />
+  </Action>
+  <Action
+		Name="AddSharePointTargets"
+		Type="AddItemToSolutionFolder"
+		TargetFolder="ApplicationConfiguration"
+		TargetFilename="SPSF.targets">
+    <Input Name="Content" ActionOutput="GenerateSharePointTargets.Content" />
+  </Action>
+
+	<Action Name="AddSharePointConfigurationXml"
+	  Type="AddItemToSolutionFolder"
+	  TargetFolder="ApplicationConfiguration"
+		  SourceFileName="Text\SharePointConfiguration$(SharePointVersion).xml"
+		  TargetFilename="SharePointConfiguration.xml"
+    />
+	
+
+
+  <!-- Add FxCop stuff -->
+	<Action Name="AddFxCopTargets"
+	  Condition="$(CodeAnalysisEnableFxCop)"
+	  Type="AddItemToSolutionFolder"
+	  TargetFolder="ApplicationConfiguration"
+	  SourceFileName="Text\FxCop\FxCop.targets"
+	  TargetFilename="FxCop.targets"
+    />
+	<Action Name="AddFxCopSettings"
+	  Condition="$(CodeAnalysisEnableFxCop)"
+	  Type="AddItemToSolutionFolder"
+	  TargetFolder="ApplicationConfiguration"
+	  SourceFileName="Text\FxCop\Settings.FxCop"
+	  TargetFilename="Settings.FxCop"
+    />
+	<Action Name="AddFxCopXslt"
+	  Condition="$(CodeAnalysisEnableFxCop)"
+	  Type="AddItemToSolutionFolder"
+	  TargetFolder="ApplicationConfiguration"
+	  SourceFileName="Text\FxCop\FxCopConsoleOutput.xsl"
+	  TargetFilename="FxCopConsoleOutput.xsl"
+    />
+	<Action Name="AddFxCopDictionary"
+	  Condition="$(CodeAnalysisEnableFxCop)"
+	  Type="AddItemToSolutionFolder"
+	  TargetFolder="ApplicationConfiguration"
+	  SourceFileName="Text\FxCop\FxCopDictionary.xml"
+	  TargetFilename="FxCopDictionary.xml"
+		/>
+
+	<!-- StyleCop -->
+	<Action Name="AddStyleCopSettings"
+		Condition="$(CodeAnalysisEnableStyleCop)"
+		Type="AddItemToSolutionFolder"
+		TargetFolder="ApplicationConfiguration"
+		SourceFileName="Text\StyleCop\Settings.StyleCop"
+		TargetFilename="Settings.StyleCop"
+    />
+
+  <!-- SPCAF -->
+  <Action Name="GenerateSPCAFSettings"
+		Condition="$(CodeAnalysisEnableSPCAF)"
+           Template="Text\SPCAF\settings.spruleset.t4"
+          Type="TextTemplateAction">
+    <Input Name="SharePointVersion" RecipeArgument="SharePointVersion" />
+    <Output Name="Content" />
+  </Action>
+  
+  <Action Name="AddSPCAFSettings"
+    Condition="$(CodeAnalysisEnableSPCAF)"
+    Type="AddItemToSolutionFolder"
+    TargetFolder="ApplicationConfiguration"
+    TargetFilename="Settings.spruleset">
+    <Input Name="Content" ActionOutput="GenerateSPCAFSettings.Content" />
+  </Action>
+
+  <!-- SPDisposeChecker -->
+  <Action Name="AddSPDisposeCheckerTargets"
+		Condition="$(CodeAnalysisEnableSPDisposeChecker)"
+		Type="AddItemToSolutionFolder"
+		TargetFolder="ApplicationConfiguration"
+		SourceFileName="Text\SPDisposeChecker\SPDisposeChecker.targets"
+		TargetFilename="SPDisposeChecker.targets"
+    />
+
+  <Action Name="UnfoldCustomizationProjectTemplate"
+		      SolutionFolder="Solutions"
+		      Type="ExtendedUnfoldTemplateAction"
+		      Template="Solutions\Projects\WSP\Root15.vstemplate">
+    <Input Name="ProjectName" RecipeArgument="WSPProjectName" />
+    <Input Name="UseSolutionFolder" RecipeArgument="UseSolutionFolder" />
+  </Action>
+
+  <Action Name="UnfoldResourcesProjectTemplate"
+		      Condition="$(AddResourcesProject)"
+		      SolutionFolder="Solutions"
+		      Type="ExtendedUnfoldTemplateAction"
+		      Template="Solutions\Projects\Resources\Root15.vstemplate">
+    <Input Name="ProjectName" RecipeArgument="ResourcesProjectName" />
+    <Input Name="UseSolutionFolder" RecipeArgument="UseSolutionFolder" />
+  </Action>
+
+  <Action Name="UnfoldDeploymentProjectTemplate"
+        Type="ExtendedUnfoldTemplateAction"
+        Template="Solutions\Projects\Deployment\Root.vstemplate">
+    <Input Name="ProjectName" RecipeArgument="DeploymentProjectName" />
+  </Action>
+
+  <Action Name="DeploymentProjectDependsOnWSP"
+        Type="MakeProjectDependentOnOther">
+    <Input Name="DependingProject" RecipeArgument="DeploymentProjectName" />
+    <Input Name="SourceProject" RecipeArgument="WSPProjectName" />
+  </Action>
+
+  <Action Name="DeploymentProjectDependsOnResx"
+      Condition="$(AddResourcesProject)"
+      Type="MakeProjectDependentOnOther">
+    <Input Name="DependingProject" RecipeArgument="DeploymentProjectName" />
+    <Input Name="SourceProject" RecipeArgument="ResourcesProjectName" />
+  </Action>
+	<!-- Settings the site url in all projects -->
+	<Action
+	  Name="SetSiteUrl"
+	  Type="SetSiteUrl">
+		<Input Name="SiteUrl" RecipeArgument="DebuggingWebApp" />
+	</Action>
+  
+	<Action
+		Name="SetDeploymentTarget"
+		Type="SetDeploymentTarget">
+		<Input Name="DeploymentTarget" RecipeArgument="WSPDeploymentTarget" />
+	</Action>
+  
+ 
+	<Action Name="SolutionExplorerExpandProjects"	Type="SolutionExplorerExpandProjects" />	
+
+</Actions>

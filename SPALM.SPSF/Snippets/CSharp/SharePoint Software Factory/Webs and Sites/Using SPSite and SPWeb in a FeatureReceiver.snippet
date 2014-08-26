@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Using SPSite and SPWeb in a FeatureReceiver</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>site</ID>
+          <ToolTip>SPSite</ToolTip>
+          <Default>site</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>web</ID>
+          <ToolTip>SPWeb</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>properties</ID>
+          <ToolTip>properties</ToolTip>
+          <Default>properties</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[SPSite $site$ = ($properties$.Feature.Parent.GetType() == typeof(SPSite)) ? (SPSite)$properties$.Feature.Parent : (SPSite)((SPWeb)$properties$.Feature.Parent).Site)            
+            SPWeb $web$ = $site$.OpenWeb();]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

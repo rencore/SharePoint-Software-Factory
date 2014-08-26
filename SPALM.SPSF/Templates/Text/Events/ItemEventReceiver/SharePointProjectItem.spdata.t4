@@ -1,0 +1,15 @@
+﻿<#@ template language="C#" #>
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectItem 
+	Type="Microsoft.VisualStudio.SharePoint.EventHandler" 
+	DefaultFile="Elements.xml" 
+	SupportedTrustLevels="All" 
+	SupportedDeploymentScopes="Web" 
+	xmlns="http://schemas.microsoft.com/VisualStudio/2010/SharePointTools/SharePointProjectItemModel">
+  <Files>
+    <ProjectItemFile 
+		Source="Elements.xml" 
+		Target="<#= EventReceiverName #>\" 
+		Type="ElementManifest" />
+  </Files>
+</ProjectItem>

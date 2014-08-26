@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="MigrateProjectSPSF"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Update Project to current SPSF version</Caption>
+	<Description>Updates the current project or solution to the current installed SPSF version.</Description>
+	<HostData Priority="105">
+		<Icon File="Help/Icons/icon_Update.ico" />
+		<CommandBar Menu="SPSFProjectHelp"/>		
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="AnyElementReference"
+		  BindingTypeTemplate="AnyElementReferenceTemplate"
+		  Enabled="true"
+		  ExcludeFromTests="true"
+		  CreateVSTemplate="false"
+		  Category="Configuration" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[Migrates the selected project to the current installed version of SharePoint Software Factory.]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<Argument Name="WarningMessage" >
+			<ValueProvider Type="Evaluator" Expression="The recipe will migrate the current selected project to current SPSF version (works for WSP projects and Deployment projects). Depending on your project this operation can lead to unintended results, in worst case it can make your project not readable by Visual Studio. If your are unsure make a backup of the whole solution first." />
+		</Argument>
+    <Argument Name="DeploymentProjectName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="Deployment" />
+    </Argument>	
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.WarningPage, SPALM.SPSF.Library" />
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+	<Actions>
+		<Action
+			Name="MigrateProject"
+			Type="MigrateSelectedProjects">
+      <Input Name="DeploymentProject" RecipeArgument="DeploymentProjectName" />
+    </Action>
+	</Actions>
+</Recipe>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="BlankSiteDefinition"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <DocumentationLinks>
+    <Link Caption=".Net Journal: Creating Custom Site Definitions in Microsoft Windows SharePoint Services" Url="http://dotnet.sys-con.com/node/48162?page=0,0" Kind="Documentation" />
+    <Link Caption="MSDN: Configuration Node" Url="http://msdn.microsoft.com/en-us/library/ms476942.aspx" Kind="Documentation" />
+    <Link Caption="MSDN: Schema Onet.xml" Url="http://msdn.microsoft.com/en-us/library/ms474369.aspx" Kind="Documentation" />
+  </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Blank Site Definition</Caption>
+  <Description>Adds a custom blank site definition</Description>
+  <HostData Priority="20">
+    <Icon File="Help/Icons/icon_SiteDefinition.ico" />
+    <CommandBar Menu="SPSFProjectSites"/>
+    <CommandBar Menu="SPSFSolutionSites"/>
+    <spsf:MetaData
+    Visible="true"
+    BindingType="CustomizationReference"
+    BindingTypeTemplate="CustomizationReferenceTemplate"
+    Enabled="true"
+    CreateVSTemplate="true"
+    Category="Sites" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+        <spsf:Author>Matthias Einig</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.1 Updated Documentation</spsf:VersionHistoryEntry>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[The BalnkSite Definition is a standard site definition which does not contain any lists or libraries.
+        This site definition can be used as a starting point to create a custom site definition
+        based on the default out of the box configuration which comes with WSS.]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="PublishingSiteDefinitionDefault" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="SiteDefinitionName">BLANKSITE1</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="ResourceKeyPrefix" Required="true">
+      <!-- provides the unique key with removed special chars -->
+      <ValueProvider Stage="OnBeforeActions" RecipeArgument="SiteDefinitionName" Type="ConvertedStringProvider" />
+    </Argument>
+
+    <Argument Name="SiteDefinitionID" Type="System.String" >
+      <ValueProvider Type="Evaluator" Expression="20000" />
+    </Argument>
+
+    <xi:include href="BaseSiteDefinitionArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Arguments>
+
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <xi:include href="BaseSiteDefinitionPages.include"  parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-wizards) xpointer(/p:Pages/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="BaseSiteDefinitionActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

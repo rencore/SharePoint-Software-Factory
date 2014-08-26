@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+    <Title>Dynamic DropDown</Title>
+    <Author>Torsten Mandelkow</Author>
+    <Shortcut>ribbondynamicdropdown</Shortcut>
+	  <HelpUrl>http://msdn.microsoft.com/en-us/library/ff458462.aspx</HelpUrl>
+    <Description>Adds a ribbon dynamic DropDown</Description>
+    <SnippetTypes>
+      <SnippetType>SurroundsWith</SnippetType>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+		<Literal>
+			<ID>id</ID>
+			<ToolTip>Required. A string that identifies the control, such as "Ribbon.Library.Share.DynamicDropDown".</ToolTip>
+			<Default>AppName.DynamicDropDown</Default>
+		</Literal>
+		<Literal>
+			<ID>alt</ID>
+			<ToolTip>Optional. Alternative text for the button.</ToolTip>
+			<Default></Default>
+		</Literal>		
+		<Literal>
+			<ID>labeltext</ID>
+			<ToolTip>Optional. The text to label the control.</ToolTip>
+			<Default>DynamicDropDown</Default>
+		</Literal>
+		<Literal>
+			<ID>tooltiptitle</ID>
+			<ToolTip>Optional. The text that appears as the title of the tooltip.</ToolTip>
+			<Default>Title</Default>
+		</Literal>
+		<Literal>
+			<ID>tooltipdescription</ID>
+			<ToolTip>Optional. The text that appears in the body of the tooltip.</ToolTip>
+			<Default>Description</Default>
+		</Literal>
+		<Literal>
+			<ID>sequence</ID>
+			<ToolTip>Optional. An integer that specifies the order of placement among sibling XML nodes.</ToolTip>
+			<Default>10</Default>
+		</Literal>
+    </Declarations>
+    <Code Language="XML">
+      <![CDATA[
+         <DropDown
+            Id="Ribbon.$id$"
+            Alt="$alt$"
+            Command="Ribbon.$id$_command"            
+            CommandMenuOpen="Ribbon.$id$_MenuOpen_command"
+            CommandMenuClose="Ribbon.$id$_MenuClose_command"
+            PopulateDynamically="true"
+            PopulateOnlyOnce="false"
+            PopulateQueryCommand="Ribbon.$tabName$.$groupName$.$controlID$_PopulateQuery_CMD"
+            Width="125px"     
+			Sequence="$sequence$"
+            TemplateAlias="o2"
+			ToolTipTitle="$tooltiptitle$"
+            ToolTipDescription="$tooltipdescription$">
+          </DropDown>
+          ]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>
+</CodeSnippets>

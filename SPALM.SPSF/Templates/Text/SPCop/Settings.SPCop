@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<SharepointCodeAnalysisSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <RulesSettings>
+    <RuleGroups>
+      <RuleGroup Name="SchemaGroup" />
+      <RuleGroup Name="SupportabilityGroup">
+        <Rules>
+          <Rule Name="FeatureShouldDefineBooleanAttributesWithUpperCase" Severity="Warning" />
+          <Rule Name="ContentTypeShouldDefineBooleanAttributesWithUpperCase" Severity="Warning" />
+        </Rules>
+      </RuleGroup>
+      <RuleGroup Name="SecurityGroup">
+        <Rules>
+          <Rule Name="ListDefinitionShouldNotSetAllowEveryoneViewItemsToTrue" Severity="Warning" />
+          <Rule Name="AssemblyShouldNotCallAllowUnsafeUpdates" Severity="Warning" />
+          <Rule Name="AssemblyShouldNotCallRunWithElevatedPrivileges" Severity="Warning" />
+          <Rule Name="AssemblyShouldNotCallWindowsIdentityImpersonate" Severity="Warning" />
+          <Rule Name="AssemblyShouldNotSetSPListAllowEveryoneViewItemsToTrue" Severity="Warning" />
+          <Rule Name="PolicyFileIOPermissionNotAllowed" Severity="Warning" />
+          <Rule Name="PolicyMachineAccessAdministerNotAllowed" Severity="Warning" />
+          <Rule Name="PolicyPermissionImpersonateNotAllowed" Severity="Warning" />
+          <Rule Name="PolicyPermissionRegistryNotAllowed" Severity="Warning" />
+          <Rule Name="ASPXPageShouldNotContainInlineCode" Severity="Warning" />
+          <Rule Name="ASPXPageShouldContainValidateFormDigest" Severity="Warning" />
+        </Rules>
+      </RuleGroup>
+      <RuleGroup Name="PerformanceGroup" />
+      <RuleGroup Name="BestPracticeGroup" />
+      <RuleGroup Name="DeploymentGroup">
+        <Rules>
+          <Rule Name="SolutionShouldNotBeDeployedGlobally" Severity="Information" />
+          <Rule Name="AssemblyMustBeDeployedToGACDependingOnTypes" Disabled="true" />
+          <Rule Name="AssemblyShouldNotBeDeployedToGlobalAssemblyCache" Severity="Information" />
+        </Rules>
+      </RuleGroup>
+      <RuleGroup Name="LocalizationGroup" />
+      <RuleGroup Name="NamingGroup" />
+      <RuleGroup Name="CustomizationGroup">
+        <Rules>
+          <Rule Name="SolutionShouldNotContainControlTemplates" Severity="Information" />
+          <Rule Name="SolutionShouldNotContainFarmFeatures" Severity="Information" />
+          <Rule Name="SolutionShouldNotContainWebApplicatonFeatures" Severity="Information" />
+          <Rule Name="AssemblyShouldNotCreateManagedPaths" Severity="Information" />
+          <Rule Name="AssemblyShouldNotImplementIHttpHandler" Severity="Information" />
+          <Rule Name="AssemblyShouldNotImplementIHttpModule" Severity="Information" />
+          <Rule Name="AssemblyShouldNotImplementSPJobDefinition" Severity="Information" />
+        </Rules>
+      </RuleGroup>
+    </RuleGroups>
+  </RulesSettings>
+</SharepointCodeAnalysisSettings>

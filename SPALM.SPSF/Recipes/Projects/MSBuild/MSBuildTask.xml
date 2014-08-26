@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe Name="MSBuildTask" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.microsoft.com/pag/gax-core"
+    Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>MSBuild Task</Caption>
+  <Description>Adds a custom msbuild task to the project.</Description>
+  <HostData>
+    <Icon File="Help/Icons/icon_MSBuildProject.ico" />
+    <CommandBar Menu="SPSFProjectProjects" />
+    <spsf:MetaData
+      Visible="true"
+      BindingType="SolutionFolderMSBuildReference"
+      BindingTypeTemplate="SolutionFolderMSBuildReferenceTemplate"
+      Enabled="true"
+      CreateVSTemplate="true"
+      Category="Projects" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+
+  <Arguments>
+
+    <Argument Name="CheckForManifestCreation" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="true" />
+    </Argument>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="TargetFileName">
+      <ValueProvider Type="Evaluator" Expression="$(MSBuildTaskClassName).cs" />
+    </Argument>
+
+    <Argument Name="MSBuildTaskClassName" Required="true" >
+      <Converter Type="NamespaceStringConverter" />
+      <ValueProvider Type="Evaluator" Expression="CustomTask1" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>MSBuild Task</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="MSBuildTaskClassName" Label="Task Name" />
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions>
+    
+    <Action Name="GenerateClass" Template="Text\MSBuildTask\MSBuildTask.cs.t4" Type="TextTemplateAction" InputValue="Configured Static Value">
+      <Input Name="MSBuildTaskNamespace" RecipeArgument="ProjectNamespace" />
+      <Input Name="MSBuildTaskClassName" RecipeArgument="MSBuildTaskClassName" />
+      <Output Name="Content" />
+    </Action>
+    <Action Name="AddClass" Type="AddItemToFolderFromStringAction"	Open="true">
+      <Input Name="Content" ActionOutput="GenerateClass.Content" />
+      <Input Name="TargetFileName" RecipeArgument="TargetFileName" />
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    
+  </Actions>
+</Recipe>

@@ -1,0 +1,26 @@
+﻿<#@ template language="C#" #>
+<feature xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/FeatureModel">
+	<#
+	if(FeatureActivationDependencies != null)
+	{
+		if(FeatureActivationDependencies.Length > 0)
+		{
+	#><activationDependencies>
+	<#
+    foreach(NameValueItem dep in FeatureActivationDependencies)
+    {
+		#>	<!-- <#= dep.Name #> -->
+        <customFeatureActivationDependency featureId="<#= dep.Value #>" featureTitle="<#= dep.Name #>" featureDescription="<#= dep.Description #>" <#
+		
+		if(!string.IsNullOrEmpty(FeatureMinimumVersion))
+		{
+			#> minimumVersion="<#= FeatureMinimumVersion #>" <#
+		}
+		#> />
+<#
+    }
+#>	</activationDependencies>
+<#
+    }
+    }
+#></feature>

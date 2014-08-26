@@ -1,0 +1,41 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="html" hostspecific="true" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ include file="../../T4Functions.tt" #><#
+
+RecipeClass recipeClass = DeserializeRecipeClass(CallContext.GetData("Recipe") as byte[]);
+
+#><VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name><#= recipeClass.Title #></Name>
+    <Description><#= recipeClass.Description #></Description>
+    <DefaultName><# if(recipeClass.VSTemplateDefaultName != "") { #><#= recipeClass.VSTemplateDefaultName #><# } else { #><#= recipeClass.Name #><# } #></DefaultName>
+    <SortOrder><#= CallContext.GetData("RecipeSortOrder") #></SortOrder>
+    <Icon>../../<#= recipeClass.Icon #></Icon>
+    <CreateNewFolder>false</CreateNewFolder>
+    <LocationField>Hidden</LocationField>
+    <ProjectType>CSharp</ProjectType>  
+	<TemplateGroupID>SharePointItemTemplateGroupID</TemplateGroupID>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <ShowByDefault>false</ShowByDefault>
+    <FrameworkVersion>3.5</FrameworkVersion>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ReplaceParameters="true" TargetFileName="dummy.txt">dummy.txt</ProjectItem>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.Practices.RecipeFramework.VisualStudio</Assembly>
+    <FullClassName>Microsoft.Practices.RecipeFramework.VisualStudio.Templates.UnfoldTemplate</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <Template xmlns="http://schemas.microsoft.com/pag/gax-template"
+      SchemaVersion="1.0"
+      Recipe="<#= recipeClass.Name #>" />
+  </WizardData>
+</VSTemplate>

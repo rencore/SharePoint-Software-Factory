@@ -1,0 +1,59 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="FeatureReceiverNamespace" #>
+<#@ property processor="PropertyProcessor" name="FeatureReceiverClass" #>
+<#@ property processor="PropertyProcessor" name="WebConfigModificationName" #>
+<#@ assembly name="System.dll" #>
+<#@ assembly name="SPALM.SPSF.Library.dll" #>
+<#@ import namespace="SPALM.SPSF.Library" #>
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
+using System.Security;
+using System.Security.Permissions;
+using System.IO;
+using System.Reflection;
+using System.Collections;
+using System.Collections.ObjectModel;
+using Microsoft.SharePoint;
+using Microsoft.SharePoint.Administration;
+using Microsoft.SharePoint.Security;
+using Microsoft.SharePoint.Utilities;
+
+namespace <#= FeatureReceiverNamespace #>
+{
+    public class <#= FeatureReceiverClass #> : WebConfigEngine
+    {
+        /// <summary>
+        /// Gets the owner modif.
+        /// </summary>
+        /// <value>The owner modif.</value>
+        override protected string OwnerModif
+        {
+            get { return "<#= WebConfigModificationName #>"; }
+        }
+
+        protected override void AddConfigurationToWebConfig(SPWebApplication app)
+        {    
+            try
+            {
+                /*
+                
+                Enter values with the format
+                 
+                AddNodeValue(
+                    "sectionGroup[@name='system.web.extensions']",
+                    "configuration/configSections",
+                    @"<sectionGroup name=""system.web.extensions"" type=""System.Web.Configuration.SystemWebExtensionsSectionGroup, System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35""></sectionGroup>"
+                    );
+
+                SaveWebConfig(app);
+                 * */
+                
+            }
+            catch (Exception ex)
+            {
+                //throw new Exception(ex.ToString());
+            }
+        }
+    } 

@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Feature 2010</Title>
+      <Shortcut>Feature2010XML</Shortcut>
+      <Description>Defines a Feature to activate or deactivate at a specified scope. </Description>
+      <Author>Torsten Mandelkow</Author>
+      <HelpUrl>http://msdn.microsoft.com/en-us/library/ms436075.aspx</HelpUrl>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>ActivateOnDefault</ID>
+          <ToolTip>Optional Boolean. TRUE if the Feature is activated by default during installation or when a Web application is created; FALSE if the Feature is not activated. This attribute equals TRUE by default. The ActivateOnDefault attribute does not apply to site collection (Site) or Web site (Web) scoped Features.</ToolTip>
+          <Default>FALSE</Default>
+        </Literal>
+        <Literal>
+          <ID>AlwaysForceInstall</ID>
+          <ToolTip>Optional Boolean. TRUE if the Feature is installed by force during installation even if the Feature is already installed. For example, if set to TRUE, Feature installation callouts will always fire anytime a user tries to install the Feature (even if it is already installed) by using either the scanforfeatures or installfeature command-line operation. This attribute equals FALSE by default. The AlwaysForceInstall attribute affects Features of all scopes.</ToolTip>
+          <Default>FALSE</Default>
+        </Literal>
+        <Literal>
+          <ID>AutoActivateInCentralAdmin</ID>
+          <ToolTip>Optional Boolean. TRUE if the Feature is activated by default in the Administrative Web site, site collection, or Web application. This attribute equals FALSE by default. The AutoActivateInCentralAdmin attribute does not apply to Farm-scoped Features.</ToolTip>
+          <Default>FALSE</Default>
+        </Literal>
+        <Literal>
+          <ID>Creator</ID>
+          <ToolTip>Optional Text.</ToolTip>
+          <Default></Default>
+        </Literal>
+        <Literal>
+          <ID>DefaultResourceFile</ID>
+          <ToolTip>Optional Text. Indicates a common resource file for retrieving Feature XML resources. If you do not specify a resource in the file, Windows SharePoint Services looks by default in \12\TEMPLATE\FEATURES\FeatureName\Resources\Resources.Culture.resx. However, if you want to provide a shared core resource file for all the Features in your application, you can specify an alternate file through which to access resources by using DefaultResourceFile. For example, if you set DefaultResourceFile=MyFile, Windows SharePoint Services looks in \12\Resources\MyFile.Culture.resx to retrieve localized resources for your Feature.</ToolTip>
+          <Default></Default>
+        </Literal>
+        <Literal>
+          <ID>Description</ID>
+          <ToolTip>Optional String. Returns a longer representation of what the Feature does.</ToolTip>
+          <Default></Default>
+        </Literal>
+        <Literal>
+          <ID>Hidden</ID>
+          <ToolTip>Optional Boolean. This attribute equals FALSE by default.</ToolTip>
+          <Default>FALSE</Default>
+        </Literal>
+        <Literal>
+          <ID>Id</ID>
+          <ToolTip>Required Text. Contains the globally unique identifier (GUID) for the Feature.</ToolTip>
+          <Default>00000000-0000-0000-0000-000000000000</Default>
+        </Literal>
+        <Literal>
+          <ID>ImageUrl</ID>
+          <ToolTip>Optional Text. Contains the site-relative URL for an image to use to represent the feature in the user interface (UI).</ToolTip>
+          <Default></Default>
+        </Literal>
+        <Literal>
+          <ID>ImageUrlAltText</ID>
+          <ToolTip>Optional Text. Contains the alternate text for the image that represents the feature.</ToolTip>
+          <Default></Default>
+        </Literal>
+        <Literal>
+          <ID>ReceiverAssembly</ID>
+          <ToolTip>Optional Text. If set along with ReceiverClass, specifies the strong name of the signed assembly located in the global assembly cache from which to load a receiver to handle Feature events.</ToolTip>
+          <Default></Default>
+        </Literal>
+        <Literal>
+          <ID>ReceiverClass</ID>
+          <ToolTip>Optional Text. If set along with ReceiverAssembly, specifies the class that implements the Feature event processor.</ToolTip>
+          <Default></Default>
+        </Literal>
+        <Literal>
+          <ID>RequireResources</ID>
+          <ToolTip>Optional Boolean. TRUE to specify that Windows SharePoint Services check whether resources exist for the Feature by verifying that the standard sentinel resource for the Feature is present for a particular culture.</ToolTip>
+          <Default>FALSE</Default>
+        </Literal>
+        <Literal>
+          <ID>Scope</ID>
+          <ToolTip>Required Text. Specifies the scope in which the Feature can be activated and contains one of the following values: Farm (farm), WebApplication (Web application), Site (site collection), Web (Web site). For information about scope, see Element Scope.</ToolTip>
+          <Default>Site</Default>
+        </Literal>
+        <Literal>
+          <ID>SolutionId</ID>
+          <ToolTip>Optional Text. Specifies the solution to which the Feature belongs.</ToolTip>
+          <Default>00000000-0000-0000-0000-000000000000</Default>
+        </Literal>
+        <Literal>
+          <ID>Title</ID>
+          <ToolTip>Optional Text. Returns the title of the Feature. Limited to 255 characters.</ToolTip>
+          <Default>Title</Default>
+        </Literal>
+        <Literal>
+          <ID>Version</ID>
+          <ToolTip>Optional Text. Specifies a System.Version-compliant representation of the version of a Feature. This can be up to four numbers delimited by decimals that represent a version.</ToolTip>
+          <Default>1.0.0.0</Default>
+        </Literal>
+        <Literal>
+          <ID>UIVersion</ID>
+          <ToolTip>Optional Text. Specifies the user interface (UI) version for this Feature. The accepted values are 3 for Windows SharePoint Services 3.0 and 4 for Microsoft SharePoint Foundation 2010.</ToolTip>
+          <Default>4</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="XML">
+        <![CDATA[<Feature
+          Id="$Id$"
+          Title="$Title$"
+          Description="$Description$" 
+          Scope="$Scope$"
+          Hidden="$Hidden$"
+          ActivateOnDefault="$ActivateOnDefault$"
+          AlwaysForceInstall="$AlwaysForceInstall$"
+          AutoActivateInCentralAdmin="$AutoActivateInCentralAdmin$"
+          Creator="$Creator$"
+          DefaultResourceFile="$DefaultResourceFile$" 
+          ImageUrl="$ImageUrl$"
+          ImageUrlAltText="$ImageUrlAltText$"
+          ReceiverAssembly="$ReceiverAssembly$"
+          ReceiverClass="$ReceiverClass$"
+          RequireResources="$RequireResources$"  
+          SolutionId="$SolutionId$"  
+          UIVersion="$UIVersion$"
+          Version="$Version$" >
+          </Feature>]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

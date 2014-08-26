@@ -1,0 +1,12 @@
+﻿<#@ template language="C#" #>
+<data name="<#= ResourceKeyPrefix #>_SiteDefinitionTitle">
+    <value><#= PubSiteDefTitle #></value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_SiteDefinitionDescription">
+    <value><#= PubSiteDefDescription #></value>
+  </data>  
+  <data name="<#= ResourceKeyPrefix #>_SiteDefinitionCategory">
+    <value><#= PubSiteDefDisplayCategory #></value>
+  </data> 
+  
+		   

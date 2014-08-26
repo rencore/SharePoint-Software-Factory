@@ -1,0 +1,25 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="tmp" hostspecific="true" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly Name="envdte" #>
+<#@ Assembly Name="envdte80" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ include file="../HelpFunctions.tt" #><# 
+
+GenerateHelp();
+
+//validate sites for XTHML
+string result = CheckHelp3Files();
+ 
+#><#= result #><#
+#><html>
+	<head>
+		<title>Copyright</title>
+	</head>
+	<body>Copyright 2008 - 2013 Torsten Mandelkow, Matthias Einig, Published under GNU License</body>
+</html>

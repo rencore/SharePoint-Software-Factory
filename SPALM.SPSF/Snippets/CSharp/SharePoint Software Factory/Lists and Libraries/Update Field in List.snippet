@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Update Field in List</Title>
+      <Author>Torsten Mandelkow</Author>
+      <Description>Creates a field in the collection based on the specified display name, field type, and Boolean value.</Description>
+      <HelpUrl>http://msdn.microsoft.com/en-us/library/ms416125.aspx</HelpUrl>
+      <Shortcut>UpdateFieldInList</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>ListName</ID>
+          <ToolTip>ListName</ToolTip>
+          <Default>ListName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>WebName</ID>
+          <ToolTip>WebName</ToolTip>
+          <Default>WebName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>FieldName</ID>
+          <ToolTip>FieldName</ToolTip>
+          <Default>FieldName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>DefaultValue</ID>
+          <ToolTip>DefaultValue</ToolTip>
+          <Default>DefaultValue</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>oSiteCollection</ID>
+          <ToolTip>Site Collection</ToolTip>
+          <Default>site</Default>
+          <Function>
+          </Function>
+          <Type>SPSite</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>oList</ID>
+          <ToolTip>SPList object</ToolTip>
+          <Default>list</Default>
+          <Function>
+          </Function>
+          <Type>SPList</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>oField</ID>
+          <ToolTip>SPField object</ToolTip>
+          <Default>field</Default>
+          <Function>
+          </Function>
+          <Type>SPField</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+SPSite $oSiteCollection$ = SPContext.Current.Site;
+SPList $oList$ = 
+    $oSiteCollection$.AllWebs["$WebName"].Lists["ListName$"];
+SPField $oField$ = $oList$.Fields["$FieldName$"];
+
+$oField$.DefaultValue = "DefaultValue";
+$oField$.Description = "Description";
+$oField$.Title = "NewTitle";
+
+$oField$.Update();
+]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

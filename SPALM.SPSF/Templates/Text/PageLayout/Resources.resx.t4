@@ -1,0 +1,10 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+  <data name="<#= ResourceKeyPrefix #>_PageLayoutTitle">
+    <value><#= PageLayoutTitle #></value>
+  </data>  
+  <data name="<#= ResourceKeyPrefix #>_PageLayoutDescription">
+    <value><#= PageLayoutDescription #></value>
+  </data>
+
+		   

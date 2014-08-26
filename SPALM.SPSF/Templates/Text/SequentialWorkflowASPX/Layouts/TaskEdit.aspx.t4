@@ -1,0 +1,82 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="WorkflowNamespace" #>
+<#@ property processor="PropertyProcessor" name="AssemblyName" #>
+<#@ property processor="PropertyProcessor" name="WorkflowName" #>
+<#@ property processor="PropertyProcessor" name="ResourceFilename" #>
+<#@ assembly name="System.dll" #>
+<%@ Assembly Name="<#= AssemblyName #>" %>
+<%@ Page Language="C#" EnableSessionState="true" ValidateRequest="False" Inherits="<#= WorkflowNamespace #>.<#= WorkflowName #>TaskEditForm" MasterPageFile="~/_layouts<#= VersionedFolderName #>/application.master" %>
+
+<%@ Register TagPrefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register TagPrefix="Utilities" Namespace="Microsoft.SharePoint.Utilities" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+
+<%@ Register TagPrefix="wssuc" TagName="InputFormSection" Src="/_controltemplates<#= VersionedFolderName #>/InputFormSection.ascx" %>
+<%@ Register TagPrefix="wssuc" TagName="InputFormControl" Src="/_controltemplates<#= VersionedFolderName #>/InputFormControl.ascx" %>
+<%@ Register TagPrefix="wssuc" TagName="ButtonSection" Src="/_controltemplates<#= VersionedFolderName #>/ButtonSection.ascx" %>
+
+<asp:Content ID="Main" ContentPlaceHolderID="PlaceHolderMain" runat="server">
+
+    <asp:Table CellSpacing="0" CellPadding="0" BorderWidth="0" CssClass="ms-propertysheet">        
+                
+     <%-- Hyperlink to item/document --%>
+        <wssuc:InputFormSection Title="<%$Resources:<#= ResourceFilename #>, TaskEditForm_DetailTitle%>" Description="<%$Resources:<#= ResourceFilename #>, TaskEditForm_DetailDescription%>" runat="server">
+            <template_inputformcontrols>
+                <wssuc:InputFormControl LabelText="<%$Resources:<#= ResourceFilename #>, TaskEditForm_DetailInfo%>" runat="server">                  
+                  <Template_Control>
+                    <table border="0" cellpadding="3" cellspacing="0" style="font-size:8pt;">
+                      <tr>
+                        <td><asp:Label runat="server" ID="DetailItem" Text="<%$Resources:<#= ResourceFilename #>, TaskEditForm_DetailItem%>" /></td>
+                        <td><asp:HyperLink runat="Server" ID="LinkToItem" Target="_blank" /></td>
+                      </tr>
+                      <tr>
+                        <td><asp:Label runat="server" ID="DetailList" Text="<%$Resources:<#= ResourceFilename #>, TaskEditForm_DetailList%>" /></td>
+                        <td><asp:Label runat="server" ID="ListName" /></td>
+                      </tr>
+                      <tr>
+                        <td><asp:Label runat="server" ID="DetailSite" Text="<%$Resources:<#= ResourceFilename #>, TaskEditForm_DetailSite%>" /></td>
+                        <td><asp:Label runat="server" ID="SiteUrl" /></td>
+                      </tr>              
+                    </table>
+                  </Template_Control>
+                </wssuc:InputFormControl>
+            </template_inputformcontrols>
+        </wssuc:InputFormSection>                
+                   
+                
+        <%-- Content Section 1 --%>
+        <wssuc:InputFormSection Title="" Description="" runat="server">
+            <template_inputformcontrols>
+                <wssuc:InputFormControl LabelText="" runat="server">
+                        <Template_Control>
+                        </Template_Control>
+                </wssuc:InputFormControl>
+            </template_inputformcontrols>
+        </wssuc:InputFormSection>
+   
+        <%-- Buttons --%>
+        <wssuc:ButtonSection  runat="server" ShowStandardCancelButton="false">
+            <template_buttons>
+           <asp:PlaceHolder runat="server">                
+       			<asp:Button UseSubmitBehavior="false" runat="server" class="ms-ButtonHeightWidth" OnClick="Ok_OnClick" Text="<%$Resources:<#= ResourceFilename #>, btn_Ok%>" id="OK" /> &nbsp;
+			    <asp:Button UseSubmitBehavior="false" runat="server" class="ms-ButtonHeightWidth" OnClick="Cancel_OnClick" Text="<%$Resources:<#= ResourceFilename #>, btn_Cancel%>" id="Cancel"  />
+            </asp:PlaceHolder>
+        </template_buttons>
+        </wssuc:ButtonSection>
+        
+    </asp:Table>
+        
+    <SharePoint:FormDigest ID="FormDigest1" runat="server" />
+    
+</asp:Content>
+
+<asp:Content ID="PageTitle" ContentPlaceHolderID="PlaceHolderPageTitle" runat="server">
+    <%= PageTitle %>
+</asp:Content>
+
+<asp:Content ID="PageTitleInTitleArea" ContentPlaceHolderID="PlaceHolderPageTitleInTitleArea" runat="server">
+    <%= PageTitleInArea %>
+</asp:Content>
+
+<asp:Content ID="PageDescription" ContentPlaceHolderID="PlaceHolderPageDescription"  runat="server">
+    <%= PageDescription %>
+</asp:Content>

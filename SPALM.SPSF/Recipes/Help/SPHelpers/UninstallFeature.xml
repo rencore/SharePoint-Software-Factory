@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="UninstallFeature"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Uninstall Feature</Caption>
+  <Description>Uninstalls the selected feature.</Description>
+  <HostData Priority="120">
+    <Icon File="Help/Icons/icon_SharePoint.ico" />
+    <CommandBar Menu="SPSFSolutionSPHelpers"/>
+    <CommandBar Menu="SPSFProjectSPHelpers"/>
+    <CommandBar Menu="SPSFSolutionFolderSPHelpers"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="AnyElementReference"
+      BindingTypeTemplate="AnyElementReferenceTemplate"
+      Enabled="true"
+      ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="SPHelpers" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[Uninstalls the selected feature. This is useful if e.g. by corrupt solution deployments some features are still registered in the database, but the feature folder is already removed.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+   <Argument Name="FeatureId" Type="System.String" Required="true" >
+      <Converter Type="AvailableSolutionFeatureConverter" />
+    </Argument>
+
+    <Argument Name="SPSFBranding" Required="false" />
+
+    <Argument Name="SPPath" Type="System.String" Required="true">
+      <ValueProvider Type="SPPathProvider"/>
+    </Argument>
+
+    <Argument Name="CommandPath" Type="System.String" Required="true">
+      <ValueProvider Stage="OnBeforeActions" Type="ConcatStringProvider" Prefix="&quot;" RecipeArgument="SPPath" Sufix="&quot; -o uninstallfeature " />
+    </Argument>
+    <Argument Name="CommandFeature" Type="System.String" Required="true">
+      <ValueProvider Stage="OnBeforeActions" Type="ConcatStringProvider" Prefix="-id &quot;" RecipeArgument="FeatureId"  Sufix="&quot;" />
+    </Argument>
+
+    <Argument Name="StsadmCommand" Type="System.String" Required="true">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(CommandPath) $(CommandFeature)" />
+    </Argument>
+    
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Command settings</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field PanelType="SPALM.SPSF.Library.NameValueListViewPanel, SPALM.SPSF.Library" ValueName="FeatureId" Label="Feature Id" >
+              <Help>Select the feature to activate.</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions>
+    <Action Name="RunCommand" Type="RunCommand">
+      <Input Name="Command" RecipeArgument="StsadmCommand" />
+    </Action>
+  </Actions>
+</Recipe>

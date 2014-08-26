@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="ShowAboutDialog"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>About SPSF</Caption>
+  <Description>Displays information about the current installed SPSF version.</Description>
+  <HostData Priority="20000">
+    <Icon File="spsf.ico" />
+    <CommandBar Menu="SPSFProjectHelp"/>
+    <CommandBar Menu="SPSFSolutionHelp"/>
+    <CommandBar Menu="SPSFSolutionFolderHelp"/>
+    <CommandBar Menu="SPSFFolderHelp"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="AnyElementReference"
+      BindingTypeTemplate="AnyElementReferenceTemplate"
+      Enabled="true"
+	  ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="Helpers" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[Displays the about dialog with information about the SPSF.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+		  <Page Type="SPALM.SPSF.Library.CustomWizardPages.AboutPage, SPALM.SPSF.Library" />
+	  </Pages>
+    </Wizard>
+  </GatheringServiceData>
+</Recipe>

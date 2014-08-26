@@ -1,0 +1,9 @@
+﻿<#@ template language="C#" #>
+  <data name="<#= ResourceKeyPrefix #>_MasterPageTitle">
+    <value><#= MasterPageTitle #></value>
+  </data>  
+  <data name="<#= ResourceKeyPrefix #>_MasterPageDescription">
+    <value><#= MasterPageDescription #></value>
+  </data>
+
+		   

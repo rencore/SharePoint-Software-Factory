@@ -1,0 +1,48 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="html" hostspecific="true" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ include file="../HelpFunctions.tt" #><#
+
+SPSFBase spsfBase = SPSFBase.Deserialize(CallContext.GetData("SPSFBase") as byte[]);
+spsfBase.SetHost(Host);
+
+SPSFHelpElement helpItem = spsfBase;
+
+#><#@ include file="../Templates/Header.include" #>
+
+<h3>SPSF is based on open technology by Microsoft</h3>
+Recipes for SharePoint SoftwareFactory is based on the free Microsoft Guidance Automation Extensions (GAX). This toolkit is used to create software factories and several software factories are already provided by Microsoft, e.g. SFSF Smart Client Software Factory, WSSF Web Service Software Factory etc.
+
+<h3>SPSF is NOT "yet another SharePoint framework"</h3>
+We want to make sure that SPSF is not a SharePoint framework which needs to be installed in SharePoint or has dependencies to custom assemblies for SharePoint applications.
+
+<ul>
+	<li>SPSF helps to generate SharePoint code like an experienced developer would write. The generated code is based on our projects or taken from MSDN.</li>
+	<li>There is no dependency to SPSF. Projects created with SPSF can be opended and compiled on any other computer with Visual Studio.</li>
+</ul>
+
+	<h3>SPSF Highlights</h3>
+	<ul>
+		<li>Supports VS2008/2010/2012 and SharePoint 2007/2010/2013</li>
+		<li>Wizards for SiteColumns, ContentTypes, ListDefinitions, ListInstances, FieldTypes, Custom Actions, Ribbons etc.</li>
+		<li>Wizards for WebParts, Visual WebParts, Ajax WebParts, Filter provider/consumer WebParts etc.</li>
+		<li>Wizards for WebServices, Application Pages, Delegate Controls etc.</li>
+		<li>Wizards for Features, Feature Dependencies, Feature Stapling etc.</li>
+		<li>Wizards for BCS Models from databases, deployment etc.</li>
+		<li>Wizards for Publishing Site Definition, master page, page layouts</li>
+		<li>Wizards for EventReceivers, PowerShell Cmdlets, Workflows etc.</li>
+		<li>Import of existing WSP into Visual Studio</li>
+		<li>Import of Content Types, Site Columns, List Templates from SharePoint into Visual Studio</li>
+		<li>Automatic packaging of your solutions on build</li>
+		<li>Automatic creating of .resx files (optionally)</li>
+		<li>Automatic creation of a PowerShell deployment package (based on <a href="http://spsd.codeplex.com" target="_blank">SharePoint Solution Deployer</a>)</li>
+		<li>and a lot more...</li>
+	</ul>
+
+<#@ include file="../Templates/Footer.include" #>

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+  <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <!-- elements.xml-->
+  <Action
+    Name="CreateElementsXml"
+    Type="AddElementsDefinitionAction"
+    ParentFeatureName="$(ParentFeatureName)"
+    ElementsName="$(CustomActionName)"
+    ElementsCategory="$(ElementsCategory)"
+    TemplateFileName="$(CustomActionElementsTemplate)"
+    SPDataTemplate="Text\CustomActions\SharePointProjectItem.spdata.t4"
+    Open="true">
+    <Output Name="CreatedElementFolder" />
+    <Output Name="CreatedElementFile" />
+  </Action>
+
+  <!-- Resources -->
+  <Action
+    Condition="$(AutoCreateResxFiles)"
+    Name="AddResources"
+    Type="AddTemlateToResourcesFileAction"
+    TemplateFileName="Text\CustomActions\Resources.resx.t4"
+    FeatureResources="True">
+    <Input Name="FeatureName" RecipeArgument="ParentFeatureName" />
+  </Action>
+
+  <Action
+    Name="AddImage"
+    Condition="$(CustomActionAddIcon)"
+    Type="AddFileToItemAction"
+    DeploymentType="TemplateFile"
+    DeploymentPath="Images\$(SafeAppName)"
+    SourceFileName="Text/CustomActions/CustomAction$(CustomActionIconSize).gif"
+    TargetFileName="$(CustomActionIconName)">
+    <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+    <Input Name="ExcludeCondition" RecipeArgument="ProjectIsSandboxedSolution" />
+  </Action>
+
+  <!-- add the ascx control if CustomActionUseControlSrc is true -->
+  <Action
+      Name="AddControl"
+      Type="AddTemplateToItemAction"
+      DeploymentType="TemplateFile"
+      DeploymentPath="CONTROLTEMPLATES\$(SafeAppName)"
+      TemplateFileName="Text\CustomActions\CustomActionMenu.ascx.t4"
+      TargetFileName="$(CustomActionName).ascx">
+    <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+  </Action>
+
+  <!-- add the control -->
+  <Action
+     Name="AddCode"
+     Type="AddTemplateToItemAction"
+     Open="true"
+     TemplateFileName="Text\CustomActions\CustomActionMenu.cs.t4"
+     TargetFileName="$(CustomActionName).cs">
+    <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+  </Action>
+
+  <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</Actions>

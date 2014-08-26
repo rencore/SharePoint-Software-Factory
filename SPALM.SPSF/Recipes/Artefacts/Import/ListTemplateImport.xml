@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="ListTemplateImport"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Import List Definition</Caption>
+	<Description>Imports a list form the local SharePoint farm as list definition into Visual Studio.</Description>
+	<HostData Priority="320">
+		<Icon File="Help/Icons/icon_Import.ico" />
+		<CommandBar Menu="SPSFProjectImport"/>
+		<CommandBar Menu="SPSFFolderImport"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="CustomizationReference"
+		  BindingTypeTemplate="CustomizationReferenceTemplate"
+		  Enabled="true"		  
+		  ExcludeFromTests="true"
+		  CreateVSTemplate="true"
+		  FeatureScopes="Site"
+		  Category="Import" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<!-- set standard parameters -->
+		<Argument Name="AllowedScopes" Type="System.String">
+			<ValueProvider Type="Evaluator" Expression="Site" />
+		</Argument>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<Argument Name="ElementsCategory">
+			<ValueProvider Type="Evaluator" Expression="ListDefinitions" />
+		</Argument>
+
+		<Argument Name="ResourceKeyPrefix" Required="true">
+			<!-- provides the unique key with removed special chars -->
+			<ValueProvider Stage="OnBeforeActions" RecipeArgument="ListTemplateName" Type="ConvertedStringProvider" />
+		</Argument>
+
+		<Argument Name="SiteUrl" Required="true"/>
+		<Argument Name="ListId" Type="System.Guid" Required="true"/>
+
+		<Argument Name="ListTemplateName" Required="true">
+			<ValueProvider Type="Evaluator" Expression="CustomList" />
+		</Argument>
+
+		<Argument Name="ListTemplateDisplayName" Required="true">
+			<ValueProvider Type="Evaluator" Expression="Custom List" />
+		</Argument>
+		<Argument Name="ListTemplateDescription" >
+			<ValueProvider Type="Evaluator" Expression="Template to create a custom list" />
+		</Argument>
+
+		<Argument Name="ListTemplateFeatureId" Required="false">
+			<ValueProvider Type="Evaluator" Expression="" />
+		</Argument>
+
+		<Argument Name="ListTemplateType" >
+			<ValueProvider Type="Evaluator" Expression="10000" />
+		</Argument>
+		<Argument Name="ListTemplateBaseType" >
+			<ValueProvider Type="Evaluator" Expression="1" />
+		</Argument>
+		<Argument Name="ListTemplateCategory" >
+			<Converter Type="SPALM.SPSF.Library.Converters.ListTemplateCategoryConverter, SPALM.SPSF.Library" />
+			<ValueProvider Type="Evaluator" Expression="Custom Lists" />
+		</Argument>
+		<Argument Name="ListTemplateDefault" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="ListTemplateOnQuickLaunch" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="ListTemplateDisableAttachments" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="ListTemplateDisallowContentTypes" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="ListTemplateVersioningEnabled" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="ListTemplateFolderCreation" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="ListTemplateEnableModeration" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="ListTemplateSecurityBitsRead" >
+			<Converter Type="SPALM.SPSF.Library.Converters.ListTemplateSecurityBitsConverterRead, SPALM.SPSF.Library" />
+		</Argument>
+		<Argument Name="ListTemplateSecurityBitsEdit" >
+			<Converter Type="SPALM.SPSF.Library.Converters.ListTemplateSecurityBitsConverterEdit, SPALM.SPSF.Library" />
+		</Argument>
+		<Argument Name="ListTemplateSequence" Type="System.Int32">
+			<ValueProvider Type="Evaluator" Expression="1000" />
+		</Argument>
+		<Argument Name="ListTemplateImage" >
+			<ValueProvider Type="Evaluator" Expression="/_layouts$(VersionedFolderName)/images/$(SolutionSubFolder)/$(ListTemplateName).gif" />
+		</Argument>
+		<Argument Name="ListTemplateHidden" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+		<Argument Name="ListTemplateHiddenList" Type="System.Boolean">
+			<ValueProvider Type="Evaluator" Expression="false" />
+		</Argument>
+
+		<Argument Name="ListTemplateIconFileName">
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="ListIcon_$(ListTemplateName).gif" />
+		</Argument>
+
+
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+				<Page Width="600" Height="400" Type="SPALM.SPSF.Library.CustomWizardPages.ListTemplateImportPage, SPALM.SPSF.Library" />
+				<Page Width="600" Height="400">
+					<Title>List Template Settings</Title>
+					<Fields>
+						<Field ValueName="ListTemplateName" Label="Name">
+							<Help>Required Text. Specifies the internal name of the list definition. No spaces or special characters can be used. This name is also used to find the folder that contains the Schema.xml file that defines the schema in use.</Help>
+						</Field>
+						<Field ValueName="ListTemplateDisplayName" Label="DisplayName">
+							<Help>Required Text. Specifies the display name of the list definition.</Help>
+						</Field>
+						<Field ValueName="ListTemplateDescription" Label="Description">
+							<Help>Optional Text. Provides a description of the list definition.</Help>
+						</Field>
+						<Field ValueName="ListTemplateType" Label="Type">
+							<Help>Optional Integer. Provides a unique identifier for the template. This identifier must be unique within the feature, but need not be unique across all feature definitions or site definitions. </Help>
+						</Field>
+						<Field ValueName="ListTemplateCategory" Label="Category">
+							<Help>Optional Text. Specifies the category with which to associate lists created through the list definition.</Help>
+						</Field>
+						<Field ValueName="ListTemplateSequence" Label="Sequence">
+							<Help>Optional Integer. Specifies the ordering priority to use for the list template on the Create page. If Sequence is not set, the template appears last in arbitrary order with any other templates that also lack a Sequence value. Two templates that specify the same sequence are sorted together in an arbitrary order.</Help>
+						</Field>
+					</Fields>
+				</Page>
+				<Page Width="600" Height="400">
+					<Title>Options</Title>
+					<Fields>
+						<Field ValueName="ListTemplateDefault" Label="Default in new sites">
+							<Help>Optional Boolean. TRUE to specify that new SharePoint sites will include this list.</Help>
+						</Field>
+						<Field ValueName="ListTemplateOnQuickLaunch" Label="OnQuickLaunch">
+							<Help>Optional Boolean. TRUE to display lists created from the list definition on the QuickLaunch bar.</Help>
+						</Field>
+						<Field ValueName="ListTemplateDisableAttachments" Label="DisableAttachments">
+							<Help>Optional Boolean. TRUE to specify that users can attach files to items in lists created through the template; otherwise, FALSE.</Help>
+						</Field>
+						<Field ValueName="ListTemplateDisallowContentTypes" Label="DisallowContentTypes">
+							<Help>Optional Boolean. TRUE to specify that content types can be managed on lists created through the template; otherwise, FALSE.</Help>
+						</Field>
+						<Field ValueName="ListTemplateVersioningEnabled" Label="VersioningEnabled">
+							<Help>Optional Boolean. TRUE to specify that versioning is enabled by default in lists created through the template; otherwise, FALSE.</Help>
+						</Field>
+						<Field ValueName="ListTemplateFolderCreation" Label="FolderCreation">
+							<Help>Optional Boolean. TRUE to enable folder creation within the list and to specify that the New Folder command appears on the New menu in list views; otherwise, FALSE.</Help>
+						</Field>
+						<Field ValueName="ListTemplateEnableModeration" Label="EnableModeration">
+							<Help>Optional Boolean. TRUE to specify that content approval is enabled by default in lists created through the template; otherwise, FALSE.</Help>
+						</Field>
+						<Field ValueName="ListTemplateHidden" Label="Hidden">
+							<Help>Optional Boolean. TRUE to specify that the list definition is not available on the Create page for creating lists.</Help>
+						</Field>
+						<Field ValueName="ListTemplateHiddenList" Label="HiddenList">
+							<Help>Optional Boolean. TRUE to specify that a list created from the list definition is hidden.</Help>
+						</Field>
+					</Fields>
+				</Page>
+				<Page Width="600" Height="400">
+					<Title>Advanced</Title>
+					<Fields>
+						<Field ValueName="ListTemplateSecurityBitsRead" Label="Security Read">
+							<Help>Optional Text. Defines the item-level permissions in the list for users with sufficient permission to read or edit list items. The SecurityBits attribute contains a 2-digit string. The first digit in the string controls the read access; the second digit in the string controls the edit access.</Help>
+						</Field>
+						<Field ValueName="ListTemplateSecurityBitsEdit" Label="Security Edit">
+							<Help>Optional Text. Defines the item-level permissions in the list for users with sufficient permission to read or edit list items. The SecurityBits attribute contains a 2-digit string. The first digit in the string controls the read access; the second digit in the string controls the edit access.</Help>
+						</Field>
+						<Field ValueName="ListTemplateImage" Label="Name">
+							<Help>Optional URL. Specifies a URL to an icon used to represent a list.</Help>
+						</Field>
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+	<Actions CoordinatorServiceType="ConditionalCoordinator" >
+
+		<xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<!-- elements.xml-->
+		<Action
+		  Name="CreateElementsXml"
+		  Type="AddElementsDefinitionAction"
+		  ParentFeatureName="$(ParentFeatureName)"
+		  ElementsName="$(ListTemplateName)"
+		  ElementsCategory="$(ElementsCategory)"
+		  TemplateFileName="Text\ListTemplate\elements.xml.t4"
+		  SPDataTemplate="Text\ListTemplate\SharePointProjectItem.spdata.t4"
+		  Open="true">
+			<Output Name="CreatedElementFolder" />
+			<Output Name="CreatedElementFile" />
+		</Action>
+
+		<!-- Resources -->
+		<Action
+		  Condition="$(AutoCreateResxFiles)"
+		  Name="AddResources"
+		  Type="AddTemlateToResourcesFileAction"
+		  TemplateFileName="Text\ListTemplate\Resources.resx.t4"
+      FeatureResources="True" >
+		</Action>
+
+		<!-- import existing definition -->
+		<Action
+		  Name="ExportListTemplate"
+		  Type="ExportListTemplate"
+		  DeploymentType="ElementFile"
+		  DeploymentPath="$(ListTemplateName)" >
+			<Input Name="ListTemplateName" RecipeArgument="ListTemplateName" />
+			<Input Name="SiteUrl" RecipeArgument="SiteUrl" />
+			<Input Name="ListId" RecipeArgument="ListId" />
+			<Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+		</Action>
+
+		<!-- add list icon -->
+		<Action
+		  Name="AddListIcon"
+		  Type="AddFileToItemAction"
+		  DeploymentType="TemplateFile"
+		  DeploymentPath="Images\$(SafeAppName)"
+		  SourceFileName="Text/ListTemplate/ListIcon.gif"
+		  TargetFileName="$(ListTemplateIconFileName)">
+			<Input Name="ExcludeCondition" RecipeArgument="ProjectIsSandboxedSolution" />
+		</Action>
+
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Actions>
+</Recipe>

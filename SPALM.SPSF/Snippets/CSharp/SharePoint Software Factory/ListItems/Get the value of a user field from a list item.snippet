@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Get the value of a user field from a list item</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Object Editable="true">
+          <ID>userValue</ID>
+          <ToolTip>SPFieldUserValue</ToolTip>
+          <Default>userValue</Default>
+          <Function>
+          </Function>
+          <Type>SPFieldUserValue</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>item</ID>
+          <ToolTip>SPListItem</ToolTip>
+          <Default>item</Default>
+          <Function>
+          </Function>
+          <Type>SPListItem</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>web</ID>
+          <ToolTip>SPWeb</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+          <Type>SPWeb</Type>
+        </Object>
+        <Literal Editable="true">
+          <ID>UserName</ID>
+          <ToolTip>UserName</ToolTip>
+          <Default>UserName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>user</ID>
+          <ToolTip>SPUser</ToolTip>
+          <Default>user</Default>
+          <Function>
+          </Function>
+          <Type>SPUser</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+SPFieldUserValue $userValue$ = new SPFieldUserValue($web$, $item$["$UserName$"].ToString());
+            SPUser $user$ = $userValue$.User;
+      ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

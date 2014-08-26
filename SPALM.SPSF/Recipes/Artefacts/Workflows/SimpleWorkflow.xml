@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="SimpleWorkflow"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Simple Workflow</Caption>
+	<Description>Adds a workflow to a feature</Description>
+	<HostData Priority="100">
+		<Icon File="Help/Icons/icon_sp14workflow.ico" />
+		<CommandBar Menu="SPSFProjectWorkflows"/>
+		<CommandBar Menu="SPSFFolderWorkflows"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="ElementManifestReference"
+		  BindingTypeTemplate="ElementManifestReferenceTemplate"
+		  TestType="BaseSiteFeatureRecipeRunner"
+		  Enabled="true"
+		  CreateVSTemplate="true"
+		  FeatureScopes="Site"
+		  Category="Workflows" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[]]>
+			</spsf:WebPageContent>
+			<spsf:Test>
+				<spsf:TestCases>
+					<spsf:TestCase Name="DefaultWorkflow" Type="SolutionTestCase">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="WorkflowName">WorkflowDefault</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+				</spsf:TestCases>
+			</spsf:Test>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<Argument Name="AllowedScopes" Type="System.String">
+			<ValueProvider Type="Evaluator" Expression="Site" />
+		</Argument>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<Argument Name="ElementsCategory">
+			<ValueProvider Type="Evaluator" Expression="Workflows" />
+		</Argument>
+
+		<Argument Name="ResourceKeyPrefix" Required="true">
+			<!-- provides the unique key with removed special chars -->
+			<ValueProvider Type="Evaluator" Expression="Workflows" />
+		</Argument>
+
+		<!-- Recipe specific parameters -->
+		<Argument Name="WorkflowName">
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="VisualStudioCreateItemName" DefaultValue="Workflow1" />
+		</Argument>
+		<Argument Name="WorkflowTitle" Required="true">
+			<ValueProvider Type="Evaluator" Expression="$(WorkflowName) Title" />
+		</Argument>
+		<Argument Name="WorkflowDescription" Required="true">
+			<ValueProvider Type="Evaluator" Expression="$(WorkflowName) Description" />
+		</Argument>
+		<Argument Name="WorkflowId" Required="true">
+			<ValueProvider Type="GuidValueProvider" />
+		</Argument>
+
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+				<Page Width="600" Height="400">
+					<Title>Workflow Settings</Title>
+					<Fields>
+						<Field ValueName="WorkflowName" Label="Name" >
+							<Help>Required Text. Specifies the workflow name that is displayed in the SharePoint Foundation interface. The workflow name can be up to 256 characters long.</Help>
+						</Field>
+						<Field ValueName="WorkflowTitle" Label="Title" >
+							<Help>Optional Text. </Help>
+						</Field>
+						<Field ValueName="WorkflowDescription" Label="Description" >
+							<Help>Optional Text. Specifies the workflow description to be displayed in the SharePoint Foundation interface. The workflow description can be up to 256 characters long.</Help>
+						</Field>
+						<Field ValueName="WorkflowId" Label="Id" >
+							<Help>Required Text. Specifies the globally unique identifier (GUID) for the workflow.</Help>
+						</Field>
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+		<xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<!-- elements.xml-->
+		<Action
+		  Name="CreateElementsXml"
+		  Type="AddElementsDefinitionAction"
+		  ParentFeatureName="$(ParentFeatureName)"
+		  ElementsName="$(WorkflowName)"
+		  ElementsCategory="$(ElementsCategory)"
+		  TemplateFileName="Text\Workflow\elements.xml.t4"
+		  SPDataTemplate="Text\Workflow\SharePointProjectItem.spdata.t4">
+			<Output Name="CreatedElementFolder" />
+			<Output Name="CreatedElementFile" />
+		</Action>
+
+		<!-- Workflow code -->
+		<Action
+		  Name="AddWorkflowCode"
+		  Type="AddTemplateToItemAction"
+		  Open="true"
+		  TemplateFileName="Text\Workflow\workflow.cs.t4"
+		  TargetFileName="$(WorkflowName).cs">
+			<Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+		</Action>
+		<Action
+		  Name="AddWorkflowDesignerCode"
+		  Type="AddTemplateToItemAction"
+		  TemplateFileName="Text\Workflow\workflow.designer.cs.t4"
+		  TargetFileName="$(WorkflowName).designer.cs">
+			<Input Name="ParentProjectItem" ActionOutput="AddWorkflowCode.CreatedProjectItem" />
+		</Action>
+
+		<!-- Resources -->
+		<Action
+		  Condition="$(AutoCreateResxFiles)"
+		  Name="AddResources"
+		  Type="AddTemlateToResourcesFileAction"
+		  TemplateFileName="Text\Workflow\Resources.resx.t4"
+      FeatureResources="True">
+      <Input Name="FeatureName" RecipeArgument="ParentFeatureName" />
+    </Action>
+
+		<Action
+			Name="AddReference1"
+			Type="AddReferenceToProject"
+			ReferenceName="Microsoft.SharePoint.WorkflowActions">
+			<Input Name="Project" RecipeArgument="CurrentProject" />
+		</Action>
+		<Action
+			Name="AddReference2"
+			Type="AddReferenceToProject"
+			ReferenceName="System.Workflow.Activities">
+			<Input Name="Project" RecipeArgument="CurrentProject" />
+		</Action>
+		<Action
+			Name="AddReference3"
+			Type="AddReferenceToProject"
+			ReferenceName="System.Workflow.ComponentModel">
+			<Input Name="Project" RecipeArgument="CurrentProject" />
+		</Action>
+		<Action
+			Name="AddReference4"
+			Type="AddReferenceToProject"
+			ReferenceName="System.Workflow.Runtime">
+			<Input Name="Project" RecipeArgument="CurrentProject" />
+		</Action>
+    <Action
+			Name="AddReference5"
+			Type="AddReferenceToProject"
+			ReferenceName="System.Drawing">
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+    </Action>
+
+		<Action
+			Name="AddWorkflowGuids"
+			Type="EnableWorkflowFoundation">
+			<Input Name="Project" RecipeArgument="CurrentProject" />
+		</Action>
+
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Actions>
+</Recipe>

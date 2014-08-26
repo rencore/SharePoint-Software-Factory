@@ -1,0 +1,202 @@
+﻿<#
+
+if(GetCurrentHelpFormat() == "OutputHelp3")
+{
+	#><?xml version="1.0" encoding="UTF-8"?>
+	<#
+}
+
+#>
+<#
+
+if(GetCurrentHelpFormat() != "OutputPDF")
+{
+  if(GetCurrentHelpFormat() != "OutputHelp3")
+	{
+		//do not add styles for Help 3 format
+    #>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	  <html xmlns="http://www.w3.org/1999/xhtml">
+	    <head>
+		    <link rel="stylesheet" type="text/css" href="Styles/branding.css"/>				
+		    <#
+	}
+  else
+  {
+    #>    
+		<html xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns="http://www.w3.org/1999/xhtml">
+	    <head>
+        <link rel="stylesheet" type="text/css" href="Styles/branding.css"/>		
+		    <#
+  }
+	
+		#>
+		<title><#= helpItem.Title #></title>
+		<#
+		if(GetCurrentHelpFormat() == "OutputHelp3")
+		{
+			//Microsoft Help3 specific tags
+      #>
+      <meta name="Microsoft.Help.Locale" content="en-us" />
+      <meta name="Microsoft.Help.TopicLocale" content="en-us" />
+      <meta name="Microsoft.Help.SelfBranded" content="true" />
+      <meta name="Microsoft.Help.Id" content="<#= helpItem.WebPage #>" />
+      <#
+      if(helpItem.GetParent() != null)
+			{
+				#><meta name="Microsoft.Help.TocParent" content="<#= helpItem.GetParent().WebPage #>" /><#
+			}
+      else     
+			{
+				#><meta name="Microsoft.Help.TocParent" content="-1" /><#
+			}
+      #>
+      <meta name="Microsoft.Help.TocOrder" content="<#= helpItem.Sort #>" />
+      <meta name="Microsoft.Help.Keywords" content="<#= helpItem.Title #>" />
+      <meta name="Microsoft.Help.Category" content="HelpFiles" />
+      <#
+		}
+		#>
+		<meta name="Description" content="<#= HtmlEncode(helpItem.Description) #>" />
+		<style type="text/css">
+
+		.OH_TocResize
+		{	
+			top: 126px;
+		}
+
+		</style>
+	</head>	
+	<body class="primary-mtps-offline-document" 
+	<#
+	if(GetCurrentHelpFormat().StartsWith("OutputHTML"))
+	{
+		#> style="max-width: 1220px;" <#
+	}
+	#>><#
+
+	if((GetCurrentHelpFormat().StartsWith("OutputHTML")) || (GetCurrentHelpFormat() == "OutputHelp2") || (GetCurrentHelpFormat().StartsWith("OutputCHM")))
+	{
+		//show custom banner at top of html output
+		#>
+		<table class="noSpace" style="width: 100%;"> 
+			<tr>
+			  <td colspan="2" style="background-color: #6685A2;">&nbsp;</td>
+			</tr>
+			<tr>
+			  <td>
+				<img src="./_img/header_left.jpg" height="66" style="margin-top: 10px; margin-bottom: 20px" />
+			  </td>
+			  <td align="right" valign="top" rowspan="2">
+				<img src="./_img/header_right.jpg" style="margin-top: 2px" height="72"/>
+			  </td>
+			</tr>			
+		</table>
+		<#
+	}
+
+	if(GetCurrentHelpFormat() == "OutputHTML")
+	{
+		//place navigation on the left side
+		#><div class="OH_outerDiv">
+			<div style="WIDTH: 350px" id="LeftNav" class="OH_leftNav">
+				<div id="toc">
+					<div id="toc_parent">
+						<div class="OH_parentTocLinks"><#
+						foreach(SPSFHelpElement link in GetParents(helpItem))
+						{
+							#>		
+							<div class="OH_link">				
+								<a title="<#= link.Title #>" href="<#= link.WebPage #>.html"><#= link.Title #></a>
+							</div>
+							<#
+						}
+						
+						#></div></div>					
+						<div id="toc_children">
+							<#
+							if(helpItem.GetChilds().Count == 0)
+							{
+								//element has no childs, show multiple links on same level
+								#><div class="OH_selfTocLinks"><#
+								foreach(SPSFHelpElement link in helpItem.GetSiblings())
+								{
+									if(link.Title == helpItem.Title)
+									{
+										#><div title="<#= helpItem.Title #>" class="OH_selectedChild"><#= helpItem.Title #></div><#
+									}
+									else
+									{
+										#>
+										<div class="OH_link">	
+											<a title="<#= link.Title #>" href="<#= link.WebPage #>.html"><#= link.Title #></a>
+										</div>
+
+										<#
+									}
+								}
+								#></div><#							
+							}
+							else
+							{
+								#><div class="OH_selfTocHeader"><#= helpItem.Title #></div><#
+
+								if(helpItem.GetChilds().Count > 0)
+								{
+									#><div class="OH_selfTocLinks"><#
+						
+									foreach(SPSFHelpElement link in helpItem.GetChilds())
+									{
+										#>
+										<div class="OH_link">
+											<a title="<#= link.Title #>" href="<#= link.WebPage #>.html"><#= link.Title #></a>
+										</div>
+										<#
+									}
+
+									#></div><#
+								}
+								
+							}
+							#></div><div id="toc_siblings"><div class="OH_siblingTocHeader">Related Links</DIV><div class="OH_siblingTocLinks"><#
+
+								foreach(ReferenceLink link in helpItem.GetReferenceLinks())
+								{
+									#><a title="<#= link.Caption #>" href="<#= link.Url #>"><#= link.Caption #></a><br /><#
+									//<A title="Microsoft Help System Documentation" href="ms.help?method=page&amp;id=FADF1F04-77DD-43FB-81F6-72E5AE0BFC3D&amp;topicversion=100&amp;topiclocale=EN-US&amp;SQM=1&amp;product=VS&amp;productVersion=100&amp;locale=EN-US">Microsoft Help System Documentation</A>
+								}
+							#>
+							<br /></div></div></div></div><div style="LEFT: 279px" id="TocResize" class="OH_TocResize"></div>
+				<div class="OH_outerContent">
+				<#
+
+	}
+	#>  
+		<div class="OH_topic">		 
+    <#
+
+	  if(GetCurrentHelpFormat() == "OutputHelp3")
+	  {
+		  //show custom banner at top of html output
+		  #><table class="spsfbannertable" height="93" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="height:93px; background-image: url('ms.help?content/SPSF/store/HelpFiles.mshc;_img/header_background.jpg'); background-repeat: repeat-x;"><img src="./_img/header_left.jpg" /></td><td valign="right" style="height:93px; background-image: url('ms.help?content/SPSF/store/HelpFiles.mshc;_img/header_background.jpg'); background-repeat: repeat-x; text-align: right;"><img src="./_img/header_right.jpg" /></td></tr></table><#
+	  }
+
+	  #> 
+		  <div id="mainHeader">
+			<table>
+			  <tbody>
+				<tr>
+				  <td>
+					<h1><#= helpItem.Title #></h1>
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+		<div id="mainSection">
+			<div id="mainBody">            
+				<div class="introduction"><p><#= helpItem.Description #></p></div>
+				<#
+}
+#>

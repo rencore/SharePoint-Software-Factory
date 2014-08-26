@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="SharePointApplication15"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>SharePoint 2013 - Application</Caption>
+  <Description>Creates a SharePoint 2013 application (farm solution). The application contains an empty SharePoint solution project (.wsp), an optional resources project and a deployment project for deploying all WSPs to multiple farms. SPSF Version 4.1, http://spsf.codeplex.com</Description>
+  <HostData>
+		<Icon File="Help/Icons/icon_sp15project.ico" />
+    <spsf:MetaData
+      Visible="false"
+      BindingType="AnyElementReference"
+      Enabled="true"
+      ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="Projects" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>4.1 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <Argument Name="RecipeName">
+      <ValueProvider Type="Evaluator" Expression="SharePointApplication15" />
+    </Argument>
+		<Argument Name="SharePointVersion" Required="true">
+			<ValueProvider Type="Evaluator" Expression="15" />
+		</Argument>
+    <Argument Name="TargetFramework" Required="true">
+      <ValueProvider Type="Evaluator" Expression="4.5" />
+    </Argument>
+    <Argument Name="HelpPage" Required="true">
+      <ValueProvider Type="Evaluator" Expression="SPSF_OVERVIEW_500_HOWTOUSESPSF.html" />
+    </Argument>
+    <xi:include href="BaseApplicationArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <xi:include href="BaseApplicationPages.include"  parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-wizards) xpointer(/p:Pages/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+				<Page Width="600" Height="400">
+					<Title>SharePoint Solution</Title>
+          <Help>
+            Enter the settings for the initial SharePoint Solution
+          </Help>
+          <Fields>
+						<Field ValueName="WSPProjectNameTemp" ReadOnly="true" Label="WSP Filename">
+							<Help>Optional String. Displays the name of the of the web solution package (wsp)</Help>
+						</Field>
+						<Field ValueName="WSPProjectName" Label="SharePoint Solution Name" InvalidValueMessage="Must be a valid .NET namespace identifier (e.g. it shouldn't contain spaces or special characters).">
+							<Help>Required String. Specifies the name of the solution. The final wsp name will be a combination of the application name (name of the VS.NET solution) and the solution name.</Help>
+						</Field>
+            <Field ValueName="WSPDeploymentServerType" Label="Deployment Server Type">
+							<Help>Optional String. Specifies the type of deployment server.</Help>
+						</Field>
+            <Field ValueName="WSPDeploymentTarget" Label="Deployment Target">
+							<Help>Optional String. Specifies the deployment target.</Help>
+						</Field>
+            <Field ValueName="WSPResetServer" Label="Reset Webserver">
+							<Help>Optional Boolean. If checked the option "ResetWebServer" in the solution manifest is set to TRUE.</Help>
+						</Field>
+            <Field ValueName="IsSandBoxedSolution" Label="Sandboxed solution">
+              <Help>Optional Boolean. If checked a sandboxed solutions will be created.</Help>
+            </Field>
+          </Fields>
+        </Page>        
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+		<xi:include href="BaseApplication15Actions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <Action Name="ShowHelpPage" Type="ShowHelp" >
+      <Input Name="HelpPage" RecipeArgument="HelpPage" />
+    </Action>
+
+  </Actions>
+</Recipe>

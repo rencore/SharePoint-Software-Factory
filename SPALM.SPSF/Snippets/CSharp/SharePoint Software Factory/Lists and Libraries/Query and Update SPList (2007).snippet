@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Query and Update SPList (2007)</Title>
+      <Author>SMC</Author>
+      <Description>Query an SPList with CAML, iterate through the resultset and update item properties. 
+Source: Matthias Einig</Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <References>
+        <Reference>
+          <Assembly>Microsoft.SharePoint.dll</Assembly>
+        </Reference>
+      </References>
+      <Imports>
+        <Import>
+          <Namespace>SharePoint = Microsoft.SharePoint</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>aList</ID>
+          <ToolTip>SPList</ToolTip>
+          <Default>list</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>aWeb</ID>
+          <ToolTip>SPWeb</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>listname</ID>
+          <ToolTip>Name of the SPList in the given SPWeb</ToolTip>
+          <Default>listname</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>query</ID>
+          <ToolTip>SPQuery</ToolTip>
+          <Default>query</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>CAMLQuery</ID>
+          <ToolTip>CAML query to filter, order or group items</ToolTip>
+          <Default>camlQuery</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>oSPListItems</ID>
+          <ToolTip>SPListItemCollection</ToolTip>
+          <Default>listItems</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>aSPListItem</ID>
+          <ToolTip>SPListItem</ToolTip>
+          <Default>listItem</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>title</ID>
+          <ToolTip>Title</ToolTip>
+          <Default>newTitle</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+        SPList $aList$ = $aWeb$.Lists[$listname$];
+        SPQuery $query$ = new SPQuery();
+        $query$.Query = $CAMLQuery$; // CAML Query 
+        SPListItemCollection $oSPListItems$ = $aList$.GetItems($query$); 	
+        foreach(SPListItem $aSPListItem$ in $oSPListItems$)
+        {
+            // Update item
+            $aSPListItem$["Title"] = $title$;
+            $aSPListItem$.Update();
+        }
+        $aList$.Update();]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

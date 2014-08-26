@@ -1,0 +1,28 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<PermissionSet class="NamedPermissionSet">	
+	<IPermission class="FileIOPermission" version="1" <#
+	if(PermissionIsUnrestricted)
+	{
+		#> Unrestricted="true" <#
+	}
+	else
+	{	if(!string.IsNullOrEmpty(FilePermissionRead))
+		{
+			#> Read="<#= FilePermissionRead #>" <#
+		}
+		if(!string.IsNullOrEmpty(FilePermissionWrite))
+		{
+			#> Write="<#= FilePermissionWrite #>" <#
+		}
+		if(!string.IsNullOrEmpty(FilePermissionAppend))
+		{
+			#> Append="<#= FilePermissionAppend #>" <#
+		}
+		if(!string.IsNullOrEmpty(FilePermissionPathDiscovery))
+		{
+			#> PathDiscovery="<#= FilePermissionPathDiscovery #>" <#
+		}
+	}
+	#> />
+</PermissionSet>

@@ -1,0 +1,68 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="MSBuildTaskNamespace" #>
+<#@ property processor="PropertyProcessor" name="MSBuildTaskClassName" #>
+<#@ assembly name="System.dll" #>
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
+using Microsoft.Build.Utilities;
+using Microsoft.Build.Framework;
+using Microsoft.SharePoint;
+
+namespace <#= MSBuildTaskNamespace #>
+{
+	/// <summary>
+	/// Sample task to access SharePoint object model,
+	/// use this task in an msbuild file as follows
+	/// <<#= MSBuildTaskClassName #> StringParameter="true" SiteUrl="http://moss" ContinueOnError="false" />
+	/// </summary>
+	[Category("ApplicationTasks"), DisplayName("Application Tasks"), Description("")]
+    public class <#= MSBuildTaskClassName #> : Task
+    {
+		private string mStringParameter = "";
+		private string mSiteUrl = "";
+		
+		[Required]
+		public string StringParameter
+		{
+			get { return mStringParameter; }
+			set { mStringParameter = value; }
+		}
+				
+		[Required]
+        public string SiteUrl
+        {
+            get { return mSiteUrl; }
+            set { mSiteUrl = value; }
+        }
+        
+        public override bool Execute()
+        {
+			try
+			{
+				using (SPSite siteCollection = new SPSite(mSiteUrl))
+				{
+					using (SPWeb web = siteCollection.OpenWeb())
+					{
+						//place code here access SharePoint object model
+						//e.g. to rename a root web
+						web.Title = mStringParameter;
+						web.Update();
+					}
+				}
+
+				//successfully finished
+				Log.LogMessage("Operation completed successfully.");
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Log.LogMessage(ex.ToString());
+			}
+
+			//error happend
+			return false;  
+        }
+    }
+}

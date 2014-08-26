@@ -1,0 +1,14 @@
+﻿<#@ template language="C#" #>
+  <data name="<#= ResourceKeyPrefix #>_WebPartTitle">
+    <value><#= WebPartTitle #></value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_WebPartDescription">
+    <value><#= WebPartDescription #></value>
+  </data>  
+  <data name="<#= ResourceKeyPrefix #>_WebPartGroup">
+    <value><#= WebPartGroup #></value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_WebPartQuickAddGroup">
+    <value><#= WebPartQuickAddGroup #></value>
+  </data>
+		   

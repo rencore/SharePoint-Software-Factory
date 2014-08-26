@@ -1,0 +1,30 @@
+﻿<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+	using Microsoft.SharePoint;
+	
+	public class <#= PubSiteDefProvisioningHandlerClass #> : SPWebProvisioningProvider
+	{
+        // <summary>
+        // Gets called when a web is provisioning when the template
+        // chosen has ProvisionAssembly and ProvionClass attributes
+        // specified
+        // </summary>
+		public override void Provision(SPWebProvisioningProperties props)
+		{
+			// Apply the hidden Site Definition to the Web Site
+			SPWeb web = props.Web;
+			web.ApplyWebTemplate("AuditTeam");
+
+			// Update Audit Settings for the Site Collection
+			SPSite site = web.Site;
+			SPAudit audit = site.Audit;
+			audit.AuditFlags = SPAuditMaskType.All;
+			audit.Update();
+		}
+	}
+}

@@ -1,0 +1,21 @@
+<#@ template language="C#" #><?xml version="1.0" encoding="utf-8"?>
+<portal xmlns="PortalTemplate.xsd">
+<!--
+       <web name="TeamHome"
+        siteDefinition="BSCTeam#0"
+        displayName="$Resources:cmscore,IPPT_Portal_Root_DisplayName;"
+        description="$Resources:cmscore,IPPT_Portal_Root_Description;" >
+              <webs>
+                     <web name="TeamBlog"
+						  siteDefinition="BSCBlog"
+						  displayName="Team Blog"
+						  description="" />
+                     <web name="Reports"
+						  siteDefinition="BSCReportCenter"
+						  displayName="Team Report Center"
+						  description="" />
+              </webs>
+       </web>
+-->
+</portal>
+<!-- http://weblogs.asp.net/paulballard/archive/2007/04/09/creating-a-custom-sharepoint-2007-portal-site-definition-using-the-portalprovisioningprovider-class.aspx -->

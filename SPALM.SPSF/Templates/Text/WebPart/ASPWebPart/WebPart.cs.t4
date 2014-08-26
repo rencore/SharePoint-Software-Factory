@@ -1,0 +1,102 @@
+<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;
+  using System.Collections;
+  using System.Collections.Generic;
+  using System.Collections.ObjectModel;
+  using System.ComponentModel;
+  using System.Security.Permissions;
+  using System.Text;
+  using System.Web;
+  using System.Web.UI;
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint.Security;
+  using Microsoft.SharePoint.Utilities;
+  using aspnetwebparts = System.Web.UI.WebControls.WebParts;
+  using wsswebparts = Microsoft.SharePoint.WebPartPages;
+  
+  /// <summary>
+  /// TODO: Add comment for webpart <#= this.WebPartName #>
+  /// </summary>
+  public class <#= this.WebPartName #> : aspnetwebparts.WebPart
+  {
+    private string mCustomProperty;
+    private string mProperty1;
+
+    /// <summary>
+    /// Gets or sets the CustomProperty
+    /// </summary>
+    [aspnetwebparts.WebBrowsable(true),
+    aspnetwebparts.WebDescription("Description of the property"),
+    aspnetwebparts.WebDisplayName("DisplayName of the property"),
+    aspnetwebparts.Personalizable(aspnetwebparts.PersonalizationScope.User)]
+    public string CustomProperty
+    {
+      get { return mCustomProperty; }
+      set { mCustomProperty = value; }
+    }
+
+    /// <summary>
+    /// Gets or sets the Property1
+    /// </summary>
+    public string Property1
+    {
+      get
+      {
+        return mProperty1;
+      }
+      
+      set
+      {
+        mProperty1 = value;
+      }
+    }
+
+    /// <summary>
+    /// Create all your controls here for rendering.
+    /// Try to avoid using the RenderWebPart() method.
+    /// </summary>
+    protected override void CreateChildControls()
+    {
+      try
+      {
+        base.CreateChildControls();
+
+        // Your code here...
+        // this.Controls.Add(new LiteralControl(this.MyProperty));
+      }
+      catch (Exception ex)
+      {
+          this.Controls.Clear();
+          this.Controls.Add(new LiteralControl(ex.Message));
+      }
+    }
+
+    /// <summary>
+    /// Ensures that the CreateChildControls() is called before events.
+    /// Use CreateChildControls() to create your controls.
+    /// </summary>
+    /// <param name="e">event arguments</param>
+    protected override void OnLoad(EventArgs e)
+    {
+      try
+      {
+        base.OnLoad(e);
+        this.EnsureChildControls();
+
+        // Your code here...
+      }
+      catch (Exception ex)
+      {
+          this.Controls.Clear();
+          this.Controls.Add(new LiteralControl(ex.Message));
+      }
+    }
+  }
+}

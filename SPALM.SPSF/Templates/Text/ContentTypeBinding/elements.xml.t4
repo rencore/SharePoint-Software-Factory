@@ -1,0 +1,16 @@
+<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<!-- content type binding between content type <#= ContentTypeBindingContentType.Name #> and <#= ContentTypeBindingListUrl #> -->
+	<ContentTypeBinding
+		ContentTypeId="<#= ContentTypeBindingContentType.Value #>"
+		ListUrl="<#= ContentTypeBindingListUrl #>"
+		<#
+
+			if(ContentTypeBindingRootWebOnly)
+			{
+		#>RootWebOnly="TRUE"
+		<#
+			}
+		#> 
+	/>
+</Elements>

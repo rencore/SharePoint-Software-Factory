@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe Name="DeploymentProject"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.microsoft.com/pag/gax-core"
+    Bound="false">
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>SharePoint Solution Deployer Project</Caption>
+  <Description>Project template for deployment of SharePoint solution packages. The template can be downloaded seperately from http://spsd.codeplex.com</Description>
+  <HostData Priority="500">
+    <Icon File="spsd.ico" />
+    <CommandBar Menu="SPSFSolutionProjects" />
+    <spsf:MetaData
+		  Visible="true"
+		  BindingType="AddProjectReference"
+		  BindingTypeTemplate="AddProjectReferenceTemplate"
+		  TemplatePath="Projects\Deployment\Root.vstemplate"
+		  Enabled="true"
+		  CreateVSTemplate="false"
+		  Category="Projects" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+        <spsf:Author>Matthias Einig</spsf:Author>
+      </spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>4.1 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+		<Argument Name="RecipeName">
+			<ValueProvider Type="Evaluator" Expression="DeploymentProject" />
+		</Argument>
+		<Argument Name="AppName" Required="true">
+			<ValueProvider Type="ApplicationNameProvider" />
+		</Argument>
+		<Argument Name="AppVersion" Required="true">
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="ApplicationVersion" DefaultValue="1.0.0.0" />
+		</Argument>
+		<Argument Name="DeploymentProjectName" Required="true">
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="VisualStudioCreateProjectName" />
+		</Argument>
+		<Argument Name="TargetFrameworkVersion" Required="true">
+			<ValueProvider Type="TargetFrameworkVersionProvider" />
+		</Argument>
+	</Arguments>
+
+</Recipe>

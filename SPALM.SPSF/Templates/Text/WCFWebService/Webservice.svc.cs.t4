@@ -1,0 +1,22 @@
+﻿<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System.ServiceModel.Activation;
+  using Microsoft.SharePoint.Client.Services;  
+
+  [BasicHttpBindingServiceMetadataExchangeEndpoint]
+  [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
+  public class <#= WebServiceName #> : I<#= WebServiceName #>
+  {
+    // Access the web service from URL http://<Servername>/_vti_bin/<#= SafeAppName #>/<#= WebServiceName #>.svc/mex
+    public string HelloWorld()
+    {
+      return "Hello World";
+    }
+  }
+}

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RecipeCategories>
+	<RecipeCategory Name="Projects" Title="SPSF Projects" Description="Contains the project templates">		
+	</RecipeCategory>
+	<RecipeCategory Name="Artefacts" Title="SPSF Artefacts" Description="Helps to create SharePoint code">
+		<RecipeCategories>
+			<RecipeCategory Name="Features" Title="Features" Description="Contains feature recipes" />
+			<RecipeCategory Name="ListAndDoc" Title="Lists and Libaries" Description="Contains recipes which belong to SharePoint lists" />
+			<RecipeCategory Name="Sites" Title="Webs and Sites" Description="Contains recipes related to sites" />
+			<RecipeCategory Name="CustomActions" Title="Custom Actions and Ribbons" Description="Contains recipes to add custom actions and ribbons to the UI in" />
+			<RecipeCategory Name="Events" Title="Event Receivers" Description="Contains recipes for typical event listeners" />
+			<RecipeCategory Name="WebParts" Title="WebParts" Description="Contains recipes for Webpart samples" />
+			<RecipeCategory Name="FieldTypes" Title="Field Types" Description="Contains several examples for custom field types" />
+			<RecipeCategory Name="Publishing" Title="Publishing" Description="Contains recipes for Web Content Management" />
+			<RecipeCategory Name="Import" Title="Import" Description="Contains recipes to import external content into the project" />
+			<RecipeCategory Name="ApplicationPages" Title="Application Pages" Description="Contains recipes to create typical application pages (e.g. in /_layouts/ folder)" />
+			<RecipeCategory Name="ASPNET" Title="ASP.NET" Description="Contains recipes for general ASP.NET (non-SharePoint) artefacts" />
+			<RecipeCategory Name="Workflows" Title="Workflows" Description="Contains recipes for workflows" />
+      <RecipeCategory Name="BCS" Title="Business Connectivity Services" Description="Contains recipes to create BCS models" />
+      <RecipeCategory Name="Advanced" Title="Advanced" Description="Contains recipes for advanced development tasks" />
+      <RecipeCategory Name="Security" Title="Security" Description="Contains recipes for to adjust security settings in the project" />
+			<RecipeCategory Name="Files" Title="Files" Description="Contains recipes to add files at the correct location within the project" />
+			<RecipeCategory Name="Silverlight" Title="Silverlight" Description="Contains recipes to add Silverlight applications to the project" />
+			<RecipeCategory Name="PowerShell" Title="PowerShell" Description="Contains recipes to add PowerShell scripts and cmdlets" />
+		</RecipeCategories>
+	</RecipeCategory>
+	<RecipeCategory Name="Development" Title="SPSF Deploy and Debug" Description="Contains the core recipes">
+		<RecipeCategories>
+			<RecipeCategory Name="QuickDeploy" Title="Quick Deploy" Description="Contains recipes for quick deployment to the local farm" />
+			<RecipeCategory Name="SandboxedDeployment" Title="Deploy Sandboxed Solutions Remotely" Description="Contains recipes for deployment of sandboxed solutions to a remote farm" />
+		</RecipeCategories>
+	</RecipeCategory>	
+	<RecipeCategory Name="Quality" Title="SPSF Test and Analyze" Description="Contains recipes for testing the quality of a SharePoint solution">
+	</RecipeCategory>
+	<RecipeCategory Name="Help" Title="SPSF Helpers" Description="Contains helpful recipes">
+		<RecipeCategories>
+			<RecipeCategory Name="SPHelpers" Title="SP Helpers" Description="Helpful commands to run SharePoint operations" />
+			<RecipeCategory Name="Shortcuts" Title="Shortcuts" Description="Contains useful shortcuts" />
+			<RecipeCategory Name="Helpers" Title="Helpers" Description="Contains recipes to speed up the development process" />
+			<RecipeCategory Name="Configuration" Title="Configuration" Description="Contains recipes to configure the application" />
+		</RecipeCategories>
+	</RecipeCategory>
+</RecipeCategories>

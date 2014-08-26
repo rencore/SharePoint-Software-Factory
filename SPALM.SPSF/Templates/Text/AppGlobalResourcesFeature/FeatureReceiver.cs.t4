@@ -1,0 +1,36 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="FeatureReceiverNamespace" #>
+<#@ property processor="PropertyProcessor" name="FeatureReceiverClass" #>
+<#@ assembly name="System.dll" #>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.SharePoint;
+
+namespace <#= FeatureReceiverNamespace #>
+{
+    public partial class <#= FeatureReceiverClass #> : SPFeatureReceiver
+    {
+        public override void FeatureActivated(SPFeatureReceiverProperties properties)
+        {
+			//Copy resx files from features folder to the App_GlobalResources of the webapplication
+			<#= FeatureReceiverClass #>Job.DeployResources(properties);
+        }
+
+        public override void FeatureDeactivating(SPFeatureReceiverProperties properties)
+        {
+			//remove resx files which are located in the feature from the appbin folder
+			<#= FeatureReceiverClass #>Job.UndeployResources(properties);
+        }
+
+        public override void FeatureInstalled(SPFeatureReceiverProperties properties)
+        {
+
+        }
+
+        public override void FeatureUninstalling(SPFeatureReceiverProperties properties)
+        {
+
+        }
+    }
+}

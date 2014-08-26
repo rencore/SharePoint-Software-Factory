@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Get the value of a link field from a list item</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>linkTitle</ID>
+          <ToolTip>Link title</ToolTip>
+          <Default>linkTitle</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>linkURL</ID>
+          <ToolTip>Link URL</ToolTip>
+          <Default>linkURL</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>URL</ID>
+          <ToolTip>URL</ToolTip>
+          <Default>URL</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>value</ID>
+          <ToolTip>SPFieldUrlValue</ToolTip>
+          <Default>value</Default>
+          <Function>
+          </Function>
+          <Type>SPFieldUrlValue</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+SPFieldUrlValue $value$ = new SPFieldUrlValue(item["$URL$"].ToString());
+string $linkTitle$ = $value$.Description;
+string $linkURL$ = $value$.Url;
+      ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

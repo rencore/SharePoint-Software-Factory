@@ -1,0 +1,267 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	  <html xmlns="http://www.w3.org/1999/xhtml">
+	    <head>
+		    <link rel="stylesheet" type="text/css" href="Styles/branding.css"/>				
+		    		<title>Security Permission</title>
+				<meta name="Description" content="Adds a SecurityPermission to the project. Describes a set of security permissions applied to code." />
+		<style type="text/css">
+
+		.OH_TocResize
+		{	
+			top: 126px;
+		}
+
+		</style>
+	</head>	
+	<body class="primary-mtps-offline-document" 
+	 style="max-width: 1220px;" >		<table class="noSpace" style="width: 100%;"> 
+			<tr>
+			  <td colspan="2" style="background-color: #6685A2;">&nbsp;</td>
+			</tr>
+			<tr>
+			  <td>
+				<img src="./_img/header_left.jpg" height="66" style="margin-top: 10px; margin-bottom: 20px" />
+			  </td>
+			  <td align="right" valign="top" rowspan="2">
+				<img src="./_img/header_right.jpg" style="margin-top: 2px" height="72"/>
+			  </td>
+			</tr>			
+		</table>
+		<div class="OH_outerDiv">
+			<div style="WIDTH: 350px" id="LeftNav" class="OH_leftNav">
+				<div id="toc">
+					<div id="toc_parent">
+						<div class="OH_parentTocLinks">		
+							<div class="OH_link">				
+								<a title="SharePoint Software Factory" href="SPSF_ROOT.html">SharePoint Software Factory</a>
+							</div>
+									
+							<div class="OH_link">				
+								<a title="Recipe Index" href="SPSF_RECIPES_INDEX.html">Recipe Index</a>
+							</div>
+									
+							<div class="OH_link">				
+								<a title="SPSF Artefacts" href="SPSF_RECIPES_CATEGORY_ARTEFACTS.html">SPSF Artefacts</a>
+							</div>
+									
+							<div class="OH_link">				
+								<a title="Security" href="SPSF_RECIPES_CATEGORY_SECURITY.html">Security</a>
+							</div>
+							</div></div>					
+						<div id="toc_children">
+							<div class="OH_selfTocLinks">										<div class="OH_link">	
+											<a title="Minimal CAS" href="SPSF_RECIPE_MINIMALCAS.html">Minimal CAS</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Medium CAS" href="SPSF_RECIPE_MEDIUMCAS.html">Medium CAS</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="AspNetHosting Permission" href="SPSF_RECIPE_ASPNETHOSTINGPERMISSION.html">AspNetHosting Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Dns Permission" href="SPSF_RECIPE_DNSPERMISSION.html">Dns Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Environment Permission" href="SPSF_RECIPE_ENVIRONMENTPERMISSION.html">Environment Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Reflection Permission" href="SPSF_RECIPE_REFLECTIONPERMISSION.html">Reflection Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="FileIO Permission" href="SPSF_RECIPE_FILEIOPERMISSION.html">FileIO Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Printing Permission" href="SPSF_RECIPE_PRINTINGPERMISSION.html">Printing Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="SqlClient Permission" href="SPSF_RECIPE_SQLCLIENTPERMISSION.html">SqlClient Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="WebPart Permission" href="SPSF_RECIPE_WEBPARTPERMISSION.html">WebPart Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Registry Permission" href="SPSF_RECIPE_REGISTRYPERMISSION.html">Registry Permission</a>
+										</div>
+
+										<div title="Security Permission" class="OH_selectedChild">Security Permission</div>										<div class="OH_link">	
+											<a title="SharePoint Permission" href="SPSF_RECIPE_SHAREPOINTPERMISSION.html">SharePoint Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="SMTP Permission" href="SPSF_RECIPE_SMTPPERMISSION.html">SMTP Permission</a>
+										</div>
+
+										</div></div><div id="toc_siblings"><div class="OH_siblingTocHeader">Related Links</DIV><div class="OH_siblingTocLinks">							<br /></div></div></div></div><div style="LEFT: 279px" id="TocResize" class="OH_TocResize"></div>
+				<div class="OH_outerContent">
+				  
+		<div class="OH_topic">		 
+     
+		  <div id="mainHeader">
+			<table>
+			  <tbody>
+				<tr>
+				  <td>
+					<h1>Security Permission</h1>
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+		<div id="mainSection">
+			<div id="mainBody">            
+				<div class="introduction"><p>Adds a SecurityPermission to the project. Describes a set of security permissions applied to code.</p></div>
+				                      <DIV class="OH_CollapsibleAreaRegion">
+					        <DIV class="OH_regiontitle">Recipe Description</DIV>
+					        <DIV class="OH_RegionToggle"></DIV>
+				        </DIV>
+				        <DIV class="OH_clear"></DIV>
+				        <p>
+                        The recipe adds a line for the permission to the Package.Template.xml (for VS 2010 projects) or to the file CASPolicy.txt (for HIVE projects). Warning: Existing permissions with the same name are replaced completely.
+				        </p>
+				                   
+                           <DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">Arguments</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>
+				<p>
+				<div class="tableSection">
+                <table id="argumentTable" width="100%">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>							<tr>
+								<td class="name" colspan="2">Typical Permissions</td>
+							</tr>                
+														<tr>
+								<td>Assertion</td>
+								<td>Optional Boolean. Ability to assert that all this code's callers have the requisite permission for the operation.</td>
+							</tr>                
+														<tr>
+								<td>BindingRedirects</td>
+								<td>Optional Boolean. Permission to perform explicit binding redirection in the application configuration file. This includes redirection of .NET Framework assemblies that have been unified as well as other assemblies found outside the .NET Framework.</td>
+							</tr>                
+														<tr>
+								<td>Execution</td>
+								<td>Optional Boolean. Permission for the code to run. Without this permission, managed code will not be executed. This flag has no effect when used dynamically with stack modifiers such as Deny, Assert, and PermitOnly.</td>
+							</tr>                
+														<tr>
+								<td>Infrastructure</td>
+								<td>Optional Boolean. Permission to plug code into the common language runtime infrastructure, such as adding Remoting Context Sinks, Envoy Sinks and Dynamic Sinks.</td>
+							</tr>                
+														<tr>
+								<td>NoFlags</td>
+								<td>Optional Boolean. No security access.</td>
+							</tr>                
+														<tr>
+								<td>RemotingConfiguration</td>
+								<td>Optional Boolean. Permission to configure Remoting types and channels.</td>
+							</tr>                
+														<tr>
+								<td>SerializationFormatter</td>
+								<td>Optional Boolean. Ability to provide serialization services. Used by serialization formatters.</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">Advanced Permissions</td>
+							</tr>                
+														<tr>
+								<td>AllFlags</td>
+								<td>Optional Boolean. The unrestricted state of the permission.</td>
+							</tr>                
+														<tr>
+								<td>ControlPolicy</td>
+								<td>Optional Boolean. Ability to view and modify policy. This is a powerful permission that should only be granted to highly trusted code.</td>
+							</tr>                
+														<tr>
+								<td>ControlThread</td>
+								<td>Optional Boolean. Ability to use certain advanced operations on threads.</td>
+							</tr>                
+														<tr>
+								<td>ControlEvidence</td>
+								<td>Optional Boolean. Ability to provide evidence, including the ability to alter the evidence provided by the common language runtime. This is a powerful permission that should only be granted to highly trusted code.</td>
+							</tr>                
+														<tr>
+								<td>ControlAppDomain</td>
+								<td>Optional Boolean. Ability to create and manipulate an AppDomain.</td>
+							</tr>                
+														<tr>
+								<td>ControlDomainPolicy</td>
+								<td>Optional Boolean. Ability to specify domain policy.</td>
+							</tr>                
+														<tr>
+								<td>ControlPrincipal</td>
+								<td>Optional Boolean. Ability to manipulate the principal object.</td>
+							</tr>                
+														<tr>
+								<td>SkipVerification</td>
+								<td>Optional Boolean. Ability to skip verification of code in this assembly. Code that is unverifiable can be run if this permission is granted. This is a powerful permission that should be granted only to highly trusted code. This flag has no effect when used dynamically with stack modifiers such as Deny, Assert, and PermitOnly.</td>
+							</tr>                
+														<tr>
+								<td>UnmanagedCode</td>
+								<td>Optional Boolean. Ability to call unmanaged code. Since unmanaged code potentially allows other permissions to be bypassed, this is a dangerous permission that should only be granted to highly trusted code. It is used for such applications as calling native code using PInvoke or using COM interop.</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">No Permissions</td>
+							</tr>                
+														<tr>
+								<td>Unrestricted</td>
+								<td>Required Boolean. If Unrestricted is true, all other permission will be ignored.</td>
+							</tr>                
+							                </table>
+				</div>
+				</p>
+                           <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Authors</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+			<p>
+           <ul>
+           <li>Torsten Mandelkow</li>           </ul>
+           </p>
+           
+		   <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Version history</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+		   <p>
+           <ul>
+           <li>1.0 Initial Recipe</li>           </ul>
+		   </p>
+
+
+
+     
+				</div>			
+			</div>
+		</div>
+	</div>
+			<br />
+		<table width="100%">
+		<tr>
+			<td>
+				<div class="OH_feedbacklink">
+						<b>Disclaimer:</b> The views and opinions expressed in this documentation and in SPSF are those of the <a href="SPSF_OVERVIEW_110_AUTHORS.html">authors</a> and do not necessarily reflect the opinions and recommendations of Microsoft or any member of Microsoft. All trademarks, service marks, collective marks, copyrights, registered names, and marks used or cited by this documentation are the property of their respective owners.<br />
+						SharePoint Software Factory, Version 4.1.3.2705, <a href="SPSF_OVERVIEW_800_LICENSE.html">GPLv2</a>, see <a href="http://spsf.codeplex.com">http://spsf.codeplex.com</a> for more information
+				</div>
+				<br />
+			</td>
+		</tr>
+		</table>
+		<br />
+			</body>
+</html>
+
+

@@ -1,0 +1,209 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	  <html xmlns="http://www.w3.org/1999/xhtml">
+	    <head>
+		    <link rel="stylesheet" type="text/css" href="Styles/branding.css"/>				
+		    		<title>List Definition</title>
+				<meta name="Description" content="Adds a list definition based on a local installed list definition" />
+		<style type="text/css">
+
+		.OH_TocResize
+		{	
+			top: 126px;
+		}
+
+		</style>
+	</head>	
+	<body class="primary-mtps-offline-document" 
+	 style="max-width: 1220px;" >		<table class="noSpace" style="width: 100%;"> 
+			<tr>
+			  <td colspan="2" style="background-color: #6685A2;">&nbsp;</td>
+			</tr>
+			<tr>
+			  <td>
+				<img src="./_img/header_left.jpg" height="66" style="margin-top: 10px; margin-bottom: 20px" />
+			  </td>
+			  <td align="right" valign="top" rowspan="2">
+				<img src="./_img/header_right.jpg" style="margin-top: 2px" height="72"/>
+			  </td>
+			</tr>			
+		</table>
+		  
+		<div class="OH_topic">		 
+     
+		  <div id="mainHeader">
+			<table>
+			  <tbody>
+				<tr>
+				  <td>
+					<h1>List Definition</h1>
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+		<div id="mainSection">
+			<div id="mainBody">            
+				<div class="introduction"><p>Adds a list definition based on a local installed list definition</p></div>
+				                 
+                           <DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">Arguments</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>
+				<p>
+				<div class="tableSection">
+                <table id="argumentTable" width="100%">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>							<tr>
+								<td class="name" colspan="2">List Template Settings</td>
+							</tr>                
+														<tr>
+								<td>Base Template</td>
+								<td>Required Integer. Specifies the base type, or default schema, for lists created from the definition.</td>
+							</tr>                
+														<tr>
+								<td>Name</td>
+								<td>Required Text. Specifies the internal name of the list definition. No spaces or special characters can be used. This name is also used to find the folder that contains the Schema.xml file that defines the schema in use.</td>
+							</tr>                
+														<tr>
+								<td>DisplayName</td>
+								<td>Required Text. Specifies the display name of the list definition.</td>
+							</tr>                
+														<tr>
+								<td>Description</td>
+								<td>Optional Text. Provides a description of the list definition.</td>
+							</tr>                
+														<tr>
+								<td>Category</td>
+								<td>Optional Text. Specifies the category with which to associate lists created through the list definition.</td>
+							</tr>                
+														<tr>
+								<td>Sequence</td>
+								<td>Optional Integer. Specifies the ordering priority to use for the list template on the Create page. If Sequence is not set, the template appears last in arbitrary order with any other templates that also lack a Sequence value. Two templates that specify the same sequence are sorted together in an arbitrary order.</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">Advanced Settings</td>
+							</tr>                
+														<tr>
+								<td>Type</td>
+								<td>Optional Integer. Provides a unique identifier for the template. This identifier must be unique within the feature, but need not be unique across all feature definitions or site definitions. </td>
+							</tr>                
+														<tr>
+								<td>Base Type</td>
+								<td>Required Integer. Specifies the base type, or default schema, for lists created from the definition.</td>
+							</tr>                
+														<tr>
+								<td>Additional Content Types</td>
+								<td>Optional Content Types.</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">Options</td>
+							</tr>                
+														<tr>
+								<td>Default in new sites</td>
+								<td>Optional Boolean. TRUE to specify that new SharePoint sites will include this list.</td>
+							</tr>                
+														<tr>
+								<td>OnQuickLaunch</td>
+								<td>Optional Boolean. TRUE to display lists created from the list definition on the QuickLaunch bar.</td>
+							</tr>                
+														<tr>
+								<td>DisableAttachments</td>
+								<td>Optional Boolean. TRUE to specify that users can attach files to items in lists created through the template; otherwise, FALSE.</td>
+							</tr>                
+														<tr>
+								<td>DisallowContentTypes</td>
+								<td>Optional Boolean. TRUE to specify that content types can be managed on lists created through the template; otherwise, FALSE.</td>
+							</tr>                
+														<tr>
+								<td>VersioningEnabled</td>
+								<td>Optional Boolean. TRUE to specify that versioning is enabled by default in lists created through the template; otherwise, FALSE.</td>
+							</tr>                
+														<tr>
+								<td>FolderCreation</td>
+								<td>Optional Boolean. TRUE to enable folder creation within the list and to specify that the New Folder command appears on the New menu in list views; otherwise, FALSE.</td>
+							</tr>                
+														<tr>
+								<td>EnableModeration</td>
+								<td>Optional Boolean. TRUE to specify that content approval is enabled by default in lists created through the template; otherwise, FALSE.</td>
+							</tr>                
+														<tr>
+								<td>Hidden</td>
+								<td>Optional Boolean. TRUE to specify that the list definition is not available on the Create page for creating lists.</td>
+							</tr>                
+														<tr>
+								<td>HiddenList</td>
+								<td>Optional Boolean. TRUE to specify that a list created from the list definition is hidden.</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">Advanced</td>
+							</tr>                
+														<tr>
+								<td>Security Read</td>
+								<td>Optional Text. Defines the item-level permissions in the list for users with sufficient permission to read or edit list items. The SecurityBits attribute contains a 2-digit string. The first digit in the string controls the read access; the second digit in the string controls the edit access.</td>
+							</tr>                
+														<tr>
+								<td>Security Edit</td>
+								<td>Optional Text. Defines the item-level permissions in the list for users with sufficient permission to read or edit list items. The SecurityBits attribute contains a 2-digit string. The first digit in the string controls the read access; the second digit in the string controls the edit access.</td>
+							</tr>                
+							                </table>
+				</div>
+				</p>
+                           <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Authors</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+			<p>
+           <ul>
+           <li>Torsten Mandelkow</li>           </ul>
+           </p>
+           
+		   <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Version history</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+		   <p>
+           <ul>
+           <li>1.0 Initial Recipe</li>           </ul>
+		   </p>
+
+
+
+     
+				</div>			
+			</div>
+		</div>
+	</div>
+			<br />
+		<table width="100%">
+		<tr>
+			<td>
+				<div class="OH_feedbacklink">
+						<b>Disclaimer:</b> The views and opinions expressed in this documentation and in SPSF are those of the <a href="SPSF_OVERVIEW_110_AUTHORS.html">authors</a> and do not necessarily reflect the opinions and recommendations of Microsoft or any member of Microsoft. All trademarks, service marks, collective marks, copyrights, registered names, and marks used or cited by this documentation are the property of their respective owners.<br />
+						SharePoint Software Factory, Version 4.1.2.2904, <a href="SPSF_OVERVIEW_800_LICENSE.html">GPLv2</a>, see <a href="http://spsf.codeplex.com">http://spsf.codeplex.com</a> for more information
+				</div>
+				<br />
+			</td>
+		</tr>
+		</table>
+		<br />
+					<script type="text/javascript">
+			  var _gaq = _gaq || [];
+			  _gaq.push(['_setAccount', 'UA-6735734-1']);
+			  _gaq.push(['_trackPageview']);
+
+			  (function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			  })();
+			</script>
+			</body>
+</html>
+
+

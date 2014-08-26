@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains arguments which are used in all custom actions -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+	<Argument Name="SiteDefinitionName" Type="System.String" >
+		<Converter Type="NamespaceStringConverter" />
+		<ValueProvider Type="VisualStudioCreateItemName" DefaultValue="TeamSiteDefinition1" />
+	</Argument>
+	<Argument Name="SiteDefinitionImage" Type="System.String" >
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SiteDefinitionName).gif" />
+	</Argument>
+	<Argument Name="SiteDefinitionImageFolder" Type="System.String" >
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="/_layouts$(VersionedFolderName)/images/$(SolutionSubFolder)" />
+	</Argument>
+
+	<Argument Name="SiteDefinitionTitle" Type="System.String" >
+		<ValueProvider Type="Evaluator" Expression="$(SiteDefinitionName) Title" />
+	</Argument>
+	<Argument Name="SiteDefinitionDescription" Type="System.String" >
+		<ValueProvider Type="Evaluator" Expression="$(SiteDefinitionName) Description" />
+	</Argument>
+	<Argument Name="SiteDefinitionCategory" Type="System.String" >
+		<ValueProvider Type="Evaluator" Expression="Custom Site Definitions" />
+	</Argument>
+	<Argument Name="SiteDefinitionHidden" Type="System.Boolean" >
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+	<Argument Name="SiteDefinitionRootWebOnly" Type="System.Boolean" >
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+	<Argument Name="SiteDefinitionVisibilityFeatureDependency" Type="NameValueItem" Required="false" />
+
+	<Argument Name="TemplateOnetXml" Type="System.String" >
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="Text\SiteDefinitions\$(RecipeName)\onet.xml.t4" />
+	</Argument>
+	<Argument Name="TemplateWebtempXml" Type="System.String" >
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="Text\SiteDefinitions\$(RecipeName)\WEBTEMP.xml.t4" />
+	</Argument>
+	<Argument Name="TemplateDefaultAspx" Type="System.String" >
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="Text\SiteDefinitions\$(RecipeName)\default.aspx.t4" />
+	</Argument>
+
+	
+</Arguments>
+  

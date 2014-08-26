@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="OpenInBrowser"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Open in Browser</Caption>
+  <Description>Opens the selected item in browser.</Description>
+  <HostData Priority="400">
+    <Icon File="Help/Icons/icon_screen.ico" />
+		<CommandBar Name="Item"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="WebFileReference"
+      Enabled="true"	  
+      ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="Helpers" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[The recipe opens the selected file in browser. The recipe is useful to open deployed file in SharePoint directly from within Visual Studio.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+	<Arguments>
+		<Argument Name="SelectedFile" Type="EnvDTE.ProjectItem, EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+			<ValueProvider Type="CurrentItemProvider" />
+		</Argument>
+	</Arguments>
+  <Actions>
+		<Action Name="OpenItemInBrowser" Type="OpenItemInBrowser">
+			<Input Name="SelectedItem" RecipeArgument="SelectedFile" />
+		</Action>
+  </Actions>
+</Recipe>

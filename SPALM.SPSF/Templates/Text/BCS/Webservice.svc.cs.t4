@@ -1,0 +1,151 @@
+﻿<#@ template language="C#" #>
+<#@ include file="Templates/Text/BCS/BCSFunctions.t4" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using Microsoft.SharePoint.Client.Services;
+  using System.ServiceModel.Activation;
+  using System.Collections.Generic;
+
+  [BasicHttpBindingServiceMetadataExchangeEndpoint]
+  [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
+  public class <#= WebServiceName #> : I<#= WebServiceName #>
+  {
+    //Access the web service from URL http://<Servername>/_vti_bin/<#= SafeAppName #>/<#= WebServiceName #>.svc/mex
+<#
+
+int count = 0;
+foreach(BCSEntity entity in BCSModel.Entities)
+{
+	if(entity.CreateReadOperation)
+	{
+		#>
+		public <#= entity.Name #> <#= entity.ReadItemOperationName #>(<#
+
+		count = 0;
+		foreach(BCSField field in entity.Fields)
+		{
+			if(field.IsKey)
+			{
+				if(count > 0)
+				{
+					#>, <#
+				}
+				#><#= field.DataType.ToString() #> <#= field.Name #><#
+				count++;
+			}
+		}
+			
+		#>)
+		{
+			<#= entity.Name #> entity = new <#= entity.Name #>();
+				
+			// TODO: Set the properties of the entity
+				
+			return entity;
+		}
+
+		public List<<#= entity.Name #>> <#= entity.ReadListOperationName #>()
+		{
+			List<<#= entity.Name #>> allEntities = new List<<#= entity.Name #>>();
+
+			// TODO: add the entities to the list
+
+			return allEntities;
+		}
+		<#
+	}
+
+	if(entity.CreateCreateOperation)
+	{
+		#>
+
+		public <#= entity.Name #> <#= entity.CreateOperationName #>(<#= entity.Name #> newentity)
+		{
+			// TODO: Save the created entity to the repository
+
+			return newentity;				
+		}
+		<#
+	}
+	
+	if(entity.CreateDeleteOperation)
+	{
+		#>
+
+		public void <#= entity.DeleteOperationName #>(<#
+
+		count = 0;
+		foreach(BCSField field in entity.Fields)
+		{
+			if(field.IsKey)
+			{
+				if(count > 0)
+				{
+					#> ,<#
+				}
+				#><#= field.DataType.ToString() #> <#= field.Name #><#
+				count++;
+			}
+		}
+			
+		#>)
+		{
+			// TODO: delete the entity from the repository
+		}
+
+		<#
+	}
+
+	if(entity.CreateUpdateOperation)
+	{
+		#>
+
+		public void <#= entity.UpdateOperationName #>(<#= entity.Name #> update<#= entity.Name #><#
+			//add all keys as preupdaterfields
+
+			if(!EntityHasKeyWithIdentity(entity))
+			{
+				//needs preupdaterfields
+				foreach(BCSField field in GetUpdateWhereClauseFieldsPreUpdate(entity))
+				{
+					#>, <#= field.DataType.ToString() #> preupdate<#= field.Name #><#		
+				}
+			}	
+
+			#>)
+		{
+			// TODO: Update the entity in the repository
+		}
+		<#
+	}
+
+	foreach(BCSEntity entityWhichReferencesMe in GetAssocationsToMe(entity))
+	{
+		foreach(BCSField fieldWithReference in entityWhichReferencesMe.Fields)
+		{
+			if(fieldWithReference.ReferencedEntity == entity.Name)
+			{
+				if(BCSModel.IsValidAssociation(fieldWithReference))
+				{
+					#>
+					public List<<#= entityWhichReferencesMe.Name #>> <#= fieldWithReference.AssociationName #>(<#= GetTypeNameClass(fieldWithReference) #> <#= fieldWithReference.Name #>)
+					{
+						List<<#= entityWhichReferencesMe.Name #>> allEntities = new List<<#= entityWhichReferencesMe.Name #>>();
+
+						// TODO: Provide all entities which match the given condition
+
+						return allEntities;
+					}
+					<#
+				}
+			}
+		}
+	}
+}
+#>
+  }
+}

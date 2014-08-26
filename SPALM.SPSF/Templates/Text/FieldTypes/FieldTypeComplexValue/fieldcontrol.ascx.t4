@@ -1,0 +1,27 @@
+<#@ template language="C#" #>
+<%@ Control Language="C#" Debug="true" %>
+<%@ Assembly Name="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register TagPrefix="SharePoint" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" namespace="Microsoft.SharePoint.WebControls"%>
+ 
+<SharePoint:RenderingTemplate ID="<#= FieldTypeRenderingTemplateId #>" runat="server">
+    <Template>
+		<table class="ms-form">
+			<tr>
+				<td>Column1:</td>
+				<td><asp:TextBox ID="column1Control" MaxLength="255" Size="50" runat="server"/></td>
+			</tr>
+			<tr>
+				<td>Column2:</td>
+				<td><asp:TextBox ID="column2Control" MaxLength="255" Size="50" runat="server"/></td>
+			</tr>
+			<tr>
+				<td>Column3:</td>
+				<td><asp:TextBox ID="column3Control" MaxLength="255" Size="50" runat="server"/></td>
+			</tr>
+      <tr>
+				<td>Column4:</td>
+				<td><asp:TextBox ID="column4Control" MaxLength="255" Size="50" runat="server"/></td>
+			</tr>
+		</table>
+    </Template>
+</SharePoint:RenderingTemplate>

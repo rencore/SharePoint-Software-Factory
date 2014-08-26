@@ -1,0 +1,119 @@
+﻿<#@ template language="C#" #><?xml version="1.0"?>
+<Project Title="<#
+if(AutoCreateResxFiles)
+{
+	#>$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_SiteDefinitionTitle;<#
+}
+else
+{
+	#><#= SiteDefinitionTitle #><#
+}
+#>" Revision="2" ListDir="$Resources:core,lists_Folder;" xmlns:ows="Microsoft SharePoint" xmlns="http://schemas.microsoft.com/sharepoint/"><!-- _locID@Title="camlidonet1" _locComment="{StringCategory=HTX}" -->
+	<NavBars>
+		<NavBar Name="$Resources:core,category_Top;" Separator="&amp;nbsp;&amp;nbsp;&amp;nbsp;" Body="&lt;a ID='onettopnavbar#LABEL_ID#' href='#URL#' accesskey='J'&gt;#LABEL#&lt;/a&gt;" ID="1002"/>
+		<NavBar Name="$Resources:core,category_Documents;" Prefix="&lt;table border=0 cellpadding=4 cellspacing=0&gt;" Body="&lt;tr&gt;&lt;td&gt;&lt;table border=0 cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td&gt;&lt;img src='/_layouts<#= VersionedFolderName #>/images/blank.gif' ID='100' alt='' border=0&gt;&amp;nbsp;&lt;/td&gt;&lt;td valign=top&gt;&lt;a ID=onetleftnavbar#LABEL_ID# href='#URL#'&gt;#LABEL#&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;" Suffix="&lt;/table&gt;" ID="1004"/>
+		<NavBar Name="$Resources:core,category_Lists;" Prefix="&lt;table border=0 cellpadding=4 cellspacing=0&gt;" Body="&lt;tr&gt;&lt;td&gt;&lt;table border=0 cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td&gt;&lt;img src='/_layouts<#= VersionedFolderName #>/images/blank.gif' ID='100' alt='' border=0&gt;&amp;nbsp;&lt;/td&gt;&lt;td valign=top&gt;&lt;a ID=onetleftnavbar#LABEL_ID# href='#URL#'&gt;#LABEL#&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;" Suffix="&lt;/table&gt;" ID="1003"/>
+		<NavBar Name="$Resources:core,category_Discussions;" Prefix="&lt;table border=0 cellpadding=4 cellspacing=0&gt;" Body="&lt;tr&gt;&lt;td&gt;&lt;table border=0 cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td&gt;&lt;img src='/_layouts<#= VersionedFolderName #>/images/blank.gif' ID='100' alt='' border=0&gt;&amp;nbsp;&lt;/td&gt;&lt;td valign=top&gt;&lt;a ID=onetleftnavbar#LABEL_ID# href='#URL#'&gt;#LABEL#&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;" Suffix="&lt;/table&gt;" ID="1006"/>
+		<NavBar Name="$Resources:core,category_Sites;" Prefix="&lt;table border=0 cellpadding=4 cellspacing=0&gt;" Body="&lt;tr&gt;&lt;td&gt;&lt;table border=0 cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td&gt;&lt;img src='/_layouts<#= VersionedFolderName #>/images/blank.gif' ID='100' alt='' border=0&gt;&amp;nbsp;&lt;/td&gt;&lt;td valign=top&gt;&lt;a ID=onetleftnavbar#LABEL_ID# href='#URL#'&gt;#LABEL#&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;" Suffix="&lt;/table&gt;" ID="1026"/>
+		<NavBar Name="$Resources:core,category_People;" Prefix="&lt;table border=0 cellpadding=4 cellspacing=0&gt;" Body="&lt;tr&gt;&lt;td&gt;&lt;table border=0 cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td&gt;&lt;img src='/_layouts<#= VersionedFolderName #>/images/blank.gif' ID='100' alt='' border=0&gt;&amp;nbsp;&lt;/td&gt;&lt;td valign=top&gt;&lt;a ID=onetleftnavbar#LABEL_ID# href='#URL#'&gt;#LABEL#&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;" Suffix="&lt;/table&gt;" ID="1027"/>
+	</NavBars>
+	<ListTemplates>
+	</ListTemplates>
+	<DocumentTemplates>
+		<DocumentTemplate Path="STS" Name="" DisplayName="$Resources:core,doctemp_None;" Type="100" Default="FALSE" Description="$Resources:core,doctemp_None_Desc;"/>
+		<DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_Word97;" Type="101" Default="TRUE" Description="$Resources:core,doctemp_Word97_Desc;">
+			<DocumentTemplateFiles>
+				<DocumentTemplateFile Name="doctemp\word\wdtmpl.doc" TargetName="Forms/template.doc" Default="TRUE"/>
+			</DocumentTemplateFiles>
+		</DocumentTemplate>
+		<DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_Excel97;" Type="103" Description="$Resources:core,doctemp_Excel97_Desc;">
+			<DocumentTemplateFiles>
+				<DocumentTemplateFile Name="doctemp\xl\xltmpl.xls" TargetName="Forms/template.xls" Default="TRUE"/>
+			</DocumentTemplateFiles>
+		</DocumentTemplate>
+		<DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_Powerpoint97;" Type="104" Description="$Resources:core,doctemp_Powerpoint97_Desc;">
+			<DocumentTemplateFiles>
+				<DocumentTemplateFile Name="doctemp\ppt\pptmpl.pot" TargetName="Forms/template.pot" Default="TRUE"/>
+			</DocumentTemplateFiles>
+		</DocumentTemplate>
+		<DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_Word;" Type="121" Default="TRUE" Description="$Resources:core,doctemp_Word_Desc;">
+			<DocumentTemplateFiles>
+				<DocumentTemplateFile Name="doctemp\word\wdtmpl.dotx" TargetName="Forms/template.dotx" Default="TRUE"/>
+			</DocumentTemplateFiles>
+		</DocumentTemplate>
+		<DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_Excel;" Type="122" Description="$Resources:core,doctemp_Excel_Desc;">
+			<DocumentTemplateFiles>
+				<DocumentTemplateFile Name="doctemp\xl\xltmpl.xlsx" TargetName="Forms/template.xlsx" Default="TRUE"/>
+			</DocumentTemplateFiles>
+		</DocumentTemplate>
+		<DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_Powerpoint;" Type="123" Description="$Resources:core,doctemp_Powerpoint_Desc;">
+			<DocumentTemplateFiles>
+				<DocumentTemplateFile Name="doctemp\ppt\pptmpl.pptx" TargetName="Forms/template.pptx" Default="TRUE"/>
+			</DocumentTemplateFiles>
+		</DocumentTemplate>
+		<DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_OneNote;" Type="111" Description="$Resources:core,doctemp_OneNote_Desc;">
+			<DocumentTemplateFiles>
+				<DocumentTemplateFile Name="doctemp\onenote\template.one" TargetName="Forms/template.one" Default="TRUE"/>
+			</DocumentTemplateFiles>
+		</DocumentTemplate>
+		<DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_FP;" Type="102" Description="$Resources:core,doctemp_FP_Desc;">
+			<DocumentTemplateFiles>
+				<DocumentTemplateFile Name="doctemp\fp\fptmpl.htm" TargetName="Forms/template.htm" Default="TRUE"/>
+			</DocumentTemplateFiles>
+		</DocumentTemplate>
+		<DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_BasicPage;" Type="105" Description="$Resources:core,doctemp_BasicPage_Desc;">
+			<DocumentTemplateFiles>
+				<DocumentTemplateFile Name="doctemp\blankpgs\_basicpage.htm" TargetName="Forms/_basicpage.htm" Default="TRUE"/>
+			</DocumentTemplateFiles>
+		</DocumentTemplate>
+		<DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_WebPartPage;" Type="106" Description="$Resources:core,doctemp_WebPartPage_Desc;">
+			<DocumentTemplateFiles>
+				<DocumentTemplateFile Name="doctemp\smartpgs\_webpartpage.htm" TargetName="Forms/_webpartpage.htm" Default="TRUE"/>
+			</DocumentTemplateFiles>
+		</DocumentTemplate>
+		<DocumentTemplate XMLForm="TRUE" Path="STS" DisplayName="$Resources:core,doctemp_BlankForm;" Type="1000" Default="TRUE" Description="$Resources:core,doctemp_BlankForm_Desc;">
+			<DocumentTemplateFiles>
+				<DocumentTemplateFile Name="doctemp\xmlforms\blank\template.xml" TargetName="Forms/template.xml" Default="TRUE"/>
+			</DocumentTemplateFiles>
+		</DocumentTemplate>
+	</DocumentTemplates>
+	<Configurations>
+		<Configuration ID="0" Name="Blank">
+			<Lists/>
+			<Modules>
+				<Module Name="DefaultBlank"/>
+			</Modules>
+			<SiteFeatures>
+				<!-- BasicWebParts Feature -->
+				<Feature ID="00BFEA71-1C5E-4A24-B310-BA51C3EB7A57"/>
+				<!-- Three-state Workflow Feature -->
+				<Feature ID="FDE5D850-671E-4143-950A-87B473922DC7"/>
+			</SiteFeatures>
+			<WebFeatures>
+				<Feature ID="00BFEA71-4EA5-48D4-A4AD-7EA5C011ABE5"/>
+				<!-- TeamCollab Feature -->
+				<Feature ID="F41CC668-37E5-4743-B4A8-74D1DB3FD8A4"/>
+				<!-- MobilityRedirect -->
+			</WebFeatures>
+		</Configuration>
+	</Configurations>
+	<Modules>
+		<Module Name="DefaultBlank" Url="" Path="">
+			<File Url="default.aspx" NavBarHome="True" Type="Ghostable">
+				<AllUsersWebPart WebPartZoneID="Right" WebPartOrder="1"><![CDATA[
+                   <WebPart xmlns="http://schemas.microsoft.com/WebPart/v2" xmlns:iwp="http://schemas.microsoft.com/WebPart/v2/Image">
+                        <Assembly>Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c</Assembly>
+                        <TypeName>Microsoft.SharePoint.WebPartPages.ImageWebPart</TypeName>
+                        <FrameType>None</FrameType>
+                        <Title>$Resources:wp_SiteImage;</Title>
+                        <iwp:ImageLink>/_layouts<#= VersionedFolderName #>/images/homepage.gif</iwp:ImageLink>
+                        <iwp:AlternativeText>$Resources:core,sitelogo_wss;</iwp:AlternativeText>
+                   </WebPart>
+                   ]]></AllUsersWebPart>
+				<NavBarPage Name="$Resources:core,nav_Home;" ID="1002" Position="Start"/>
+				<NavBarPage Name="$Resources:core,nav_Home;" ID="0" Position="Start"/>
+			</File>
+		</Module>
+	</Modules>
+	<ServerEmailFooter>$Resources:ServerEmailFooter;</ServerEmailFooter>
+</Project>

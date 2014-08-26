@@ -1,0 +1,8 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+  <data name="<#= ResourceKeyPrefix #>_FeatureTitle">
+    <value><#= FeatureTitle #></value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_FeatureDescription">
+    <value><#= FeatureDescription #></value>
+  </data>  

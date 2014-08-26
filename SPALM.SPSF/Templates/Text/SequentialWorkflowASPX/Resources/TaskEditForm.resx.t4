@@ -1,0 +1,29 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="WorkflowName" #>
+<#@ assembly name="System.dll" #>
+  <data name="TaskEditForm_DetailTitle" xml:space="preserve">
+    <value>TaskEditForm_DetailTitle</value>
+  </data>
+  <data name="TaskEditForm_DetailDescription" xml:space="preserve">
+    <value>TaskEditForm_DetailDescription</value>
+  </data>
+    <data name="TaskEditForm_DetailInfo" xml:space="preserve">
+    <value>TaskEditForm_DetailInfo</value>
+  </data>
+   <data name="TaskEditForm_DetailItem" xml:space="preserve">
+    <value>TaskEditForm_DetailItem</value>
+  </data>
+  <data name="TaskEditForm_DetailList" xml:space="preserve">
+    <value>TaskEditForm_DetailList</value>
+  </data>
+    <data name="TaskEditForm_DetailSite" xml:space="preserve">
+    <value>TaskEditForm_DetailSite</value>
+  </data> 
+  <data name="btn_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+    <data name="btn_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data> 
+  
+  

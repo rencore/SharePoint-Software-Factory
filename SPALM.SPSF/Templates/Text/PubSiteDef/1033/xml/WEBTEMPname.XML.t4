@@ -1,0 +1,34 @@
+﻿<#@ template language="C#" #><?xml version="1.0" encoding="utf-8" ?>
+<Templates xmlns:ows="Microsoft SharePoint">
+	<Template 
+		Name="<#= PubSiteDefName #>" 
+		ID="<#= PubSiteDefID #>">
+		<Configuration ID="0"
+      Title="<#= PubSiteDefTitle #>"
+      Description="<#= PubSiteDefDescription #>"
+      DisplayCategory="<#= PubSiteDefDisplayCategory #>"        
+      Hidden="<#= PubSiteDefHidden #>" 
+			ImageUrl="/_layouts<#= VersionedFolderName #>/1033/images/Preview<#= PubSiteDefName #>.gif" 			
+			RootWebOnly = "<#= PubSiteDefRootWebOnly #>"
+			SubWebOnly = "<#= PubSiteDefSubWebOnly #>"			
+			<#
+			if(PubSiteDefCreateProvisioningHandler)
+			{
+				#>
+				ProvisionAssembly="<#= ProjectAssemblyName #>"
+				ProvisionClass="<#= ProjectNamespace #>.<#= PubSiteDefProvisioningHandlerClass #>"
+				ProvisionData=""
+				<#
+			}
+			else if(PubSiteDefCreateProvisioningXML)
+			{
+				#>
+				ProvisionAssembly="Microsoft.SharePoint.Publishing, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"              
+				ProvisionClass="Microsoft.SharePoint.Publishing.PortalProvisioningProvider"
+				ProvisionData="xml\\<#= PubSiteDefName #>Portal.xml"
+				<#
+			}
+			#>
+			/>
+	</Template>
+</Templates>

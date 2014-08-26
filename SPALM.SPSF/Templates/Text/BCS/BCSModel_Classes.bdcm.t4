@@ -1,0 +1,355 @@
+﻿<#@ template language="C#" #>
+<#@ include file="Templates/Text/BCS/BCSFunctions.t4" #><?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<#
+
+string bcsType = "DotNetAssembly";
+
+string entityNamespace = ProjectNamespace + "." + BCSModelName;
+string entityAssembly = ProjectAssemblyShortName;
+string lobSystemName = BCSModelName;
+
+string webServiceName = BCSModelName + "WebService";
+string webServiceUrl = DefaultWebApp + "/_vti_bin/" + SafeAppName + "/" + webServiceName + ".svc";
+string webServiceUrlDisco = webServiceUrl + "/mex";
+
+bool isWebService = false;
+if(BCSType == "Wcf")
+{
+	bcsType = "Wcf";
+	isWebService = true;
+	entityNamespace = BCSModelName + "Proxy";
+	entityAssembly = BCSModelName + "WS";
+	lobSystemName = BCSModelName + "WS";
+}
+if(BCSType == "ASMX")
+{
+	bcsType = "Wcf";
+	isWebService = true;
+
+	webServiceUrl = DefaultWebApp + "/_vti_bin/" + SafeAppName + "/" + webServiceName + ".asmx";
+	webServiceUrlDisco = DefaultWebApp + "/_vti_bin/" + SafeAppName + "/" + webServiceName + "WSDL.aspx";
+
+	entityNamespace = BCSModelName + "Proxy";
+	entityAssembly = BCSModelName + "WS";
+	lobSystemName = BCSModelName + "WS";
+}
+
+#>
+<Model Name="<#= BCSModelName #>" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns="http://schemas.microsoft.com/windows/2007/BusinessDataCatalog">
+	<#
+			WritePermissions(BCSPermissions);
+	#>
+	<LobSystems>
+		<LobSystem Name="<#= lobSystemName #>" DefaultDisplayName="<#= BCSModelDisplayName #>" Type="<#= bcsType #>">
+			<#
+			if(isWebService)
+			{
+				#>
+				<Properties>
+					<Property Name="WsdlFetchAuthenticationMode" Type="System.String">PassThrough</Property>
+					<Property Name="WcfMexDiscoMode" Type="System.String">Disco</Property>
+					<Property Name="WcfMexDocumentUrl" Type="System.String"><#= webServiceUrlDisco #></Property>
+					<Property Name="WcfProxyNamespace" Type="System.String"><#= entityNamespace #></Property>					
+					<Property Name="WildcardCharacter" Type="System.String">*</Property>
+				</Properties>
+				<#
+			}
+			#>
+			<LobSystemInstances>
+				<LobSystemInstance Name="<#= lobSystemName #>" DefaultDisplayName="<#= BCSModelDisplayName #>">
+				<#
+				if(isWebService)
+				{
+					#>
+					<Properties>
+						<Property Name="WcfAuthenticationMode" Type="System.String">PassThrough</Property>
+						<Property Name="WcfEndpointAddress" Type="System.String"><#= webServiceUrl #></Property>
+						<!-- Important: Finding the correct endpoint url can tricky. Use svcutil.exe to obtain corrent endpoint address
+							see: http://jardalu.blogspot.com/2010/05/spd-wcf-connection-cannot-find-any.html -->
+						<Property Name="ShowInSearchUI" Type="System.String"></Property>
+					</Properties>
+					<#
+				}
+				#></LobSystemInstance>
+			</LobSystemInstances>
+			<Entities>
+			<#
+
+			foreach(BCSEntity entity in BCSModel.Entities)
+			{
+				#>
+				<Entity Name="<#= entity.Name #>" Namespace="<#= entityNamespace #>" Version="<#= BCSModelVersion #>" EstimatedInstanceCount="<#= BCSEstimatedCount #>" DefaultDisplayName="<#= entity.DisplayName #>">
+ 					  <#			
+					  if(!isWebService)
+					  {
+						WriteEntityProperties(entity, "<Property Name=\"Class\" Type=\"System.String\">" + entityNamespace + "." + entity.Name + "EntityService, " + entityAssembly + "</Property>");
+					  }
+					  WritePermissions(BCSPermissions);
+					  #>
+					  <Identifiers>
+					  <#
+							foreach(BCSField field in entity.Fields)
+							{
+								if(field.IsKey)
+								{
+									#>
+									<Identifier TypeName="<#= field.DataType.ToString() #>" Name="<#= field.Name #>" />
+									<#
+								}
+							}
+						#>
+						<!-- TODO: Change the name of the ID and if needed the TypeName of your identifier. -->
+					  </Identifiers>
+					  <Methods>
+					  <#
+						if(entity.CreateReadOperation)
+						{
+							#>
+							<Method Name="<#= entity.ReadListOperationName #>" DefaultDisplayName="Read <#= entity.DisplayName #> List">
+								<#
+								WritePermissions(BCSPermissions);
+								#>
+								<Parameters>
+									<Parameter Direction="Return" Name="returnParameter">
+										<TypeDescriptor TypeName="System.Collections.Generic.IEnumerable`1[[<#= entityNamespace #>.<#= entity.Name #>, <#= entityAssembly #>]]" IsCollection="true" Name="<#= entity.Name #>List">
+											<TypeDescriptors>
+												<TypeDescriptor Name="<#= entity.Name #>" TypeName="<#= entityNamespace #>.<#= entity.Name #>, <#= entityAssembly #>">
+													<TypeDescriptors>
+														<#
+															foreach(BCSField field in entity.Fields)
+															{
+																GetTypeDescriptor(entity, field, false, false, false, false, entityNamespace);						     
+															}
+														#>
+													</TypeDescriptors>
+												</TypeDescriptor>
+											</TypeDescriptors>
+										</TypeDescriptor>
+									</Parameter>
+								</Parameters>
+								<MethodInstances>
+									<MethodInstance Type="Finder" ReturnParameterName="returnParameter" Default="true" Name="<#= entity.ReadListOperationName #>" DefaultDisplayName="Read <#= entity.DisplayName #> List" />
+								</MethodInstances>
+							</Method>
+							<Method Name="<#= entity.ReadItemOperationName #>">
+								<#
+								WritePermissions(BCSPermissions);
+								#>
+								<Parameters>
+									<#
+									foreach(BCSField field in entity.Fields)
+									{
+										if(field.IsKey)
+										{
+											#>
+											<Parameter Direction="In" Name="@<#= field.Name #>">
+												<#
+												GetTypeDescriptor(entity, field, false, false, false, true, entityNamespace);	
+												#>
+											</Parameter>
+											<#
+										}						
+									}
+									#>
+									<Parameter Direction="Return" Name="returnParameter">
+										<TypeDescriptor TypeName="<#= entityNamespace #>.<#= entity.Name #>, <#= entityAssembly #>" Name="return<#= entity.Name #>">
+											<TypeDescriptors>
+												<#
+													foreach(BCSField field in entity.Fields)
+													{
+														GetTypeDescriptor(entity, field, false, false, false, false, entityNamespace);						     
+													}
+												#>
+											</TypeDescriptors>
+										</TypeDescriptor>
+									</Parameter>
+								</Parameters>
+								<MethodInstances>
+									<MethodInstance Type="SpecificFinder" ReturnParameterName="returnParameter" Default="true" Name="<#= entity.ReadItemOperationName #>" DefaultDisplayName="Read <#= entity.DisplayName #>" />
+								</MethodInstances>
+							</Method>
+							<#
+						}
+						if(entity.CreateCreateOperation)
+						{
+							#>
+							<Method Name="<#= entity.CreateOperationName #>">
+								<#
+								WritePermissions(BCSPermissions);
+								#>
+								<Parameters>
+									<Parameter Name="new<#= entity.Name #>" Direction="In">
+										<TypeDescriptor Name="New<#= entity.Name #>" TypeName="<#= entityNamespace #>.<#= entity.Name #>, <#= entityAssembly #>">
+											<TypeDescriptors>
+												<#
+													foreach(BCSField field in entity.Fields)
+													{
+														if(!field.IsIdentity)
+														{
+															GetTypeDescriptor(entity, field, true, false, false, false, entityNamespace);
+														}						     
+													}
+												#>
+											</TypeDescriptors>
+										</TypeDescriptor>
+									</Parameter>
+									<Parameter Name="return<#= entity.Name #>" Direction="Return">
+										<TypeDescriptor Name="Return<#= entity.Name #>" TypeName="<#= entityNamespace #>.<#= entity.Name #>, <#= entityAssembly #>">
+											<TypeDescriptors>
+												<#
+													foreach(BCSField field in entity.Fields)
+													{
+														GetTypeDescriptor(entity, field, false, false, false, false, entityNamespace);						     
+													}
+												#>
+											</TypeDescriptors>
+										</TypeDescriptor>
+									</Parameter>                
+								</Parameters>
+								<MethodInstances>
+									<MethodInstance Name="<#= entity.CreateOperationName #>" Type="Creator" ReturnParameterName="return<#= entity.Name #>" ReturnTypeDescriptorPath="Return<#= entity.Name #>" />
+								</MethodInstances>
+							</Method>
+							<#
+						}
+						if(entity.CreateDeleteOperation)
+						{
+							#>
+							<Method Name="<#= entity.DeleteOperationName #>">
+								<#
+								WritePermissions(BCSPermissions);
+								#>
+								<Parameters>
+									<#
+										foreach(BCSField field in entity.Fields)
+										{
+											if(field.IsKey)
+											{
+												#>
+												<Parameter Direction="In" Name="<#= field.Name #>">
+													<#
+													GetTypeDescriptor(entity, field, false, false, false, true, entityNamespace);
+													#>
+												</Parameter>
+												<#
+											}						
+										}
+									#>						
+								</Parameters>
+								<MethodInstances>
+									<MethodInstance Name="<#= entity.DeleteOperationName #>" Type="Deleter" />
+								</MethodInstances>
+							</Method>
+							<#
+						}
+						if(entity.CreateUpdateOperation)
+						{
+							#>
+							<Method Name="<#= entity.UpdateOperationName #>">
+								<#
+								WritePermissions(BCSPermissions);
+								#>
+								<Parameters>
+									<Parameter Name="update<#= entity.Name #>" Direction="In">
+										<TypeDescriptor Name="<#= entity.Name #>" TypeName="<#= entityNamespace #>.<#= entity.Name #>, <#= entityAssembly #>">
+											<TypeDescriptors>
+												<#
+													foreach(BCSField field in entity.Fields)
+													{
+														GetTypeDescriptor(entity, field, false, true, false, false, entityNamespace);		
+													}
+												#>
+											</TypeDescriptors>
+										</TypeDescriptor>
+									</Parameter>
+									<#
+									if(!EntityHasKeyWithIdentity(entity))
+									{
+										//add preupdaters for writable identifiers
+										foreach(BCSField field in GetUpdateWhereClauseFieldsPreUpdate(entity))
+										{
+											#>
+											<Parameter Direction="In" Name="preupate<#= field.Name #>">
+												<#
+												GetTypeDescriptor(entity, field, false, false, true, true, entityNamespace);
+												#>					
+											</Parameter>
+											<#					
+										}
+									}
+									#>	
+								</Parameters>
+								<MethodInstances>
+									<MethodInstance Name="<#= entity.UpdateOperationName #>" Type="Updater" />
+								</MethodInstances>
+							</Method>			
+							<#
+						}
+
+						foreach(BCSEntity entityWhichReferencesMe in GetAssocationsToMe(entity))
+						{		
+							foreach(BCSField fieldWithReference in entityWhichReferencesMe.Fields)
+							{								
+								if(fieldWithReference.ReferencedEntity == entity.Name)
+								{
+									if(BCSModel.IsValidAssociation(fieldWithReference))
+									{
+										#>
+										<Method IsStatic="false" Name="<#= fieldWithReference.AssociationName #>">
+											<#
+											WritePermissions(BCSPermissions);
+											#>
+											<Parameters>
+											<Parameter Direction="In" Name="<#= fieldWithReference.Name #>">
+												<TypeDescriptor Name="<#= fieldWithReference.Name #>" TypeName="<#= GetTypeName(fieldWithReference) #>" IdentifierEntityName="<#= fieldWithReference.ReferencedEntity #>" IdentifierEntityNamespace="<#= entityNamespace #>" IdentifierName="<#= fieldWithReference.ReferencedField #>" ForeignIdentifierAssociationName="<#= fieldWithReference.AssociationName #>" />
+											</Parameter>
+											<Parameter Direction="Return" Name="return<#= fieldWithReference.AssociationName #>">
+												<TypeDescriptor TypeName="System.Collections.Generic.IEnumerable`1[[<#= entityNamespace #>.<#= entityWhichReferencesMe.Name #>, <#= entityAssembly #>]]" IsCollection="true" Name="<#= entityWhichReferencesMe.Name #>List">
+													<TypeDescriptors>
+														<TypeDescriptor Name="Return<#= entityWhichReferencesMe.Name #>" TypeName="<#= entityNamespace #>.<#= entityWhichReferencesMe.Name #>, <#= entityAssembly #>">
+															<TypeDescriptors>
+																<#
+																	foreach(BCSField field in entityWhichReferencesMe.Fields)
+																	{
+																		GetTypeDescriptor(entityWhichReferencesMe, field, false, false, false, false, entityNamespace);						     
+																	}
+																#>
+															</TypeDescriptors>
+														</TypeDescriptor>
+													</TypeDescriptors>
+												</TypeDescriptor>
+											</Parameter>
+											</Parameters>
+											<MethodInstances>
+											<Association Name="<#= fieldWithReference.AssociationName #>" Type="AssociationNavigator" ReturnParameterName="return<#= fieldWithReference.AssociationName #>" DefaultDisplayName="<#= fieldWithReference.AssociationDisplayName #>">
+												<#
+												WritePermissions(BCSPermissions);
+												#>
+												<SourceEntity Namespace="<#= entityNamespace #>" Name="<#= entity.Name #>" />
+												<DestinationEntity Namespace="<#= entityNamespace #>" Name="<#= entityWhichReferencesMe.Name #>" />
+											</Association>
+											</MethodInstances>
+										</Method>
+										<#
+									}
+								}
+							}
+						}
+						#>
+					</Methods>
+					<#
+
+					WriteAssociationGroups(entity, entityNamespace);
+
+					#>
+					</Entity>
+					<#
+				}
+				#>
+			</Entities>
+		</LobSystem>
+	</LobSystems>
+</Model>

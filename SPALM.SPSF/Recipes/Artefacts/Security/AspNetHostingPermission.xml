@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="AspNetHostingPermission"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>AspNetHosting Permission</Caption>
+  <Description>Adds a SecurityPermission to the project</Description>
+  <HostData Priority="200">
+    <Icon File="Help/Icons/icon_Security.ico" />
+    <CommandBar Menu="SPSFSolutionSecurity"/>
+    <CommandBar Menu="SPSFProjectSecurity"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseCustomizationRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="false"
+      Category="Security" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[The recipe adds a line for the permission to the Package.Template.xml (for VS 2010 projects) or to the file CASPolicy.txt (for HIVE projects). Warning: Existing permissions with the same name are replaced completely.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="BasePermissionArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="AspNetHostingPermissionLevel" >
+      <Converter Type="StringCollectionConverter" Values="None;Low;Minimal;Medium;High" />
+      <ValueProvider Type="Evaluator" Expression="Low" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Policy Settings</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="AspNetHostingPermissionLevel" Label="Permission Level" >
+              <Help>Required text.
+High: Indicates that features protected with a demand for any level less than or equal to the High trust level will succeed. This level is intended for highly trusted managed-code applications that need to use most of the managed permissions that support semi-trusted access. It does not grant some of the highest permissions (for example, the ability to call into native code), but it does provide a way to run trusted applications with least privilege or to provide some level of constraints for highly trusted applications. This level is granted by configuring at least the High trust level in the trust section in a configuration file.
+Low: Indicates that features protected with a demand for any level less than or equal to the Low level will succeed. This level is intended to allow read-only access to limited resources in a constrained environment. This level is granted by specifying the Low trust level in the trust section in a configuration file.
+Medium: Indicates that features protected with a demand for any level less than or equal to the Medium level will succeed. This level is granted by configuring at least the Medium trust level in the trust section in a configuration file.
+Minimal: Indicates that features protected with a demand for the Minimal level will succeed. This level allows code to execute but not to interact with resources present on the system. This level is granted by configuring at least the Minimal trust level using the trust section in a configuration file.
+None: Indicates that no permission is granted. All demands for AspNetHostingPermission will fail.
+Unrestricted: Indicates that all demands for permission to use all features of an application will be granted. This is equivalent to granting Full trust level in the trust section in a configuration file.</Help>
+            </Field>          
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action
+       Name="AddCASPolicyAction"
+       Type="AddCASPolicyAction"
+       TemplateFileName="Text\Security\AspNetHostingPermission.txt.t4">
+    </Action>
+    
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

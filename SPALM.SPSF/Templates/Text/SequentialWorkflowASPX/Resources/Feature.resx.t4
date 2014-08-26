@@ -1,0 +1,29 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="WorkflowName" #>
+<#@ property processor="PropertyProcessor" name="WorkflowTitle" #>
+<#@ property processor="PropertyProcessor" name="WorkflowDescription" #>
+<#@ property processor="PropertyProcessor" name="WorkflowCreateTaskContentType" #>
+<#@ assembly name="System.dll" #>
+<# if(WorkflowCreateTaskContentType) { #>
+  <data name="<#= WorkflowName #>_CTDescription" xml:space="preserve">
+    <value><#= WorkflowName #> Content Type </value>
+  </data>
+  <data name="<#= WorkflowName #>_CTGroup" xml:space="preserve">
+    <value><#= WorkflowName #> Content Types</value>
+  </data>
+  <data name="<#= WorkflowName #>_CTName" xml:space="preserve">
+    <value><#= WorkflowName #> Content Type</value>
+  </data>
+  <data name="<#= WorkflowName #>_CTComments" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="<#= WorkflowName #>_CTNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+<# } #>
+  <data name="<#= WorkflowName #>_WFDescription" xml:space="preserve">
+    <value><#= WorkflowDescription #></value>
+  </data>
+  <data name="<#= WorkflowName #>_WFName" xml:space="preserve">
+    <value><#= WorkflowTitle #></value>
+  </data>

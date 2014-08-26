@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="UndeploySandboxedSolution"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Undeploy Sandboxed Solution(s)</Caption>
+  <Description>Undeploys the selected sandboxed solution from a remote SharePoint farm.</Description>
+  <HostData Priority="300">
+    <Icon File="Help/Icons/icon_Deployment.ico" />
+	  <CommandBar Menu="SPSFSolutionSandboxedDeployment"/>
+	  <CommandBar Menu="SPSFProjectSandboxedDeployment"/>
+	  <CommandBar Menu="SPSFSolutionFolderSandboxedDeployment" />
+    <spsf:MetaData
+      Visible="true"
+      BindingType="SolutionDeploymentReference"
+      Enabled="true"
+      ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="SandboxedDeployment" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Actions>
+    <Action Name="UndeploySolution" Type="UndeploySolution" />
+  </Actions>
+</Recipe>

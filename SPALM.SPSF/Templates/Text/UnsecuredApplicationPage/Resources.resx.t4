@@ -1,0 +1,27 @@
+﻿<#@ template language="C#" #>
+  <data name="<#= ResourceKeyPrefix #>_PageTitle">
+    <value><#= ApplicationPageTitle #></value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_PageDescription">
+    <value><#= ApplicationPageDescription #></value>
+  </data>  
+  <data name="<#= ResourceKeyPrefix #>_OKButton">
+    <value>OK</value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_CancelButton">
+    <value>Cancel</value>
+  </data>
+  
+  <data name="<#= ResourceKeyPrefix #>_FormSection1Title">
+    <value>Sample Title</value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_FormSection1Description">
+    <value>Sample Description</value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_FormSection1Label">
+    <value>Sample Label</value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_FormSection1Input">
+    <value>Sample Input</value>
+  </data>
+		   

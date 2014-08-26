@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="ThemeActivation"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <DocumentationLinks>
+    <Link Url="http://www.sharingthepoint.com/Lists/Posts/Post.aspx?ID=55" Caption="Sharing the point: Create a Custom Theme for WSS 3.0 or MOSS 2007" Kind="Documentation"/>
+    <Link Url="http://msdn.microsoft.com/en-us/library/aa830818.aspx" Caption="MSDN: Customizing and Branding Web Content Management-Enabled SharePoint Sites" Kind="Documentation"/>
+    <Link Url=" http://www.heathersolomon.com/content/sp07cssreference.htm" Caption="Heather Solomon: CSS Reference Chart for SharePoint 2007 " Kind="Documentation"/>
+    <Link Url="http://msdn.microsoft.com/en-us/library/ee354191.aspx" Caption="MSDN: Real World Branding with SharePoint Server 2007 Publishing Sites" Kind="Documentation"/>
+  </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Theme Activation</Caption>
+  <Description>Adds code to activate a theme with a web feature</Description>
+  <HostData Priority="510">
+    <Icon File="Help/Icons/icon_SiteDefinition.ico" />
+    <CommandBar Menu="SPSFProjectSites"/>
+    <CommandBar Menu="SPSFSolutionSites"/>
+    <spsf:MetaData
+    Visible="false"
+    BindingType="CustomizationReference"
+    BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseSiteFeatureRecipeRunner"
+    Enabled="false"
+    CreateVSTemplate="true"
+    FeatureScopes="Web"
+    Category="Sites" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+        <spsf:Author>Matthias Einig</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.1 Updated Documentation</spsf:VersionHistoryEntry>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[Use this recipe if a custom theme should be activated on a site, together with the activation of a feature.
+        It is also possible to specificy which theme default theme should be used, when the feature is deactivated again.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <Argument Name="AllowedScopes" Type="System.String">
+      <ValueProvider Type="Evaluator" Expression="Web" />
+    </Argument>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="ResourceKeyPrefix" Required="true">
+      <!-- provides the unique key with removed special chars -->
+      <ValueProvider Stage="OnBeforeActions" RecipeArgument="RecipeName" Type="ConvertedStringProvider" />
+    </Argument>
+
+    <Argument Name="ThemeToActivate" Required="true" Type="System.String">
+      <Converter XPath="/ns:SPThemes/ns:Templates/ns:TemplateID" Namespace="http://tempuri.org/SPThemes.xsd" AcceptFreeText="true" Type="InternalParametersConverter" />
+      <ValueProvider Type="VisualStudioCreateItemName" DefaultValue="ThemeName" />
+    </Argument>
+
+    <Argument Name="DefaultTheme" Required="true" Type="System.String">
+      <Converter XPath="/RecipeParameters/StandardThemes/StandardTheme" AcceptFreeText="true" Type="RecipeParametersConverter" />
+      <ValueProvider Type="Evaluator" Expression="Default Theme" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>Theme settings</Title>
+          <Help>Define which theme should be activated.</Help>
+          <Fields>
+            <Field ValueName="ThemeToActivate" Label="Theme to activate">
+              <Help>Required Theme. The name of the theme which should be activated</Help>
+            </Field>
+            <Field ValueName="DefaultTheme" Label="Default theme for deactivation of the feature" >
+              <Help>Required Theme. The name of the default theme which is activated if the feature is deactivated. </Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action Name="GenerateFeatureActivation" Template="Text\ThemeActivation\FeatureReceiverCode.xml.t4" Type="TextTemplateAction">
+    </Action>
+    <Action Name="GenerateFeatureReceiverCode" Type="TextTemplateAction" Template="Text\FeatureReceiver.cs.t4" >
+      <Input Name="CopyrightCompanyName" RecipeArgument="CopyrightCompanyName" />
+      <Input Name="CopyrightFileName" RecipeArgument="FeatureReceiverFileName" />
+      <Input Name="FeatureReceiverNamespace" RecipeArgument="ProjectNamespace" />
+      <Input Name="FeatureReceiverClass" RecipeArgument="FeatureReceiverClass" />
+    </Action>
+    <Action Name="GenerateFeatureReceiverGeneratedCode" Type="TextTemplateAction" Template="Text\FeatureReceiver.generated.cs.t4" >
+      <Input Name="CopyrightCompanyName" RecipeArgument="CopyrightCompanyName" />
+      <Input Name="CopyrightFileName" RecipeArgument="FeatureReceiverGeneratedFileName" />
+      <Input Name="FeatureReceiverNamespace" RecipeArgument="ProjectNamespace" />
+      <Input Name="FeatureReceiverClass" RecipeArgument="FeatureReceiverClass" />
+    </Action>
+    <Action Name="AddFeatureActivation" Type="AddContentToFeatureReceiver" Method="FeatureActivated">
+      <Input Name="Content" ActionOutput="GenerateFeatureActivation.Content" />
+      <Input Name="FeatureReceiverContent" ActionOutput="GenerateFeatureReceiverCode.Content" />
+      <Input Name="FeatureReceiverGeneratedContent" ActionOutput="GenerateFeatureReceiverGeneratedCode.Content" />
+      <Input Name="AssemblyName" RecipeArgument="ProjectAssemblyName" />
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+      <Input Name="ParentFeatureName" RecipeArgument="ParentFeatureName" />
+      <Input Name="DefaultNamespace" RecipeArgument="ProjectNamespace" />
+      <Input Name="FeatureReceiverClass" RecipeArgument="FeatureReceiverClass" />
+    </Action>
+
+    <Action Name="GenerateFeatureProperties" Template="Text\ThemeActivation\FeatureProperties.xml.t4" Type="TextTemplateAction">
+      <Input Name="ThemeToActivate" RecipeArgument="ThemeToActivate" />
+      <Input Name="DefaultTheme" RecipeArgument="DefaultTheme" />
+    </Action>
+    <Action Name="AddFeatureProperties" Type="AddPropertiesToFeature" Method="FeatureActivated">
+      <Input Name="Content" ActionOutput="GenerateFeatureProperties.Content" />
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+      <Input Name="ParentFeatureName" RecipeArgument="ParentFeatureName" />
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

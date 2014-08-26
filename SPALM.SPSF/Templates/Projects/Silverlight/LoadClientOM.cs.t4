@@ -1,0 +1,52 @@
+﻿namespace $AppName$.Silverlight.$SilverlightApplicationName$
+{
+	using System;
+	using System.IO;
+	using System.Net;
+	using System.Reflection;
+	using System.Windows;
+	using System.Windows.Controls;
+	using System.Windows.Documents;
+	using System.Windows.Ink;
+	using System.Windows.Input;
+	using System.Windows.Media;
+	using System.Windows.Media.Animation;
+	using System.Windows.Resources;	
+	using System.Windows.Shapes;
+	
+    public class LoadClientOM
+    {
+        private Action action;
+
+        public LoadClientOM(Action action)
+        {
+            this.action = action;
+        }
+
+        public void Run()
+        {
+            WebClient client = new WebClient();
+            client.OpenReadCompleted += new OpenReadCompletedEventHandler(ClientOpenReadCompleted);
+            client.OpenReadAsync(new Uri("/_layouts/15/clientbin/Microsoft.SharePoint.Client.xap", UriKind.Relative));
+        }
+
+        private void ClientOpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
+        {
+            Stream assemblyStream;
+            AssemblyPart assemblyPart;
+
+            assemblyStream = Application.GetResourceStream(new StreamResourceInfo(e.Result, "application/binary"), new Uri("Microsoft.SharePoint.Client.Silverlight.Runtime.dll", UriKind.Relative)).Stream;
+            assemblyPart = new AssemblyPart();
+            Assembly b = assemblyPart.Load(assemblyStream);
+
+            assemblyStream = Application.GetResourceStream(new StreamResourceInfo(e.Result, "application/binary"), new Uri("Microsoft.SharePoint.Client.Silverlight.dll", UriKind.Relative)).Stream;
+            assemblyPart = new AssemblyPart();
+            Assembly a = assemblyPart.Load(assemblyStream);
+
+            if (action != null)
+            {
+                action();
+            }
+        }
+    }
+}

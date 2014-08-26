@@ -1,0 +1,198 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	  <html xmlns="http://www.w3.org/1999/xhtml">
+	    <head>
+		    <link rel="stylesheet" type="text/css" href="Styles/branding.css"/>				
+		    		<title>Content Type Binding</title>
+				<meta name="Description" content="Adds a binding between a content type and a list" />
+		<style type="text/css">
+
+		.OH_TocResize
+		{	
+			top: 126px;
+		}
+
+		</style>
+	</head>	
+	<body class="primary-mtps-offline-document" 
+	 style="max-width: 1220px;" >		<table class="noSpace" style="width: 100%;"> 
+			<tr>
+			  <td colspan="2" style="background-color: #6685A2;">&nbsp;</td>
+			</tr>
+			<tr>
+			  <td>
+				<img src="./_img/header_left.jpg" height="66" style="margin-top: 10px; margin-bottom: 20px" />
+			  </td>
+			  <td align="right" valign="top" rowspan="2">
+				<img src="./_img/header_right.jpg" style="margin-top: 2px" height="72"/>
+			  </td>
+			</tr>			
+		</table>
+		<div class="OH_outerDiv">
+			<div style="WIDTH: 350px" id="LeftNav" class="OH_leftNav">
+				<div id="toc">
+					<div id="toc_parent">
+						<div class="OH_parentTocLinks">		
+							<div class="OH_link">				
+								<a title="SharePoint Software Factory" href="SPSF_ROOT.html">SharePoint Software Factory</a>
+							</div>
+									
+							<div class="OH_link">				
+								<a title="Recipe Index" href="SPSF_RECIPES_INDEX.html">Recipe Index</a>
+							</div>
+									
+							<div class="OH_link">				
+								<a title="SPSF Artefacts" href="SPSF_RECIPES_CATEGORY_ARTEFACTS.html">SPSF Artefacts</a>
+							</div>
+									
+							<div class="OH_link">				
+								<a title="Lists and Libaries" href="SPSF_RECIPES_CATEGORY_LISTANDDOC.html">Lists and Libaries</a>
+							</div>
+							</div></div>					
+						<div id="toc_children">
+							<div class="OH_selfTocLinks">										<div class="OH_link">	
+											<a title="List Definition" href="SPSF_RECIPE_LISTDEFINITION.html">List Definition</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="List Instance" href="SPSF_RECIPE_LISTINSTANCE.html">List Instance</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Module" href="SPSF_RECIPE_MODULE.html">Module</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Site Column" href="SPSF_RECIPE_SITECOLUMN.html">Site Column</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Content Type" href="SPSF_RECIPE_CONTENTTYPE.html">Content Type</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="ContentType: Add Field" href="SPSF_RECIPE_CONTENTTYPEFIELDREF.html">ContentType: Add Field</a>
+										</div>
+
+										<div title="Content Type Binding" class="OH_selectedChild">Content Type Binding</div>										<div class="OH_link">	
+											<a title="ContentType: Add Document Template" href="SPSF_RECIPE_CONTENTTYPEDOCUMENTTEMPLATE.html">ContentType: Add Document Template</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="ContentType: Add Event Receiver" href="SPSF_RECIPE_CONTENTTYPEEVENTRECEIVER.html">ContentType: Add Event Receiver</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="ContentType: Add Custom Form" href="SPSF_RECIPE_CONTENTTYPECUSTOMFORM.html">ContentType: Add Custom Form</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="LINQ to SharePoint" href="SPSF_RECIPE_LINQTOSHAREPOINT.html">LINQ to SharePoint</a>
+										</div>
+
+										</div></div><div id="toc_siblings"><div class="OH_siblingTocHeader">Related Links</DIV><div class="OH_siblingTocLinks"><a title="Content Type Binding Schema" href="http://msdn.microsoft.com/en-us/library/aa543152.aspx">Content Type Binding Schema</a><br />							<br /></div></div></div></div><div style="LEFT: 279px" id="TocResize" class="OH_TocResize"></div>
+				<div class="OH_outerContent">
+				  
+		<div class="OH_topic">		 
+     
+		  <div id="mainHeader">
+			<table>
+			  <tbody>
+				<tr>
+				  <td>
+					<h1>Content Type Binding</h1>
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+		<div id="mainSection">
+			<div id="mainBody">            
+				<div class="introduction"><p>Adds a binding between a content type and a list</p></div>
+				                 
+                           <DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">Arguments</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>
+				<p>
+				<div class="tableSection">
+                <table id="argumentTable" width="100%">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>							<tr>
+								<td class="name" colspan="2">Content Type Binding</td>
+							</tr>                
+														<tr>
+								<td>Content Type</td>
+								<td>Required Text. A string that represents the content type ID of the site content type to add to the specified list.</td>
+							</tr>                
+														<tr>
+								<td>List Url</td>
+								<td>Required Text. A string that represents the Web-relative path to the list to which to add the content type (e.g. "Pages", "Lists/Contacts").</td>
+							</tr>                
+														<tr>
+								<td>RootWebOnly</td>
+								<td>Optional Boolean. TRUE to associate this binding only on the root Web site in a site collection (new in SP 2010).</td>
+							</tr>                
+							                </table>
+				</div>
+				</p>
+                           
+				<DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">References</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>
+				<p>
+				<ul>
+				<li>
+						<a href="http://msdn.microsoft.com/en-us/library/aa543152.aspx" target="_new">Content Type Binding Schema</a>
+					</li>
+					                
+			   </ul></p>
+			              <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Authors</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+			<p>
+           <ul>
+           <li>Torsten Mandelkow</li>           </ul>
+           </p>
+           
+		   <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Version history</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+		   <p>
+           <ul>
+           <li>1.0 Initial Recipe</li>           </ul>
+		   </p>
+
+
+
+     
+				</div>			
+			</div>
+		</div>
+	</div>
+			<br />
+		<table width="100%">
+		<tr>
+			<td>
+				<div class="OH_feedbacklink">
+						<b>Disclaimer:</b> The views and opinions expressed in this documentation and in SPSF are those of the <a href="SPSF_OVERVIEW_110_AUTHORS.html">authors</a> and do not necessarily reflect the opinions and recommendations of Microsoft or any member of Microsoft. All trademarks, service marks, collective marks, copyrights, registered names, and marks used or cited by this documentation are the property of their respective owners.<br />
+						SharePoint Software Factory, Version 4.1.3.2705, <a href="SPSF_OVERVIEW_800_LICENSE.html">GPLv2</a>, see <a href="http://spsf.codeplex.com">http://spsf.codeplex.com</a> for more information
+				</div>
+				<br />
+			</td>
+		</tr>
+		</table>
+		<br />
+			</body>
+</html>
+
+

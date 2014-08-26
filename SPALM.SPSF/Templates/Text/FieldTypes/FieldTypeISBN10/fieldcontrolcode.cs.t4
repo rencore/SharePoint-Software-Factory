@@ -1,0 +1,73 @@
+﻿<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #> 
+{
+  using System;  
+  using System.Globalization;  
+  using System.Runtime.InteropServices;
+  using System.Text;
+  using System.Text.RegularExpressions;
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.WebControls;  
+
+  /// <summary>
+  /// Custom field type <#= FieldTypeTypeName #>
+  /// DisplayName: <#= FieldTypeDisplayName #>
+  /// Description: <#= FieldTypeDescription #>
+  /// </summary>
+  [Guid("<#= System.Guid.NewGuid().ToString() #>")]
+  public class <#= FieldTypeTypeName #>Control : TextField
+  {
+    protected Label isbnPrefix;
+
+    protected override string DefaultTemplateName
+    {
+      get
+      {
+        return "<#= FieldTypeRenderingTemplateId #>";
+      }
+    }
+
+    protected override void CreateChildControls()
+    {
+      if (this.Field != null && this.ControlMode != SPControlMode.Display)
+      {
+        // Make sure inherited child controls are completely rendered.
+        base.CreateChildControls();
+
+        // Associate child controls in the .ascx file with the 
+        // fields allocated by this control.
+        this.isbnPrefix = (Label)TemplateContainer.FindControl("ISBNPrefix");
+        this.textBox = (TextBox)TemplateContainer.FindControl("TextField");
+
+        if (!this.Page.IsPostBack)
+        {
+          if (this.ControlMode == SPControlMode.New)
+          {
+            textBox.Text = "0-000-00000-0";
+          } 
+        }
+      }
+    }
+
+    public override object Value
+    {
+      get
+      {
+        EnsureChildControls();
+        return base.Value;
+      }
+      set
+      {
+        EnsureChildControls();
+        base.Value = (string)value;
+        // The value of the ISBNPrefix field is hardcoded in the
+        // template, so it is not set here.
+      }
+    }
+  }
+}

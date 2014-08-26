@@ -1,0 +1,44 @@
+﻿<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>  
+{
+  using System;  
+  using System.Globalization;  
+  using System.Runtime.InteropServices;
+  using System.Text;
+  using System.Web.UI;
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.WebControls;
+
+  /// <summary>
+  /// Custom field type <#= FieldTypeTypeName #>
+  /// DisplayName: <#= FieldTypeDisplayName #>
+  /// Description: <#= FieldTypeDescription #>
+  /// </summary>
+  public class <#= FieldTypeTypeName #> : SPFieldMultiColumn 
+  {
+    public <#= FieldTypeTypeName #>(SPFieldCollection fields, string fieldName)
+      : base(fields, fieldName) 
+    { 
+    }
+
+    public <#= FieldTypeTypeName #>(SPFieldCollection fields, string typeName, string displayName)
+      : base(fields, typeName, displayName) 
+    { 
+    }
+
+    public override BaseFieldControl FieldRenderingControl 
+    {
+      get 
+      {
+        BaseFieldControl ctr = new <#= FieldTypeTypeName #>Control();
+        ctr.FieldName = this.InternalName;
+        return ctr;
+      }
+    }
+  }
+}

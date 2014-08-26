@@ -1,0 +1,16 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ResourceFilename" #>
+<#@ property processor="PropertyProcessor" name="ResourceKeyPrefix" #>
+<#@ property processor="PropertyProcessor" name="ProjectAssemblyName" #>
+<#@ property processor="PropertyProcessor" name="ProjectNamespace" #>
+<#@ property processor="PropertyProcessor" name="ControlName" #>
+<#@ assembly name="System.dll" #>
+<%@ Assembly Name="<#= ProjectAssemblyName #>" %>
+<%@ Control Language="C#" Inherits="<#= ProjectNamespace #>" ClassName="<#= ControlName #>" %> 
+
+<%@ Register TagPrefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register TagPrefix="Utilities" Namespace="Microsoft.SharePoint.Utilities" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+
+<asp:Panel ID="Panel1" runat="server">
+	<aps:Label Text="<%$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_Label%>" EncodeMethod="HtmlEncode" runat="server"/>
+</asp:Panel>

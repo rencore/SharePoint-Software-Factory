@@ -1,0 +1,14 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<PermissionSet class="NamedPermissionSet">	
+	<IPermission class="SmtpPermission" version="1" <#
+	if(PermissionIsUnrestricted)
+	{
+		#> Unrestricted="true" <#
+	}
+	else
+	{
+		#> Access="<#= SmtpAccess #>" <#
+	}
+	#> />
+</PermissionSet>

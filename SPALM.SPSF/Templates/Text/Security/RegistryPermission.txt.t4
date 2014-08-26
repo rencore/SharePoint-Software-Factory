@@ -1,0 +1,33 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<PermissionSet class="NamedPermissionSet">	
+	<IPermission class="RegistryPermission" version="1" 
+	<#
+	if(PermissionIsUnrestricted)
+	{
+		#> Unrestricted="true" <#
+	}
+	else
+	{	if(!string.IsNullOrEmpty(RegistryAllAccess))
+		{
+			#> AllAccess="<#= RegistryAllAccess #>" <#
+		}
+		if(!string.IsNullOrEmpty(RegistryNoAccess))
+		{
+			#> NoAccess="<#= RegistryNoAccess #>" <#
+		}
+		if(!string.IsNullOrEmpty(RegistryCreate))
+		{
+			#> Create="<#= RegistryCreate #>" <#
+		}
+		if(!string.IsNullOrEmpty(RegistryRead))
+		{
+			#> Read="<#= RegistryRead #>" <#
+		}
+		if(!string.IsNullOrEmpty(RegistryWrite))
+		{
+			#> Write="<#= RegistryWrite #>" <#
+		}
+	}
+	#> />
+</PermissionSet>

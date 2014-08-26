@@ -1,0 +1,22 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="xml" hostspecific="true" #>
+<#@ include file="T4Functions.tt" #><?xml version="1.0" encoding="utf-8" ?>
+<# 
+
+string htmlDirectory = Path.GetDirectoryName(Host.TemplateFile);
+string recipeDirectory = Path.Combine(htmlDirectory, "Recipes");
+    
+#>
+<Recipes xmlns="http://schemas.microsoft.com/pag/gax-core">
+<#
+	
+	foreach(string recipeFullFilepath in GetAllRecipes())
+	{		
+		#>
+		<xi:include href="<#= recipeFullFilepath.Replace(htmlDirectory + "\\", "") #>" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+		<#
+	}
+    
+#> 
+</Recipes>
+	

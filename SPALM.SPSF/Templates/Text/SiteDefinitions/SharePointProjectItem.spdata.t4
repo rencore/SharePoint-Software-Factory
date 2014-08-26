@@ -1,0 +1,10 @@
+﻿<#@ template language="C#" #>
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectItem 
+  Type="Microsoft.VisualStudio.SharePoint.SiteDefinition"
+  DefaultFile="onet.xml" 
+  SupportedTrustLevels="FullTrust" 
+  SupportedDeploymentScopes="Package" 
+  xmlns="http://schemas.microsoft.com/VisualStudio/2010/SharePointTools/SharePointProjectItemModel">
+  <Files />
+</ProjectItem>

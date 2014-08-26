@@ -1,0 +1,561 @@
+<#@ template language="C#" hostspecific="true" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly Name="envdte" #>
+<#@ assembly name="F:\TFS\SPSF\Dev\Source\Libraries\OpenGAX\MvP.Xml.dll" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ assembly name="System.Windows.Forms" #>
+<#@ assembly name="F:\TFS\SPSF\Dev\Source\SPALM.SPSF\Binaries\SgmlReaderDll.dll" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml.Serialization" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ import namespace="System.CodeDom.Compiler" #>
+<#@ import namespace="Mvp.Xml.XInclude" #>
+<#@ import namespace="System.Xml.Resolvers" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="Sgml" #>
+<#@ import namespace="System.Windows.Forms" #>
+<#@ include file="../T4Functions.tt" #><#+
+
+[Serializable]
+public class HelpPage
+{
+	public string Title = "";	
+	public string Url = "";	
+	public List<HelpPage> ChildPages = new List<HelpPage>();
+}
+
+List<string> allCreatedFiles = new List<string>();
+bool skipHelpGeneration = false;
+
+string GetHelpLink(SPSFHelpElement item)
+{
+	if(GetCurrentHelpFormat() == "OutputHelp3")
+	{
+		return "ms.help?method=page&amp;id=" + item.WebPage + "&amp;topicversion=0&amp;topiclocale=&amp;SQM=1&amp;product=VS&amp;productVersion=100&amp;locale=EN-US";
+	}
+	else
+	{
+		return item.WebPage + ".html";
+	}
+}
+
+void GenerateHelp()
+{
+	GenerateHelp(false);
+}
+
+void GenerateHelp(bool includeFilesInProject)
+{	
+	if(skipHelpGeneration)
+	{
+	}
+	else
+	{
+		if (MessageBox.Show("Recreate Help?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+		{	
+			CopyFiles();
+			CreateRoot(); 
+			CreateOverviewFiles(); 
+			CreateRecipeFiles(); 
+			CreateSnippetFiles();		
+
+			if(includeFilesInProject)
+			{
+				//scan all files in the directory and include them into the project
+				ProjectItem containingProjectItem = GetCurrentTemplateFileProjectItem();
+				ProjectItem parentProjectItem = containingProjectItem.Collection.Parent as ProjectItem;
+				string projectItemDirectory = Path.GetDirectoryName(parentProjectItem.Properties.Item("FullPath").Value.ToString());
+				foreach(string elementFile in Directory.GetFiles(projectItemDirectory, "*.*", SearchOption.AllDirectories))
+				{
+					if(!elementFile.EndsWith(".tt", StringComparison.InvariantCultureIgnoreCase))
+					{
+						//is file already in the project?
+						string fileName = Path.GetFileName(elementFile);
+						ProjectItem pitem = GetProjectItemByName(parentProjectItem.ProjectItems, fileName);
+						if(pitem == null)
+						{
+							pitem = parentProjectItem.ProjectItems.AddFromFile(elementFile);
+						}
+
+						pitem.Properties.Item("CopyToOutputDirectory").Value = 1;
+						pitem.Properties.Item("BuildAction").Value = 2;
+
+						try
+						{
+							pitem.Properties.Item("VsixContentItemObjectExtender.IncludeInVSIX").Value = true;
+						}
+						catch(Exception ex)
+						{
+						}					
+					}
+				}
+			}
+		}
+		else
+		{
+			skipHelpGeneration = true;
+		}
+	}
+}
+
+
+
+void DeleteChildElementsOfParentOfTemplate()
+{
+    //deletes all childs of the parent item if the file is not contained in list allCreatedFiles
+	ProjectItem containingProjectItem = GetCurrentTemplateFileProjectItem();
+	ProjectItem parentProjectItem = containingProjectItem.Collection.Parent as ProjectItem;
+	for(int i = parentProjectItem.ProjectItems.Count; i > 0; i--)
+	{
+		if (parentProjectItem.ProjectItems.Item(i).Name.EndsWith(".html"))
+		{
+			if(!allCreatedFiles.Contains(parentProjectItem.ProjectItems.Item(i).Properties.Item("FullPath").Value.ToString()))
+			{
+				parentProjectItem.ProjectItems.Item(i).Delete();
+			}
+		}
+	}	
+}
+
+void DeleteChildElementsOfTemplate()
+{
+	ProjectItem containingProjectItem = GetCurrentTemplateFileProjectItem();
+	for(int i = containingProjectItem.ProjectItems.Count; i > 0; i--)
+	{
+		if (containingProjectItem.ProjectItems.Item(i).Name.EndsWith(".html"))
+		{
+			containingProjectItem.ProjectItems.Item(i).Delete();
+		}
+	}	
+}
+
+void AddChildElementsOfTemplate()
+{
+	ProjectItem containingProjectItem = GetCurrentTemplateFileProjectItem();
+	string currentDir = GetCurrentTemplateFileDirectory();
+	foreach(string htmlFile in Directory.GetFiles(currentDir, "*.html", SearchOption.TopDirectoryOnly))
+	{
+		ProjectItem pitem2 = containingProjectItem.ProjectItems.AddFromFile(htmlFile);
+		pitem2.Properties.Item("CopyToOutputDirectory").Value = 1;
+		pitem2.Properties.Item("BuildAction").Value = 2;
+		return;
+
+		try
+		{
+			pitem2.Properties.Item("VsixContentItemObjectExtender.IncludeInVSIX").Value = !currentDir.Contains("OutputHTMLOnline");
+		}
+		catch { }
+	}
+}
+
+private void CopyFolder(string sourceFolder, string destFolder)
+{
+	if(!Directory.Exists(destFolder))
+	{
+		Directory.CreateDirectory(destFolder);
+	}
+
+    //first copy all files
+    string[] files = Directory.GetFiles(sourceFolder);
+    foreach (string file in files)
+    {
+		string name = Path.GetFileName(file);
+		string dest = Path.Combine(destFolder, name);
+		File.Copy(file, dest, true);
+    }
+
+    //second create the directories in the project if they are not there
+    string[] sourcefolders = Directory.GetDirectories(sourceFolder);
+    foreach (string sourcefolder in sourcefolders)
+    {
+		string name = Path.GetFileName(sourcefolder);
+		string dest = Path.Combine(destFolder, name);
+		CopyFolder(sourcefolder, dest);
+    }
+}
+
+//copys the folder "folder" in directory Help to the current directory
+void CopyFolder(string folder)
+{
+	string destionationDir = Path.Combine(GetCurrentTemplateFileDirectory(), folder);
+	string sourceDir = Path.Combine(Path.Combine(GetProjectRootPath(), "Help"), folder);
+	if(Directory.Exists(sourceDir))
+	{
+		CopyFolder(sourceDir, destionationDir);
+	}
+	
+}
+
+//copies the folder styles, images, screenshots etc. to the current directory
+void CopyFiles()
+{
+	CopyFolder("Screenshots");
+	CopyFolder("_img");
+	CopyFolder("Styles");
+}
+
+
+void CreateRoot()
+{
+	SPSFBase spsfbase = new SPSFBase(Host as IServiceProvider, Host.TemplateFile);
+	CallContext.SetData("SPSFBase", spsfbase.Serialize());	
+	TransformTemplate("RootTemplate.t4", spsfbase.WebPage + ".html");
+}
+
+void CreateOverviewFiles()
+{
+	SPSFBase spsfbase = new SPSFBase(Host as IServiceProvider, Host.TemplateFile);
+	OverviewIndex overviewIndex = new OverviewIndex(spsfbase, 1);
+	foreach(OverviewPage page in overviewIndex.GetChilds())
+	{
+		CallContext.SetData("OverviewPage", page.Serialize());	
+		TransformTemplate("OverviewPageTemplate.t4", page.WebPage + ".html");
+	}
+	CallContext.SetData("OverviewIndex", overviewIndex.Serialize());	
+	TransformTemplate("OverviewIndexTemplate.t4", overviewIndex.WebPage + ".html");
+}
+
+void CreateSnippetFiles()
+{
+	SPSFBase spsfbase = new SPSFBase(Host as IServiceProvider, Host.TemplateFile);
+	SnippetIndex snippetIndex = new SnippetIndex(spsfbase, 3);
+
+	foreach(SnippetLanguage language in snippetIndex.GetSnippetLanguages())
+	{
+		CreateSnippetLanguageFile(language);
+		foreach(SnippetCategory snippetCategory in language.GetSnippetCategories())
+		{
+			CreateSnippetCategoryFile(snippetCategory);
+		}
+
+		foreach(SnippetClass snippetClass in language.GetSnippets())
+		{
+			//CreateSnippetFile(snippetClass);
+		}
+	}		
+
+	//3. at least create the recipe index
+	CreateSnippetIndexPage(snippetIndex);
+}
+
+Engine engine;
+void TransformTemplate(string template, string targetfilename)
+{
+	string htmlTemplatet4 = Path.Combine(GetHelpTemplateDirectory(), template);
+	string templateContent = File.ReadAllText(Host.ResolvePath(htmlTemplatet4));
+	if(engine == null)
+	{
+		engine = new Engine();
+	}
+	string output = engine.ProcessTemplate(templateContent, Host);
+
+	string recipeHtmlFile = Path.Combine(GetCurrentTemplateFileDirectory(), targetfilename);
+	File.WriteAllText(recipeHtmlFile, output);	
+	allCreatedFiles.Add(recipeHtmlFile);
+}
+
+string TransformTemplate(string template)
+{
+	string htmlTemplatet4 = Path.Combine(GetHelpTemplateDirectory(), template);
+	string templateContent = File.ReadAllText(Host.ResolvePath(htmlTemplatet4));
+	Engine engine = new Engine();
+	return engine.ProcessTemplate(templateContent, Host);
+}
+
+void CreateSnippetLanguageFile(SnippetLanguage language)
+{	
+	CallContext.SetData("SnippetLanguage", language.Serialize());	
+	TransformTemplate("SnippetLanguageTemplate.t4", language.WebPage + ".html");
+}
+
+void CreateSnippetCategoryFile(SnippetCategory category)
+{
+	CallContext.SetData("SnippetCategory", category.Serialize());	
+	TransformTemplate("SnippetCategoryTemplate.t4",  category.WebPage + ".html");			
+	foreach(SnippetClass snippetClass in category.GetSnippets())
+	{
+		//CreateSnippetFile(snippetClass);
+	}
+	foreach(SnippetCategory snippetCategory in category.GetSnippetCategories())
+	{
+		CreateSnippetCategoryFile(snippetCategory);
+	}
+}
+
+void CreateSnippetFile(SnippetClass snippet)
+{	
+	CallContext.SetData("Snippet", snippet.Serialize());
+	TransformTemplate("SnippetTemplate.t4",  snippet.WebPage + ".html");		
+}
+
+void CreateSnippetIndexPage(SnippetIndex snippetIndex)
+{
+	CallContext.SetData("SnippetIndex", snippetIndex.Serialize());
+	TransformTemplate("SnippetIndexTemplate.t4",  snippetIndex.WebPage + ".html");	
+}
+
+List<SPSFHelpElement> GetParents(SPSFHelpElement helpElement)
+{
+	List<SPSFHelpElement> res = new List<SPSFHelpElement>();	
+	SPSFHelpElement parentHelpElement = helpElement.GetParent();	
+	while(parentHelpElement != null)
+	{	
+		res.Insert(0, parentHelpElement);
+		parentHelpElement = parentHelpElement.GetParent();
+	}
+	return res;
+}
+
+
+
+
+
+
+  
+void CreateRecipeFiles()
+{
+	SPSFBase spsfbase = new SPSFBase(Host as IServiceProvider, Host.TemplateFile);
+	RecipeIndex recipeIndex = new RecipeIndex(spsfbase, 2);
+
+	foreach(RecipeCategory category in recipeIndex.GetCategories())
+	{
+		CreateRecipeCategoryFile(category);
+	}		
+
+	CreateRecipeIndexPage(recipeIndex);
+}
+
+void CreateRecipeCategoryFile(RecipeCategory category)
+{
+	string htmlTemplatet4 = Path.Combine(GetHelpTemplateDirectory(), "RecipeCategoryTemplate.t4");
+	string templateContent = File.ReadAllText(Host.ResolvePath(htmlTemplatet4));
+	Engine engine = new Engine();
+	CallContext.SetData("RecipeCategory", SerializeRecipeCategory(category));
+	string output = engine.ProcessTemplate(templateContent, Host);
+	string recipeHtmlFile = Path.Combine(GetCurrentTemplateFileDirectory(), category.WebPage) + ".html";
+	File.WriteAllText(recipeHtmlFile, output);
+
+	foreach(RecipeCategory childCategory in category.GetChildCategories())
+	{
+		CreateRecipeCategoryFile(childCategory);
+	}
+
+	foreach(RecipeClass recipeClass in category.GetRecipes())
+	{
+		CreateRecipeFile(recipeClass);
+	}
+}
+
+void CreateRecipeIndexPage(RecipeIndex recipeIndex)
+{
+	string htmlTemplatet4 = Path.Combine(GetHelpTemplateDirectory(), "RecipeIndexTemplate.t4");
+	string templateContent = File.ReadAllText(Host.ResolvePath(htmlTemplatet4));
+	Engine engine = new Engine();
+	CallContext.SetData("RecipeIndex", recipeIndex.Serialize());				
+	string output = engine.ProcessTemplate(templateContent, Host);
+	string recipeHtmlFile = Path.Combine(GetCurrentTemplateFileDirectory(), recipeIndex.WebPage + ".html");
+	File.WriteAllText(recipeHtmlFile, output);
+}
+
+string GetHelpTemplateDirectory()
+{
+	return Path.Combine(Path.Combine(GetProjectRootPath(), "Help"),"Templates");
+}
+
+string GetHelpScreenshotsDirectory()
+{
+	return Path.Combine(Path.Combine(GetProjectRootPath(), "Help"),"Screenshots");
+}
+
+string GetCurrentTemplateFileDirectory()
+{
+	return Path.GetDirectoryName(Host.TemplateFile);
+}
+
+//returns the folder name of the current template
+string GetCurrentHelpFormat()
+{		
+	return new DirectoryInfo(Path.GetDirectoryName(Host.TemplateFile)).Name;
+}
+
+ProjectItem GetCurrentTemplateFileProjectItem()
+{
+	IServiceProvider hostServiceProvider = (IServiceProvider)Host;
+	EnvDTE.DTE dte = (EnvDTE.DTE)hostServiceProvider.GetService(typeof(EnvDTE.DTE));
+	return dte.Solution.FindProjectItem(Host.TemplateFile);
+}
+
+void CreateRecipeCategoryFiles(RecipeCategory category)
+{
+	//create the page for the category
+
+
+	//create the pages for the recipes in this category
+	foreach(RecipeClass recipe in GetRecipesByCategory(category.Name))
+	{
+		CreateRecipeFile(recipe);
+	}
+}
+
+void CreateRecipeFile(RecipeClass recipe)
+{
+	string htmlTemplatet4 = Path.Combine(GetHelpTemplateDirectory(), "RecipeTemplate.t4");
+	string templateContent = File.ReadAllText(Host.ResolvePath(htmlTemplatet4));
+	Engine engine = new Engine();
+
+	CallContext.SetData("Recipe", SerializeRecipeClass(recipe));	
+					
+	string output = engine.ProcessTemplate(templateContent, Host);
+
+	//index.html file
+	string recipeHtmlFile = Path.Combine(GetCurrentTemplateFileDirectory(), recipe.WebPage) + ".html";
+	File.WriteAllText(recipeHtmlFile, output);
+	/*
+	ProjectItem pitem = GetCurrentTemplateFileProjectItem().ProjectItems.AddFromFile(recipeHtmlFile);
+	pitem.Properties.Item("CopyToOutputDirectory").Value = 1;
+	pitem.Properties.Item("BuildAction").Value = 2;
+	try
+	{
+		pitem.Properties.Item("VsixContentItemObjectExtender.IncludeInVSIX").Value = true;
+	}
+	catch(Exception ex)
+	{
+	}	
+	*/
+}
+
+string OutputRecipe(RecipeClass recipe, int headlineLevel)
+{
+	string content = "";
+
+	string htmlTemplatet4 = Path.Combine(GetHelpTemplateDirectory(), "RecipeTemplateWithoutHeader.t4");
+	string templateContent = File.ReadAllText(Host.ResolvePath(htmlTemplatet4));
+	Engine engine = new Engine();
+
+	CallContext.SetData("Recipe", SerializeRecipeClass(recipe));	
+					
+	content = engine.ProcessTemplate(templateContent, Host);
+	return content;
+}
+
+string OutputSnippet(SnippetClass snippet, int headlineLevel)
+{
+	string content = "";
+
+	string htmlTemplatet4 = Path.Combine(GetHelpTemplateDirectory(), "SnippetTemplateWithoutHeader.t4");
+	string templateContent = File.ReadAllText(Host.ResolvePath(htmlTemplatet4));
+	Engine engine = new Engine();
+
+	CallContext.SetData("Snippet", snippet.Serialize());	
+					
+	content = engine.ProcessTemplate(templateContent, Host);
+	return content;
+}
+
+public string GetNumbering(SPSFHelpElement element)
+{
+	string res = element.Sort + ".";
+	SPSFHelpElement parent = element.GetParent();
+	while(parent != null)
+	{
+		if(parent.Sort != "0")
+		{
+			res = parent.Sort + "." + res;
+		}
+		parent = parent.GetParent();
+	}
+	return res;
+}
+
+string GetHelpNodes(SPSFHelpElement element)
+{
+	string res = "";
+	if(element.GetChilds().Count > 0)
+	{
+		res += "<HelpTOCNode Title=\"" + element.Title + "\" Url=\"" + element.WebPage + ".html\" >" + Environment.NewLine;
+		foreach(SPSFHelpElement child in element.GetChilds())
+		{
+			res += GetHelpNodes(child);
+		}
+		res += "<ToolData Name=\"MSTOCEXPST\" Value=\"Expanded\"/>" + Environment.NewLine;
+		res += "</HelpTOCNode>" + Environment.NewLine;
+	}
+	else
+	{
+		res += "<HelpTOCNode Title=\"" + element.Title + "\" Url=\"" + element.WebPage + ".html\" />" + Environment.NewLine;
+	}
+	return res;
+}
+
+public class MyXmlResolver : XmlResolver
+{
+	private string dtdPath = "";
+
+	public MyXmlResolver(string _projectDir)
+	{
+		dtdPath = _projectDir + @"\..\..\TestProject\xhtml11.dtd";
+	}
+
+    public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
+    {
+        return new MemoryStream(System.Text.Encoding.Default.GetBytes(File.ReadAllText(dtdPath)));
+    }
+
+    public override Uri ResolveUri(Uri baseUri, string relativeUri)
+    {
+        return base.ResolveUri(baseUri, relativeUri);
+    }
+
+    public override System.Net.ICredentials Credentials
+    {
+        set { throw new NotImplementedException(); }
+    }
+}
+
+public string CheckHelp3Files()
+{
+	string result = "";
+	ProjectItem containingProjectItem = GetCurrentTemplateFileProjectItem();
+	string currentDir = GetCurrentTemplateFileDirectory();
+    foreach (string helpFile in Directory.GetFiles(currentDir, "*.html"))
+    {
+		if(helpFile.Contains("HelpGenerator.html"))
+		{
+			break;
+		}
+        try
+        { 
+            //http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd
+
+            XmlReaderSettings settings = new XmlReaderSettings();
+            //settings.DtdProcessing = DtdProcessing.Parse;
+            settings.DtdProcessing = DtdProcessing.Ignore;
+            settings.XmlResolver = new XmlPreloadedResolver(new MyXmlResolver(GetCurrentTemplateFileDirectory()), XmlKnownDtds.Xhtml10);
+            string fileContents = File.ReadAllText(helpFile);
+            fileContents = fileContents.Replace("http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd", GetCurrentTemplateFileDirectory() + @"\..\..\TestProject\xhtml11.dtd");
+            settings.CloseInput = true;
+
+            using (StringReader sr = new StringReader(fileContents))
+            {
+                using (XmlReader reader = XmlReader.Create(sr, settings))
+                {
+                    XDocument document = XDocument.Load(reader);
+                    document.ToString();
+                    result += "Checking " + helpFile + " OK" + Environment.NewLine;
+                    reader.Close();
+                }
+            }                    
+        }
+        catch (Exception ex)
+        {
+			throw new Exception("Checking " + helpFile + " Failed with: " + ex.ToString());
+        }
+    }
+	return result;
+}
+
+#>

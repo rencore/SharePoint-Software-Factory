@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Assign Permissions</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>Permissions</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>GroupName</ID>
+          <ToolTip>GroupName in SiteGroups</ToolTip>
+          <Default>GroupName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>web</ID>
+          <ToolTip>SPWeb object</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+          <Type>SPWeb</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>roleAssignment</ID>
+          <ToolTip>SPRoleAssignement</ToolTip>
+          <Default>roleAssignment</Default>
+          <Function>
+          </Function>
+          <Type>SPRoleAssignment</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[if (!$web$.HasUniqueRoleAssignments)
+                        {
+                            $web$.BreakRoleInheritance(true);
+                        }
+                        SPRoleAssignment $roleAssignment$ = new SPRoleAssignment($web$.SiteGroups["$GroupName$"]);
+                        $roleAssignment$.RoleDefinitionBindings.Add($web$.RoleDefinitions.GetByType(SPRoleType.Reader));
+                        $web$.RoleAssignments.Add($roleAssignment$);]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

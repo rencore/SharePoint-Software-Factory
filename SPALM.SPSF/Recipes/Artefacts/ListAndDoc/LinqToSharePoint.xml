@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="LinqToSharePoint"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <DocumentationLinks>
+    <Link Caption="SPMetal" Url="http://msdn.microsoft.com/en-us/library/ee538255.aspx" Kind="Documentation"/>
+    <Link Caption="Using LINQ to SharePoint" Url="http://msdn.microsoft.com/en-us/library/ee535491.aspx" Kind="Documentation"/>    
+  </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>LINQ to SharePoint</Caption>
+  <Description>Generates the classes from given SharePoint lists</Description>
+  <HostData Priority="90">
+    <Icon File="Help/Icons/icon_ListAndDoc.ico" />
+    <CommandBar Menu="SPSFProjectListAndDoc"/>
+    <spsf:MetaData
+    Visible="true"
+    BindingType="CustomizationReference"
+    BindingTypeTemplate="CustomizationReferenceTemplate"
+    TestType="LinqToSharePointTest"
+    Enabled="true"
+    CreateVSTemplate="true"
+    Category="ListAndDoc"
+    xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>     
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>      
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <!-- set standard parameters -->
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <!-- LinQ Arguments -->
+    <Argument Name="LINQClassName" Required="true" >
+      <Converter Type="NamespaceStringConverter" />
+      <ValueProvider Type="VisualStudioCreateItemName" MakeSafe="true" DefaultValue="TeamSite" />
+    </Argument>
+    <Argument Name="LINQClassNameFinal">
+      <ValueProvider Type="Evaluator" Expression="$(LINQClassName)Context">
+        <MonitorArgument Name="LINQClassName" />
+      </ValueProvider>
+    </Argument>
+
+    <Argument Name="LINQIncludedLists" Required="true" Type="NameValueItemArray" >
+      <ValueProvider Type="DefaultNameValueCollectionProvider"  />
+    </Argument>
+    <Argument Name="LINQSourceWeb" Required="true" >
+      <ValueProvider Type="DebuggingWebAppForProjectProvider" />      
+    </Argument>
+
+    <Argument Name="TempFileForCode" Required="true" >
+      <ValueProvider Type="TempFileProvider" />
+    </Argument>
+    <Argument Name="CurrentSelectedItemFolder" Required="true" >
+      <ValueProvider Type="ProjectPathProvider" />
+    </Argument>
+    <Argument Name="SPMetalFileName" Required="true" >
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(LINQClassNameFinal).xml" />
+    </Argument>
+    <Argument Name="CodeFileName" Required="true" >
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(LINQClassNameFinal).designer.cs" />
+    </Argument>
+    <Argument Name="ContextCodeFileName" Required="true" >
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(LINQClassNameFinal).cs" />
+    </Argument>
+
+    <Argument Name="SPMetalFolder" Type="System.String" Required="true">
+      <ValueProvider Type="SPFolderProvider"/>
+    </Argument>
+    <Argument Name="SPMetalCommand" Type="System.String" Required="true">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SPMetalFolder)spmetal.exe" />
+    </Argument>
+    <Argument Name="SPMetalArguments" Type="System.String" Required="true">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="/web:&quot;$(LINQSourceWeb)&quot; /parameters:&quot;$(CurrentSelectedItemFolder)\$(LINQClassName)\$(SPMetalFileName)&quot; /language:csharp /namespace:$(ProjectNamespace) /code:&quot;$(TempFileForCode)&quot;" />
+    </Argument>
+    <Argument Name="SPMetalArgumentsComment" Type="System.String" Required="true">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="/web:&quot;$(LINQSourceWeb)&quot; /parameters:&quot;$(CurrentSelectedItemFolder)\$(LINQClassName)\$(SPMetalFileName)&quot; /language:csharp /namespace:$(ProjectNamespace) /code:&quot;$(CurrentSelectedItemFolder)\LINQToSharePointDefinitions\$(LINQClassName)\$(CodeFileName)&quot;" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>LINQ Settings</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="LINQClassName" Label="LINQ Class Name">
+              <Help>Required Text. Contains the name of the generated class.</Help>
+            </Field>
+            <Field ValueName="LINQClassNameFinal" ReadOnly="true" Label="Final generated Class Name">
+              <Help>Optional String. Displays the final name of the generated class.</Help>
+            </Field>
+          </Fields>
+        </Page>
+        <Page Width="600" Height="400" Type="SPALM.SPSF.Library.CustomWizardPages.LINQImportPage, SPALM.SPSF.Library" />
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <!-- Generate the XML and add to the project -->
+    <!--
+    <Action
+		  Name="AddSPMetalXML"
+		  Type="AddSPDataTemplateAction"
+      SPDataName="$(LINQClassName)"
+      SPDataCategory="LINQToSharePointDefinitions"
+      SPDataTemplate="Text\GenericSPData\SharePointProjectItem.spdata.t4"
+		  TemplateFileName="Text\LinqToSharePoint\spmetalConfiguration.xml.t4"
+      TargetFileName="$(SPMetalFileName)">
+      <Output Name="CreatedProjectItem" />
+      <Output Name="CreatedProjectFolder" />
+    </Action>
+    -->
+
+    <Action
+      Name="AddSPMetalXML"
+      Type="AddTemplateToItemAction"
+      Open="false"
+      TemplateFileName="Text\LinqToSharePoint\spmetalConfiguration.xml.t4"
+      TargetFileName="$(SPMetalFileName)" >
+      <Input Name="TargetFolder" RecipeArgument="LINQClassName" />
+      <Output Name="CreatedProjectItem" />
+      <Output Name="CreatedProjectFolder" />
+    </Action>
+    
+    <!-- Call SPMetal -->
+    <Action Name="RunCommand" Type="RunCommand" WaitForExit="true">
+      <Input Name="Command" RecipeArgument="SPMetalCommand" />
+      <Input Name="Arguments" RecipeArgument="SPMetalArguments" />
+    </Action>
+    
+    <!-- Add generated output file to the project -->
+    <Action
+      Name="AddGeneratedCode"
+      Type="AddFileToItemAction" >
+      <Input Name="SourceFileName" RecipeArgument="TempFileForCode" />
+      <Input Name="TargetFileName" RecipeArgument="CodeFileName" />
+      <Input Name="ParentProjectItem" ActionOutput="AddSPMetalXML.CreatedProjectItem" />
+    </Action>
+
+    <!-- add context class -->
+    <Action
+      Name="AddContextClass"
+      Type="AddTemplateToItemAction"
+      TemplateFileName="Text\LinqToSharePoint\Context.cs.t4"
+      TargetFileName="$(ContextCodeFileName)">
+      <Input Name="ParentProjectFolder" ActionOutput="AddSPMetalXML.CreatedProjectFolder" />
+    </Action>
+
+    <!-- Add reference to LINQ to the project -->
+    <Action
+       Name="AddReference1"
+       Type="AddReferenceToProject"
+       ReferenceName="Microsoft.SharePoint.Linq">
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

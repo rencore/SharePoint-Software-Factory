@@ -1,0 +1,47 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="cs" hostspecific="true" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ include file="../HelpFunctions.tt" #><#
+
+RecipeCategory recipeCategory = DeserializeRecipeCategory(CallContext.GetData("RecipeCategory") as byte[]);
+recipeCategory.SetSPSFBase(Host);
+
+SPSFHelpElement helpItem = recipeCategory;
+
+#><#@ include file="../Templates/Header.include" #><#
+
+	if(recipeCategory.GetChildCategories().Count > 0)
+	{
+		#>
+		<h3>Categories</h3><ul>
+		<#
+		foreach(RecipeCategory childCategory in recipeCategory.GetChildCategories())
+		{
+			#><li><p><a href="<#= GetHelpLink(childCategory) #>"><#= childCategory.Title #></a></p><p><#= childCategory.Description #></p></li><#				
+		}
+		#></ul><#
+	}	
+	
+
+	if(recipeCategory.GetRecipes().Count > 0)
+	{
+		#><h3>Recipes</h3><ul><#
+		foreach(RecipeClass recipe in recipeCategory.GetRecipes())
+		{
+			if(!recipe.HideInHelpNavigation)
+			{
+				#><li><p><a href="<#= GetHelpLink(recipe) #>"><#= recipe.Title #></a></p><p><#= recipe.Description #></p></li><#
+			}
+		}
+		#></ul><#
+	}	
+
+			
+#>      
+<#@ include file="../Templates/Footer.include" #>

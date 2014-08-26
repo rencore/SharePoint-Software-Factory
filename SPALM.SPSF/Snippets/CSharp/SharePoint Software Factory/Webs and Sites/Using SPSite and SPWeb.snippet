@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Using SPSite And SPWeb</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>UsingSPSiteAndSPWeb</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>site</ID>
+          <ToolTip>SPSite</ToolTip>
+          <Default>site</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>web</ID>
+          <ToolTip>SPWeb</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[using (SPSite $site$ = new SPSite(SPContext.Current.Site.ID))
+                {
+                    // get the $web$ in the impersonated context
+                    using (SPWeb $web$ = $site$.OpenWeb(SPContext.Current.Web.ID))
+                    {
+                        // Your code goes here   
+
+                    }
+                }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

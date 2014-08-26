@@ -1,0 +1,74 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="STSADMExtensionNamespace" #>
+<#@ property processor="PropertyProcessor" name="STSADMCommandClass" #>
+<#@ property processor="PropertyProcessor" name="STSADMCommandName" #>
+<#@ assembly name="System.dll" #>
+using System.Collections.Specialized;
+using System.Text;
+using Microsoft.SharePoint;
+using Microsoft.SharePoint.Administration;
+
+namespace <#= STSADMExtensionNamespace #>
+{
+	public class <#= STSADMCommandClass #> : SPOperation
+	{
+		public <#= STSADMCommandClass #>()
+		{
+			SPParamCollection parameters = new SPParamCollection();
+			/*
+			parameters.Add(new SPParam("parameter1", "n", true, null, new SPNonEmptyValidator(), "Enter Warning message."));
+			parameters.Add(new SPParam("parameter2", "max", false, null, new SPLongRangeValidator(0, (long.MaxValue / 1024) / 1024), "Enter Warning message."));
+			*/
+
+			StringBuilder sb = new StringBuilder();
+			/*
+			sb.Append("\n\r\n\r\nDescription of command\r\n\r\nParameters:");
+			sb.Append("\r\n\t-parameter1 <parameter1 description>");
+			sb.Append("\r\n\t[-parameter2 <parameter2 description>]");
+			*/
+
+			Init(parameters, sb.ToString());
+		}
+
+		#region ISPStsadmCommand Members
+
+		/// <summary>
+		/// Gets the help message.
+		/// </summary>
+		/// <param name="command">The command.</param>
+		/// <returns></returns>
+		public override string GetHelpMessage(string command)
+		{
+			return "Enter help message";
+		}
+
+		/// <summary>
+		/// Runs the specified command.
+		/// </summary>
+		/// <param name="command">The command.</param>
+		/// <param name="keyValues">The key values.</param>
+		/// <param name="output">The output.</param>
+		/// <returns></returns>
+		public override int Execute(string command, StringDictionary keyValues, out string output)
+		{
+			output = string.Empty;
+			
+			/* Access parameter like 
+			string name = Params["name"].Value;
+			*/
+			
+			try
+			{
+               
+			}
+			catch
+			{
+				throw new SPException("Exception Message");
+			}
+
+			return OUTPUT_SUCCESS;
+		}
+
+		#endregion
+	}
+}

@@ -1,0 +1,9 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<PermissionSet class="NamedPermissionSet" Name="PermissionSet_<#= AppName #>_<#= System.Guid.NewGuid().ToString() #>" Description="Minimal Permission Set" version="1">
+	<IPermission class="SharePointPermission" version="1" ObjectModel="True" />
+	<IPermission class="WebPartPermission" version="1" Connections="True" />
+	<IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="Execution" />
+	<IPermission class="SmtpPermission" version="1" Access="Connect" />
+	<IPermission class="AspNetHostingPermission" version="1" Level="Minimal" />
+</PermissionSet>

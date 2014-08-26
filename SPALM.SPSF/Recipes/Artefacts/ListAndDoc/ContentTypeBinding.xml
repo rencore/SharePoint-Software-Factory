@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="ContentTypeBinding"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+	<DocumentationLinks>
+		<Link Caption="Content Type Binding Schema" Url="http://msdn.microsoft.com/en-us/library/aa543152.aspx" Kind="Documentation"/>
+	</DocumentationLinks>
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Content Type Binding</Caption>
+	<Description>Adds a binding between a content type and a list</Description>
+	<HostData Priority="15">
+		<Icon File="Help/Icons/icon_ContentType.ico" />
+		<CommandBar Menu="SPSFProjectListAndDoc"/>
+		<CommandBar Menu="SPSFFolderListAndDoc"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="ElementManifestReference"
+		  BindingTypeTemplate="ElementManifestReferenceTemplate"
+		  TestType="BaseSiteFeatureRecipeRunner"
+		  Enabled="true"
+		  CreateVSTemplate="true"
+		  FeatureScopes="Site"
+		  Category="ListAndDoc" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[]]>
+			</spsf:WebPageContent>
+			<spsf:Test>
+				<spsf:TestCases TestType="BaseFeatureRecipeTestWebScope">
+					<spsf:TestCase Name="ContentTypeBindingAnnouncements" Type="SolutionTestCase">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="ContentTypeBindingListUrl">Lists/Announcements</spsf:TestCaseArgument>
+							<spsf:TestCaseArgument Name="ContentTypeBindingContentType">Doc;0x0101;0x0101</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+				</spsf:TestCases>
+			</spsf:Test>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<Argument Name="AllowedScopes" Type="System.String">
+			<ValueProvider Type="Evaluator" Expression="Site" />
+		</Argument>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<Argument Name="ElementsCategory">
+			<ValueProvider Type="Evaluator" Expression="ContentTypeBindings" />
+		</Argument>
+
+		<Argument Name="ResourceKeyPrefix" Required="true">
+			<!-- provides the unique key with removed special chars -->
+			<ValueProvider Stage="OnBeforeActions" RecipeArgument="ContentTypeBindingListUrl" Type="ConvertedStringProvider" />
+		</Argument>
+
+		<Argument Name="ContentTypeBindingName">
+			<ValueProvider Type="VisualStudioCreateItemName" MakeSafe="false" DefaultValue="ContentTypeBinding1" />
+		</Argument>
+
+		<Argument Name="ContentTypeBindingContentType" Type="NameValueItem" Required="true" />
+		<Argument Name="ContentTypeBindingListUrl" Type="System.String" Required="true" />
+
+    <Argument Name="ContentTypeBindingRootWebOnly" Type="System.Boolean" Required="true" >
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+				<Page Width="600" Height="400">
+					<Title>Content Type Binding</Title>
+					<Fields>
+						<Field PanelType="SPALM.SPSF.Library.NameValueItemPanel, SPALM.SPSF.Library" ValueName="ContentTypeBindingContentType" Label="Content Type" >
+							<Help>Required Text. A string that represents the content type ID of the site content type to add to the specified list.</Help>
+							<Editor Type="SPALM.SPSF.Library.ContentTypeEditor, SPALM.SPSF.Library" />
+						</Field>
+						<Field ValueName="ContentTypeBindingListUrl" Label="List Url">
+							<Help>Required Text. A string that represents the Web-relative path to the list to which to add the content type (e.g. "Pages", "Lists/Contacts").</Help>
+						</Field>
+						<Field ValueName="ContentTypeBindingRootWebOnly" Label="RootWebOnly">
+							<Help>Optional Boolean. TRUE to associate this binding only on the root Web site in a site collection (new in SP 2010).</Help>
+						</Field>
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+		<xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<!-- elements.xml-->
+		<Action
+			Name="CreateElementsXml"
+			Type="AddElementsDefinitionAction"
+			ParentFeatureName="$(ParentFeatureName)"
+			ElementsName="$(ContentTypeBindingName)"
+			ElementsCategory="$(ElementsCategory)"
+			TemplateFileName="Text\ContentTypeBinding\elements.xml.t4"
+			SPDataTemplate="Text\ContentTypeBinding\SharePointProjectItem.spdata.t4"
+			Open="true">
+			<Output Name="CreatedElementFolder" />
+			<Output Name="CreatedElementFile" />
+		</Action>
+
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Actions>
+</Recipe>

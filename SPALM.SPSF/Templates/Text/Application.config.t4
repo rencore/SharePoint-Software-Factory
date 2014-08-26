@@ -1,0 +1,27 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="Company" #>
+<#@ property processor="PropertyProcessor" name="AppVersion" #>
+<#@ property processor="PropertyProcessor" name="SharePointVersion" #>
+<#@ property processor="PropertyProcessor" name="SolutionKeyFileName" #>
+<#@ property processor="PropertyProcessor" name="SolutionSignAssembly" #>
+<#@ property processor="PropertyProcessor" name="AutoCreateResxFiles" #>
+<#@ property processor="PropertyProcessor" name="AutoGenerateManifest" #>
+<#@ property processor="PropertyProcessor" name="DebuggingWebApp" #>
+<#@ assembly name="System.dll" #><?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<!-- SPSF Version 4.1.3.2705 -->
+	<!-- This file contains general settings for the whole application which are used by the SharePoint Software Factory -->
+	<PropertyGroup>
+		<Company><#= Company #></Company>
+		<ApplicationVersion><#= AppVersion #></ApplicationVersion>
+		<SharePointVersion><# if(SharePointVersion != null) { #><#= SharePointVersion #><# } #></SharePointVersion>
+		<SolutionKeyFileName><# if(SolutionKeyFileName != null) { #><#= SolutionKeyFileName #><# } #></SolutionKeyFileName>
+		<SolutionSignAssembly><#= SolutionSignAssembly #></SolutionSignAssembly>
+		<AutoCreateResxFiles><#= AutoCreateResxFiles #></AutoCreateResxFiles>
+		<AutoGenerateManifest><#= AutoGenerateManifest #></AutoGenerateManifest>		
+		<DebuggingWebApp><# if(DebuggingWebApp != null) { #><#= DebuggingWebApp #><# } #></DebuggingWebApp>
+		<StartupUrl><# if(DebuggingWebApp != null) { #><#= DebuggingWebApp #><# } #></StartupUrl>
+		<SPSFVersion>4.1.3.2705</SPSFVersion>
+	</PropertyGroup>
+	
+</Project>

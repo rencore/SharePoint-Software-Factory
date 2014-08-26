@@ -1,0 +1,29 @@
+<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<ContentType 
+		ID="<#= ContentTypeID #>"
+		<# if(AutoCreateResxFiles)
+		{
+			#>
+			Name="$Resources:<#= ResourceKeyPrefix #>_ContentTypeName;"
+			Description="$Resources:<#= ResourceKeyPrefix #>_ContentTypeDescription;"
+			Group="$Resources:<#= ResourceKeyPrefix #>_ContentTypeGroup;"
+			<#
+		}
+		else
+		{
+			#>
+			Name="<#= ContentTypeName #>"
+			Description="<#= ContentTypeDescription #>"
+			Group="<#= ContentTypeGroup #>"
+			<#
+		}
+		#>			
+		Version="<#= ContentTypeVersion #>"
+		Hidden="<#= ContentTypeHidden #>"
+		ReadOnly="<#= ContentTypeReadOnly #>"
+		Sealed="<#= ContentTypeSealed #>"
+		>				
+			<#= ContentTypeFieldSchema #>
+	</ContentType>
+</Elements>

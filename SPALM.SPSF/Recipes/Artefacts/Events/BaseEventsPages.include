@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Pages xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+  <Page Width="600" Height="400">
+    <Title>Event Handler settings</Title>
+    <Help>Enter the general settings for the event handler.</Help>
+    <Fields>
+      <Field ValueName="EventReceiverName" Label="Name">
+        <Help>Required Text. Used as the class name of the event handler.</Help>
+      </Field>
+      <Field PanelType="SPALM.SPSF.Library.NameValueItemPanel, SPALM.SPSF.Library" ValueName="EventReceiverTemplateID" Label="List Template" >
+        <Help>Optional Text. Specifies the index of the list template to which the event receiver applies. The following values are the default list template types.</Help>
+        <Editor Type="SPALM.SPSF.Library.ListTemplateEditor, SPALM.SPSF.Library" />
+      </Field>
+      <Field ValueName="EventReceiverOwner" Label="List Template Owner" >
+        <Help>Optional GUID. Specifies the GUID of the list template owner if the list template is registered via Features, or the name of the site definition if the list template is registered by a site definition.</Help>
+      </Field>
+      <Field ValueName="EventReceiverSequence" Label="Sequence">
+        <Help>Required Number. Specifies the order to use for the event registration when more than one handler is associated with the feature.</Help>
+      </Field>   
+    </Fields>
+  </Page>
+  <Page Width="600" Height="400">
+    <Title>Registrations</Title>
+    <Fields>
+      <Field PanelType="SPALM.SPSF.Library.NameValueCheckBoxPanel, SPALM.SPSF.Library" ValueName="EventReceiverTypes" Label="Event Types" >
+        <Help>Select the event elements.</Help>
+      </Field>
+    </Fields>
+  </Page>
+	<Page Width="600" Height="400">
+		<Title>Optional Settings</Title>
+		<Fields>
+			<Field ValueName="EventReceiverRootWebOnly" Label="RootWebOnly">
+				<Help>Optional Boolean. True if the event receiver applies only to the root Web; otherwise, False.</Help>
+			</Field>
+			<Field ValueName="EventReceiverScope" Label="Scope">
+				<Help>Optional enumeration. The scope of the event receiver. This can be Site or Web. When the Scope attribute is set to Site, event receivers that are defined inside of a Feature that is scoped to the site collection are registered at the site collection level. When the Scope attribute is set to Web, event receivers that are defined inside of a Feature that is scoped to a Web are registered on the Web.</Help>
+			</Field>
+			<Field ValueName="EventReceiverSynchronization" Label="Synchronization">
+				<Help>Specifies the synchronization of the event receiver.</Help>
+			</Field>
+		</Fields>
+	</Page>
+</Pages>
+  

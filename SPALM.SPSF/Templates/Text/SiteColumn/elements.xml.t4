@@ -1,0 +1,60 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System.Xml" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+<#  
+	//set SiteColumnSchema contains the complex xml of the field
+	//the attributes in this xml are replaced by the given parameters
+	
+	try	
+	{
+		System.Xml.XmlDocument fielddoc = new System.Xml.XmlDocument();
+		fielddoc.LoadXml(SiteColumnSchema);
+		
+		string resGroup = SiteColumnGroup;
+		string resDisplayName = SiteColumnDisplayName;
+		string resDescription = SiteColumnDescription;
+		
+		if(AutoCreateResxFiles)
+		{
+			resGroup = "$Resources:" + ResourceKeyPrefix + "_SiteColumnGroup;";
+			resDisplayName = "$Resources:" + ResourceKeyPrefix + "_SiteColumnDisplayName;";
+			resDescription = "$Resources:" + ResourceKeyPrefix + "_SiteColumnDescription;";
+		}
+		
+		System.Xml.XmlNode fieldnode = fielddoc.FirstChild;
+		fieldnode.Attributes["ID"].Value = "{" + SiteColumnID + "}";
+		fieldnode.Attributes["Name"].Value = SiteColumnName;
+		fieldnode.Attributes["StaticName"].Value = SiteColumnName;
+		fieldnode.Attributes["Group"].Value = resGroup;
+		if(fieldnode.Attributes["DisplayName"] != null)
+		{
+			fieldnode.Attributes["DisplayName"].Value = resDisplayName;
+		}
+		else		
+		{
+			XmlAttribute displayname = fielddoc.CreateAttribute("DisplayName");
+			displayname.Value = resDisplayName;
+			fieldnode.Attributes.Append(displayname);
+		}
+		
+		if(fieldnode.Attributes["Description"] != null)
+		{
+			fieldnode.Attributes["Description"].Value = resDescription;
+		}
+		else		
+		{
+			XmlAttribute descriptionattr = fielddoc.CreateAttribute("Description");
+			descriptionattr.Value = resDescription;
+			fieldnode.Attributes.Append(descriptionattr);
+		}
+		
+		//output the final field xml
+		#><#= fielddoc.InnerXml #><#
+	}
+	catch(System.Exception ex)
+	{
+		#><Exception><#= ex.ToString() #></Exception><#
+	}
+#>
+</Elements>

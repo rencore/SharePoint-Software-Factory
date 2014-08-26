@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Pages xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+	
+	<Page Width="600" Height="400">
+		<Title>Silverlight Application Settings</Title>
+		<Fields>
+			<Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+			<Field ValueName="SilverlightApplicationFullNameXAP" ReadOnly="true" Label="Generated Silverlight Application Name">
+				<Help>Required String. Generated name of the Silverlight application.</Help>
+			</Field>
+			<Field ValueName="SilverlightApplicationName" Label="Silverlight Application Name">
+				<Help>Required Text. Name of the Silverlight application.</Help>
+			</Field>
+      <Field ValueName="SilverlightVersion" Label="Silverlight Version">
+        <Help>Required Text. Target Silverlight version.</Help>
+      </Field>
+      <Field ValueName="SilverlightWebPartTitle" Label="WebPart Title">
+        <Help>Required Text. Title of the webpart which displays the Silverlight application.</Help>
+      </Field>
+      <Field ValueName="SilverlightWebPartDescription" Label="WebPart Description">
+        <Help>Required Text. Description of the webpart which displays the Silverlight application.</Help>
+      </Field>
+		</Fields>
+	</Page>
+	
+</Pages>
+  

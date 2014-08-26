@@ -1,0 +1,22 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<%@ Control Language="C#" %>
+<%@ Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %> 
+<%@ Register Tagprefix="Utilities" Namespace="Microsoft.SharePoint.Utilities" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %> 
+<%@ Import Namespace="Microsoft.SharePoint" %>
+<%
+	/* 
+	access certain elements with the following code snippets 
+	
+	string strScopeWeb = null;
+	string strScopeList = null;
+	string strWebSelected = null;
+	SPWeb web = SPControl.GetContextWeb(Context);
+
+	SPList list = SPContext.Current.List;
+	SPListItem listitem = SPContext.Current.ListItem;
+
+	*/
+	
+%>
+<!-- Place code for control <#= DelegateControlName #> here -->

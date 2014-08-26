@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="CustomActionList"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Custom Action for List</Caption>
+  <Description>Adds a custom action to existing menus in a list view (Settings, Actions etc.)</Description>
+  <HostData Priority="50">
+    <Icon File="Help/Icons/icon_CustomActions.ico" />
+    <CommandBar Menu="SPSFProjectCustomActions"/>
+    <CommandBar Menu="SPSFFolderCustomActions"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="ElementManifestReference"
+      BindingTypeTemplate="ElementManifestReferenceTemplate"
+      TestType="BaseSiteFeatureRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="true"
+      FeatureScopes="Web;Site;WebApplication;Farm"
+      Category="CustomActions" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="CustomActionListWithUrlAction" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="CustomActionName">ListActionUrlAction</spsf:TestCaseArgument>
+              <spsf:TestCaseArgument Name="CustomActionType">UrlActionTag</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+          <spsf:TestCase Name="CustomActionListWithControlClass" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="CustomActionName">ListActionControlClass</spsf:TestCaseArgument>
+              <spsf:TestCaseArgument Name="CustomActionType">ClassFile</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+          <spsf:TestCase Name="CustomActionListWithControlTemplate">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="CustomActionName">ListActionControlTemplate</spsf:TestCaseArgument>
+              <spsf:TestCaseArgument Name="CustomActionType">WebControl</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="BaseCustomActionArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="CustomActionRegistrationId" Type="NameValueItem" Required="true" >
+      <ValueProvider Type="DefaultNameValueItemProvider" Name="Tasks" Value="107" />
+    </Argument>
+    <Argument Name="CustomActionRegistrationType" Required="true" >
+      <ValueProvider Type="Evaluator" Expression="List" />
+    </Argument>
+    <Argument Name="CustomActionLocation" Type="NameValueItem" Required="true" >
+      <ValueProvider Type="DefaultNameValueItemProvider" Name="ActionsMenu" Value="Microsoft.SharePoint.StandardMenu" />
+    </Argument>
+
+    <Argument Name="CustomActionAddIcon" Type="System.Boolean" Required="true">
+      <ValueProvider Type="Evaluator" Expression="true" />
+    </Argument>
+    <Argument Name="CustomActionIconSize">
+      <ValueProvider Type="Evaluator" Expression="32" />
+    </Argument>
+
+    <Argument Name="CustomActionUrlActionParameters" Type="System.String" Required="false" >
+      <ValueProvider Type="Evaluator" Expression="?ListId={ListId}" />
+    </Argument>
+
+    <Argument Name="CustomActionElementsTemplate" Type="System.String" Required="false" >
+      <ValueProvider Type="Evaluator" Expression="Text\CustomActions\elements.xml.t4" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>List Type</Title>
+          <Fields>
+            <Field PanelType="SPALM.SPSF.Library.NameValueItemPanel, SPALM.SPSF.Library" ValueName="CustomActionRegistrationId" Label="List Type" >
+              <Help>Select the list type where the action should be added.</Help>
+              <Editor Type="SPALM.SPSF.Library.ListTemplateEditor, SPALM.SPSF.Library" />
+            </Field>
+            <Field PanelType="SPALM.SPSF.Library.NameValueItemPanel, SPALM.SPSF.Library" ValueName="CustomActionLocation" Label="Toolbar" >
+              <Help>Select the location where the action should be added.</Help>
+              <Editor Type="SPALM.SPSF.Library.CustomActionListEditor, SPALM.SPSF.Library" />
+            </Field>
+          </Fields>
+        </Page>
+        <xi:include href="BaseCustomActionPages.include"  parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-wizards) xpointer(/p:Pages/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+        <xi:include href="BaseCustomActionPagesRegistration.include"  parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-wizards) xpointer(/p:Pages/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+        <xi:include href="BaseCustomActionPagesUrlSettings.include"  parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-wizards) xpointer(/p:Pages/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  
+  <!-- include general actions -->
+  <xi:include href="BaseCustomActionActions.include" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</Recipe>

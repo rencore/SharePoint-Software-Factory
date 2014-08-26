@@ -1,0 +1,98 @@
+<#@ template language="C#" #>
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Web.UI;
+using System.Web.UI.WebControls.WebParts;
+
+namespace <#= ProjectNamespace #>
+{
+	[Guid("<#= System.Guid.NewGuid().ToString() #>")]
+	public class <#= this.WebPartName #> : Microsoft.SharePoint.WebPartPages.WebPart
+	{
+		private bool _error = false;	
+		
+		private string mProperty1;			
+		[Personalizable(PersonalizationScope.Shared)]
+		[WebBrowsable(true)]
+		[System.ComponentModel.Category("Category1")]
+		[WebDisplayName("Display name of Property1")]
+		[WebDescription("Description of Property1")]
+		public string Property1
+		{
+			set
+			{
+				mProperty1 = value;
+			}
+			get
+			{
+				return mProperty1;
+			}
+		}
+		
+		public <#= this.WebPartName #>()
+        {
+            this.ExportMode = WebPartExportMode.All;
+        }
+
+        /// <summary>
+        /// Create all your controls here for rendering.
+        /// Try to avoid using the RenderWebPart() method.
+        /// </summary>
+        protected override void CreateChildControls()
+        {
+            if (!_error)
+            {
+                try
+                {
+                    base.CreateChildControls();
+                    
+                    // Your code here...
+                    
+                    //this.Controls.Add(new LiteralControl(this.MyProperty));
+                }
+                catch (Exception ex)
+                {
+                    HandleException(ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Ensures that the CreateChildControls() is called before events.
+        /// Use CreateChildControls() to create your controls.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnLoad(EventArgs e)
+        {
+            if (!_error)
+            {
+                try
+                {
+                    base.OnLoad(e);
+                    this.EnsureChildControls();
+
+                    // Your code here...
+                }
+                catch (Exception ex)
+                {
+                    HandleException(ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Clear all child controls and add an error message for display.
+        /// </summary>
+        /// <param name="ex"></param>
+        private void HandleException(Exception ex)
+        {
+            this._error = true;
+            this.Controls.Clear();
+            this.Controls.Add(new LiteralControl(ex.Message));
+            
+        }
+    }
+}
+
+

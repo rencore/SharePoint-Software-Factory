@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="RegistryPermission"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Registry Permission</Caption>
+  <Description>Adds a RegistryPermission to the project. Controls the ability to access registry variables. </Description>
+  <HostData Priority="400">
+    <Icon File="Help/Icons/icon_Security.ico" />
+    <CommandBar Menu="SPSFSolutionSecurity"/>
+    <CommandBar Menu="SPSFProjectSecurity"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseCustomizationRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="false"
+      Category="Security" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[The recipe adds a line for the permission to the Package.Template.xml (for VS 2010 projects) or to the file CASPolicy.txt (for HIVE projects). Warning: Existing permissions with the same name are replaced completely.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="BasePermissionArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="RegistryRead" >
+      <ValueProvider Type="Evaluator" Expression="HKEY_LOCAL_MACHINE\" />
+    </Argument>
+
+    <Argument Name="RegistryCreate" Required="false" />
+    <Argument Name="RegistryAllAccess" Required="false" />
+    <Argument Name="RegistryNoAccess" Required="false" />
+    <Argument Name="RegistryWrite" Required="false" />
+    
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Policy Settings</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="RegistryRead" Label="Read" >
+              <Help>Optional text. Read access to registry variables.</Help>
+            </Field>
+            <Field ValueName="RegistryWrite" Label="Write" >
+              <Help>Optional text. Write access to registry variables. Write permission does not imply permission to Read or Create.</Help>
+            </Field>
+            <Field ValueName="RegistryCreate" Label="Create" >
+              <Help>Optional text. Create access to registry variables.</Help>
+            </Field>
+            <Field ValueName="RegistryAllAccess" Label="All Access" >
+              <Help>Optional text. Create, Read, and Write access to registry variables.</Help>
+            </Field>
+            <Field ValueName="RegistryNoAccess" Label="No Access" >
+              <Help>Optional text. No access to registry variables.</Help>
+            </Field>            
+            <Field ValueName="PermissionIsUnrestricted" Label="Unrestricted" >
+              <Help>Optional Boolean. If Unrestricted is true, the value of Permission Level will be ignored.</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action
+       Name="AddCASPolicyAction"
+       Type="AddCASPolicyAction"
+       TemplateFileName="Text\Security\RegistryPermission.txt.t4">
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

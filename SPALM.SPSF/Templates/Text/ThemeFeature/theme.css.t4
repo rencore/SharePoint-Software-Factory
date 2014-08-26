@@ -1,0 +1,5 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ThemeTargetFolderLayoutsName" #>
+<#@ assembly name="System.dll" #>
+
+@import: url("/_layouts<#= VersionedFolderName #>/<#= ThemeTargetFolderLayoutsName #>/theme.css");

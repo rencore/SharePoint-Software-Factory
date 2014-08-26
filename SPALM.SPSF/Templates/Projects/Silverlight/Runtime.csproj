@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProductVersion>8.0.50727</ProductVersion>
+		<SchemaVersion>2.0</SchemaVersion>
+		<ProjectGuid>{$SilverlightProjectGuid$}</ProjectGuid>
+		<ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>$AppName$.Silverlight.$SilverlightApplicationName$</RootNamespace>
+		<AssemblyName>$AppName$.Silverlight.$SilverlightApplicationName$</AssemblyName>
+		<SignAssembly>$WSPSolutionSignAssembly$</SignAssembly>
+		<AssemblyOriginatorKeyFile>..\$WSPSolutionKeyFileName$</AssemblyOriginatorKeyFile>
+		<TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+		<TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+		<SilverlightVersion>$SilverlightVersion$</SilverlightVersion>
+		<SilverlightApplication>true</SilverlightApplication>
+		<SupportedCultures>
+		</SupportedCultures>
+		<XapOutputs>true</XapOutputs>
+		<GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+		<XapFilename>$AppName$.Silverlight.$SilverlightApplicationName$.xap</XapFilename>
+		<SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+		<SilverlightAppEntry>$AppName$.Silverlight.$SilverlightApplicationName$.App</SilverlightAppEntry>
+		<TestPageFileName>$SilverlightApplicationName$TestPage.html</TestPageFileName>
+		<CreateTestPage>true</CreateTestPage>
+		<ValidateXaml>true</ValidateXaml>
+		<EnableOutOfBrowser>false</EnableOutOfBrowser>
+		<OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
+		<UsePlatformExtensions>false</UsePlatformExtensions>
+		<ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+		<LinkedServerProject>
+		</LinkedServerProject>
+		<SPSFNoWSP>true</SPSFNoWSP>
+	</PropertyGroup>
+	<!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+	<PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>Bin\Debug</OutputPath>
+		<DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+		<NoStdLib>true</NoStdLib>
+		<NoConfig>true</NoConfig>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>Bin\Release</OutputPath>
+		<DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+		<NoStdLib>true</NoStdLib>
+		<NoConfig>true</NoConfig>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<ItemGroup>
+		<Reference Include="Microsoft.Expression.Prototyping.SketchControls"/>
+		<Reference Include="Microsoft.SharePoint.Client.Silverlight">
+			<HintPath>$CommonProgramFilesPath$\Microsoft Shared\Web Server Extensions\14\TEMPLATE\LAYOUTS\ClientBin\Microsoft.SharePoint.Client.Silverlight.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Microsoft.SharePoint.Client.Silverlight.Runtime">
+			<HintPath>$CommonProgramFilesPath$\Microsoft Shared\Web Server Extensions\14\TEMPLATE\LAYOUTS\ClientBin\Microsoft.SharePoint.Client.Silverlight.Runtime.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="mscorlib" />
+		<Reference Include="System.Windows" />
+		<Reference Include="system" />
+		<Reference Include="System.Core" />
+		<Reference Include="System.Net" />
+		<Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+		<Reference Include="System.Windows.Controls.Data.Input, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+		<Reference Include="System.Xml" />
+		<Reference Include="System.Windows.Browser" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="App.xaml.cs">
+			<DependentUpon>App.xaml</DependentUpon>
+		</Compile>
+		<Compile Include="MainPage.xaml.cs">
+			<DependentUpon>MainPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Include="LoadClientOM.cs" />
+		<Compile Include="Properties\AssemblyInfo.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<ApplicationDefinition Include="App.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</ApplicationDefinition>
+		<Page Include="MainPage.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Properties\AppManifest.xml" />
+	</ItemGroup>
+	<Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+	<ProjectExtensions>
+		<VisualStudio>
+			<FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+				<SilverlightProjectProperties />
+			</FlavorProperties>
+		</VisualStudio>
+	</ProjectExtensions>
+	<Import Condition="!Exists('$(MSBuildProjectDirectory)\..\SPSF.targets')" Project="$(SolutionDir)\SPSF.targets" />
+	<Import Condition=" Exists('$(MSBuildProjectDirectory)\..\SPSF.targets')" Project="$(MSBuildProjectDirectory)\..\SPSF.targets" />
+	<Target Name="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)" />
+	<Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn)" />
+</Project>

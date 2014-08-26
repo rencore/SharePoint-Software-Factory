@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="MasterPage"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+	<DocumentationLinks>
+		<Link Url="http://msdn.microsoft.com/en-us/library/ms543497.aspx" Caption="MSDN: Page Layouts and Master Pages" Kind="Documentation"/>
+		<Link Url="http://msdn.microsoft.com/en-us/library/microsoft.sharepoint.publishing.pagelayout.aspx" Caption="MSDN: Page Layout Class"  Kind="Documentation"/>
+		<Link Url="http://www.heathersolomon.com/blog/articles/MOSS07DesignComponents.aspx" Caption="Heather Solomon: MOSS 2007 Design Component Relationships and Diagrams"  Kind="Documentation"/>
+	</DocumentationLinks>
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Master Page</Caption>
+	<Description>Adds a master page current selected project.</Description>
+	<HostData Priority="200">
+		<Icon File="Help/Icons/icon_MasterPage.ico" />
+		<CommandBar Menu="SPSFProjectPublishing"/>
+		<CommandBar Menu="SPSFSolutionPublishing"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="CustomizationReference"
+		  BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseSiteFeatureRecipeRunner"
+		  Enabled="true"
+		  CreateVSTemplate="true"
+		  FeatureScopes="Site"
+		  Category="Publishing" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[]]>
+			</spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="DefaultMasterPage" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="MasterPageName">DefaultMasterPage</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<Argument Name="AllowedScopes" Type="System.String">
+			<ValueProvider Type="Evaluator" Expression="Site" />
+		</Argument>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<Argument Name="ElementsCategory">
+			<ValueProvider Type="Evaluator" Expression="MasterPages" />
+		</Argument>
+
+		<Argument Name="ResourceKeyPrefix" Required="true">
+			<!-- provides the unique key with removed special chars -->
+			<ValueProvider Stage="OnBeforeActions" RecipeArgument="MasterPageName" Type="ConvertedStringProvider" />
+		</Argument>
+
+		<Argument Name="MasterPageName" Required="true" Type="System.String" >
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="VisualStudioCreateItemName" MakeSafe="True" DefaultValue="PageLayout1" />
+		</Argument>
+		<Argument Name="MasterPageTitle" Required="true" Type="System.String" >
+			<ValueProvider Type="Evaluator" Expression="$(MasterPageName) Title" />
+		</Argument>
+		<Argument Name="MasterPageDescription" Required="true" Type="System.String" >
+			<ValueProvider Type="Evaluator" Expression="$(MasterPageName) Description" />
+		</Argument>
+		<Argument Name="MasterPageFileName" Required="true" Type="System.String" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(MasterPageName).master" />
+		</Argument>
+		<Argument Name="MasterPageNameImage" Required="true" Type="System.String" >
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(MasterPageName).png" />
+		</Argument>
+
+		<Argument Name="MasterPagePreviewImageFolder">
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SharePointVersion)\Template\Features\$(ParentFeatureName)\en-us" />
+		</Argument>
+
+		<Argument Name="MasterPageFileFolder">
+			<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SharePointVersion)\Template\Features\$(ParentFeatureName)\MasterPages" />
+		</Argument>
+
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+				<Page Width="600" Height="400">
+					<Title>Master Page Settings</Title>
+					<Fields>
+						<Field ValueName="MasterPageName" Label="Name">
+							<Help>Required Text. Name of the Master Page. Limited to 255 characters. The name has to be unique within the project of this solution. It should not contain whitespaces or special characters.</Help>
+						</Field>
+						<Field ValueName="MasterPageTitle" Label="Title">
+							<Help>Required Text. Title (friendly name) of the Master Page. Limited to 255 characters.</Help>
+						</Field>
+						<Field ValueName="MasterPageDescription" Label="Description">
+							<Help>Optional Text. Description of the Master Page.</Help>
+						</Field>
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+		<xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<!-- elements.xml-->
+		<Action
+		  Name="CreateElementsXml"
+		  Type="AddElementsDefinitionAction"
+		  ParentFeatureName="$(ParentFeatureName)"
+		  ElementsName="$(MasterPageName)"
+		  ElementsCategory="$(ElementsCategory)"
+		  TemplateFileName="Text\MasterPage\elements.xml.t4"
+		  SPDataTemplate="Text\MasterPage\SharePointProjectItem.spdata.t4"
+		  Open="true">
+			<Output Name="CreatedElementFolder" />
+			<Output Name="CreatedElementFile" />
+		</Action>
+
+		<!-- add the master page file into the feature-->
+		<Action
+		  Name="AddMasterPageFile"
+		  Type="AddTemplateToItemAction"
+		  DeploymentType="ElementFile"
+		  DeploymentPath="$(MasterPageName)"
+		  TemplateFileName="Text\MasterPage\template.master.$(SharePointVersion).t4"
+		  TargetFileName="$(MasterPageFileName)">
+			<Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+		</Action>
+
+		<!-- add master page preview image -->
+		<Action
+			Name="AddListIcon"
+			Type="AddFileToItemAction"
+			DeploymentType="ElementFile"
+			DeploymentPath="$(MasterPageName)\en-us"
+			SourceFileName="Text\MasterPage\template.png"
+			TargetFileName="$(MasterPageName).png">
+			<Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+		</Action>
+
+		<!-- Resources -->
+		<Action
+		  Condition="$(AutoCreateResxFiles)"
+		  Name="AddResources"
+		  Type="AddTemlateToResourcesFileAction"
+		  TemplateFileName="Text\MasterPage\Resources.resx.t4"
+      FeatureResources="True" >
+      <Input Name="FeatureName" RecipeArgument="ParentFeatureName" />
+    </Action>
+
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Actions>
+</Recipe>

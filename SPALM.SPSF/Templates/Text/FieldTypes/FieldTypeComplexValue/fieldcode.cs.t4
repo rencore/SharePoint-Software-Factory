@@ -1,0 +1,67 @@
+<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;  
+  using System.Globalization;
+  using System.Runtime.InteropServices;
+  using System.Text;
+  using System.Web.UI;  
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.WebControls;
+
+  public class <#= FieldTypeTypeName #> : SPFieldMultiColumn
+  {           
+    public <#= FieldTypeTypeName #>(SPFieldCollection fields, string fieldName)
+      : base(fields, fieldName)
+    {
+		}
+
+    public <#= FieldTypeTypeName #>(SPFieldCollection fields, string typeName, string displayName)
+      : base(fields, typeName, displayName)
+    { 
+		}
+
+    public override BaseFieldControl FieldRenderingControl
+    {
+      get
+      {
+        BaseFieldControl fldControl = new <#= FieldTypeTypeName #>Control();
+        fldControl.FieldName = InternalName;
+        return fldControl;
+      }
+    }
+        
+    public override string GetValidatedString(object value)
+    {
+      <#= FieldTypeTypeName #>Value fieldValue = value as <#= FieldTypeTypeName #>Value;
+
+      if (fieldValue == null)
+      {
+        return string.Empty;
+      }
+
+      if (string.IsNullOrEmpty(fieldValue.Column1) || string.IsNullOrEmpty(fieldValue.Column2) || string.IsNullOrEmpty(fieldValue.Column3) || string.IsNullOrEmpty(fieldValue.Column4))
+			{
+        throw new SPFieldValidationException(SPResource.GetString(Strings.MissingRequiredField));
+			}
+
+      return value.ToString();
+    }
+
+    public override object GetFieldValue(string value)
+    {
+      if (string.IsNullOrEmpty(value))
+      {
+        return null;
+      }
+
+      <#= FieldTypeTypeName #>Value fieldValue = new <#= FieldTypeTypeName #>Value(value);
+      return fieldValue;
+    }       
+  }
+}

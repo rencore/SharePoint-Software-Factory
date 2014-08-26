@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="ClassResourceFile"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">    
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Add Class Resource Files</Caption>
+  <Description>This recipe allows to add a file which should be deployed as class resource file for an assembly.</Description>
+  <HostData Priority="30">    
+    <Icon File="Help/Icons/icon_Resource.ico" />
+    <CommandBar Menu="SPSFProjectFiles"/>
+    <spsf:MetaData 
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseCustomizationRecipeRunner"
+      Enabled="true" 
+      CreateVSTemplate="false" 
+	  NotSandboxSupported="true"
+      Category="Files" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+          <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[Class resource files are added to the project in folder 80/BIN/wpresources/[NameOfAssembly]. In manifest.xml these files are deployed to 
+        
+        <Solution xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" SolutionId="00000000-0000-0000-0000-000000000000" ResetWebServer="True" xmlns="http://schemas.microsoft.com/sharepoint/">
+        &nbsp;<Assemblies>
+        &nbsp;&nbsp;<Assembly Location="WebPartResources.dll" DeploymentTarget="GlobalAssemblyCache">
+        &nbsp;&nbsp;&nbsp;<SafeControls>
+        &nbsp;&nbsp;&nbsp;&nbsp;<SafeControl Assembly="WebPartResources, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6763c0814d065309" Namespace="WebPartResources" TypeName="*" Safe="True" />
+        &nbsp;&nbsp;&nbsp;</SafeControls>
+        &nbsp;&nbsp;&nbsp;<ClassResources>
+        &nbsp;&nbsp;&nbsp;&nbsp;<b><ClassResource Location="testfile.gif" FileName="testfile.gif" /></b>
+        &nbsp;&nbsp;&nbsp;</ClassResources>
+        &nbsp;&nbsp;</Assembly>
+        &nbsp;</Assemblies>
+        </Solution>
+        
+        After deployment these files are located here.
+        For assemblies in GAX: C:\Program Files\Common Files\Microsoft Shared\web server extensions\wpresources\WebPartResources\1.0.0.0__6763c0814d065309\testfile.gif
+        For assemblies in BIN: C:\inetpub\wwwroot\wss\VirtualDirectories\80\wpresources\1.0.0.0__6763c0814d065309\testfile.gif
+        
+        In code you can access there files:
+        
+        SPWeb currentWeb = SPControl.GetContextWeb(Context);
+        Type currentType = this.GetType();
+        string classResourcePath = SPWebPartManager.GetClassResourcePath(currentWeb, currentType);	 
+        image = new Image();
+        image.ImageUrl = classResourcePath + "/testfile.gif";
+        
+        The file could also be access via URL:
+        
+        http://servername/_wpresources/[assemblyname]/testfile.gif
+        ]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="Default" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="SourceFiles">F:\SPALM\SPSF\Dev\Source\TestData\TestFiles\ClassResourceFile.txt</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+   </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="SourceFiles" Required="true" />
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Source Files</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="SourceFiles" Label="Source Files">
+              <Editor Type="SPALM.SPSF.Library.MultiFileChooser, SPALM.SPSF.Library" />
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    
+    <Action
+      Name="CreateSPDataElement"
+      Type="AddSPDataAction"
+      ElementsName="ClassResources"
+      ElementsCategory="Resources"
+      SPDataTemplate="Text\Resources\SharePointProjectItem.spdata.t4">
+      <Output Name="CreatedElementFolder" />
+    </Action>
+    <Action
+      Name="AddFiles"
+      Type="AddFileToItemAction"
+      DeploymentType="ClassResource">
+      <Input Name="SourceFileName" RecipeArgument="SourceFiles" />
+      <Input Name="ParentProjectFolder" ActionOutput="CreateSPDataElement.CreatedElementFolder" />
+    </Action>
+    
+  </Actions>
+</Recipe>

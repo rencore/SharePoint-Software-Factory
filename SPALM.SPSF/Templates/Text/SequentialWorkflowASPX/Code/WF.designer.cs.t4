@@ -1,0 +1,289 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="WorkflowNamespace" #>
+<#@ property processor="PropertyProcessor" name="WorkflowName" #>
+<#@ assembly name="System.dll" #>
+using System;
+using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.Collections;
+using System.Drawing;
+using System.Reflection;
+using System.Workflow.ComponentModel.Compiler;
+using System.Workflow.ComponentModel.Serialization;
+using System.Workflow.ComponentModel;
+using System.Workflow.ComponentModel.Design;
+using System.Workflow.Runtime;
+using System.Workflow.Activities;
+using System.Workflow.Activities.Rules;
+
+namespace <#= WorkflowNamespace #>
+{
+    partial class <#= WorkflowName #>
+    {
+        #region Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        [System.Diagnostics.DebuggerNonUserCode]
+        private void InitializeComponent()
+        {
+            this.CanModifyActivities = true;
+            System.Workflow.ComponentModel.ActivityBind activitybind1 = new System.Workflow.ComponentModel.ActivityBind();
+            System.Workflow.ComponentModel.ActivityBind activitybind2 = new System.Workflow.ComponentModel.ActivityBind();
+            System.Workflow.ComponentModel.ActivityBind activitybind3 = new System.Workflow.ComponentModel.ActivityBind();
+            System.Workflow.ComponentModel.ActivityBind activitybind4 = new System.Workflow.ComponentModel.ActivityBind();
+            System.Workflow.ComponentModel.ActivityBind activitybind5 = new System.Workflow.ComponentModel.ActivityBind();
+            System.Workflow.Runtime.CorrelationToken correlationtoken1 = new System.Workflow.Runtime.CorrelationToken();
+            System.Workflow.ComponentModel.ActivityBind activitybind6 = new System.Workflow.ComponentModel.ActivityBind();
+            System.Workflow.ComponentModel.ActivityBind activitybind7 = new System.Workflow.ComponentModel.ActivityBind();
+            System.Workflow.ComponentModel.ActivityBind activitybind8 = new System.Workflow.ComponentModel.ActivityBind();
+            System.Workflow.ComponentModel.ActivityBind activitybind9 = new System.Workflow.ComponentModel.ActivityBind();
+            System.Workflow.ComponentModel.ActivityBind activitybind10 = new System.Workflow.ComponentModel.ActivityBind();
+            System.Workflow.Runtime.CorrelationToken correlationtoken2 = new System.Workflow.Runtime.CorrelationToken();
+            System.Workflow.ComponentModel.ActivityBind activitybind11 = new System.Workflow.ComponentModel.ActivityBind();
+            this.terminateActivity1 = new System.Workflow.ComponentModel.TerminateActivity();
+            this.logError = new Microsoft.SharePoint.WorkflowActions.LogToHistoryListActivity();
+            this.errorLogger = new System.Workflow.Activities.CodeActivity();
+            this.logCancellation = new Microsoft.SharePoint.WorkflowActions.LogToHistoryListActivity();
+            this.faultHandlerActivity1 = new System.Workflow.ComponentModel.FaultHandlerActivity();
+            this.cancellationHandlerActivity1 = new System.Workflow.ComponentModel.CancellationHandlerActivity();
+            this.faultHandlersActivity1 = new System.Workflow.ComponentModel.FaultHandlersActivity();
+            this.createTask1 = new Microsoft.SharePoint.WorkflowActions.CreateTask();
+            this.logActivated = new Microsoft.SharePoint.WorkflowActions.LogToHistoryListActivity();
+            this.onWorkflowActivated1 = new Microsoft.SharePoint.WorkflowActions.OnWorkflowActivated();
+            // 
+            // terminateActivity1
+            // 
+            this.terminateActivity1.Error = "This worklfow instance has experienced an untimiely death!";
+            this.terminateActivity1.Name = "terminateActivity1";
+            // 
+            // logError
+            // 
+            this.logError.Duration = System.TimeSpan.Parse("-10675199.02:48:05.4775808");
+            this.logError.EventId = Microsoft.SharePoint.Workflow.SPWorkflowHistoryEventType.WorkflowError;
+            activitybind1.Name = "<#= WorkflowName #>";
+            activitybind1.Path = "HistoryDescription";
+            activitybind2.Name = "<#= WorkflowName #>";
+            activitybind2.Path = "HistoryOutcome";
+            this.logError.Name = "logError";
+            this.logError.OtherData = "";
+            activitybind3.Name = "<#= WorkflowName #>";
+            activitybind3.Path = "UserID";
+            this.logError.MethodInvoking += new System.EventHandler(this.logError_MethodInvoking);
+            this.logError.SetBinding(Microsoft.SharePoint.WorkflowActions.LogToHistoryListActivity.HistoryDescriptionProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind1)));
+            this.logError.SetBinding(Microsoft.SharePoint.WorkflowActions.LogToHistoryListActivity.HistoryOutcomeProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind2)));
+            this.logError.SetBinding(Microsoft.SharePoint.WorkflowActions.LogToHistoryListActivity.UserIdProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind3)));
+            // 
+            // errorLogger
+            // 
+            this.errorLogger.Name = "errorLogger";
+            this.errorLogger.ExecuteCode += new System.EventHandler(this.errorLogger_ExecuteCode);
+            // 
+            // logCancellation
+            // 
+            this.logCancellation.Duration = System.TimeSpan.Parse("-10675199.02:48:05.4775808");
+            this.logCancellation.EventId = Microsoft.SharePoint.Workflow.SPWorkflowHistoryEventType.WorkflowComment;
+            activitybind4.Name = "<#= WorkflowName #>";
+            activitybind4.Path = "HistoryDescription";
+            activitybind5.Name = "<#= WorkflowName #>";
+            activitybind5.Path = "HistoryOutcome";
+            this.logCancellation.Name = "logCancellation";
+            this.logCancellation.OtherData = "";
+            this.logCancellation.UserId = -1;
+            this.logCancellation.MethodInvoking += new System.EventHandler(this.logCancellation_MethodInvoking);
+            this.logCancellation.SetBinding(Microsoft.SharePoint.WorkflowActions.LogToHistoryListActivity.HistoryDescriptionProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind4)));
+            this.logCancellation.SetBinding(Microsoft.SharePoint.WorkflowActions.LogToHistoryListActivity.HistoryOutcomeProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind5)));
+            // 
+            // faultHandlerActivity1
+            // 
+            this.faultHandlerActivity1.Activities.Add(this.errorLogger);
+            this.faultHandlerActivity1.Activities.Add(this.logError);
+            this.faultHandlerActivity1.Activities.Add(this.terminateActivity1);
+            this.faultHandlerActivity1.FaultType = typeof(System.Exception);
+            this.faultHandlerActivity1.Name = "faultHandlerActivity1";
+            // 
+            // cancellationHandlerActivity1
+            // 
+            this.cancellationHandlerActivity1.Activities.Add(this.logCancellation);
+            this.cancellationHandlerActivity1.Name = "cancellationHandlerActivity1";
+            // 
+            // faultHandlersActivity1
+            // 
+            this.faultHandlersActivity1.Activities.Add(this.faultHandlerActivity1);
+            this.faultHandlersActivity1.Name = "faultHandlersActivity1";
+            // 
+            // createTask1
+            // 
+            correlationtoken1.Name = "taskToken";
+            correlationtoken1.OwnerActivityName = "<#= WorkflowName #>";
+            this.createTask1.CorrelationToken = correlationtoken1;
+            this.createTask1.ListItemId = -1;
+            this.createTask1.Name = "createTask1";
+            this.createTask1.SpecialPermissions = null;
+            activitybind6.Name = "<#= WorkflowName #>";
+            activitybind6.Path = "TaskId";
+            activitybind7.Name = "<#= WorkflowName #>";
+            activitybind7.Path = "TaskProperties";
+            this.createTask1.MethodInvoking += new System.EventHandler(this.createTask1_MethodInvoking);
+            this.createTask1.SetBinding(Microsoft.SharePoint.WorkflowActions.CreateTask.TaskPropertiesProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind7)));
+            this.createTask1.SetBinding(Microsoft.SharePoint.WorkflowActions.CreateTask.TaskIdProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind6)));
+            // 
+            // logActivated
+            // 
+            this.logActivated.Duration = System.TimeSpan.Parse("-10675199.02:48:05.4775808");
+            this.logActivated.EventId = Microsoft.SharePoint.Workflow.SPWorkflowHistoryEventType.WorkflowStarted;
+            activitybind8.Name = "<#= WorkflowName #>";
+            activitybind8.Path = "HistoryDescription";
+            activitybind9.Name = "<#= WorkflowName #>";
+            activitybind9.Path = "HistoryOutcome";
+            this.logActivated.Name = "logActivated";
+            this.logActivated.OtherData = "";
+            activitybind10.Name = "<#= WorkflowName #>";
+            activitybind10.Path = "UserID";
+            this.logActivated.MethodInvoking += new System.EventHandler(this.logActivated_MethodInvoking);
+            this.logActivated.SetBinding(Microsoft.SharePoint.WorkflowActions.LogToHistoryListActivity.HistoryDescriptionProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind8)));
+            this.logActivated.SetBinding(Microsoft.SharePoint.WorkflowActions.LogToHistoryListActivity.HistoryOutcomeProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind9)));
+            this.logActivated.SetBinding(Microsoft.SharePoint.WorkflowActions.LogToHistoryListActivity.UserIdProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind10)));
+            // 
+            // onWorkflowActivated1
+            // 
+            correlationtoken2.Name = "workflowToken";
+            correlationtoken2.OwnerActivityName = "<#= WorkflowName #>";
+            this.onWorkflowActivated1.CorrelationToken = correlationtoken2;
+            this.onWorkflowActivated1.EventName = "OnWorkflowActivated";
+            this.onWorkflowActivated1.Name = "onWorkflowActivated1";
+            activitybind11.Name = "<#= WorkflowName #>";
+            activitybind11.Path = "WorkflowProperties";
+            this.onWorkflowActivated1.Invoked += new System.EventHandler<System.Workflow.Activities.ExternalDataEventArgs>(this.onWorkflowActivated1_Invoked);
+            this.onWorkflowActivated1.SetBinding(Microsoft.SharePoint.WorkflowActions.OnWorkflowActivated.WorkflowPropertiesProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind11)));
+            // 
+            // P000WF
+            // 
+            this.Activities.Add(this.onWorkflowActivated1);
+            this.Activities.Add(this.logActivated);
+            this.Activities.Add(this.createTask1);
+            this.Activities.Add(this.faultHandlersActivity1);
+            this.Activities.Add(this.cancellationHandlerActivity1);
+            this.Name = "<#= WorkflowName #>";
+            this.CanModifyActivities = false;
+
+        }
+
+        #endregion
+
+        private Microsoft.SharePoint.WorkflowActions.CreateTask createTask1;
+        private Microsoft.SharePoint.WorkflowActions.LogToHistoryListActivity logCancellation;
+        private TerminateActivity terminateActivity1;
+        private CancellationHandlerActivity cancellationHandlerActivity1;
+        private Microsoft.SharePoint.WorkflowActions.LogToHistoryListActivity logError;
+        private FaultHandlerActivity faultHandlerActivity1;
+        private FaultHandlersActivity faultHandlersActivity1;
+        private CodeActivity errorLogger;
+        private Microsoft.SharePoint.WorkflowActions.LogToHistoryListActivity logActivated;
+        private Microsoft.SharePoint.WorkflowActions.OnWorkflowActivated onWorkflowActivated1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+}

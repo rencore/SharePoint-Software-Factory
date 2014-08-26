@@ -1,0 +1,198 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	  <html xmlns="http://www.w3.org/1999/xhtml">
+	    <head>
+		    <link rel="stylesheet" type="text/css" href="Styles/branding.css"/>				
+		    		<title>WebPart Permission</title>
+				<meta name="Description" content="Adds a WebPartPermission to the project. Represents a custom permission that controls the ability to access Web Part resources" />
+		<style type="text/css">
+
+		.OH_TocResize
+		{	
+			top: 126px;
+		}
+
+		</style>
+	</head>	
+	<body class="primary-mtps-offline-document" 
+	 style="max-width: 1220px;" >		<table class="noSpace" style="width: 100%;"> 
+			<tr>
+			  <td colspan="2" style="background-color: #6685A2;">&nbsp;</td>
+			</tr>
+			<tr>
+			  <td>
+				<img src="./_img/header_left.jpg" height="66" style="margin-top: 10px; margin-bottom: 20px" />
+			  </td>
+			  <td align="right" valign="top" rowspan="2">
+				<img src="./_img/header_right.jpg" style="margin-top: 2px" height="72"/>
+			  </td>
+			</tr>			
+		</table>
+		<div class="OH_outerDiv">
+			<div style="WIDTH: 350px" id="LeftNav" class="OH_leftNav">
+				<div id="toc">
+					<div id="toc_parent">
+						<div class="OH_parentTocLinks">		
+							<div class="OH_link">				
+								<a title="SharePoint Software Factory" href="SPSF_ROOT.html">SharePoint Software Factory</a>
+							</div>
+									
+							<div class="OH_link">				
+								<a title="Recipe Index" href="SPSF_RECIPES_INDEX.html">Recipe Index</a>
+							</div>
+									
+							<div class="OH_link">				
+								<a title="SPSF Artefacts" href="SPSF_RECIPES_CATEGORY_ARTEFACTS.html">SPSF Artefacts</a>
+							</div>
+									
+							<div class="OH_link">				
+								<a title="Security" href="SPSF_RECIPES_CATEGORY_SECURITY.html">Security</a>
+							</div>
+							</div></div>					
+						<div id="toc_children">
+							<div class="OH_selfTocLinks">										<div class="OH_link">	
+											<a title="Minimal CAS" href="SPSF_RECIPE_MINIMALCAS.html">Minimal CAS</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Medium CAS" href="SPSF_RECIPE_MEDIUMCAS.html">Medium CAS</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="AspNetHosting Permission" href="SPSF_RECIPE_ASPNETHOSTINGPERMISSION.html">AspNetHosting Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Dns Permission" href="SPSF_RECIPE_DNSPERMISSION.html">Dns Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Environment Permission" href="SPSF_RECIPE_ENVIRONMENTPERMISSION.html">Environment Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Reflection Permission" href="SPSF_RECIPE_REFLECTIONPERMISSION.html">Reflection Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="FileIO Permission" href="SPSF_RECIPE_FILEIOPERMISSION.html">FileIO Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Printing Permission" href="SPSF_RECIPE_PRINTINGPERMISSION.html">Printing Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="SqlClient Permission" href="SPSF_RECIPE_SQLCLIENTPERMISSION.html">SqlClient Permission</a>
+										</div>
+
+										<div title="WebPart Permission" class="OH_selectedChild">WebPart Permission</div>										<div class="OH_link">	
+											<a title="Registry Permission" href="SPSF_RECIPE_REGISTRYPERMISSION.html">Registry Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Security Permission" href="SPSF_RECIPE_SECURITYPERMISSION.html">Security Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="SharePoint Permission" href="SPSF_RECIPE_SHAREPOINTPERMISSION.html">SharePoint Permission</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="SMTP Permission" href="SPSF_RECIPE_SMTPPERMISSION.html">SMTP Permission</a>
+										</div>
+
+										</div></div><div id="toc_siblings"><div class="OH_siblingTocHeader">Related Links</DIV><div class="OH_siblingTocLinks">							<br /></div></div></div></div><div style="LEFT: 279px" id="TocResize" class="OH_TocResize"></div>
+				<div class="OH_outerContent">
+				  
+		<div class="OH_topic">		 
+     
+		  <div id="mainHeader">
+			<table>
+			  <tbody>
+				<tr>
+				  <td>
+					<h1>WebPart Permission</h1>
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+		<div id="mainSection">
+			<div id="mainBody">            
+				<div class="introduction"><p>Adds a WebPartPermission to the project. Represents a custom permission that controls the ability to access Web Part resources</p></div>
+				                      <DIV class="OH_CollapsibleAreaRegion">
+					        <DIV class="OH_regiontitle">Recipe Description</DIV>
+					        <DIV class="OH_RegionToggle"></DIV>
+				        </DIV>
+				        <DIV class="OH_clear"></DIV>
+				        <p>
+                        The recipe adds a line for the permission to the Package.Template.xml (for VS 2010 projects) or to the file CASPolicy.txt (for HIVE projects). Warning: Existing permissions with the same name are replaced completely.
+				        </p>
+				                   
+                           <DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">Arguments</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>
+				<p>
+				<div class="tableSection">
+                <table id="argumentTable" width="100%">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>							<tr>
+								<td>Connections</td>
+								<td>Optional Boolean. Defines whether Web Part to Web Part connections are allowed.</td>
+							</tr>                
+														<tr>
+								<td>Unrestricted</td>
+								<td>Required Boolean. If Unrestricted is true, all other permissions will be ignored.</td>
+							</tr>                
+							                </table>
+				</div>
+				</p>
+                           <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Authors</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+			<p>
+           <ul>
+           <li>Torsten Mandelkow</li>           </ul>
+           </p>
+           
+		   <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Version history</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+		   <p>
+           <ul>
+           <li>1.0 Initial Recipe</li>           </ul>
+		   </p>
+
+
+
+     
+				</div>			
+			</div>
+		</div>
+	</div>
+			<br />
+		<table width="100%">
+		<tr>
+			<td>
+				<div class="OH_feedbacklink">
+						<b>Disclaimer:</b> The views and opinions expressed in this documentation and in SPSF are those of the <a href="SPSF_OVERVIEW_110_AUTHORS.html">authors</a> and do not necessarily reflect the opinions and recommendations of Microsoft or any member of Microsoft. All trademarks, service marks, collective marks, copyrights, registered names, and marks used or cited by this documentation are the property of their respective owners.<br />
+						SharePoint Software Factory, Version 4.1.3.2705, <a href="SPSF_OVERVIEW_800_LICENSE.html">GPLv2</a>, see <a href="http://spsf.codeplex.com">http://spsf.codeplex.com</a> for more information
+				</div>
+				<br />
+			</td>
+		</tr>
+		</table>
+		<br />
+			</body>
+</html>
+
+

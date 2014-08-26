@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Pages xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+	<Page Width="600" Height="400">
+		<Title>General settings</Title>
+		<Fields>
+			<Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+			<Field ValueName="SiteDefinitionName" Label="Name">
+				<Help>Required Text. Specify the name of the folder which will be created in folder SiteTemplates. Limited to 255 characters. The name has to be unique within the project of this solution. It should not contain whitespaces or special characters.</Help>
+			</Field>
+			<Field ValueName="SiteDefinitionTitle" Label="Title">
+				<Help>Required Text. Title of the site template as it appears in the selection of Create Site dialog. Limited to 255 characters.</Help>
+			</Field>
+			<Field ValueName="SiteDefinitionID" Label="ID">
+				<Help>Required Number. Id of the site template. Should be unique on the farm and greater than 10000.</Help>
+			</Field>
+			<Field ValueName="SiteDefinitionDescription" Label="Description">
+				<Help>Required Text. Longer description of the purpose of this site definition.</Help>
+			</Field>
+			<Field ValueName="SiteDefinitionCategory" Label="Category">
+				<Help>Required Text. Title of the cateogry in which the site definition should appear in the Create Site dialog. Limited to 255 characters.</Help>
+			</Field>
+		</Fields>
+	</Page>
+	<Page Width="600" Height="400">
+		<Title>Advanced settings</Title>
+		<Fields>
+			<Field ValueName="SiteDefinitionHidden" Label="Hidden">
+				<Help>Optional Boolean. If TRUE hides the site definition from the Create Site dialog. Creation of sites with this definition through code will be still possible.</Help>
+			</Field>
+			<Field ValueName="SiteDefinitionRootWebOnly" Label="RootWebOnly">
+				<Help>Optional Boolean. If TRUE the site created from the configuration can only exist as the root Web site in a site collection. This attribute is not enforced in site templates (.stp files).</Help>
+			</Field>
+			<Field PanelType="SPALM.SPSF.Library.NameValueItemPanel, SPALM.SPSF.Library" ValueName="SiteDefinitionVisibilityFeatureDependency" Label="Visibility Feature Dependency" >
+				<Help>Optional Text. Optional Text. Used in a WebTemp*.xml file to hide the site definition configuration based on the activation state of the specified Feature. This attribute is not supported for Features with Web application scope.</Help>
+				<Editor Type="SPALM.SPSF.Library.FeatureEditor, SPALM.SPSF.Library" />
+			</Field>
+		</Fields>
+	</Page>
+</Pages>

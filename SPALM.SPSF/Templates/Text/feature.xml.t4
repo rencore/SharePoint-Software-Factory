@@ -1,0 +1,101 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<#@ assembly name="SPALM.SPSF.Library.dll" #>
+<#@ import namespace="SPALM.SPSF.Library" #>
+<#@ import namespace="System.Security.Principal" #>
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+************************************************************************
+       Company: <#= CopyrightCompanyName #>
+   Application: <#= AppName #>
+  Created date: <#= System.DateTime.Now.ToString("u") #>
+    Created by: <#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #>
+  Feature Name: <#= FeatureName #>
+ Feature Title: <#= FeatureTitle #>
+   Description: <#= FeatureDescription #>
+       History: Initial Version <#= FeatureVersion #> 
+************************************************************************
+-->
+<Feature
+	Id="<#= FeatureID #>"
+	Scope="<#= FeatureScope #>"	
+	<#
+	if(AutoCreateResxFiles)
+	{
+		#>
+		Title="$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_FeatureTitle;"
+		Description="$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_FeatureDescription;"
+		ImageUrlAltText="$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_FeatureTitle;"
+		<#
+	}
+	else
+	{
+		#>
+		Title="<#= FeatureTitle #>"
+		Description="<#= FeatureDescription #>"
+		ImageUrlAltText="<#= FeatureTitle #>"		
+		<#
+	}
+	#>
+	<#
+	if(!ProjectIsSandboxedSolution)
+	{
+	#>ImageUrl="<#= SolutionSubFolder #>\\<#= FeatureIconName #>"			
+	<#
+	}
+	#>	
+	Version="<#= FeatureVersion #>"			
+	<# if(FeatureHidden) { #>Hidden="<#= FeatureHidden #>"<# } #>
+	<# if(SolutionId != null) { #>SolutionId="<#= SolutionId #>"<# } #>
+	<# if(FeatureActivateOnDefault) { #>ActivateOnDefault="<#= FeatureActivateOnDefault #>"<# } #>
+	<# if(FeatureAlwaysForceInstall) { #>AlwaysForceInstall="<#= FeatureAlwaysForceInstall #>"<# } #>
+	<# if(FeatureAutoActivateInCentralAdmin) { #>AutoActivateInCentralAdmin="<#= FeatureAutoActivateInCentralAdmin #>"<# } #>
+	<# if(FeatureRequireResources) { #>RequireResources="<#= FeatureRequireResources #>"<# } #>
+	<# if((FeatureCreator != null) && (FeatureCreator != "")) { #>Creator="<#= FeatureCreator #>"<# } #>
+	xmlns="http://schemas.microsoft.com/sharepoint/"	
+	<#
+	if(FeatureCreateReceiver == true)
+	{
+	#>
+ReceiverAssembly="<#= ProjectAssemblyName #>"
+	ReceiverClass="<#= ProjectNamespace #>.<#= FeatureReceiverClass #>"
+	<#
+	}
+	#>
+	>
+	<ElementManifests>
+<# if(FeatureCreateDefaultElementsXML) 
+{ 
+#>		<ElementManifest Location="elements.xml"/>
+<# 
+}
+#>
+<# 
+		if(FeatureFiles != null)
+		{	if(FeatureFiles != "")
+			{
+				#>
+				<#= FeatureFiles #>
+				<#
+			}
+		}
+		#>
+	</ElementManifests>
+	<#
+	if(FeatureActivationDependencies != null)
+	{
+		if(FeatureActivationDependencies.Length > 0)
+		{
+	#><ActivationDependencies>
+	<#
+    foreach(NameValueItem dep in FeatureActivationDependencies)
+    {
+		#>	<!-- <#= dep.Name #> -->
+        <ActivationDependency FeatureId="<#= dep.Value #>" />
+<#
+    }
+#>	</ActivationDependencies>
+<#
+    }
+    }
+#></Feature>

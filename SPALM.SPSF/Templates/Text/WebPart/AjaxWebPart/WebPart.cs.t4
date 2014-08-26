@@ -1,0 +1,170 @@
+<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;
+  using System.Collections;
+  using System.Collections.Generic;
+  using System.Collections.ObjectModel;
+  using System.ComponentModel;
+  using System.Security.Permissions;
+  using System.Text;
+  using System.Web;
+  using System.Web.UI;
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint.Security;
+  using Microsoft.SharePoint.Utilities;
+  using aspnetwebparts = System.Web.UI.WebControls.WebParts;
+  using wsswebparts = Microsoft.SharePoint.WebPartPages;
+
+  /// <summary>
+  /// TODO: Add comment for webpart <#= this.WebPartName #>
+  /// </summary>
+  [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+  [SharePointPermission(SecurityAction.InheritanceDemand, ObjectModel = true)]
+  public class <#= this.WebPartName #> : aspnetwebparts.WebPart
+  {
+        private Label lblDateTime1;
+        private Label lblDateTime2;
+        private Button btnSend;
+        private UpdatePanel updatePanel; 
+        private UpdateProgress updateProgress;        
+
+        /// <summary>
+        /// Initializes a new instance of the <#= this.WebPartName #> class
+        /// </summary>
+        public <#= this.WebPartName #>()
+        {
+        }
+
+        /// <summary>
+        /// Init method
+        /// </summary>
+        /// <param name="e">Event arguments</param>
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+
+            this.EnsureScriptManager();
+            this.EnsureUpdatePanelFixups();
+
+            // Init Controls
+            this.lblDateTime1 = new Label();
+            this.lblDateTime1.Text = DateTime.Now.ToString();
+            this.lblDateTime2 = new Label();
+            this.lblDateTime2.Text = DateTime.Now.ToString();
+            this.btnSend = new Button();
+            this.btnSend.Text = "Click me...";
+            this.btnSend.Click += new EventHandler(this.BtnSend_Click);
+
+            // Init UpdatePanel
+            this.updatePanel = new UpdatePanel();
+            this.updatePanel.ID = "updatePanel";
+
+            // Init UpdateProgress
+            string templateHTML = "<div><img alt=\"Bitte warten...\" src=\"/_layouts<#= VersionedFolderName #>/images/kpiprogressbar.gif\"/>&nbsp;</div>";
+            this.updateProgress = new UpdateProgress();
+            this.updateProgress.ID = "updateProgress";
+            this.updateProgress.AssociatedUpdatePanelID = updatePanel.ClientID;            
+            this.updateProgress.ProgressTemplate = new ProgressTemplate(templateHTML);
+            
+            // Add Controls to the UpdatePanel
+            this.updatePanel.ContentTemplateContainer.Controls.Add(lblDateTime2);
+            this.updatePanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<br/>"));
+            this.updatePanel.ContentTemplateContainer.Controls.Add(btnSend);
+        }
+
+        /// <summary>
+        /// Timer Tick event
+        /// </summary>
+        /// <param name="sender">sender object</param>
+        /// <param name="e">event arguments</param>
+        public void Timer_Tick(object sender, EventArgs e)
+        {
+            this.updatePanel.Update();
+        }
+        
+        /// <summary>
+        /// Button send click event
+        /// </summary>
+        /// <param name="sender">sender object</param>
+        /// <param name="e">event arguments</param>
+        public void BtnSend_Click(object sender, EventArgs e)
+        {
+            System.Threading.Thread.Sleep(1000);
+            this.lblDateTime2.Text = DateTime.Now.ToString();
+        }
+        
+        protected override void CreateChildControls()
+        {
+            base.CreateChildControls();            
+            
+            this.Controls.Add(lblDateTime1);
+            this.Controls.Add(new LiteralControl("<br/>"));
+            this.Controls.Add(updatePanel);
+            this.Controls.Add(updateProgress);            
+        }
+
+        /// <summary>
+        /// Ensures that the scriptmanager exists
+        /// </summary>
+        private void EnsureScriptManager()
+        {
+            ScriptManager scriptManager = ScriptManager.GetCurrent(this.Page);
+
+            if (scriptManager == null)
+            {
+                scriptManager = new ScriptManager();
+                scriptManager.EnablePartialRendering = true;
+
+                if (Page.Form != null)
+                {
+                    Page.Form.Controls.AddAt(0, scriptManager);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixups for update panel
+        /// </summary>
+        private void EnsureUpdatePanelFixups()
+        {
+            if (this.Page.Form != null)
+            {
+                string formOnSubmitAtt = this.Page.Form.Attributes["onsubmit"];
+                if (formOnSubmitAtt == "return _spFormOnSubmitWrapper();")
+                {
+                    this.Page.Form.Attributes["onsubmit"] = "_spFormOnSubmitWrapper();";
+                }
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "UpdatePanelFixup", "_spOriginalFormAction = document.forms[0].action; _spSuppressFormOnSubmitWrapper=true;", true);
+        }
+
+        /// <summary>
+        /// The progress template
+        /// </summary>
+        public class ProgressTemplate : ITemplate
+        {
+            private string template;
+
+            public ProgressTemplate(string temp)
+            {
+                template = temp;
+            }
+
+            /// <summary>
+            /// Control where the progress template should be instantiated in
+            /// </summary>
+            /// <param name="container">container control</param>
+            public void InstantiateIn(Control container)
+            {
+                LiteralControl ltr = new LiteralControl(this.template);
+                container.Controls.Add(ltr);
+            }
+        }
+    }
+}

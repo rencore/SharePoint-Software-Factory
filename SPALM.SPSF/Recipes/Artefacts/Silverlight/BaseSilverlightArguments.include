@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains standard arguments which are necessary in all recipes -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+	<!-- set standard parameters -->
+	<Argument Name="AllowedScopes" Type="System.String">
+		<ValueProvider Type="Evaluator" Expression="Site" />
+	</Argument>
+	<Argument Name="ResourceKeyPrefix" Required="true">
+		<!-- provides the unique key with removed special chars -->
+		<ValueProvider Stage="OnBeforeActions" RecipeArgument="SilverlightApplicationName" Type="ConvertedStringProvider" />
+	</Argument>
+
+	<Argument Name="SilverlightProjectGuid">
+		<ValueProvider Type="GuidValueProvider" />
+	</Argument>
+	
+	<Argument Name="SilverlightApplicationName" Type="System.String" >
+		<Converter Type="NamespaceStringConverter" />
+		<ValueProvider Type="VisualStudioCreateItemName" RecipeArgument="RecipeName" DefaultValue="SilverlightApplication1" />
+	</Argument>
+
+	<Argument Name="SilverlightVersion" Type="System.String" >
+		<Converter Type="SilverlightVersionConverter" />
+		<ValueProvider Type="Evaluator" Expression="v4.0"  />
+	</Argument>
+
+
+	<Argument Name="ModuleName">
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SilverlightApplicationName)Output" />
+	</Argument>
+	<Argument Name="WebPartFileName">
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SilverlightApplicationName)WebPart.webpart" />
+	</Argument>
+
+	<Argument Name="SilverlightApplicationFullName">
+		<ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(AppName).Silverlight.$(SilverlightApplicationName)" />
+	</Argument>
+	<Argument Name="SilverlightApplicationFullNameXAP">
+		<ValueProvider Type="Evaluator" Expression="$(AppName).Silverlight.$(SilverlightApplicationName).xap">
+			<MonitorArgument Name="SilverlightApplicationName" />
+		</ValueProvider>
+	</Argument>
+
+  <Argument Name="SilverlightWebPartTitle" Required="true">
+    <ValueProvider Type="Evaluator" Expression="$(SilverlightApplicationName) WebPart" />
+  </Argument>
+  <Argument Name="SilverlightWebPartDescription" Required="true">
+    <ValueProvider Type="Evaluator" Expression="Displays the Silverlight Application $(SilverlightApplicationName)" />
+  </Argument>
+
+	<Argument Name="WebPartGroup" Type="System.String">
+		<ValueProvider Type="Evaluator" Expression="$(AppName) Webparts" />
+	</Argument>
+	<Argument Name="WebPartQuickAddGroup" Type="System.String">
+		<ValueProvider Type="Evaluator" Expression="$(AppName) QuickAdd Webparts" />
+	</Argument>
+
+	<!-- different target folders depending on target SharePointVersion-->
+	<Argument Name="TargetListForSilverlightApp14">
+		<ValueProvider Type="Evaluator" Expression="SiteAssets" />
+	</Argument>
+	<Argument Name="TargetListForSilverlightApp12">
+		<ValueProvider Type="Evaluator" Expression="_catalogs/masterpage" />
+	</Argument>
+
+	<!-- path to clientbin folder in sharepoint of the Silverlight references -->
+	<Argument Name="CommonProgramFilesPath">
+		<ValueProvider Type="CommonProgramFilesPathProvider" />
+	</Argument>
+
+	<Argument Name="WSPSolutionSignAssembly" Type="System.Boolean" Required="true">
+		<ValueProvider Type="SolutionKeyFilenameExistsProvider" />
+	</Argument>
+	<Argument Name="WSPSolutionKeyFileName" Required="true">
+		<ValueProvider Type="SolutionKeyFilenameProvider" />
+	</Argument>
+	
+</Arguments>

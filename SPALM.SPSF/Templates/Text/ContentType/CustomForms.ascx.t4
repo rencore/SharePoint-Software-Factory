@@ -1,0 +1,302 @@
+﻿<#@ template language="C#" #>
+<# if(ContentTypeCustomFormsDisplay || 
+ContentTypeCustomFormsEdit ||
+ContentTypeCustomFormsNew)
+{
+#>
+<%@ Control Language="C#" AutoEventWireup="false" %>
+<%@ Assembly Name="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register TagPrefix="SharePoint" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" namespace="Microsoft.SharePoint.WebControls"%>
+<%@ Register TagPrefix="SPHttpUtility" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" namespace="Microsoft.SharePoint.Utilities"%>
+<%@ Register TagPrefix="wssuc" TagName="ToolBar" src="~/_controltemplates<#= VersionedFolderName #>/ToolBar.ascx" %>
+<%@ Register TagPrefix="wssuc" TagName="ToolBarButton" src="~/_controltemplates<#= VersionedFolderName #>/ToolBarButton.ascx" %>
+<#
+if(ContentTypeCustomFormsNew)
+{
+    if(ContentTypeParentContentType.Value.StartsWith("0x0101"))
+    {
+      //DocumentLibraryForm
+#>
+<SharePoint:RenderingTemplate ID="<#= ContentTypeUniqueName #>_New" runat="server">
+  <Template>
+      <SharePoint:InformationBar runat="server"/>
+			<div id="listFormToolBarTop">
+			<wssuc:ToolBar CssClass="ms-formtoolbar" id="toolBarTbltop" RightButtonSeparator="&amp;#160;" runat="server">
+				<Template_RightButtons>
+					<SharePoint:SaveButton runat="server"/>
+					<SharePoint:GoBackButton runat="server"/>
+				</Template_RightButtons>
+			</wssuc:ToolBar>
+			</div>
+			<SharePoint:FormToolBar runat="server"/>
+			<table class="ms-formtable" style="margin-top: 8px;" border="0" cellpadding="0" id="formTbl" cellspacing="0" width="100%">
+			<SharePoint:ItemValidationFailedMessage runat="server"/>
+			<SharePoint:ChangeContentType runat="server"/>
+			<SharePoint:DocumentLibraryFields runat="server"/>
+			<SharePoint:ApprovalStatus runat="server"/>
+			</table>
+			<SharePoint:WebPartPageMaintenanceMessage runat="server"/>
+			<SharePoint:DocumentTransformersInfo runat="server"/>
+			<table cellpadding="0" cellspacing="0" width="100%"><tr><td class="ms-formline"><img src="/_layouts<#= VersionedFolderName #>/images/blank.gif" width='1' height='1' alt="" /></td></tr></table>
+			<table cellpadding="0" cellspacing="0" width="100%" style="padding-top: 7px"><tr><td width="100%">
+			<SharePoint:ItemHiddenVersion runat="server"/>
+			<SharePoint:InitContentType runat="server"/>
+			<wssuc:ToolBar CssClass="ms-formtoolbar" id="toolBarTbl" RightButtonSeparator="&amp;#160;" runat="server">
+				<Template_Buttons>
+					<SharePoint:CreatedModifiedInfo runat="server"/>
+				</Template_Buttons>
+				<Template_RightButtons>
+					<SharePoint:SaveButton runat="server"/>
+					<SharePoint:GoBackButton runat="server"/>
+				</Template_RightButtons>
+			</wssuc:ToolBar>
+			</td></tr></table>
+	</Template>
+</SharePoint:RenderingTemplate>
+<#
+    }
+    else
+    {
+    //ListForm
+#>
+<SharePoint:RenderingTemplate ID="<#= ContentTypeUniqueName #>_New" runat="server">
+  <Template>
+		<span id='part1'>
+			<SharePoint:InformationBar runat="server"/>
+			<div id="listFormToolBarTop">
+			<wssuc:ToolBar CssClass="ms-formtoolbar" id="toolBarTbltop" RightButtonSeparator="&amp;#160;" runat="server">
+					<Template_RightButtons>
+						<SharePoint:NextPageButton runat="server"/>
+						<SharePoint:SaveButton runat="server"/>
+						<SharePoint:GoBackButton runat="server"/>
+					</Template_RightButtons>
+			</wssuc:ToolBar>
+			</div>
+			<SharePoint:FormToolBar runat="server"/>
+			<SharePoint:ItemValidationFailedMessage runat="server"/>
+			<table class="ms-formtable" style="margin-top: 8px;" border="0" cellpadding="0" cellspacing="0" width="100%">
+			<SharePoint:ChangeContentType runat="server"/>
+			<SharePoint:FolderFormFields runat="server"/>
+			<SharePoint:ListFieldIterator runat="server"/>
+			<SharePoint:ApprovalStatus runat="server"/>
+			<SharePoint:FormComponent TemplateName="AttachmentRows" runat="server"/>
+			</table>
+			<table cellpadding="0" cellspacing="0" width="100%"><tr><td class="ms-formline"><img src="/_layouts<#= VersionedFolderName #>/images/blank.gif" width='1' height='1' alt="" /></td></tr></table>
+			<table cellpadding="0" cellspacing="0" width="100%" style="padding-top: 7px"><tr><td width="100%">
+			<SharePoint:ItemHiddenVersion runat="server"/>
+			<SharePoint:ParentInformationField runat="server"/>
+			<SharePoint:InitContentType runat="server"/>
+			<wssuc:ToolBar CssClass="ms-formtoolbar" id="toolBarTbl" RightButtonSeparator="&amp;#160;" runat="server">
+					<Template_Buttons>
+						<SharePoint:CreatedModifiedInfo runat="server"/>
+					</Template_Buttons>
+					<Template_RightButtons>
+						<SharePoint:SaveButton runat="server"/>
+						<SharePoint:GoBackButton runat="server"/>
+					</Template_RightButtons>
+			</wssuc:ToolBar>
+			</td></tr></table>
+		</span>
+		<SharePoint:AttachmentUpload runat="server"/>
+	</Template>
+</SharePoint:RenderingTemplate>
+<#
+    } //ListForm
+}//New
+
+
+if(ContentTypeCustomFormsDisplay)
+{
+    if(ContentTypeParentContentType.Value.StartsWith("0x0101"))
+    {
+      //DocumentLibraryForm
+#>
+<SharePoint:RenderingTemplate ID="<#= ContentTypeUniqueName #>_Display" runat="server">
+  <Template>
+      <SharePoint:InformationBar runat="server"/>
+			<div id="listFormToolBarTop">
+			<wssuc:ToolBar CssClass="ms-formtoolbar" id="toolBarTbltop" RightButtonSeparator="&amp;#160;" runat="server">
+				<Template_RightButtons>
+					<SharePoint:SaveButton runat="server"/>
+					<SharePoint:GoBackButton runat="server"/>
+				</Template_RightButtons>
+			</wssuc:ToolBar>
+			</div>
+			<SharePoint:FormToolBar runat="server"/>
+			<table class="ms-formtable" style="margin-top: 8px;" border="0" cellpadding="0" id="formTbl" cellspacing="0" width="100%">
+			<SharePoint:ItemValidationFailedMessage runat="server"/>
+			<SharePoint:ChangeContentType runat="server"/>
+			<SharePoint:DocumentLibraryFields runat="server"/>
+			<SharePoint:ApprovalStatus runat="server"/>
+			</table>
+			<SharePoint:WebPartPageMaintenanceMessage runat="server"/>
+			<SharePoint:DocumentTransformersInfo runat="server"/>
+			<table cellpadding="0" cellspacing="0" width="100%"><tr><td class="ms-formline"><img src="/_layouts<#= VersionedFolderName #>/images/blank.gif" width='1' height='1' alt="" /></td></tr></table>
+			<table cellpadding="0" cellspacing="0" width="100%" style="padding-top: 7px"><tr><td width="100%">
+			<SharePoint:ItemHiddenVersion runat="server"/>
+			<SharePoint:InitContentType runat="server"/>
+			<wssuc:ToolBar CssClass="ms-formtoolbar" id="toolBarTbl" RightButtonSeparator="&amp;#160;" runat="server">
+				<Template_Buttons>
+					<SharePoint:CreatedModifiedInfo runat="server"/>
+				</Template_Buttons>
+				<Template_RightButtons>
+					<SharePoint:SaveButton runat="server"/>
+					<SharePoint:GoBackButton runat="server"/>
+				</Template_RightButtons>
+			</wssuc:ToolBar>
+			</td></tr></table>
+	</Template>
+</SharePoint:RenderingTemplate>
+<#
+    }
+    else
+    {
+    //ListForm
+#>
+<SharePoint:RenderingTemplate ID="<#= ContentTypeUniqueName #>_Display" runat="server">
+  <Template>
+		<span id='part1'>
+			<SharePoint:InformationBar runat="server"/>
+			<div id="listFormToolBarTop">
+			<wssuc:ToolBar CssClass="ms-formtoolbar" id="toolBarTbltop" RightButtonSeparator="&amp;#160;" runat="server">
+					<Template_RightButtons>
+						<SharePoint:NextPageButton runat="server"/>
+						<SharePoint:SaveButton runat="server"/>
+						<SharePoint:GoBackButton runat="server"/>
+					</Template_RightButtons>
+			</wssuc:ToolBar>
+			</div>
+			<SharePoint:FormToolBar runat="server"/>
+			<SharePoint:ItemValidationFailedMessage runat="server"/>
+			<table class="ms-formtable" style="margin-top: 8px;" border="0" cellpadding="0" cellspacing="0" width="100%">
+			<SharePoint:ChangeContentType runat="server"/>
+			<SharePoint:FolderFormFields runat="server"/>
+			<SharePoint:ListFieldIterator runat="server"/>
+			<SharePoint:ApprovalStatus runat="server"/>
+			<SharePoint:FormComponent TemplateName="AttachmentRows" runat="server"/>
+			</table>
+			<table cellpadding="0" cellspacing="0" width="100%"><tr><td class="ms-formline"><img src="/_layouts<#= VersionedFolderName #>/images/blank.gif" width='1' height='1' alt="" /></td></tr></table>
+			<table cellpadding="0" cellspacing="0" width="100%" style="padding-top: 7px"><tr><td width="100%">
+			<SharePoint:ItemHiddenVersion runat="server"/>
+			<SharePoint:ParentInformationField runat="server"/>
+			<SharePoint:InitContentType runat="server"/>
+			<wssuc:ToolBar CssClass="ms-formtoolbar" id="toolBarTbl" RightButtonSeparator="&amp;#160;" runat="server">
+					<Template_Buttons>
+						<SharePoint:CreatedModifiedInfo runat="server"/>
+					</Template_Buttons>
+					<Template_RightButtons>
+						<SharePoint:SaveButton runat="server"/>
+						<SharePoint:GoBackButton runat="server"/>
+					</Template_RightButtons>
+			</wssuc:ToolBar>
+			</td></tr></table>
+		</span>
+		<SharePoint:AttachmentUpload runat="server"/>
+	</Template>
+</SharePoint:RenderingTemplate>
+<#
+    } //ListForm
+}//Display
+
+
+
+
+if(ContentTypeCustomFormsEdit)
+{
+    if(ContentTypeParentContentType.Value.StartsWith("0x0101"))
+    {
+      //DocumentLibraryForm
+#>
+<SharePoint:RenderingTemplate ID="<#= ContentTypeUniqueName #>_Edit" runat="server">
+  <Template>
+      <SharePoint:InformationBar runat="server"/>
+			<div id="listFormToolBarTop">
+			<wssuc:ToolBar CssClass="ms-formtoolbar" id="toolBarTbltop" RightButtonSeparator="&amp;#160;" runat="server">
+				<Template_RightButtons>
+					<SharePoint:SaveButton runat="server"/>
+					<SharePoint:GoBackButton runat="server"/>
+				</Template_RightButtons>
+			</wssuc:ToolBar>
+			</div>
+			<SharePoint:FormToolBar runat="server"/>
+			<table class="ms-formtable" style="margin-top: 8px;" border="0" cellpadding="0" id="formTbl" cellspacing="0" width="100%">
+			<SharePoint:ItemValidationFailedMessage runat="server"/>
+			<SharePoint:ChangeContentType runat="server"/>
+			<SharePoint:DocumentLibraryFields runat="server"/>
+			<SharePoint:ApprovalStatus runat="server"/>
+			</table>
+			<SharePoint:WebPartPageMaintenanceMessage runat="server"/>
+			<SharePoint:DocumentTransformersInfo runat="server"/>
+			<table cellpadding="0" cellspacing="0" width="100%"><tr><td class="ms-formline"><img src="/_layouts<#= VersionedFolderName #>/images/blank.gif" width='1' height='1' alt="" /></td></tr></table>
+			<table cellpadding="0" cellspacing="0" width="100%" style="padding-top: 7px"><tr><td width="100%">
+			<SharePoint:ItemHiddenVersion runat="server"/>
+			<SharePoint:InitContentType runat="server"/>
+			<wssuc:ToolBar CssClass="ms-formtoolbar" id="toolBarTbl" RightButtonSeparator="&amp;#160;" runat="server">
+				<Template_Buttons>
+					<SharePoint:CreatedModifiedInfo runat="server"/>
+				</Template_Buttons>
+				<Template_RightButtons>
+					<SharePoint:SaveButton runat="server"/>
+					<SharePoint:GoBackButton runat="server"/>
+				</Template_RightButtons>
+			</wssuc:ToolBar>
+			</td></tr></table>
+	</Template>
+</SharePoint:RenderingTemplate>
+<#
+    }
+    else
+    {
+    //ListForm
+#>
+<SharePoint:RenderingTemplate ID="<#= ContentTypeUniqueName #>_Edit" runat="server">
+  <Template>
+		<span id='part1'>
+			<SharePoint:InformationBar runat="server"/>
+			<div id="listFormToolBarTop">
+			<wssuc:ToolBar CssClass="ms-formtoolbar" id="toolBarTbltop" RightButtonSeparator="&amp;#160;" runat="server">
+					<Template_RightButtons>
+						<SharePoint:NextPageButton runat="server"/>
+						<SharePoint:SaveButton runat="server"/>
+						<SharePoint:GoBackButton runat="server"/>
+					</Template_RightButtons>
+			</wssuc:ToolBar>
+			</div>
+			<SharePoint:FormToolBar runat="server"/>
+			<SharePoint:ItemValidationFailedMessage runat="server"/>
+			<table class="ms-formtable" style="margin-top: 8px;" border="0" cellpadding="0" cellspacing="0" width="100%">
+			<SharePoint:ChangeContentType runat="server"/>
+			<SharePoint:FolderFormFields runat="server"/>
+			<SharePoint:ListFieldIterator runat="server"/>
+			<SharePoint:ApprovalStatus runat="server"/>
+			<SharePoint:FormComponent TemplateName="AttachmentRows" runat="server"/>
+			</table>
+			<table cellpadding="0" cellspacing="0" width="100%"><tr><td class="ms-formline"><img src="/_layouts<#= VersionedFolderName #>/images/blank.gif" width='1' height='1' alt="" /></td></tr></table>
+			<table cellpadding="0" cellspacing="0" width="100%" style="padding-top: 7px"><tr><td width="100%">
+			<SharePoint:ItemHiddenVersion runat="server"/>
+			<SharePoint:ParentInformationField runat="server"/>
+			<SharePoint:InitContentType runat="server"/>
+			<wssuc:ToolBar CssClass="ms-formtoolbar" id="toolBarTbl" RightButtonSeparator="&amp;#160;" runat="server">
+					<Template_Buttons>
+						<SharePoint:CreatedModifiedInfo runat="server"/>
+					</Template_Buttons>
+					<Template_RightButtons>
+						<SharePoint:SaveButton runat="server"/>
+						<SharePoint:GoBackButton runat="server"/>
+					</Template_RightButtons>
+			</wssuc:ToolBar>
+			</td></tr></table>
+		</span>
+		<SharePoint:AttachmentUpload runat="server"/>
+	</Template>
+</SharePoint:RenderingTemplate>
+<#
+    } //ListForm
+}//Edit
+
+
+
+}
+#>
+
+

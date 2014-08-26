@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="SilverlightApplicationSampleDataBinding"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false"
+  >
+	<DocumentationLinks>
+		<Link Caption="MSDN: Download source of sample application" Url="http://msdn.microsoft.com/en-us/magazine/ff956224.aspx" Kind="Documentation"/>
+	</DocumentationLinks>
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Sample: Silverlight Data Binding</Caption>
+	<Description>Adds an sampe Silverlight Application which shows the binding of Silverlight to the data of a list.</Description>
+	<HostData Priority="110">
+		<Icon File="Help/Icons/icon_Silverlight.ico" />
+    <CommandBar Menu="SPSFProjectSilverlight"/>
+    <CommandBar Menu="SPSFFolderSilverlight"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="ElementManifestReference"
+      BindingTypeTemplate="ElementManifestReferenceTemplate"
+		  TestType="BaseSiteFeatureRecipeRunner"
+		  Enabled="true"
+		  CreateVSTemplate="true"
+		  VSTemplateDefaultName="SilverlightDataBinding"
+      FeatureScopes="Web;Site"
+		  Category="Silverlight" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[]]>
+			</spsf:WebPageContent>
+			<spsf:Test>
+				<spsf:TestCases>
+					<spsf:TestCase Name="DataBindingSilverlightApplication" Type="SolutionTestCase">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="SilverlightApplicationName">SilverlightDataBind</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+						<spsf:TestExpectedDeployResults>
+							<spsf:TestExpectedDeployResult Type="ManualCheck">A webpart 'DataBindingSilverlightApp' is available in site http://demo2010a/</spsf:TestExpectedDeployResult>
+						</spsf:TestExpectedDeployResults>
+					</spsf:TestCase>
+				</spsf:TestCases>
+			</spsf:Test>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="BaseSilverlightArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+				<xi:include href="BaseSilverlightPages.include"  parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-wizards) xpointer(/p:Pages/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+	<Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+		<xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="BaseSilverlightActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<!-- Add SketchStyles.xaml.t4 to root -->
+		<Action Name="AddSketchStyles"
+			Type="AddTemplateToItemAction"
+			TemplateFileName="Text\Silverlight\$(RecipeName)\SketchStyles.xaml.t4"
+			TargetFileName="SketchStyles.xaml"
+			Overwrite="True">
+			<Input Name="ProjectName" RecipeArgument="SilverlightApplicationName" />
+			<Output Name="CreatedProjectItem" />
+		</Action>
+
+		<!-- Add DesignTimeResources.xaml.t4 to Properties -->
+		<Action Name="AddDesignTimeResources"
+			Type="AddTemplateToItemAction"
+			TemplateFileName="Text\Silverlight\$(RecipeName)\Resources.xaml.t4"
+			TargetFolder="Properties"
+			TargetFileName="DesignTimeResources.xaml"
+			Overwrite="True">
+			<Input Name="ProjectName" RecipeArgument="SilverlightApplicationName" />
+			<Output Name="CreatedProjectItem" />
+		</Action>
+
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Actions>
+</Recipe>

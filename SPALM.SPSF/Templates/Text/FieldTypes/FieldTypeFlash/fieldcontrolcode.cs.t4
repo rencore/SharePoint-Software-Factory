@@ -1,0 +1,76 @@
+﻿<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #> 
+{
+  using System;  
+  using System.Globalization;  
+  using System.Runtime.InteropServices;
+  using System.Text;
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.WebControls;
+
+  /// <summary>
+  /// Custom field type <#= FieldTypeTypeName #>
+  /// </summary>  
+  [Guid("<#= System.Guid.NewGuid().ToString() #>")]
+  public class <#= FieldTypeTypeName #>Control : BaseFieldControl 
+  {
+    protected TextBox urlTextBox;
+    protected TextBox widthTextBox;
+    protected TextBox heightTextBox;
+        
+    protected <#= FieldTypeTypeName #>Value fieldValue = new <#= FieldTypeTypeName #>Value();
+        
+    protected override string DefaultTemplateName 
+    {
+      get 
+      {
+        return "<#= FieldTypeRenderingTemplateId #>";
+      }
+    }
+    
+    protected override void CreateChildControls()
+    {
+      if (Field == null)
+      {
+        return;
+      }
+
+      base.CreateChildControls();
+
+      if (ControlMode == SPControlMode.Display)
+      {
+        return;
+      }
+
+      urlTextBox = (TextBox)this.TemplateContainer.FindControl("UrlTextBox");
+      widthTextBox = (TextBox)this.TemplateContainer.FindControl("WidthTextBox");
+      heightTextBox = (TextBox)this.TemplateContainer.FindControl("HeightTextBox");   
+    }
+
+    public override object Value
+    {
+      get
+      {
+        EnsureChildControls();
+        fieldValue = new <#= FieldTypeTypeName #>Value();
+        fieldValue.Url = urlTextBox.Text.Trim();
+        fieldValue.Width = widthTextBox.Text.Trim();
+        fieldValue.Height = heightTextBox.Text.Trim();
+        return fieldValue;
+      }
+      set
+      {
+        EnsureChildControls();
+        fieldValue = (<#= FieldTypeTypeName #>Value)value;
+        urlTextBox.Text = fieldValue.Url;
+        widthTextBox.Text = fieldValue.Width;
+        heightTextBox.Text = fieldValue.Height;
+      }
+    }
+  }
+}

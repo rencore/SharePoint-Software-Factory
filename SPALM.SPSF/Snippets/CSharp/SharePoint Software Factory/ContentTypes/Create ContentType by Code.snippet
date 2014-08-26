@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Create ContentType by Code</Title>
+      <Author>Torsten Mandelkow</Author>
+      <Description>Adding a column to a content type</Description>
+      <HelpUrl>http://msdn.microsoft.com/en-us/library/ms442695.aspx</HelpUrl>
+      <Shortcut>CreateContentTypeByCode</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>collFields</ID>
+          <ToolTip>collFields</ToolTip>
+          <Default>collFields</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>strNewColumn</ID>
+          <ToolTip>Column</ToolTip>
+          <Default>strNewColumn</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ColumnName</ID>
+          <ToolTip>ColumnName</ToolTip>
+          <Default>ColumnName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>oContentType</ID>
+          <ToolTip>ContentType</ToolTip>
+          <Default>contentType</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ContentTypeName</ID>
+          <ToolTip>ContentTypeName</ToolTip>
+          <Default>ContentTypeName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>oFieldLink</ID>
+          <ToolTip>FieldLink</ToolTip>
+          <Default>fieldLink</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ListName</ID>
+          <ToolTip>ListName</ToolTip>
+          <Default>ListName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>oWebsite</ID>
+          <ToolTip>SPWeb</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>SiteUrl</ID>
+          <ToolTip>SiteUrl</ToolTip>
+          <Default>http://localhost/site</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>oList</ID>
+          <ToolTip>SPList</ToolTip>
+          <Default>list</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[using (SPWeb $oWebsite$ = new SPSite("$SiteUrl$").OpenWeb())
+{
+    SPList $oList$ = $oWebsite$.GetList("$ListName$");
+    SPFieldCollection $collFields$ = $oWebsite$.Fields;
+
+    string $strNewColumn$ = $collFields$.Add("$ColumnName$", SPFieldType.Text, false);
+
+    SPFieldLink $oFieldLink$ = new SPFieldLink(fields[$strNewColumn$]);
+    SPContentType $oContentType$ = $oList$.ContentTypes["$ContentTypeName$"];
+    $oContentType$.FieldLinks.Add($oFieldLink$);
+
+    $oContentType$.Update(true);
+}
+]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

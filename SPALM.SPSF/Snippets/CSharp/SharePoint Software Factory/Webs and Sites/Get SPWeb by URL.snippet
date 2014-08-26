@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Get SPWeb by URL</Title>
+      <Author>Matthias Einig</Author>
+      <Description>Gets an SPWeb object with correct disposal.</Description>
+      <HelpUrl>http://msdn.microsoft.com/en-us/library/aa973248.aspx</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <References>
+        <Reference>
+          <Assembly>Microsoft.SharePoint.dll</Assembly>
+        </Reference>
+      </References>
+      <Imports>
+        <Import>
+          <Namespace>SharePoint = Microsoft.SharePoint</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>WebUrl</ID>
+          <ToolTip>URL of web</ToolTip>
+          <Default>http://localhost/web</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>oSite</ID>
+          <ToolTip>SPSite</ToolTip>
+          <Default>site</Default>
+          <Function>
+          </Function>
+          <Type>SPSite</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>oWeb</ID>
+          <ToolTip>Current SPWeb</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+          <Type>SPWeb</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+using(SPSite $oSite$ = new SPSite("$WebUrl$"))
+{
+    using(SPWeb $oWeb$ = $oSite$.OpenWeb())
+    {
+          
+    }
+}
+]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

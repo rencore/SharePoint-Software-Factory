@@ -1,0 +1,17 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ThemeName" #>
+<#@ property processor="PropertyProcessor" name="ThemeDisplayName" #>
+<#@ property processor="PropertyProcessor" name="ThemeDescription" #>
+<#@ property processor="PropertyProcessor" name="ThemePreviewImageFolder" #>
+<#@ property processor="PropertyProcessor" name="ThemePreviewImageName" #>
+<#@ assembly name="System.dll" #>
+<?xml version="1.0" encoding="utf-8" ?>
+<SPThemes xmlns="http://tempuri.org/SPThemes.xsd">
+  <Templates>
+    <TemplateID><#= ThemeName #></TemplateID>
+    <DisplayName><#= ThemeDisplayName #></DisplayName>
+    <Description><#= ThemeDescription #></Description>
+    <Thumbnail>images/<#= ThemePreviewImageFolder #>/<#= ThemePreviewImageName #></Thumbnail>
+    <Preview>images/<#= ThemePreviewImageFolder #>/<#= ThemePreviewImageName #></Preview>
+  </Templates>
+</SPThemes>

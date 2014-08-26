@@ -1,0 +1,45 @@
+﻿<#@ template language="C#" #>
+<!-- 
+Use this file to re-import the lists for LINQ to SharePoint
+Imported from URL: <#= LINQSourceWeb #>
+Call to SPMetal: "<#= SPMetalCommand #>" <#= SPMetalArgumentsComment #>
+-->
+<Web AccessModifier="Public" Class="<#= LINQClassNameFinal #>" xmlns="http://schemas.microsoft.com/SharePoint/2009/spmetal">
+<# 
+
+if(LINQIncludedLists != null)
+{
+	foreach(NameValueItem nvitem in LINQIncludedLists)
+	{
+		#>
+		<List Name="<#= nvitem.Name #>">
+		<#
+		foreach(NameValueItem nvitem2 in nvitem.Childs)
+		{
+			#>
+			<ContentType Name="<#= nvitem2.Name #>">
+			
+			<#
+
+			foreach(NameValueItem nvitem3 in nvitem2.Childs)
+			{
+				#>
+				<Column Name="<#= nvitem3.Name #>" />
+				<#
+			}
+
+			#>
+			<ExcludeOtherColumns />
+			</ContentType>
+			<#
+		}
+		#>
+		</List>
+		<#
+ 
+	}
+}
+#>
+  <ExcludeOtherLists />
+<ExcludeOtherContentTypes />
+</Web>

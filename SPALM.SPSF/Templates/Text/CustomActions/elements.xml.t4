@@ -1,0 +1,132 @@
+<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<CustomAction    
+		<# 
+		if(CustomActionType == "ClassFile")
+		{
+			#>
+			ControlAssembly="<#= ProjectAssemblyName #>"
+			ControlClass="<#= ProjectNamespace #>.<#= CustomActionName #>"
+			<#
+		}
+		else if(CustomActionType == "WebControl")
+		{
+			#>
+			ControlSrc="~/_controltemplates<#= VersionedFolderName #>/<#= SolutionSubFolder #>/<#= CustomActionName #>.ascx"
+			<#
+		}
+		#>
+		RegistrationType="<#= CustomActionRegistrationType #>"
+		RegistrationId="<#
+		if(CustomActionRegistrationId is NameValueItem)
+		{	
+			#><#= CustomActionRegistrationId.ToString() #><#
+		}
+		else
+		{
+			#><#= CustomActionRegistrationId #><#
+		}
+		#>"
+		Id="<#= CustomActionLongID #>"
+		Location="<#= CustomActionLocation.Value #>"
+		<#
+		if(CustomActionLocation.Name != "")
+		{
+		#>
+		GroupId="<#= CustomActionLocation.Name #>"
+		<#
+		}
+		#>
+		<#
+		if(AutoCreateResxFiles)
+		{
+			#>
+			Title="$Resources:<#= ResourceKeyPrefix #>_CustomActionTitle;"
+			Description="$Resources:<#= ResourceKeyPrefix #>_CustomActionDescription;"
+			<#
+		}
+		else
+		{
+			#>
+			Title="<#= CustomActionTitle #>"
+			Description="<#= CustomActionDescription #>"
+			<#
+		}
+		#>
+		<#
+		if(CustomActionAddIcon)
+		{
+			if(!ProjectIsSandboxedSolution)
+			{		
+				#>
+				ImageUrl="/_layouts<#= VersionedFolderName #>/images/<#= SafeAppName #>/<#= CustomActionIconName #>"
+				<#
+			}
+			else
+			{
+				#>
+				ImageUrl="/_layouts<#= VersionedFolderName #>/images/edit.gif"
+				<#
+			}
+		}
+		#>
+		<#
+		if(CustomActionRights.Length > 0)
+		{
+			#>
+			Rights="<#
+			bool showcomma = false;
+			foreach(NameValueItem right in CustomActionRights)
+			{		
+				if(showcomma)
+				{
+					#>,<#
+				}
+				showcomma = true;
+				#><#= right.Value #><#
+			}
+			#>" <#
+		}
+		#>
+		Sequence="<#= CustomActionSequence #>"
+		<# 
+		if(CustomActionRequireSiteAdministrator)
+		{
+			#>
+			RequireSiteAdministrator="TRUE"
+			<#
+		}
+		if(CustomActionShowInLists)
+		{
+			#>
+			ShowInLists="TRUE"
+			<#
+		}
+		if(CustomActionShowInReadyOnlyContentTypes)
+		{
+			#>
+			ShowInReadyOnlyContentTypes="TRUE"
+			<#
+		}
+		if(CustomActionShowInSealedContentTypes)
+		{
+			#>
+			ShowInSealedContentTypes="TRUE"
+			<#
+		}
+		#>
+		>
+		<# if((CustomActionUrlAction != null) && (CustomActionType == "UrlActionTag"))
+		{
+		#>
+		<UrlAction Url="<#= CustomActionUrlActionPrefix #><#= CustomActionUrlAction #><#
+		if(CustomActionUrlActionParameters != "")
+		{		
+			#><#= CustomActionUrlActionParameters.Replace("&","&amp;") #><#
+		}
+		#>"/>
+		<#
+		}
+		#>
+	</CustomAction>
+</Elements>  

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Add Field to List</Title>
+      <Author>Torsten Mandelkow</Author>
+      <Description>Creates a field in the collection based on the specified display name, field type, and Boolean value.</Description>
+      <HelpUrl>http://msdn.microsoft.com/en-us/library/ms472869.aspx</HelpUrl>
+      <Shortcut>AddFieldToList</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>FieldName</ID>
+          <ToolTip>Field name</ToolTip>
+          <Default>Fieldname</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ListName</ID>
+          <ToolTip>List name</ToolTip>
+          <Default>ListName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>WebName</ID>
+          <ToolTip>Web name</ToolTip>
+          <Default>WebName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>collFields</ID>
+          <ToolTip>collFields</ToolTip>
+          <Default>collFields</Default>
+          <Function>
+          </Function>
+          <Type>SPFieldCollection</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>oWeb</ID>
+          <ToolTip>SPWeb object</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+          <Type>SPWeb</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[using (SPWeb $oWeb$ = SPContext.Current.Site.AllWebs["$WebName$"])
+{
+    SPFieldCollection $collFields$ = $oWeb$.Lists["$ListName$"].Fields;
+    $collFields$.Add("$FieldName$", Microsoft.SharePoint.SPFieldType.Text, 
+        true);
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

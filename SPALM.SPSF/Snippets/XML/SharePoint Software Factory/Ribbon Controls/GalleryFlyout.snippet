@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Ribbon Gallery Flyout</Title>
+			<Author>Torsten Mandelkow</Author>
+			<Shortcut>galleryflyout</Shortcut>
+			<HelpUrl>http://msdn.microsoft.com/en-us/library/ff458372.aspx</HelpUrl>
+			<Description>Adds a Gallery FlyoutAnchor</Description>
+			<SnippetTypes>
+				<SnippetType>SurroundsWith</SnippetType>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>id</ID>
+					<ToolTip>Required. A string that identifies the control, such as "Ribbon.Library.Share.GalleryFlyout".</ToolTip>
+					<Default>AppName.GalleryFlyout</Default>
+				</Literal>
+				<Literal>
+					<ID>alt</ID>
+					<ToolTip>Optional. Alternative text for the control.</ToolTip>
+					<Default>GalleryFlyout</Default>
+				</Literal>
+				<Literal>
+					<ID>labeltext</ID>
+					<ToolTip>Optional. The text to label the control.</ToolTip>
+					<Default>GalleryFlyout</Default>
+				</Literal>
+				<Literal>
+					<ID>sequence</ID>
+					<ToolTip>Optional. An integer that specifies the order of placement among sibling XML nodes.</ToolTip>
+					<Default>10</Default>
+				</Literal>
+			</Declarations>
+    <Code Language="XML">
+      <![CDATA[<FlyoutAnchor
+                Id="Ribbon.$id$"
+                Sequence="$sequence$"
+                Alt="$alt$"
+                LabelText="$labeltext$"
+                Command="Ribbon.$id$_CMD"
+                PopulateDynamically="false"
+                PopulateOnlyOnce="true"
+                PopulateQueryCommand="Ribbon.$id$_Query_CMD"
+                TemplateAlias="o2"
+				Image16by16="/_layouts/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+				Image32by32="/_layouts/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+                ToolTipTitle="GalleryFlyout"
+                ToolTipDescription="Style Gallery Flyout">
+                <Menu Id="Ribbon.$id$.Menu">
+                  <MenuSection Id="Ribbon.$id$.Menu.MenuSection">
+                    <Gallery
+                      Id="Ribbon.$id$.Menu.MenuSection.Gallery"
+                      Command="Ribbon.$id$.Menu.MenuSection.Gallery_CMD"
+                      QueryCommand="Ribbon.$id$.Menu.MenuSection.Gallery_Query_CMD"
+                      CommandPreview="Ribbon.$id$.Menu.MenuSection.Gallery_Preview_CMD"
+                      CommandRevert="Ribbon.$id$.Menu.MenuSection.Gallery_Revert_CMD"
+                      ElementDimensions="Size96by72"
+                      Width="4">
+                      <GalleryButton
+                        Id="Ribbon.$id$.Menu.MenuSection.Gallery.GalleryButton1"
+                        Alt="Ribbon.$id$.Menu.MenuSection.Gallery.GalleryButton1_ALT"
+                        InnerHTML="&lt;div style=&#39;text-overflow:ellipsis&#39;&gt;&lt;div style=&#39;height:47px;overflow:hidden;white-space:nowrap&#39;&gt;&lt;img src=&#39;/_layouts/images/blank.gif&#39; style=&#39;vertical-align:middle;height:47px;width:1px;&#39;&gt;&lt;span class=&#39;ms-rteStyle-1&#39;&gt;AaBbCcDdEeFfGgHhIiJjKkLlMm&lt;/span&gt;&lt;/div&gt;&lt;div&gt;Headline&lt;/div&gt;&lt;/div&gt;"
+                        Command="Ribbon.$id$.Menu.MenuSection.Gallery.GalleryButton1_CMD"
+                        CommandType="OptionSelection"
+                        CommandPreview="Ribbon.$id$.Menu.MenuSection.Gallery.GalleryButton1_Preview_CMD"
+                        CommandRevert="Ribbon.$id$.Menu.MenuSection.Gallery.GalleryButton1_Revert_CMD"/>
+                      <GalleryButton
+                        Id="Ribbon.$id$.Menu.MenuSection.Gallery.GalleryButton2"
+                        Alt="Ribbon.$id$.Menu.MenuSection.Gallery.GalleryButton_ALT"
+                        InnerHTML="&lt;div style=&#39;text-overflow:ellipsis&#39;&gt;&lt;div style=&#39;height:47px;overflow:hidden;white-space:nowrap&#39;&gt;&lt;img src=&#39;/_layouts/images/blank.gif&#39; style=&#39;vertical-align:middle;height:47px;width:1px;&#39;&gt;&lt;span class=&#39;ms-rteStyle-2&#39;&gt;AaBbCcDdEeFfGgHhIiJjKkLlMm&lt;/span&gt;&lt;/div&gt;&lt;div&gt;Subhead&lt;/div&gt;&lt;/div&gt;"
+                        Command="Ribbon.$id$.Menu.MenuSection.Gallery.GalleryButton2_CMD"
+                        CommandType="OptionSelection"
+                        CommandPreview="Ribbon.$id$.Menu.MenuSection.Gallery.GalleryButton2_Preview_CMD"
+                        CommandRevert="Ribbon.$id$.Menu.MenuSection.Gallery.GalleryButton2_Revert_CMD" />
+                    </Gallery>
+                  </MenuSection>
+                </Menu>
+              </FlyoutAnchor>
+      ]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>
+</CodeSnippets>

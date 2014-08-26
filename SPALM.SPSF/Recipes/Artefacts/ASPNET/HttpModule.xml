@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="HttpModule"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Http Module</Caption>
+  <Description>Adds a http module to the project and a feature to deploy the web.config modifications for the http handler</Description>
+  <HostData Priority="310">
+    <Icon File="Help/Icons/icon_HttpModule.ico" />
+    <CommandBar Menu="SPSFProjectASPNET"/>
+    <CommandBar Menu="SPSFFolderASPNET"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseWebAppFeatureRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="true"
+	  NotSandboxSupported="true"
+      Category="ASPNET" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[The Http module assembly needs to be registered in web.config. Therefore the Http module needs to be added to a feature with scope WebApplication and the necessary activation code is added to the feature receiver of the selected feature.]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="DefaultHttpModule" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="HttpModuleClass">DefaultHttpModule</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <!-- set standard parameters -->
+    <Argument Name="AllowedScopes" Type="System.String">
+      <ValueProvider Type="Evaluator" Expression="WebApplication" />
+    </Argument>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="ResourceKeyPrefix" Required="true">
+      <!-- provides the unique key with removed special chars -->
+      <ValueProvider Stage="OnBeforeActions" RecipeArgument="HttpModuleClass" Type="ConvertedStringProvider" />
+    </Argument>
+
+    <Argument Name="HttpModuleClass">
+      <Converter Type="NamespaceStringConverter" />
+      <ValueProvider Type="VisualStudioCreateItemName" DefaultValue="HttpModule1" />
+    </Argument>
+
+  </Arguments>
+
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>HttpModule Settings</Title>
+          <Fields>
+            <Field ValueName="HttpModuleClass" Label="Http Module Name" />
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action
+      Name="AddCode"
+      Type="AddTemplateToItemAction"
+      DeploymentType="CustomCode"
+      Open="true"
+      TemplateFileName="Text\HttpModule\HttpModule.cs.t4"
+      TargetFileName="$(HttpModuleClass).cs">
+    </Action>
+
+    <Action
+      Name="AddFeatureActivation"
+      Type="AddFeatureReceiverCodeAction"
+      AssemblyName="$(ProjectAssemblyName)"
+      Namespace="$(ProjectNamespace)"
+      ParentFeatureName="$(ParentFeatureName)"
+      TemplateFileName="Text\HttpModule\FeatureReceiverCode.xml.t4">
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

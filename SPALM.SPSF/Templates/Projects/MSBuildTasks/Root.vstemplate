@@ -1,0 +1,31 @@
+﻿<VSTemplate Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>MSBuild Task Project</Name>
+    <Description>Creates a new project to create custom MSBuild tasks for the deployment process.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>MSBuildTasks</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Hidden</LocationField>
+    <Icon>Icon_MsbuildProject.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="Runtime.csproj" TargetFileName="$MSBuildProjectName$.csproj" ReplaceParameters="true">
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+      </Folder>
+       <ProjectItem ReplaceParameters="true" TargetFileName="MSBuildTask.cs">MSBuildTask.cs</ProjectItem>
+    </Project>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.Practices.RecipeFramework.VisualStudio</Assembly>
+    <FullClassName>Microsoft.Practices.RecipeFramework.VisualStudio.Templates.UnfoldTemplate</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <Template 
+      xmlns="http://schemas.microsoft.com/pag/gax-template" 
+      SchemaVersion="1.0"
+      Recipe="MSBuildProject" />
+  </WizardData>
+</VSTemplate>

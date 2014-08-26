@@ -1,0 +1,59 @@
+﻿using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.IO;
+using System.Windows.Resources;
+using System.Reflection;
+
+namespace SilverlightApplication1
+{
+    public class LoadClientOM
+    {
+        private bool isDownloaded = false;
+        private Action action;
+
+        public LoadClientOM(Action action)
+        {
+            this.action = action;
+        }
+
+        public void Run()
+        {
+            WebClient client = new WebClient();
+            client.OpenReadCompleted += new OpenReadCompletedEventHandler(client_OpenReadCompleted);
+            client.OpenReadAsync(new Uri("/_layouts/15/clientbin/Microsoft.SharePoint.Client.xap", UriKind.Relative));
+        }
+
+        void client_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
+        {
+            Stream assemblyStream;
+            AssemblyPart assemblyPart;
+
+            assemblyStream = Application.GetResourceStream(new StreamResourceInfo(e.Result, "application/binary"), new Uri("Microsoft.SharePoint.Client.Silverlight.Runtime.dll", UriKind.Relative)).Stream;
+            assemblyPart = new AssemblyPart();
+            Assembly b = assemblyPart.Load(assemblyStream);
+
+            assemblyStream = Application.GetResourceStream(new StreamResourceInfo(e.Result, "application/binary"), new Uri("Microsoft.SharePoint.Client.Silverlight.dll", UriKind.Relative)).Stream;
+            assemblyPart = new AssemblyPart();
+            Assembly a = assemblyPart.Load(assemblyStream);
+
+
+            this.isDownloaded = true;
+
+            if (action != null)
+            {
+                action();
+            }
+        }
+
+    }
+
+
+}

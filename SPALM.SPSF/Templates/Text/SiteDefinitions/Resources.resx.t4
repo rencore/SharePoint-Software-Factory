@@ -1,0 +1,8 @@
+﻿<#@ template language="C#" #>
+  <data name="<#= ResourceKeyPrefix #>_SiteDefinitionTitle">
+    <value><#= SiteDefinitionTitle #></value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_SiteDefinitionDescription">
+    <value><#= SiteDefinitionDescription #></value>
+  </data> 
+		   

@@ -1,0 +1,40 @@
+<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<CustomActionGroup   		
+		Id="<#= CustomActionLongID #>"
+		Location="<#= CustomActionLocation #>"
+		<#
+		if(AutoCreateResxFiles)
+		{
+			#>
+			Title="$Resources:<#= ResourceKeyPrefix #>_CustomActionTitle;"
+			Description="$Resources:<#= ResourceKeyPrefix #>_CustomActionDescription;"
+			<#
+		}
+		else
+		{
+			#>
+			Title="<#= CustomActionTitle #>"
+			Description="<#= CustomActionDescription #>"
+			<#
+		}
+		if(CustomActionRights.Length > 0)
+		{
+			#>
+			Rights="<#
+			bool showcomma = false;
+			foreach(NameValueItem right in CustomActionRights)
+			{		
+				if(showcomma)
+				{
+					#>,<#
+				}
+				showcomma = true;
+				#><#= right.Value #><#
+			}
+			#>" <#
+		}
+		#>
+		Sequence="<#= CustomActionSequence #>"
+		/>
+</Elements>  

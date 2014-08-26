@@ -1,0 +1,46 @@
+﻿<#@ template language="C#" #><UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	mc:Ignorable="d"
+	x:Class="<#= SilverlightApplicationFullName #>.MainPage"
+	Width="640" Height="480">
+    
+	<UserControl.Resources>
+		<DataTemplate x:Key="ListItemTemplate">
+			<StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=FieldValues[Title]}" Margin="0,0,7,0"/>
+                <TextBlock Text="{Binding Path=FieldValues[Lastname]}"/>
+			</StackPanel>
+		</DataTemplate>
+	</UserControl.Resources>
+
+	<Grid x:Name="LayoutRoot" Background="White">
+		<!-- Contacts List -->
+        <ListBox x:Name="ContactsListBox" HorizontalAlignment="Left" ItemTemplate="{StaticResource ListItemTemplate}" ItemsSource="{Binding ListItemCollection}" Margin="8,5,0,11" Width="246" Style="{StaticResource ListBox-Sketch}"/>
+		<!-- Contact Details -->
+        <Grid DataContext="{Binding SelectedItem, ElementName=ContactsListBox}" Margin="258,13,8,11" d:DataContext="{Binding ListItemCollection[0]}">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.091*"/>
+				<ColumnDefinition Width="0.909*"/>
+			</Grid.ColumnDefinitions>
+			<TextBlock VerticalAlignment="Top" Text="Company:" Grid.Column="1" Margin="-34,169,0,0" Style="{StaticResource TextBlock-Sketch}" Height="29" HorizontalAlignment="Left" Width="96" TextAlignment="Right"/>
+			<TextBlock Text="{Binding Path=FieldValues[Company]}" VerticalAlignment="Top" Margin="66,169,8,0" Grid.Column="1" Style="{StaticResource TextBlock-Sketch}"/>
+			<TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Width="96" Margin="-34,136,0,0" Text="Email:" Grid.Column="1" Style="{StaticResource TextBlock-Sketch}" Height="29" TextAlignment="Right"/>
+			<TextBlock Text="{Binding Path=FieldValues[Email]}" VerticalAlignment="Top" Margin="66,136,8,0" Grid.Column="1" Style="{StaticResource TextBlock-Sketch}"/>
+			<TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Width="96" Margin="-34,55,0,0" Text="First Name:" Grid.Column="1" Style="{StaticResource TextBlock-Sketch}" Height="30" TextAlignment="Right"/>
+            <TextBlock Text="{Binding Path=FieldValues[Title]}" VerticalAlignment="Top" Margin="66,0,0,0" Grid.Column="1" Style="{StaticResource TextBlock-Sketch}" FontSize="26.667"/>
+			<TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Width="96" Margin="-34,102,0,0" Text="Job Title:" Grid.Column="1" Style="{StaticResource TextBlock-Sketch}" d:LayoutOverrides="VerticalAlignment" Height="30" TextAlignment="Right"/>
+			<TextBlock Text="{Binding Path=FieldValues[JobTitle]}" VerticalAlignment="Top" Margin="66,102,8,0" Grid.Column="1" Style="{StaticResource TextBlock-Sketch}" FontSize="16"/>
+			<TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Width="96" Margin="-34,12,0,0" Text="Last Name:" Grid.Column="1" Style="{StaticResource TextBlock-Sketch}" Height="30" d:LayoutOverrides="VerticalAlignment" TextAlignment="Right"/>
+			<TextBlock Text="{Binding Path=FieldValues[Lastname]}" VerticalAlignment="Top" Margin="66,43,8,0" Grid.Column="1" Style="{StaticResource TextBlock-Sketch}" d:LayoutOverrides="VerticalAlignment" FontSize="26.667"/>
+			<TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Width="88" Margin="-26,202,0,0" Text="Phone:" Grid.Column="1" Style="{StaticResource TextBlock-Sketch}" Height="30" TextAlignment="Right"/>
+			<StackPanel Orientation="Horizontal" Margin="66,202,8,227" Grid.Column="1">
+				<TextBlock Text="{Binding Path=FieldValues[PhoneNumberAreaCode],StringFormat='{}({0}) '}" Style="{StaticResource TextBlock-Sketch}"/>
+				<TextBlock Text="{Binding Path=FieldValues[PhoneNumberPart1],StringFormat='{}{0} - '}" Style="{StaticResource TextBlock-Sketch}"/>
+				<TextBlock Text="{Binding Path=FieldValues[PhoneNumberPart2]}" Style="{StaticResource TextBlock-Sketch}" />
+			</StackPanel>
+		
+		</Grid>
+	</Grid>
+</UserControl>

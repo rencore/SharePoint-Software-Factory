@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="PageLayout"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <DocumentationLinks>
+    <Link Url="http://msdn.microsoft.com/en-us/library/ms543497.aspx" Caption="MSDN: Page Layouts and Master Pages" Kind="Documentation"/>
+    <Link Url="http://msdn.microsoft.com/en-us/library/microsoft.sharepoint.publishing.pagelayout.aspx" Caption="MSDN: Page Layout Class"  Kind="Documentation"/>
+    <Link Url="http://www.heathersolomon.com/blog/articles/MOSS07DesignComponents.aspx" Caption="Heather Solomon: MOSS 2007 Design Component Relationships and Diagrams"  Kind="Documentation"/>
+  </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Page Layout</Caption>
+  <Description>Adds a page layout to the current selected project.</Description>
+  <HostData Priority="300">
+    <Icon File="Help/Icons/icon_PageLayout.ico" />
+    <CommandBar Menu="SPSFProjectPublishing"/>
+    <CommandBar Menu="SPSFSolutionPublishing"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseSiteFeatureRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="true"
+      FeatureScopes="Site"
+      Category="Publishing" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+        <spsf:Author>Matthias Einig</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.1 Updated Documentation</spsf:VersionHistoryEntry>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[The recipe creates a page layout, which can be made available in a publising site for a specific content type (i.e. news). 
+Page layouts dictate, along with master pages, the overall look and feel of your SharePoint Publishing site. 
+Master pages contain controls that are shared across multiple page layouts, such as navigation, search, or language-preference for multilingual sites. 
+Page layouts contain field controls and Web Parts.]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="DefaultPageLayout" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="PageLayoutName">DefaultPageLayout</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <Argument Name="AllowedScopes" Type="System.String">
+      <ValueProvider Type="Evaluator" Expression="Site" />
+    </Argument>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="ElementsCategory">
+      <ValueProvider Type="Evaluator" Expression="PageLayouts" />
+    </Argument>
+    
+    <Argument Name="ResourceKeyPrefix" Required="true">
+      <!-- provides the unique key with removed special chars -->
+      <ValueProvider Stage="OnBeforeActions" RecipeArgument="PageLayoutName" Type="ConvertedStringProvider" />
+    </Argument>
+
+    <Argument Name="PageLayoutContentType" Type="NameValueItem" Required="true" >
+      <ValueProvider Type="DefaultNameValueItemProvider" Name="Welcome Page" Value="0x010100C568DB52D9D0A14D9B2FDCC96666E9F2007948130EC3DB064584E219954237AF390064DEA0F50FC8C147B0B6EA0636C4A7D4" />
+    </Argument>
+    <Argument Name="PageLayoutName" Required="true" Type="System.String" >
+      <Converter Type="NamespaceStringConverter" />
+      <ValueProvider Type="VisualStudioCreateItemName" MakeSafe="True" DefaultValue="PageLayout1" />      
+    </Argument>
+    <Argument Name="PageLayoutTitle" Required="true" Type="System.String" >
+      <ValueProvider Type="Evaluator" Expression="$(PageLayoutName) Title" />
+    </Argument>
+    <Argument Name="PageLayoutDescription" Required="true" Type="System.String" >
+      <ValueProvider Type="Evaluator" Expression="$(PageLayoutName) Description" />
+    </Argument>
+    <Argument Name="PageLayoutFileName" Required="true" Type="System.String" >
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(PageLayoutName).aspx" />
+    </Argument>
+    <Argument Name="PageLayoutNameImage" Required="true" Type="System.String" >
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(PageLayoutName).png" />
+    </Argument>
+    
+    <Argument Name="PageLayoutPreviewImageFolder">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SharePointVersion)\Template\Features\$(ParentFeatureName)\en-us" />
+    </Argument>
+
+    <Argument Name="PageLayoutFileFolder">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(SharePointVersion)\Template\Features\$(ParentFeatureName)\PageLayouts" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>Page Layout Settings</Title>
+          <Fields>
+            <Field PanelType="SPALM.SPSF.Library.NameValueItemPanel, SPALM.SPSF.Library" ValueName="PageLayoutContentType" Label="Page Layout Content Type" >
+              <Help>Required Content Type. Content Type of this Page Layout.</Help>
+              <Editor Type="SPALM.SPSF.Library.ContentTypeEditor, SPALM.SPSF.Library" />
+            </Field>
+            <Field ValueName="PageLayoutName" Label="Name">
+              <Help>Required Text. Name of the Page Layout class file. Limited to 255 characters. The name has to be unique within the project of this solution. It should not contain whitespaces or special characters.</Help>
+            </Field>
+            <Field ValueName="PageLayoutTitle" Label="Title">
+              <Help>Required Text. Title (friendly name) of the Page Layout. Limited to 255 characters.</Help>
+            </Field>
+            <Field ValueName="PageLayoutDescription" Label="Description">
+              <Help>Optional Text. Description of the Page Layout.</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+    
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	  <!-- elements.xml-->
+	  <Action
+		Name="CreateElementsXml"
+		Type="AddElementsDefinitionAction"
+		ParentFeatureName="$(ParentFeatureName)"
+		ElementsName="$(PageLayoutName)"
+		ElementsCategory="$(ElementsCategory)"
+		TemplateFileName="Text\PageLayout\elements.xml.t4"
+		SPDataTemplate="Text\PageLayout\SharePointProjectItem.spdata.t4"
+		Open="true">
+		  <Output Name="CreatedElementFolder" />
+		  <Output Name="CreatedElementFile" />
+	  </Action>
+
+	  <!-- add the master page file into the feature-->
+	  <Action
+		Name="AddPageLayoutFile"
+		Type="AddTemplateToItemAction"
+		DeploymentType="ElementFile"
+		DeploymentPath="$(PageLayoutName)"
+		TemplateFileName="Text\PageLayout\template.aspx.$(SharePointVersion).t4"
+		TargetFileName="$(PageLayoutFileName)">
+		  <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+	  </Action>
+
+	  <!-- add master page preview image -->
+	  <Action
+		  Name="AddListIcon"
+		  Type="AddFileToItemAction"
+		  DeploymentType="ElementFile"
+		  DeploymentPath="$(PageLayoutName)"
+		  SourceFileName="Text\PageLayout\template.png"
+		  TargetFileName="$(PageLayoutName).png">
+		  <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+	  </Action>
+
+	  <!-- Resources -->
+	  <Action
+		Condition="$(AutoCreateResxFiles)"
+		Name="AddResources"
+		Type="AddTemlateToResourcesFileAction"
+		TemplateFileName="Text\PageLayout\Resources.resx.t4"
+      FeatureResources="True" >
+      <Input Name="FeatureName" RecipeArgument="ParentFeatureName" />
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

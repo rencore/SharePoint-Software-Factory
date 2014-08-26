@@ -1,0 +1,192 @@
+﻿      <#
+
+           if(recipeClass.WebPageContent != "")
+           {
+                #>
+                <DIV class="OH_CollapsibleAreaRegion">
+					        <DIV class="OH_regiontitle">Recipe Description</DIV>
+					        <DIV class="OH_RegionToggle"></DIV>
+				        </DIV>
+				        <DIV class="OH_clear"></DIV>
+				        <p>
+                        <#= recipeClass.WebPageContent #>
+				        </p>
+				        <#
+           }
+
+
+           //get the image folder for the recipe
+           string recipeImgDir2 = GetHelpScreenshotsDirectory() + "\\" + recipeClass.Name;
+
+           if(Directory.Exists(recipeImgDir2))
+           {
+               // get all files with name "page_....jpg for this recipe
+               string[] files = Directory.GetFiles(recipeImgDir2, "*.*", SearchOption.AllDirectories);
+               if(files.Length > 0)
+               {
+                    #>
+					<DIV class="OH_CollapsibleAreaRegion">
+						<DIV class="OH_regiontitle">Screens</DIV>
+						<DIV class="OH_RegionToggle"></DIV>
+					</DIV>
+					<DIV class="OH_clear"></DIV>
+					<p>				
+					<#
+
+                   // create recipe image gallery
+                   #><span class="spsfscreenshot"><#
+                   foreach(string file in files)
+                   {
+                        string filename = Path.GetFileName(file);                        
+						            #><span>
+							            <img class="screenshot" src="./Screenshots/<#= recipeClass.Name #>/<#= filename #>" />
+							            <br />
+						            </span><#
+                        
+                    }
+                    #></span>
+					</p>
+                    <div class="spsfclear"></div><#
+                 }
+               
+             }
+            #>
+           
+           <#
+           if(recipeClass.ArgumentSections.Count > 0)
+           {
+                #>
+                <DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">Arguments</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>
+				<p>
+				<div class="tableSection">
+                <table id="argumentTable" width="100%">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr><#
+					
+					foreach(ArgumentSection section in recipeClass.ArgumentSections)
+                    {
+						if((section.Title != "") && (recipeClass.ArgumentSections.Count > 1))
+						{
+							#>
+							<tr>
+								<td class="name" colspan="2"><#= section.Title #></td>
+							</tr>                
+							<#
+						}					
+
+						foreach(RecipeArgument argument in section.Arguments)
+						{
+							#>
+							<tr>
+								<td><#= argument.Name #></td>
+								<td><#= argument.Help #></td>
+							</tr>                
+							<#
+						}
+                    }
+                    #>
+                </table>
+				</div>
+				</p>
+                <#                
+            }
+            
+            if(recipeClass.ReferenceLinks.Count > 0)
+            {            
+				#>           
+				<DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">References</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>
+				<p>
+				<ul>
+				<#
+                      
+			   foreach(ReferenceLink refLink in recipeClass.ReferenceLinks)
+			   {
+					#><li>
+						<a href="<#= refLink.Url #>" target="_new"><#= refLink.Caption #></a>
+					</li>
+					<#
+			   }
+	           
+	           
+			   #>                
+			   </ul></p>
+			   <#
+			}
+
+			if(recipeClass.RelatedRecipesList.Count > 0)
+            {            
+				#>   
+				<DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">Related Recipes</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>        
+				<p>
+				<ul>
+				<#
+                      
+			   foreach(string relatedRecipeName in recipeClass.RelatedRecipesList)
+			   {
+					RecipeClass relRecipe = GetRecipeByName(relatedRecipeName);
+					if(relRecipe != null)
+					{
+						#><li>
+							<a href="<#= relRecipe.WebPage #>.html"><#= relRecipe.Title #></a>
+						</li>
+						<#
+					}
+			   }
+	           
+	           
+			   #>                
+			   </ul>
+			   </p>
+			   <#
+			}		
+          
+            #>
+           <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Authors</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+			<p>
+           <ul>
+           <#            
+                foreach(string s in recipeClass.AuthorList)
+                {
+                    #><li><#= s #></li><#
+                }
+           #>
+           </ul>
+           </p>
+           
+		   <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Version history</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+		   <p>
+           <ul>
+           <#
+           
+                foreach(string s in recipeClass.VersionHistoryList)
+                {
+                    #><li><#= s #></li><#
+                }
+           #>
+           </ul>
+		   </p>
+
+
+

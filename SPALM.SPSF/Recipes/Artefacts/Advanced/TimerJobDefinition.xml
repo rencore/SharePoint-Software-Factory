@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="TimerJobDefinition"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+    <DocumentationLinks>
+        <Link Url="http://msdn.microsoft.com/en-us/library/cc427068.aspx" Caption="MSDN: Creating, Deploying, and Debugging Custom Timer Jobs in Windows SharePoint Services 3.0" Kind="Documentation"/>
+        <Link Url="http://www.andrewconnell.com/blog/articles/CreatingCustomSharePointTimerJobs.aspx" Caption="Andrew Connell: Creating Custom SharePoint Timer Jobs"  Kind="Documentation"/>
+    </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Timer Job Definition</Caption>
+  <Description>Adds a timer job definition</Description>
+  <HostData>
+    <Icon File="Help/Icons/icon_TimerJob.ico" />
+    <CommandBar Menu="SPSFSolutionAdvanced"/>
+    <CommandBar Menu="SPSFProjectAdvanced"/>
+    <spsf:MetaData
+      Visible="false"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      Enabled="false"
+      CreateVSTemplate="true"
+	    NotSandboxSupported="true"
+      Category="Advanced" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+        <spsf:Author>Matthias Einig</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.1 Updated Documentation</spsf:VersionHistoryEntry>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[Windows SharePoint Services 3.0 lets you create custom jobs that are executed at set intervals. These jobs, known as timer jobs, are similar to those tasks that you can create in any version of Windows by using the Task Scheduler application. This capability is useful for scheduled process jobs because you keep everything in Windows SharePoint Services rather than create a console .exe file that is configured to run at set intervals by using the Windows Task Scheduler. The major benefits to using the Windows SharePoint Services timer service compared to using Windows Task Scheduler is that the timer service knows the topology of the Office SharePoint Server farm, and that you can load balance the jobs across all the servers in the farm or tie them to specific servers that are running particular services. (Source: MSDN).
+		
+        You can run the timer job e.g. in a feature receiver during feature activation or deactivation. 
+		
+        Use the following code to start the timer job.
+        <code>
+        namespace ApplicationName.WSPSolution
+        {
+          public partial class EmptyFeature1FeatureReceiver : SPFeatureReceiver
+          {
+            public override void FeatureActivated(SPFeatureReceiverProperties properties)
+            {
+              TimerJob1.StartJob("param Value 1", "param Value 2");
+            }
+          }          
+        }        
+        </code>]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+      
+    <Argument Name="TimerJobClass">
+      <ValueProvider Type="Evaluator" Expression="TimerJob1" />
+    </Argument>
+    <Argument Name="TimerJobName">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ProjectNamespace) $(TimerJobClass)" />
+    </Argument>
+    <Argument Name="CodeFolder">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="CustomCode\$(TimerJobClass)" />
+    </Argument>
+    <Argument Name="TimerJobFilename">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(TimerJobClass).cs" />
+    </Argument>
+
+  </Arguments>
+
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Timer Job Settings</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="TimerJobClass" Label="Timer Job Class">
+                <Help>Required Text. Name of the Timer Job class file.</Help>
+            </Field>
+        </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action Name="GenerateTimerJob" Template="Text\TimerJob\JobDefinition.cs.t4" Type="TextTemplateAction">
+      <Input Name="TimerJobNamespace" RecipeArgument="ProjectNamespace" />
+      <Input Name="TimerJobClass" RecipeArgument="TimerJobClass" />
+      <Input Name="TimerJobName" RecipeArgument="TimerJobName" />      
+      <Output Name="Content" />
+    </Action>
+    <Action Name="AddTimerJob" Type="AddItemToFolderFromStringAction" Open="false">
+      <Input Name="Content" ActionOutput="GenerateTimerJob.Content" />
+      <Input Name="TargetFileName" RecipeArgument="TimerJobFilename" />
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+      <Input Name="TargetFolder" RecipeArgument="CodeFolder" />
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

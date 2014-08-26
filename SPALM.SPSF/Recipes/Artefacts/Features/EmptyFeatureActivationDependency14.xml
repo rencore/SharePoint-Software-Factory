@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="EmptyFeatureActivationDependency14"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+	<DocumentationLinks>
+		<Link Caption="MSDN: Working with Features" Url="http://msdn.microsoft.com/en-us/library/ms460318.aspx" Kind="Documentation"/>
+	</DocumentationLinks>
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Feature: Add Activation Dependency</Caption>
+	<Description>Adds a feature activation dependency to a SharePoint feature. </Description>
+	<HostData Priority="20">
+		<Icon File="Help/Icons/icon_Features.ico" />
+		<CommandBar Menu="SPSFFolderArtefacts"/>
+		<CommandBar Menu="SPSFItemArtefacts"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="XmlMergeReference"
+		  Enabled="true"
+		  CreateVSTemplate="false"
+		  XPath="/ns:Feature"
+		  XPathNamespace="http://schemas.microsoft.com/sharepoint/"
+		  SharePointVersions="14;15"
+		  Category="Features"
+		  xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[Feature Activation Dependencies in SharePoint can contain additional properties like MinimumVersion, FeatureName and FeatureDescription.]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<Argument Name="FeatureActivationDependencies" Required="false" Type="NameValueItemArray" >
+			<ValueProvider Type="DefaultNameValueCollectionProvider"  />
+		</Argument>
+		<Argument Name="FeatureMinimumVersion" Required="false" >
+			<ValueProvider Type="Evaluator" Expression=""  />
+		</Argument>
+
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Width="600" Height="400">
+					<Title>Activation Dependency</Title>
+					<Fields>
+						<Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+						<Field ValueName="FeatureActivationDependencies" PanelType="SPALM.SPSF.Library.NameValueListPanel, SPALM.SPSF.Library" Label="Activation Dependencies" >
+							<Help>Optional GUID. One or multiple Features of which the activation of this Feature should depend on. The dependencies can be either out of the box SharePoint Features or custom Features of this project.</Help>
+							<Editor Type="SPALM.SPSF.Library.FeatureEditor, SPALM.SPSF.Library" />
+						</Field>
+						<Field ValueName="FeatureMinimumVersion" Label="Minimum Version" >
+							<Help>Optional string. The minimum version of the Feature dependency. This attribute must use the pattern n.n.n.n, where each occurrence of n is a numeric value.</Help>
+						</Field>
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+		<xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<!-- Add XML for document template -->
+		<Action
+		  Name="AddXmlContent"
+		  Type="AddXmlToItemAction"
+		  XPath="/ns:feature"
+		  XPathNamespace="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/FeatureModel"
+		  ReplaceExistingNode="false"
+		  Open="true"
+		  TemplateFileName="Text\EmptyFeature\FeatureActivationDependency14.xml.t4">
+			<Input Name="SelectedItem" RecipeArgument="VisualStudioSelectedItem" />
+			<Output Name="CreatedElementFolder" />
+			<Output Name="CreatedElementFile" />
+		</Action>
+
+		<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Actions>
+</Recipe>

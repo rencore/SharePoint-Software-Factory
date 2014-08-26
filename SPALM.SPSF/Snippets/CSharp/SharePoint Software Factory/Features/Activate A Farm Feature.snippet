@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Activate a farm feature</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>featureGuid</ID>
+          <ToolTip>Feature GUID object</ToolTip>
+          <Default>featureId</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>webApplication</ID>
+          <ToolTip>Web Application</ToolTip>
+          <Default>webApp</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>FeatureGUIDHere</ID>
+          <ToolTip>Feature GUID</ToolTip>
+          <Default>00000000-0000-0000-0000-000000000000</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[Guid $featureGuid$ = new Guid("$FeatureGUIDHere$");
+            SPWebApplication $webApplication$ = web.Site.WebApplication;
+            if ($webApplication$.WebService.Features[$featureGuid$] == null)
+            {
+                $webApplication$.WebService.Features.Add($featureGuid$);
+            }
+            ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

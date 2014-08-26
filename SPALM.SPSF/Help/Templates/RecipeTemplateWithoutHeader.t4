@@ -1,0 +1,19 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="html" hostspecific="true" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ include file="../HelpFunctions.tt" #>
+<#
+
+RecipeClass recipeClass = DeserializeRecipeClass(CallContext.GetData("Recipe") as byte[]);
+recipeClass.SetSPSFBase(Host);
+
+SPSFHelpElement helpItem = recipeClass;
+
+#>
+<#@ include file="../Templates/Recipe.include" #>     

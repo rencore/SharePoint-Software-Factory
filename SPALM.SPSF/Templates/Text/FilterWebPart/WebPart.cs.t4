@@ -1,0 +1,155 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="CopyrightCompanyName" #>
+<#@ property processor="PropertyProcessor" name="CopyrightFileName" #>
+<#@ property processor="PropertyProcessor" name="WebPartName" #>
+<#@ property processor="PropertyProcessor" name="ProjectNamespace" #>
+<#@ assembly name="System.dll" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+	using System;
+	using System.Collections.Generic;
+	using System.Runtime.InteropServices;
+	using System.Web.UI;
+	using System.Web.UI.WebControls.WebParts;
+
+	[Guid("<#= System.Guid.NewGuid().ToString() #>")]
+    public class <#= WebPartName #> : System.Web.UI.WebControls.WebParts.WebPart, ITransformableFilterValues
+    {
+        #region Private Variables
+
+        private Label _textLabel = null;
+        private DropDownList _sourceDropDownList = null;
+        private string _CustomProperty = null;
+
+        #endregion
+
+        #region Public Properties
+
+        [WebBrowsable(true),
+        Personalizable(PersonalizationScope.User),
+        WebDescription("CustomProperty"),
+        Category("CustomProperty"),
+        WebDisplayName("CustomProperty")]
+        public string CustomProperty
+        {
+            get { return _CustomProperty; }
+            set { _CustomProperty = value; }
+        }
+        
+        #endregion      
+
+        #region Public Constructors
+
+        public <#= WebPartName #>()
+        {
+        }
+
+        #endregion
+
+        #region Protected Methods
+
+        protected override void CreateChildControls()
+        {
+            base.CreateChildControls();
+            _textLabel = new Label();
+            this.Controls.Add(_textLabel);
+
+            _sourceDropDownList = new DropDownList();
+
+            _sourceDropDownList.AutoPostBack = true;
+            this.Controls.Add(_sourceDropDownList);
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            LoadData();
+        }
+
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+            EnsureChildControls();
+        }
+        
+        #endregion
+
+        #region Private Methods
+
+        private void LoadData()
+        {
+            if (this.Page.IsPostBack == false)
+            {
+                if ((SourceList != null) && (SourceList.Items != null))
+                {                    
+                        ListItem listItem = new ListItem();
+						listItem.Text = "Text";
+                        listItem.Value = "Value";
+                        _sourceDropDownList.Items.Add(listItem);
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region ITransformableFilterValues Members
+
+        public bool AllowAllValue
+        {
+            get { return false; }
+        }
+
+        public bool AllowEmptyValue
+        {
+            get { return true; }
+        }
+
+        public bool AllowMultipleValues
+        {
+            get { return false; }
+        }
+
+        public string ParameterName
+        {
+            get
+            {
+                return "NameOfParameter";
+            }
+        }
+
+        public System.Collections.ObjectModel.ReadOnlyCollection<string> ParameterValues
+        {
+            get
+            {
+                string selectedValue = String.Empty;
+
+                if ((_sourceDropDownList!=null) && (_sourceDropDownList.SelectedItem != null))
+                {
+                    selectedValue = _sourceDropDownList.SelectedItem.Value;
+                }
+
+                string[] values = new string[] { selectedValue };
+                return new ReadOnlyCollection<string>(values);
+            }
+        }
+
+        #endregion
+
+        #region Filter Provider Connection
+
+        [ConnectionProvider("DropDown Filter", "ITransformableFilterValues", AllowsMultipleConnections = true)]
+        public ITransformableFilterValues SetConnectionInterface()
+        {
+            return this;
+        }
+
+        #endregion
+    }
+}
+

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+
+  <Action Name="AddReference1" Type="AddReferenceToProject" ReferenceName="System.Data">
+    <Input Name="Project" RecipeArgument="CurrentProject" />
+  </Action>
+
+</Actions>

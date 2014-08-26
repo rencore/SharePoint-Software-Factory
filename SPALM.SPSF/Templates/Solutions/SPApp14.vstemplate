@@ -1,0 +1,25 @@
+﻿<VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>SharePoint 2010 - Application</Name>
+    <Description>Creates a SharePoint 2010 application. The application contains an empty SharePoint solution project (.wsp), an optional resources project and a deployment project for deploying all WSPs to multiple farms. SPSF Version 4.1, http://spsf.codeplex.com</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>200</SortOrder>
+    <Icon>icon_sp14project.ico</Icon>
+    <CreateNewFolder>false</CreateNewFolder>
+    <DefaultName>Company.Application</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectCollection/> 
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.Practices.RecipeFramework.VisualStudio</Assembly>
+    <FullClassName>Microsoft.Practices.RecipeFramework.VisualStudio.Templates.UnfoldTemplate</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <Template
+      xmlns="http://schemas.microsoft.com/pag/gax-template"
+      SchemaVersion="1.0"
+      Recipe="SharePointApplication14" />
+  </WizardData>
+</VSTemplate>

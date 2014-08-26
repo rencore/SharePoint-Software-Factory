@@ -1,0 +1,8 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ResourceKeyPrefix" #>
+<#@ property processor="PropertyProcessor" name="DocumentConverterName" #>
+<#@ assembly name="System.dll" #>
+  <data name="<#= ResourceKeyPrefix #>_DocumentConverterName">
+    <value><#= DocumentConverterName #></value>
+  </data>
+		   

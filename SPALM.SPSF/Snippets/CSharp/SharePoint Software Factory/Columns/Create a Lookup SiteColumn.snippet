@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Create a lookup site column</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>lookupXML</ID>
+          <ToolTip>Lookup XML</ToolTip>
+          <Default>lookupXML</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>lookupGuid</ID>
+          <ToolTip>Lookup Guid</ToolTip>
+          <Default>00000000-0000-0000-0000-000000000000</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>DisplayName</ID>
+          <ToolTip>Display Name</ToolTip>
+          <Default>DisplayName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>internalName</ID>
+          <ToolTip>Internal name</ToolTip>
+          <Default>InternalName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>GroupName</ID>
+          <ToolTip>Group name</ToolTip>
+          <Default>GroupName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>web</ID>
+          <ToolTip>SPWeb</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+          <Type>SPWeb</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[string $lookupXML$ = @" <Field Type='LookupMulti'
+                                   ID='{0}'
+                                   Mult='TRUE'
+                                   DisplayName='{4}'
+                                   Required='TRUE'
+                                   List='{1}'
+                                   WebId='{2}'
+                                   ShowField='Title'
+                                   Name='{5}'
+                                   StaticName='{5}'
+                                   Group='{6}'/>";
+
+                 $web$.Fields.AddFieldAsXml(string.Format($lookupXML$, "$lookupGuid$", parentList.ID, $web$.ID, "$DisplayName$","$internalName$","$GroupName$"));
+      
+      ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

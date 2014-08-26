@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="SPDActionSandboxed"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <DocumentationLinks>
+    <Link Caption="MSDN: Delivering Modular SharePoint Workflow Functionality" Url="http://msdn.microsoft.com/en-us/library/cc546557(v=office.12).aspx" Kind="Documentation"/>
+    <Link Caption="Sample Code: Delivering Modular Workflow Functionality" Url="http://sharepointadvent.de/2011/12/14/programmieren-von-sandboxed-workflow-actions/" Kind="Documentation"/>
+  </DocumentationLinks> 
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>SPD Workflow Action (Sandboxed)</Caption>
+	<Description>Adds a SharePoint Designer Workflow Action for use in a sandboxed solution</Description>
+  <HostData Priority="510">
+		<Icon File="Help/Icons/icon_sp14workflow.ico" />
+		<CommandBar Menu="SPSFProjectWorkflows"/>
+		<CommandBar Menu="SPSFFolderWorkflows"/>
+		<spsf:MetaData
+		  Visible="false"
+		  BindingType="ElementManifestReference"
+		  BindingTypeTemplate="ElementManifestReferenceTemplate"
+		  TestType="BaseSiteFeatureRecipeRunner"
+		  Enabled="false"
+		  CreateVSTemplate="true"
+		  FeatureScopes="Site"
+		  Category="Workflows" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[]]>
+			</spsf:WebPageContent>
+			<spsf:Test>
+				<spsf:TestCases>
+					<spsf:TestCase Name="DefaultWorkflow" Type="SolutionTestCase">
+						<spsf:TestCaseArguments>
+							<spsf:TestCaseArgument Name="WorkflowName">WorkflowDefault</spsf:TestCaseArgument>
+						</spsf:TestCaseArguments>
+					</spsf:TestCase>
+				</spsf:TestCases>
+			</spsf:Test>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<Argument Name="AllowedScopes" Type="System.String">
+			<ValueProvider Type="Evaluator" Expression="Site" />
+		</Argument>
+
+		<xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<Argument Name="ResourceKeyPrefix" Required="true">
+			<!-- provides the unique key with removed special chars -->
+			<ValueProvider Type="Evaluator" Expression="WorkflowActions" />
+		</Argument>
+
+    <!-- Recipe specific parameters -->
+    <Argument Name="WorkflowActionName">
+      <Converter Type="NamespaceStringConverter" />
+      <ValueProvider Type="VisualStudioCreateItemName" DefaultValue="WorkflowAction1" />
+    </Argument>
+    <Argument Name="WorkflowActionDisplayName" Required="true">
+      <ValueProvider Type="Evaluator" Expression="$(WorkflowActionName) Title" />
+    </Argument>
+    <Argument Name="WorkflowActionFunctionName" Required="true">
+      <ValueProvider Type="Evaluator" Expression="Create Site" />
+    </Argument>
+    <Argument Name="WorkflowActionCategory" Required="true">
+      <ValueProvider Type="Evaluator" Expression="User Code Actions" />
+    </Argument>
+
+    <Argument Name="WorkflowActionCreatesTask" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="WorkflowActionCreatedTaskFormType" Required="false">
+      <Converter Type="StringCollectionConverter" Values=";DataCollectTask;GroupAssignedTask;TodoItemTask;TaskProcess" />     
+    </Argument>
+    
+    <Argument Name="WorkflowActionAppliesTo" Required="true">
+      <Converter Type="StringCollectionConverter" Values="all;list;doclib" />
+      <ValueProvider Type="Evaluator" Expression="all" />
+    </Argument>
+    <Argument Name="WorkflowActionCreatesInList" Required="false">
+    </Argument>    
+    <Argument Name="WorkflowActionUsesCurrentItem" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="WorkflowActionIsError" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    <Argument Name="WorkflowActionListModeration" Type="System.Boolean">
+      <ValueProvider Type="Evaluator" Expression="false" />
+    </Argument>
+    
+  </Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>Workflow Settings</Title>
+          <Fields>
+            <Field ValueName="WorkflowActionName" Label="Name" >
+              <Help>Required Text. Specifies the workflow name.</Help>
+            </Field>
+            <Field ValueName="WorkflowActionDisplayName" Label="Display Name" >
+              <Help>Required text. Represents the description of the workflow action that is displayed to the workflow editor.</Help>
+            </Field>
+            <Field ValueName="WorkflowActionFunctionName" Label="Function Name" >
+              <Help>Optional text. For sandboxed solutions, specifies the name of a function to call.</Help>
+            </Field>            
+            <Field ValueName="WorkflowActionCategory" Label="Category" >
+              <Help>Optional text. Provides a category for the workflow action. This text is used to filter the list of available actions.</Help>
+            </Field>
+          </Fields>
+        </Page>
+        <Page Width="600" Height="400">
+        <Title>Task Options</Title>
+        <Fields>
+          <Field ValueName="WorkflowActionCreatesTask" Label="Creates Task" >
+            <Help>Optional Boolean. If set to true, a task list item is created in the workflow. If left blank, the assumption is false, and no task list items are created.</Help>
+          </Field>
+          <Field ValueName="WorkflowActionCreatedTaskFormType" Label="Creates Task Form Type" >
+            <Help>Optional text. Specifies the type of a created task: DataCollectTask to create a task that collects data from one user; GroupAssignedTask to create a task that collects data from one or more users; TodoItemTask to create a task that does not collect data from users but only exists for a user to validate that they have done something; or TaskProcess to create a task that has a form that allows for ad-hoc collaboration and might collect data from one or more users.</Help>
+          </Field>
+        </Fields>
+      </Page>      
+         <Page Width="600" Height="400">
+          <Title>Advanced Options</Title>
+          <Fields>
+            <Field ValueName="WorkflowActionAppliesTo" Label="Applies To" >
+              <Help>Required text. Indicates whether this workflow action should be available for lists, document libraries, or both. Valid values include list, doclib, and all.</Help>
+            </Field>
+            <Field ValueName="WorkflowActionCreatesInList" Label="Creates In List" >
+              <Help>Optional text. If a value is set for this attribute, the workflow creates an item in a list. Values must map to a parameter name that contains the ID of the list or document library.</Help>
+            </Field>         
+            <Field ValueName="WorkflowActionUsesCurrentItem" Label="Uses Current Item" >
+              <Help>Optional Boolean. If set to true, indicates that the current item should be used or modified. If set to false or left blank, this Action element uses only the SharePoint list or document library item that is specified.</Help>
+            </Field>
+            <Field ValueName="WorkflowActionIsError" Label="Is Error" >
+              <Help>Optional Boolean. If set to true, instances of this Action element are considered an error by the client application.</Help>
+            </Field>
+            <Field ValueName="WorkflowActionListModeration" Label="List Moderation" >
+              <Help>Optional Boolean. If set to true, this Action element applies to a list or document library that has content approval enabled. If left blank, the assumption is false.</Help>
+            </Field>
+          </Fields>
+        </Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+
+		<xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		<!-- elements.xml-->
+		<Action
+		  Name="CreateElementsXml"
+		  Type="AddElementsDefinitionAction"
+		  ParentFeatureName="$(ParentFeatureName)"
+		  ElementsName="$(WorkflowActionName)"
+		  ElementsCategory="WorkflowActions"
+		  TemplateFileName="Text\SPDActionSandboxed\elements.xml.t4"
+		  SPDataTemplate="Text\GenericSPData\SharePointProjectItem.spdata.t4">
+			<Output Name="CreatedElementFolder" />
+			<Output Name="CreatedElementFile" />
+		</Action>
+
+		<!-- Workflow action code -->
+		<Action
+		  Name="AddWorkflowCode"
+		  Type="AddTemplateToItemAction"
+		  Open="true"
+		  TemplateFileName="Text\SPDActionSandboxed\ActionCode.cs.t4"
+		  TargetFileName="$(WorkflowActionName).cs">
+			<Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+		</Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	</Actions>
+</Recipe>

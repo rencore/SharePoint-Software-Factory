@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="ExecAdmSvcJobs"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Execute Admin Service Jobs</Caption>
+  <Description>Runs stsadm -o execadmsvcjobs to run all pending deployment jobs.</Description>
+  <HostData Priority="300">
+    <Icon File="Help/Icons/icon_SharePoint.ico" />
+    <CommandBar Menu="SPSFSolutionSPHelpers"/>
+    <CommandBar Menu="SPSFProjectSPHelpers"/>
+    <CommandBar Menu="SPSFSolutionFolderSPHelpers"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="AnyElementReference"
+      BindingTypeTemplate="AnyElementReferenceTemplate"
+      Enabled="true"
+      ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="SPHelpers" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+    <Argument Name="SPPath" Type="System.String" Required="true">
+      <ValueProvider Type="SPPathProvider"/>
+    </Argument>    
+    <Argument Name="CommandExecAdmSvcJobs" Type="System.String" Required="true">
+      <ValueProvider Type="Evaluator" Expression="&quot;$(SPPath)&quot; -o execadmsvcjobs" />
+    </Argument>    
+  </Arguments>
+  <Actions>
+    <Action Name="RunCommand" Type="RunCommand">
+      <Input Name="Command" RecipeArgument="CommandExecAdmSvcJobs" />
+    </Action>    
+  </Actions>
+</Recipe>

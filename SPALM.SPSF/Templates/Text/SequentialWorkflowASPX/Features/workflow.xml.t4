@@ -1,0 +1,68 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ResourceFilename" #>
+<#@ property processor="PropertyProcessor" name="WorkflowNamespace" #>
+<#@ property processor="PropertyProcessor" name="WorkflowId" #>
+<#@ property processor="PropertyProcessor" name="WorkflowName" #>
+<#@ property processor="PropertyProcessor" name="WorkflowTaskContentTypeId" #>
+<#@ property processor="PropertyProcessor" name="WorkflowLayoutsFolder" #>
+<#@ property processor="PropertyProcessor" name="AssemblyName" #>
+<#@ property processor="PropertyProcessor" name="WorkflowCreateAssocationForm" #>
+<#@ property processor="PropertyProcessor" name="WorkflowCreateInitiationForm" #>
+<#@ property processor="PropertyProcessor" name="WorkflowCreateModificationForm" #>
+<#@ property processor="PropertyProcessor" name="WorkflowCreateTaskEditForm" #>
+<#@ property processor="PropertyProcessor" name="WorkflowCreateTaskContentType" #>
+<#@ property processor="PropertyProcessor" name="CustomContentTypeID" #>
+<#@ assembly name="System.dll" #>
+<#@ assembly name="SPALM.SPSF.Library.dll" #>
+<#@ import namespace="SPALM.SPSF.Library" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <Workflow
+    Id="<#= WorkflowId #>"  
+    Name="$Resources:<#= ResourceFilename #>,<#= WorkflowName #>_WFName;"
+    Description="$Resources:<#= ResourceFilename #>,<#= WorkflowName #>_WFDescription;"
+    CodeBesideClass="<#= WorkflowNamespace #>.<#= WorkflowName #>"
+    CodeBesideAssembly="<#= AssemblyName #>"
+    <# 
+    if(WorkflowCreateAssocationForm)
+    { 
+		#>
+		AssociationUrl="_layouts<#= VersionedFolderName #>/<#= WorkflowLayoutsFolder #>/<#= WorkflowName #>AssociationForm.aspx"
+		<#
+	}
+	if(WorkflowCreateInitiationForm)
+    { 
+		#>
+		InstantiationUrl="_layouts<#= VersionedFolderName #>/<#= WorkflowLayoutsFolder #>/<#= WorkflowName #>InitiationForm.aspx"
+		<#
+	}
+	if(WorkflowCreateModificationForm)
+    { 
+		#>
+		ModificationUrl="_layouts<#= VersionedFolderName #>/<#= WorkflowLayoutsFolder #>/<#= WorkflowName #>ModificationForm.aspx"
+		<#
+	}
+	if(WorkflowCreateTaskEditForm)
+    { 
+		if(WorkflowCreateTaskContentType)
+		{
+			#>
+			TaskListContentTypeId="<#= WorkflowTaskContentTypeId #>00<#= CustomContentTypeID #>"
+			<#
+		}
+		else
+		{
+			#>
+			TaskListContentTypeId="<#= WorkflowTaskContentTypeId #>"
+			<#	
+		}	
+	}
+	#>
+	>
+    <MetaData>
+      <Modification_c7a53c4e-ab25-450f-a595-ae2b380d7c3e_Name>
+        Modify workflow instance with a custom form
+      </Modification_c7a53c4e-ab25-450f-a595-ae2b380d7c3e_Name>
+    </MetaData>
+    <Categories/>
+  </Workflow>
+</Elements>

@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="FieldTypeRatings"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <DocumentationLinks>
+    <Link Caption="MSDN: Custom Field Types for SharePoint 2007 by Ted Pattison" Url="http://msdn.microsoft.com/de-de/magazine/dd727508%28en-us%29.aspx" Kind="Documentation"/>
+  </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Sample: Field Type for Ratings</Caption>
+  <Description>Sample for a custom field type to show a rating with graphics</Description>
+  <HostData Priority="1050">
+    <Icon File="Help/Icons/icon_FieldTypes.ico" />
+    <CommandBar Menu="SPSFSolutionFieldTypes"/>
+    <CommandBar Menu="SPSFProjectFieldTypes"/>
+    <spsf:MetaData      
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseCustomizationRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="true"
+      VSTemplateDefaultName="RatingFieldType"
+	  NotSandboxSupported="true"
+      Category="FieldTypes" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+        <spsf:Author>Matthias Einig</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+          <spsf:VersionHistoryEntry>1.1 Updated Documentation</spsf:VersionHistoryEntry>
+          <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[As you store your business information in Windows SharePoint Services 3.0, you may encounter instances where your important business data does not conform to the field types included in Windows SharePoint Services, or situations where you want to further customize those general field types. 
+    Windows SharePoint Services enables you to create custom field types. 
+    These custom fields can include custom data validation and custom field rendering. 
+    You can also customize the way that variable properties of your custom field types are processed and rendered when users set property variables and create new columns that are based on your custom field type.
+
+    This recipe adds a simple Field Type to your project.
+    ]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="FieldTypeRatings" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="FieldTypeTypeName">RatingFieldType</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="FieldTypeParentType" Type="System.String" >
+      <Converter Type="FieldTypeBaseTypeConverter" />
+      <ValueProvider Type="Evaluator" Expression="Text" />
+    </Argument>
+
+    <xi:include href="BaseFieldTypeArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <xi:include href="BaseFieldTypePages.include"  parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-wizards) xpointer(/p:Pages/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+    <xi:include href="BaseFieldTypeActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <!-- add icons -->
+    <Action
+      Name="AddIcon1"
+      Type="AddFileToItemAction"
+      DeploymentType="TemplateFile"
+      DeploymentPath="Images\$(SafeAppName)"
+      SourceFileName="Text\FieldTypes\FieldTypeRatings\star_blue.gif">
+      <Input Name="ParentProjectFolder" ActionOutput="AddFieldXml.CreatedProjectItem" />
+    </Action>
+
+    <Action
+      Name="AddIcon2"
+      Type="AddFileToItemAction"
+      DeploymentType="TemplateFile"
+      DeploymentPath="Images\$(SafeAppName)"
+      SourceFileName="Text\FieldTypes\FieldTypeRatings\star_white.gif">
+      <Input Name="ParentProjectFolder" ActionOutput="AddFieldXml.CreatedProjectItem" />
+    </Action>  
+      
+  </Actions>
+</Recipe>

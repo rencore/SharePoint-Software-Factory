@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+	<Action Name="UnfoldSilverlightProjectTemplate"
+		  SolutionFolder="SilverlightApplications"
+		  Type="ExtendedUnfoldTemplateAction"
+		  UseSolutionFolder="True"
+		  Template="Projects\Silverlight\Root.vstemplate">
+		<Input Name="ProjectName" RecipeArgument="SilverlightApplicationName" />
+		<Output Name="CreatedProjectID" />
+	</Action>
+
+	<!-- add custom MainPage.xaml and -->
+	<Action Name="AddCustomMainPageXaml"
+		Type="AddTemplateToItemAction"
+		TemplateFileName="Text\Silverlight\$(RecipeName)\MainPage.xaml.t4"
+		TargetFileName="MainPage.xaml"
+		Overwrite="True">
+		<Input Name="ProjectName" RecipeArgument="SilverlightApplicationName" />
+		<Output Name="CreatedProjectItem" />
+	</Action>
+	<!-- add custom MainPage.xaml.cs and -->
+	<Action Name="AddCustomMainPageXamlCS"
+		Type="AddTemplateToItemAction"
+		TemplateFileName="Text\Silverlight\$(RecipeName)\_MainPage.xaml.cs.t4"
+		TargetFileName="MainPage.xaml.cs"
+		Overwrite="True">
+		<Input Name="ProjectName" RecipeArgument="SilverlightApplicationName" />
+		<Output Name="CreatedProjectItem" />
+	</Action>
+
+	<!-- add custom App.xaml and -->
+	<Action Name="AddCustomAppXaml"
+		Type="AddTemplateToItemAction"
+		TemplateFileName="Text\Silverlight\$(RecipeName)\App.xaml.t4"
+		TargetFileName="App.xaml"
+		Overwrite="True">
+		<Input Name="ProjectName" RecipeArgument="SilverlightApplicationName" />
+		<Output Name="CreatedProjectItem" />
+	</Action>
+	<!-- add custom App.xaml.cs and -->
+	<Action Name="AddCustomAppXamlCS"
+		Type="AddTemplateToItemAction"
+		TemplateFileName="Text\Silverlight\$(RecipeName)\_App.xaml.cs.t4"
+		TargetFileName="App.xaml.cs"
+		Overwrite="True">
+		<Input Name="ProjectName" RecipeArgument="SilverlightApplicationName" />
+		<Output Name="CreatedProjectItem" />
+	</Action>	
+
+	<!-- elements.xml-->
+	<Action
+	  Name="CreateElementsXml"
+	  Type="AddElementsDefinitionAction"
+	  ParentFeatureName="$(ParentFeatureName)"
+	  ElementsName="$(ModuleName)"
+	  ElementsCategory="SilverlightApplications"
+	  TemplateFileName="Text\Silverlight\elements.xml.t4"
+	  SPDataTemplate="Text\Silverlight\SharePointProjectItem.spdata.t4"
+	  Open="true">
+		<Input Name="Project" RecipeArgument="CurrentProject" />
+		<Output Name="CreatedElementFolder" />
+		<Output Name="CreatedElementFile" />
+	</Action>
+  
+  <!-- adding output of silverlight project to the module -->
+	<Action
+	  Name="AddProjectOutputReference"
+	  Type="AddProjectOutputReference"
+	  SourceProjectName="$(SilverlightApplicationName)"
+	  DeploymentType="ElementFile">
+		<Input Name="TargetFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+	</Action>
+
+	<Action
+	  Name="AddWebPartFile"
+	  Type="AddTemplateToItemAction"
+	  DeploymentType="ElementFile"
+	  DeploymentPath="$(ModuleName)"
+	  TemplateFileName="Text\Silverlight\WebPart.webpart.t4"
+	  TargetFileName="$(WebPartFileName)">
+		<Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+	</Action>
+
+  <!-- Resources -->
+  <Action
+    Condition="$(AutoCreateResxFiles)"
+    Name="AddResources"
+    Type="AddTemlateToResourcesFileAction"
+    TemplateFileName="Text\Silverlight\Resources.resx.t4">
+    <Input Name="FeatureName" RecipeArgument="ParentFeatureName" />
+  </Action>
+
+  
+</Actions>

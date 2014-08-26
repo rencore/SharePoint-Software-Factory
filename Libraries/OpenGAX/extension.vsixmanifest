@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Vsix xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010">
+  <Identifier Id="OpenGAX">
+    <Name>GAX 2010 For Visual Studio 2012</Name>
+    <Author>Microsoft patterns and practices</Author>
+    <Version>3.0.0.0</Version>
+    <Description xml:space="preserve">The Guidance Automation Extensions (GAX) enables Visual Studio to run guidance packages, such as those included in Software Factories, which empower software teams to automate key development tasks inside Visual Studio.</Description>
+    <Locale>1033</Locale>
+    <License>EULA.txt</License>
+    <Icon>gax.ico</Icon>
+    <PreviewImage>gax preview.png</PreviewImage>
+    <InstalledByMsi>false</InstalledByMsi>
+    <SupportedProducts>
+      <VisualStudio Version="11.0">
+        <Edition>Ultimate</Edition>
+        <Edition>Premium</Edition>
+        <Edition>Pro</Edition>
+      </VisualStudio>
+    </SupportedProducts>
+    <SupportedFrameworkRuntimeEdition MinVersion="1.0" MaxVersion="9.0" />
+    <AllUsers>true</AllUsers>
+  </Identifier>
+  <References />
+  <Content>
+    <VsPackage>Microsoft.Practices.RecipeFramework.VisualStudio.pkgdef</VsPackage>
+  </Content>
+</Vsix>

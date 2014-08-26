@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains arguments which are used in all custom actions -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+	<Argument Name="AllowedScopes" Type="System.String">
+		<ValueProvider Type="Evaluator" Expression="Web" />
+	</Argument>
+	<Argument Name="ElementsCategory">
+		<ValueProvider Type="StaticStringProvider" StaticString="EventReceivers" />
+	</Argument>
+
+	<Argument Name="ResourceKeyPrefix" Required="true">
+		<!-- provides the unique key with removed special chars -->
+		<ValueProvider Stage="OnBeforeActions" RecipeArgument="EventReceiverName" Type="ConvertedStringProvider" />
+	</Argument>
+
+	<!-- EventReceiver Arguments -->
+	<Argument Name="EventReceiverName" Required="true" >
+		<Converter Type="NamespaceStringConverter" />
+		<ValueProvider Type="VisualStudioCreateItemName" DefaultValue="EventReceiver1" />
+	</Argument>
+	<Argument Name="EventReceiverSequence" Type="System.Int32" Required="true" >
+		<ValueProvider Type="StaticStringProvider" StaticString="100" />
+	</Argument>
+	<Argument Name="EventReceiverTemplateID" Type="NameValueItem" Required="true" >
+		<ValueProvider Name="List" Value="104" Type="DefaultNameValueItemProvider"  />
+	</Argument>
+	<Argument Name="EventReceiverOwner" Required="false" />
+
+	<!-- Folder where to take the templates from-->
+	<Argument Name="TemplatePathElements" Type="System.String">
+		<ValueProvider Stage="OnBeforeActions" Type="ConcatStringProvider" Prefix="Text\Events\" RecipeArgument="RecipeName" Sufix="\elements.xml.t4"/>
+	</Argument>
+	<Argument Name="TemplatePathCode" Type="System.String">
+		<ValueProvider Stage="OnBeforeActions" Type="ConcatStringProvider" Prefix="Text\Events\" RecipeArgument="RecipeName" Sufix="\eventreceiverclass.cs.t4"/>
+	</Argument>	
+
+	<!-- Arguments new in SP 2010 -->
+	<Argument Name="EventReceiverRootWebOnly" Type="System.Boolean" Required="true">
+		<ValueProvider Type="Evaluator" Expression="false" />
+	</Argument>
+	<Argument Name="EventReceiverScope" Type="System.String" Required="false">
+		<Converter Type="EventReceiverScopeConverter" />
+	</Argument>
+	<Argument Name="EventReceiverSynchronization" Type="System.String" Required="false">
+		<Converter Type="EventReceiverSynchronizationConverter" />
+	</Argument>
+	
+
+</Arguments>

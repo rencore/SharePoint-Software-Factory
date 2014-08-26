@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="LayoutsFile"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">    
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Add Layouts file</Caption>
+  <Description>This recipe allows to add a file which should be deployed to /_layouts/.</Description>
+  <HostData Priority="110">    
+    <Icon File="Help/Icons/icon_spfile.ico" />
+    <CommandBar Menu="SPSFProjectFiles"/>
+    <spsf:MetaData 
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseCustomizationRecipeRunner"
+      Enabled="true" 
+      CreateVSTemplate="false" 
+	  NotSandboxSupported="true"
+      Category="Files" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+          <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[The recipes adds a file at the appropriate location within the project for deployment to /_layouts/.]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="Default" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="SourceFiles">F:\SPALM\SPSF\Dev\Source\TestData\TestFiles\Module.txt</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+   </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="SourceFiles" Required="true" />
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Source Files</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="SourceFiles" Label="Source Files">
+              <Editor Type="SPALM.SPSF.Library.MultiFileChooser, SPALM.SPSF.Library" />
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action
+        Name="AddFile"
+        Type="AddFileToItemAction"
+        DeploymentType="TemplateFile" 
+        DeploymentPath="Layouts\$(SafeAppName)">
+      <Input Name="SourceFileName" RecipeArgument="SourceFiles" />
+    </Action>
+
+  </Actions>
+</Recipe>

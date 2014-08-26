@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Check list existence</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>name</ID>
+          <ToolTip>List name</ToolTip>
+          <Default>listname</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>web</ID>
+          <ToolTip>SPWeb object</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+          <Type>SPWeb</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[static bool DoesListExist(SPWeb $web$, string $name$)
+        {
+            try
+            {
+                SPList list = $web$.Lists[$name$];
+                return true;
+            }
+            catch (ArgumentException){}
+            return false;
+        }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

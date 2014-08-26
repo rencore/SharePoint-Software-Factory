@@ -1,0 +1,112 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	  <html xmlns="http://www.w3.org/1999/xhtml">
+	    <head>
+		    <link rel="stylesheet" type="text/css" href="Styles/branding.css"/>				
+		    		<title>How to (re-)activate SPSF on existing projects?</title>
+				<meta name="Description" content="" />
+		<style type="text/css">
+
+		.OH_TocResize
+		{	
+			top: 126px;
+		}
+
+		</style>
+	</head>	
+	<body class="primary-mtps-offline-document" 
+	 style="max-width: 1220px;" >		<table class="noSpace" style="width: 100%;"> 
+			<tr>
+			  <td colspan="2" style="background-color: #6685A2;">&nbsp;</td>
+			</tr>
+			<tr>
+			  <td>
+				<img src="./_img/header_left.jpg" height="66" style="margin-top: 10px; margin-bottom: 20px" />
+			  </td>
+			  <td align="right" valign="top" rowspan="2">
+				<img src="./_img/header_right.jpg" style="margin-top: 2px" height="72"/>
+			  </td>
+			</tr>			
+		</table>
+		  
+		<div class="OH_topic">		 
+     
+		  <div id="mainHeader">
+			<table>
+			  <tbody>
+				<tr>
+				  <td>
+					<h1>How to (re-)activate SPSF on existing projects?</h1>
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+		<div id="mainSection">
+			<div id="mainBody">            
+				<div class="introduction"><p></p></div>
+				
+    <h3>How to (re-)activate SPSF on existing projects?</h3>
+
+In case you are adding SPSF to an existing project, or if you retrieve the solution from TFS the first time, SPSF has to be activated once.
+This step is required due to the fact that Visual Studios stores the activation of SPSF in the user settings of each solution. This file is usually not stored in source control and unique for each machine/download location.
+<h3>Activation Steps</h3>
+To activate SPSF open the solution in Visual Studio and choose "Tools -&gt; Guidance Package Manager"
+<br />
+<a href="./_img/GuidancePackageManagerMenu.png"><img alt="GuidancePackageManagerMenu" src="./_img/GuidancePackageManagerMenu.png" width="640" height="142" /></a>
+<br />
+If the following dialog window of the "Guidance Package Manager" shows the SPSF recipes then your are done!
+
+If the dialog is empty like in the picture below, then continue by clicking "Enable / Disable Packages…"
+<br />
+<a href="./_img/GuidancePackageManagerEmpty.png"><img alt="GuidancePackageManagerEmpty" src="./_img/GuidancePackageManagerEmpty.png" width="640" height="378" /></a>
+<br />
+The next dialog shows you all Guidance Packages which are installed in Visual Studio.
+
+Check "SharePoint Software Factory" and click Ok
+<br />
+<a href="./_img/EnableDisablePackages.png"><img alt="EnableDisablePackages" src="./_img/EnableDisablePackages.png" width="640" height="382" /></a>
+<br />
+The Guidance Navigator opens and a message will appear that you should update the VS Solution to the new version of SPSF (we will come to that soon). Click Ok.
+
+Now the "Guidance Package Manager" window shows all available SPSF recipes.
+<br />
+<a href="./_img/GuidancePackageManagerFull.png"><img alt="GuidancePackageManagerFull" src="./_img/GuidancePackageManagerFull.png" width="640" height="378" /></a>
+<br />
+Click Close.
+<h3>Verification</h3>
+To verify that SPSF is configured, right click on a SharePoint project and the following SPSF context menus should appear.
+<br />
+<a href="./_img/RunRecipes.jpg"><img alt="RunRecipes" src="./_img/RunRecipes.jpg" width="640" height="443" /></a><br />
+
+				</div>			
+			</div>
+		</div>
+	</div>
+			<br />
+		<table width="100%">
+		<tr>
+			<td>
+				<div class="OH_feedbacklink">
+						<b>Disclaimer:</b> The views and opinions expressed in this documentation and in SPSF are those of the <a href="SPSF_OVERVIEW_110_AUTHORS.html">authors</a> and do not necessarily reflect the opinions and recommendations of Microsoft or any member of Microsoft. All trademarks, service marks, collective marks, copyrights, registered names, and marks used or cited by this documentation are the property of their respective owners.<br />
+						SharePoint Software Factory, Version 4.1.3.2705, <a href="SPSF_OVERVIEW_800_LICENSE.html">GPLv2</a>, see <a href="http://spsf.codeplex.com">http://spsf.codeplex.com</a> for more information
+				</div>
+				<br />
+			</td>
+		</tr>
+		</table>
+		<br />
+					<script type="text/javascript">
+			  var _gaq = _gaq || [];
+			  _gaq.push(['_setAccount', 'UA-6735734-1']);
+			  _gaq.push(['_trackPageview']);
+
+			  (function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			  })();
+			</script>
+			</body>
+</html>
+

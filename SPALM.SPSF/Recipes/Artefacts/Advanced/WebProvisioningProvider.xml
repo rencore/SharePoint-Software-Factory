@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="WebProvisioningProvider"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+    <DocumentationLinks>
+        <Link Url="WebProvisioningProvider" Caption="SPWebProvisioningProvider Class" Kind="Documentation"/>
+    </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Web Provisioning Provider</Caption>
+  <Description>Adds a class for provisioning webs in site templates</Description>
+  <HostData>
+    <Icon File="Help/Icons/icon_Advanced.ico" />
+    <CommandBar Menu="SPSFSolutionAdvanced"/>
+    <CommandBar Menu="SPSFProjectAdvanced"/>
+    <spsf:MetaData
+      Visible="false"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      Enabled="false"
+      CreateVSTemplate="true"
+		NotSandboxSupported="true"
+      Category="Advanced" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[
+        ]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+      
+    <Argument Name="ClassName">
+      <ValueProvider Type="Evaluator" Expression="CustomWebProvisioningProvider" />
+    </Argument>
+    <Argument Name="CodeFolder">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="CustomCode\$(ClassName)" />
+    </Argument>
+    <Argument Name="ClassFilename">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(ClassName).cs" />
+    </Argument>
+
+  </Arguments>
+
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Timer Job Settings</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field ValueName="ClassName" Label="Class Name">
+                <Help>Required Text. Name of the SPWebProvisioningProvider.</Help>
+            </Field>
+        </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action Name="GenerateClass" Template="Text\WebProvisioningProvider\WebProvisioningProvider.cs.t4" Type="TextTemplateAction">
+      <Input Name="ProjectAssemblyName" RecipeArgument="ProjectAssemblyName" />
+      <Input Name="ProjectNamespace" RecipeArgument="ProjectNamespace" />
+      <Input Name="ClassName" RecipeArgument="ClassName" />      
+      <Output Name="Content" />
+    </Action>
+    <Action Name="AddTimerJob" Type="AddItemToFolderFromStringAction" Open="false">
+      <Input Name="Content" ActionOutput="GenerateTimerJob.Content" />
+      <Input Name="TargetFileName" RecipeArgument="ClassFilename" />
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+      <Input Name="TargetFolder" RecipeArgument="CodeFolder" />
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+</Recipe>

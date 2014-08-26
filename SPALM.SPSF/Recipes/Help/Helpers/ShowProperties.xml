@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="ShowProperties"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Show Properties</Caption>
+  <Description>Shows the properties of the item.</Description>
+  <HostData Priority="510">
+    <Icon File="Help/Icons/icon_Properties" />
+    <CommandBar Name="Project"/>
+    <CommandBar Name="Solution"/>
+    <CommandBar Name="Solution Folder"/>
+    <CommandBar Name="Folder"/>
+    <CommandBar Name="Item"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="AnyFileReference"
+      Enabled="false"
+      ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="Helpers" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[Recipe displays the properties in visual studio of the current item. This is used for debugging purposes within Visual Studio.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+	<Arguments>
+		<Argument Name="CurrentProject" Required="false" Type="EnvDTE.Project, EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+			<ValueProvider Type="FirstSelectedProject" />
+		</Argument>
+		<Argument Name="SelectedFile" Required="false" Type="EnvDTE.ProjectItem, EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+			<ValueProvider Type="CurrentItemProvider" />
+		</Argument>
+	</Arguments>
+  <Actions>
+		<Action Name="ShowProperties" Type="ShowProperties">
+			<Input Name="SelectedItem" RecipeArgument="SelectedFile" />
+			<Input Name="SelectedProject" RecipeArgument="CurrentProject" />
+		</Action>
+  </Actions>
+</Recipe>

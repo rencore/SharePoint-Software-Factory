@@ -1,0 +1,14 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/"><#
+foreach(NameValueItem sitetemplate in FeatureStaplingSiteTemplates)
+{
+#><!-- association between feature <#= FeatureStaplingFeature.Value #> (<#= FeatureStaplingFeature.Name #>) and Sitetemplate <#= sitetemplate.Name #> -->
+	<FeatureSiteTemplateAssociation 
+		Id="<#= FeatureStaplingFeature.Value #>"
+		TemplateName="<#= sitetemplate.Value #>"
+	/>
+<#
+}
+#>
+</Elements>

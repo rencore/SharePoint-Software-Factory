@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Create a list item</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>MyTitle</ID>
+          <ToolTip>Item title</ToolTip>
+          <Default>MyTitle</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>item</ID>
+          <ToolTip>SPListItem</ToolTip>
+          <Default>item</Default>
+          <Function>
+          </Function>
+          <Type>SPListItem</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>list</ID>
+          <ToolTip>SPList</ToolTip>
+          <Default>list</Default>
+          <Function>
+          </Function>
+          <Type>SPList</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+SPListItem $item$ = $list$.Items.Add(); 
+$item$["Title"] = " $MyTitle$"; 
+$item$.Update(); 
+      ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

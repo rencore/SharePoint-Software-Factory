@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="LoadSharePointConfiguration"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Reload SharePoint Configuration</Caption>
+  <Description>Reloads the file SharePointConfiguration.xml with the contents of the local SharePoint farm (features, listtemplates, content types etc.).</Description>
+  <HostData>
+    <Icon File="Help/Icons/icon_sharepoint.ico" />
+    <CommandBar Menu="SPSFProjectHelpers"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="AnyElementReference"
+      BindingTypeTemplate="AnyElementReferenceTemplate"
+      Enabled="true"
+      ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="Shortcuts" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[In several dialogs within the wizards a list of SharePoint elements is provided to the user (e.g. list of available features, content types etc.). The values for this list are taken from the file SharePointConfiguration.xml, which should be located in the current solution.<br/><br/>This recipe recreates the file SharePointConfiguration.xml with the data from the local computer.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Actions>
+    <Action Name="LoadSharePointConfigurationAction" Type="LoadSharePointConfiguration" />
+  </Actions>
+</Recipe>

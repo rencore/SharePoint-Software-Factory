@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Pages xmlns="http://schemas.microsoft.com/pag/gax-wizards">
+  <Page Width="600" Height="400">
+    <Title>Web Part Information</Title>
+    <Fields>
+      <Field ValueName="WebPartName" Label="Web Part Name" >
+        <Help>Enter the name of the web part. The name will be used for the class name (.cs).</Help>
+      </Field>
+      <Field ValueName="WebPartTitle" Label="Web Part Title">
+        <Help>Enter the title of the web part (displayed in the web part gallery as web part title).</Help>
+      </Field>
+      <Field ValueName="WebPartDescription" Label="Web Part Description" >
+        <Help>Enter the description of the web part (displayed in the web part gallery as web part description).</Help>
+      </Field>
+      <Field ValueName="WebPartGroup" Label="Group" >
+        <Help>Enter the group in which the web part should appear in web part gallery.</Help>
+      </Field>
+      <Field ValueName="WebPartQuickAddGroup" Label="QuickAdd Group" >
+        <Help>Enter the quick add group in which the web part should appear when the user wants to add a web part to a page.</Help>
+      </Field>
+    </Fields>
+  </Page>
+</Pages>
+  

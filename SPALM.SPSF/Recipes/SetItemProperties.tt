@@ -1,0 +1,22 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="cs" hostspecific="true" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml" #>
+<#@ include file="../T4Functions.tt" #>
+<#
+
+IServiceProvider hostServiceProvider = (IServiceProvider)Host;
+EnvDTE.DTE dte = (EnvDTE.DTE)hostServiceProvider.GetService(typeof(EnvDTE.DTE));
+EnvDTE.ProjectItem containingProjectItem = dte.Solution.FindProjectItem(Host.TemplateFile);
+Project project = containingProjectItem.ContainingProject;
+
+//getAllProjectItems
+if(containingProjectItem.Collection.Parent is ProjectItem)
+{
+	ProjectItem htmlProjectItem = containingProjectItem.Collection.Parent as ProjectItem;
+	SetAllFilesToCopyAlways(htmlProjectItem);
+}
+
+#>

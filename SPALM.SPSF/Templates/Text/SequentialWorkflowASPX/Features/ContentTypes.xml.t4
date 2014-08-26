@@ -1,0 +1,33 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ResourceFilename" #>
+<#@ property processor="PropertyProcessor" name="WorkflowNamespace" #>
+<#@ property processor="PropertyProcessor" name="WorkflowName" #>
+<#@ property processor="PropertyProcessor" name="WorkflowTaskContentTypeId" #>
+<#@ property processor="PropertyProcessor" name="WorkflowLayoutsFolder" #>
+<#@ property processor="PropertyProcessor" name="CustomContentTypeId" #>
+<#@ assembly name="System.dll" #>
+<#@ assembly name="SPALM.SPSF.Library.dll" #>
+<#@ import namespace="SPALM.SPSF.Library" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<ContentType
+		ID="<#= WorkflowTaskContentTypeId #>00<#= CustomContentTypeId #>"
+		Name="$Resources:<#= ResourceFilename #>,<#= WorkflowName #>_CTName;"
+		Description="$Resources:<#= ResourceFilename #>,<#= WorkflowName #>_CTDescription;"
+		Group="$Resources:<#= ResourceFilename #>,<#= WorkflowName #>_CTGroup;"
+		Version="0">
+		<FieldRefs>
+			  <!-- Sample
+			  <FieldRef ID="{e241f186-9b94-415c-9f66-255ce7f86235}" Name="Notes" DisplayName="$Resources:<#= ResourceFilename #>,<#= WorkflowName #>_CTNotes;"/>
+			  <FieldRef ID="{9da97a8a-1da5-4a77-98d3-4bc10456e700}" Name="Comments" DisplayName="$Resources:<#= ResourceFilename #>,<#= WorkflowName #>_CTComments;"/>
+			  -->
+		</FieldRefs>
+		<XmlDocuments>
+		  <XmlDocument NamespaceURI="http://schemas.microsoft.com/sharepoint/v3/contenttype/forms/url">
+			<FormUrls xmlns="http://schemas.microsoft.com/sharepoint/v3/contenttype/forms/url">
+			  <Edit>_layouts<#= VersionedFolderName #>/<#= WorkflowLayoutsFolder #>/<#= WorkflowName #>TaskEditForm.aspx</Edit>
+			  <Display>_layouts<#= VersionedFolderName #>/<#= WorkflowLayoutsFolder #>/<#= WorkflowName #>TaskEditForm.aspx</Display>
+			</FormUrls>
+		  </XmlDocument>
+		</XmlDocuments>
+	</ContentType>
+</Elements>

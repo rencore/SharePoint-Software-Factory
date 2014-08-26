@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="DeploySandboxedSolution"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Deploy Sandboxed Solution(s)</Caption>
+  <Description>Deploys the selected sandboxed solution(s) to a remote SharePoint farm.</Description>
+  <HostData Priority="100">
+    <Icon File="Help/Icons/icon_Deployment.ico" />
+	  <CommandBar Menu="SPSFSolutionSandboxedDeployment"/>
+	  <CommandBar Menu="SPSFProjectSandboxedDeployment"/>
+	  <CommandBar Menu="SPSFSolutionFolderSandboxedDeployment" />
+    <spsf:MetaData
+      Visible="true"
+      BindingType="SolutionDeploymentReference"
+      Enabled="true"
+      ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="SandboxedDeployment" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[The recipe deploys the selected project(s) to the local SharePoint farm. 
+		
+		If the wsp solution contains web application resources the solution is deployed to a specific web application. This specific web application can be configured with "Configure Deployment".]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Actions>
+    <Action Name="DeploySolution" Type="DeploySolution" />
+  </Actions>
+</Recipe>

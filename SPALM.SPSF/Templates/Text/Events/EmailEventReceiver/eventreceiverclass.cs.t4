@@ -1,0 +1,60 @@
+﻿<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;
+  using System.Collections.Generic;
+  using System.Security.Permissions;
+  using System.Text;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.Security;
+  using Microsoft.SharePoint.Utilities; 
+   
+  /// <summary>
+  /// TODO: Add comment for <#= EventReceiverName #>
+  /// </summary> 
+  public class <#= EventReceiverName #> : SPEmailEventReceiver    
+  {
+<#
+int methodcount = 0;
+foreach(NameValueItem eventclass in EventReceiverTypes)
+{
+  if(methodcount > 0)
+  {
+	//add empty line
+#>
+
+<#
+  }
+#>
+    /// <summary>
+    /// TODO: Add comment
+    /// </summary>
+    /// <param name="list">Contains the List</param>
+    /// <param name="emailMessage">Contains the EmailMessage</param>
+    /// <param name="receiverData">Contains the ReceiverData</param>
+    [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+    public override void <#= eventclass.Value #>(SPList list, Microsoft.SharePoint.Utilities.SPEmailMessage emailMessage, string receiverData)
+    {
+      ////Add code for event <#= eventclass.Value #> in <#= EventReceiverName #> 
+      
+      /* Sample Code:
+      base.EmailReceived(list, emailMessage, receiverData);
+
+      SPEmailAttachmentCollection attachments = emailMessage.Attachments;
+      foreach (SPEmailAttachment att in attachments)
+      {
+        // code here to deal with each attachment
+      }
+      */
+    }
+<#
+  methodcount++;
+}  
+#>
+  }
+}

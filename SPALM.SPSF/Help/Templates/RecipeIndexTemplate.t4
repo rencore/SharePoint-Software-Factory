@@ -1,0 +1,63 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="html" hostspecific="true" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ include file="../HelpFunctions.tt" #><#
+
+RecipeIndex recipeIndex = RecipeIndex.Deserialize(CallContext.GetData("RecipeIndex") as byte[]);
+recipeIndex.SetSPSFBase(Host);
+
+SPSFHelpElement helpItem = recipeIndex;
+
+#><#@ include file="../Templates/Header.include" #>
+<#
+
+foreach(RecipeCategory category in recipeIndex.GetCategories())
+{
+
+	if(category.GetChildCategories().Count > 0)
+	{
+		#>	
+		<DIV class="OH_CollapsibleAreaRegion">
+			<DIV class="OH_regiontitle"><A HREF="<#=  GetHelpLink(category) #>"><#= category.Title #></A></DIV>
+			<DIV class="OH_RegionToggle"></DIV>
+		</DIV>
+		<DIV class="OH_clear"></DIV>
+		<p>
+		<DIV class="tableSection">
+		<table width="100%">
+		<tr>
+			<th>Title</th>
+			<th>Description</th>
+		</tr>
+		<#
+
+		foreach(RecipeCategory childcategory in category.GetChildCategories())
+		{	
+			#>
+			<tr>
+				<td colspan="2"><strong><A HREF="<#= GetHelpLink(childcategory) #>"><#= childcategory.Title #></A></strong></td>
+			</tr><#
+
+			foreach(RecipeClass recipeClass in childcategory.GetRecipes())
+			{
+				#><tr>
+					<td><A HREF="<#= GetHelpLink(recipeClass) #>"><#= recipeClass.Title #></A></td>
+					<td><#= recipeClass.Description #></td>
+				</tr><#
+			}
+		}
+
+		#></table>
+		</DIV>
+		</p><#
+	}
+}	
+
+#>       
+<#@ include file="../Templates/Footer.include" #>

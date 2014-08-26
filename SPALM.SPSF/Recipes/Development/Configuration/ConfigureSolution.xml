@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="ConfigureSolution"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Configure SPSF Solution</Caption>
+	<Description>Configures general settings of the whole application.</Description>
+	<HostData Priority="1000">
+		<Icon File="Help/Icons/icon_Settings.ico" />
+		<CommandBar Menu="SPSFProjectHelp"/>
+		<CommandBar Menu="SPSFSolutionHelp"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="AnyElementReference"
+		  BindingTypeTemplate="AnyElementReferenceTemplate"
+		  Enabled="true"
+		  ExcludeFromTests="true"
+		  CreateVSTemplate="false"
+		  Category="Configuration" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[Configures the generell settings of the project.]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+
+		<Argument Name="DebuggingWebApp" Type="System.String" Required="false" >
+			<Converter Type="AvailableWebApplicationsConverter" />
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="DebuggingWebApp" DefaultValue="" />
+		</Argument>
+		<Argument Name="StartupUrl" Type="System.String" Required="false" >
+			<Converter Type="AvailableWebApplicationsConverter" />
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="StartupUrl" DefaultValue="" />
+		</Argument>
+
+		<Argument Name="AutoGenerateManifest" Type="System.Boolean" Required="true">
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="AutoGenerateManifest" DefaultValue="true" />
+		</Argument>
+		<Argument Name="AutoCreateResxFiles" Type="System.Boolean">
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="AutoCreateResxFiles" DefaultValue="false" />
+		</Argument>
+		<Argument Name="SharePointVersion">
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="SharePointVersion" DefaultValue="" />
+		</Argument>
+		
+		<Argument Name="SPSFBranding" >
+			<ValueProvider Type="BrandingImageProvider" Logo="\Branding\Logo.jpg" />
+		</Argument>
+
+	</Arguments>
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Width="600" Height="400">
+					<Title>Application Settings</Title>
+					<Help>Configure settings of the whole application.</Help>
+					<Fields>
+						<Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+						<Field PanelType="SPALM.SPSF.Library.NameValueDropDownPanel, SPALM.SPSF.Library" ValueName="DebuggingWebApp" Label="Local Site for debugging" >
+							<Help>Optional Url. Name of a SharePoint site for local debugging.</Help>
+						</Field>
+						<Field PanelType="SPALM.SPSF.Library.NameValueDropDownPanel, SPALM.SPSF.Library" ValueName="StartupUrl" Label="Local Site for testing" >
+							<Help>Optional Url. Name of a SharePoint site for local testing.</Help>
+						</Field>
+						<Field ValueName="SharePointVersion" Label="SharePoint Version">
+							<Help>Required String. Specifies the target SharePoint version.</Help>
+						</Field>
+						<Field ValueName="AutoCreateResxFiles" Label="Generate .resx files automatically" >
+							<Help>Optional Boolean. If true .resx files are generated automatically.</Help>
+						</Field>
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+	<Actions>
+
+		<Action Name="SetSiteUrl" Type="SetSiteUrl">
+			<Input Name="SiteUrl" RecipeArgument="DebuggingWebApp" />
+		</Action>
+
+		<Action Name="SaveStartupUrl" Type="SaveApplicationConfiguration" KeyName="StartupUrl">
+			<Input Name="KeyValue" RecipeArgument="StartupUrl" />
+		</Action>
+
+		<Action Name="SaveSharePointVersion" Type="SaveApplicationConfiguration" KeyName="SharePointVersion">
+			<Input Name="KeyValue" RecipeArgument="SharePointVersion" />
+		</Action>
+
+		<Action Name="SaveAutoGenerateManifest" Type="SaveApplicationConfiguration" KeyName="AutoGenerateManifest">
+			<Input Name="KeyValue" RecipeArgument="AutoGenerateManifest" />
+		</Action>
+		<Action Name="SaveAutoCreateResxFiles" Type="SaveApplicationConfiguration" KeyName="AutoCreateResxFiles">
+			<Input Name="KeyValue" RecipeArgument="AutoCreateResxFiles" />
+		</Action>		
+
+	</Actions>
+</Recipe>

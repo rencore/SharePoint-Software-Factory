@@ -1,0 +1,12 @@
+﻿<#@ template language="C#" #>
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectItem 
+	Type="Microsoft.VisualStudio.SharePoint.GenericElement" 
+	DefaultFile="<#= ResourceFilename #>"
+    SupportedTrustLevels="All"
+    SupportedDeploymentScopes="Web, Site, WebApplication, Farm"
+    xmlns="http://schemas.microsoft.com/VisualStudio/2010/SharePointTools/SharePointProjectItemModel">
+    <Files>
+    
+  </Files>
+</ProjectItem>

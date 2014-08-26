@@ -1,0 +1,42 @@
+﻿<#@ template language="C#" #>
+<Feature xmlns="http://schemas.microsoft.com/sharepoint/">
+	<UpgradeActions>
+	<#
+
+	if(string.IsNullOrEmpty(FeatureUpgradeBeginVersion) && string.IsNullOrEmpty(FeatureUpgradeEndVersion))
+	{
+		#>
+		<!-- Adds Field '<#= FeatureUpgradeFieldId.Name #>' to ContentType '<#= FeatureUpgradeContentTypeId.Name #>' -->
+		<AddContentTypeField 
+		    ContentTypeId="<#= FeatureUpgradeContentTypeId.Value #>" 
+            FieldId="<#= FeatureUpgradeFieldId.Value #>"  
+            PushDown="<#= FeatureUpgradePushDown #>" />
+		<#
+	}
+	else
+	{
+        #>
+		<VersionRange 
+		<#
+		if(!string.IsNullOrEmpty(FeatureUpgradeBeginVersion))
+		{
+			#> BeginVersion="<#= FeatureUpgradeBeginVersion #>" <#
+		}
+		#>
+		<#
+		if(!string.IsNullOrEmpty(FeatureUpgradeEndVersion))
+		{
+			#> EndVersion="<#= FeatureUpgradeEndVersion #>" <#
+		}
+		#>
+		>
+			<!-- Adds Field '<#= FeatureUpgradeFieldId.Name #>' to ContentType '<#= FeatureUpgradeContentTypeId.Name #>' -->
+			<AddContentTypeField 
+				ContentTypeId="<#= FeatureUpgradeContentTypeId #>" 
+				FieldId="<#= FeatureUpgradeFieldId #>"  
+				PushDown="<#= FeatureUpgradePushDown #>" />
+        </VersionRange>
+		<#
+	}
+	#>
+</UpgradeActions></Feature>

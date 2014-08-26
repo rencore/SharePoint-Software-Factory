@@ -1,0 +1,191 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	  <html xmlns="http://www.w3.org/1999/xhtml">
+	    <head>
+		    <link rel="stylesheet" type="text/css" href="Styles/branding.css"/>				
+		    		<title>Email Event Receiver</title>
+				<meta name="Description" content="Adds a event receivers to handle events like EmailReceived" />
+		<style type="text/css">
+
+		.OH_TocResize
+		{	
+			top: 126px;
+		}
+
+		</style>
+	</head>	
+	<body class="primary-mtps-offline-document" 
+	 style="max-width: 1220px;" >		<table class="noSpace" style="width: 100%;"> 
+			<tr>
+			  <td colspan="2" style="background-color: #6685A2;">&nbsp;</td>
+			</tr>
+			<tr>
+			  <td>
+				<img src="./_img/header_left.jpg" height="66" style="margin-top: 10px; margin-bottom: 20px" />
+			  </td>
+			  <td align="right" valign="top" rowspan="2">
+				<img src="./_img/header_right.jpg" style="margin-top: 2px" height="72"/>
+			  </td>
+			</tr>			
+		</table>
+		  
+		<div class="OH_topic">		 
+     
+		  <div id="mainHeader">
+			<table>
+			  <tbody>
+				<tr>
+				  <td>
+					<h1>Email Event Receiver</h1>
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+		<div id="mainSection">
+			<div id="mainBody">            
+				<div class="introduction"><p>Adds a event receivers to handle events like EmailReceived</p></div>
+				                      <DIV class="OH_CollapsibleAreaRegion">
+					        <DIV class="OH_regiontitle">Recipe Description</DIV>
+					        <DIV class="OH_RegionToggle"></DIV>
+				        </DIV>
+				        <DIV class="OH_clear"></DIV>
+				        <p>
+                        Debugging of email events requires attaching to ows timer service.<br />    After changing code the ows timer needs to be restarted. IISReset will not load new assembly to ows timer.
+				        </p>
+				                   
+                           <DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">Arguments</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>
+				<p>
+				<div class="tableSection">
+                <table id="argumentTable" width="100%">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>							<tr>
+								<td class="name" colspan="2">Event Handler settings</td>
+							</tr>                
+														<tr>
+								<td>Name</td>
+								<td>Required Text. Used as the class name of the event handler.</td>
+							</tr>                
+														<tr>
+								<td>List Template</td>
+								<td>Optional Text. Specifies the index of the list template to which the event receiver applies. The following values are the default list template types.</td>
+							</tr>                
+														<tr>
+								<td>List Template Owner</td>
+								<td>Optional GUID. Specifies the GUID of the list template owner if the list template is registered via Features, or the name of the site definition if the list template is registered by a site definition.</td>
+							</tr>                
+														<tr>
+								<td>Sequence</td>
+								<td>Required Number. Specifies the order to use for the event registration when more than one handler is associated with the feature.</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">Registrations</td>
+							</tr>                
+														<tr>
+								<td>Event Types</td>
+								<td>Select the event elements.</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">Optional Settings</td>
+							</tr>                
+														<tr>
+								<td>RootWebOnly</td>
+								<td>Optional Boolean. True if the event receiver applies only to the root Web; otherwise, False.</td>
+							</tr>                
+														<tr>
+								<td>Scope</td>
+								<td>Optional enumeration. The scope of the event receiver. This can be Site or Web. When the Scope attribute is set to Site, event receivers that are defined inside of a Feature that is scoped to the site collection are registered at the site collection level. When the Scope attribute is set to Web, event receivers that are defined inside of a Feature that is scoped to a Web are registered on the Web.</td>
+							</tr>                
+														<tr>
+								<td>Synchronization</td>
+								<td>Specifies the synchronization of the event receiver.</td>
+							</tr>                
+							                </table>
+				</div>
+				</p>
+                           
+				<DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">References</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>
+				<p>
+				<ul>
+				<li>
+						<a href="http://msdn.microsoft.com/en-us/library/ms460929.aspx" target="_new">MSDN: Event Registrations</a>
+					</li>
+					<li>
+						<a href="http://msdn.microsoft.com/en-us/library/aa979520.aspx" target="_new">MSDN: Event Troubleshooting</a>
+					</li>
+					<li>
+						<a href="http://msdn.microsoft.com/en-us/library/ms462433.aspx" target="_new">MSDN: Walkthrough: Handling Document Library Events</a>
+					</li>
+					<li>
+						<a href="http://www.davehunter.co.uk/Blog/Lists/Posts/Post.aspx?ID=69" target="_new">Dave Hunter's SharePoint Blog: Delving into SharePoint 2007 Event Receivers</a>
+					</li>
+					<li>
+						<a href="http://sharepointdevwiki.com/display/public/Event+Receivers" target="_new">SharePoint Dev Wiki: Event Receivers</a>
+					</li>
+					                
+			   </ul></p>
+			              <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Authors</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+			<p>
+           <ul>
+           <li>Torsten Mandelkow</li><li>Matthias Einig</li>           </ul>
+           </p>
+           
+		   <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Version history</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+		   <p>
+           <ul>
+           <li>1.1 Updated Documentation</li><li>1.0 Initial Recipe</li>           </ul>
+		   </p>
+
+
+
+     
+				</div>			
+			</div>
+		</div>
+	</div>
+			<br />
+		<table width="100%">
+		<tr>
+			<td>
+				<div class="OH_feedbacklink">
+						<b>Disclaimer:</b> The views and opinions expressed in this documentation and in SPSF are those of the <a href="SPSF_OVERVIEW_110_AUTHORS.html">authors</a> and do not necessarily reflect the opinions and recommendations of Microsoft or any member of Microsoft. All trademarks, service marks, collective marks, copyrights, registered names, and marks used or cited by this documentation are the property of their respective owners.<br />
+						SharePoint Software Factory, Version 4.1.2.2904, <a href="SPSF_OVERVIEW_800_LICENSE.html">GPLv2</a>, see <a href="http://spsf.codeplex.com">http://spsf.codeplex.com</a> for more information
+				</div>
+				<br />
+			</td>
+		</tr>
+		</table>
+		<br />
+					<script type="text/javascript">
+			  var _gaq = _gaq || [];
+			  _gaq.push(['_setAccount', 'UA-6735734-1']);
+			  _gaq.push(['_trackPageview']);
+
+			  (function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			  })();
+			</script>
+			</body>
+</html>
+
+

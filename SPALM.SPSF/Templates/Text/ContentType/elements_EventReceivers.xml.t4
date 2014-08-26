@@ -1,0 +1,93 @@
+﻿<#@ template language="C#" #>
+<#
+
+if(ContentTypeEventItemAdding || 
+	ContentTypeEventItemAdded || 
+	ContentTypeEventItemUpdating || 
+	ContentTypeEventItemUpdated || 
+	ContentTypeEventItemDeleting || 
+	ContentTypeEventItemDeleted)
+{
+
+#><Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<ContentType>		
+		<XmlDocuments>		
+			<XmlDocument NamespaceURI="http://schemas.microsoft.com/sharepoint/events">
+				  <spe:Receivers xmlns:spe="http://schemas.microsoft.com/sharepoint/events">
+					<#					
+					if(ContentTypeEventItemAdding)
+					{
+						#>
+						<spe:Receiver>
+							<spe:Name><#= ContentTypeSafeName #>_ItemAddingReceiver</spe:Name>
+							<spe:Type>ItemAdding</spe:Type>
+							<spe:Assembly><#= ProjectAssemblyName #></spe:Assembly>
+							<spe:Class><#= ProjectNamespace #>.<#= ContentTypeEventClassName #></spe:Class>
+						</spe:Receiver>
+						<#
+					}
+					if(ContentTypeEventItemAdded)
+					{
+						#>
+						<spe:Receiver>
+							<spe:Name><#= ContentTypeSafeName #>_ItemAddedReceiver</spe:Name>
+							<spe:Type>ItemAdded</spe:Type>
+							<spe:Assembly><#= ProjectAssemblyName #></spe:Assembly>
+							<spe:Class><#= ProjectNamespace #>.<#= ContentTypeEventClassName #></spe:Class>
+						</spe:Receiver>
+						<#
+					}
+					if(ContentTypeEventItemUpdating)
+					{
+						#>
+						<spe:Receiver>
+							<spe:Name><#= ContentTypeSafeName #>_ItemUpdatingReceiver</spe:Name>
+							<spe:Type>ItemUpdating</spe:Type>
+							<spe:Assembly><#= ProjectAssemblyName #></spe:Assembly>
+							<spe:Class><#= ProjectNamespace #>.<#= ContentTypeEventClassName #></spe:Class>
+						</spe:Receiver>
+						<#
+					}
+					if(ContentTypeEventItemUpdated)
+					{
+						#>
+						<spe:Receiver>
+							<spe:Name><#= ContentTypeSafeName #>_ItemUpdatedReceiver</spe:Name>
+							<spe:Type>ItemUpdated</spe:Type>
+							<spe:Assembly><#= ProjectAssemblyName #></spe:Assembly>
+							<spe:Class><#= ProjectNamespace #>.<#= ContentTypeEventClassName #></spe:Class>
+						</spe:Receiver>
+						<#
+					}
+					if(ContentTypeEventItemDeleting)
+					{
+						#>
+						<spe:Receiver>
+							<spe:Name><#= ContentTypeSafeName #>_ItemDeletingReceiver</spe:Name>
+							<spe:Type>ItemDeleting</spe:Type>
+							<spe:Assembly><#= ProjectAssemblyName #></spe:Assembly>
+							<spe:Class><#= ProjectNamespace #>.<#= ContentTypeEventClassName #></spe:Class>
+						</spe:Receiver>
+						<#
+					}
+					if(ContentTypeEventItemDeleted)
+					{
+						#>
+						<spe:Receiver>
+							<spe:Name><#= ContentTypeSafeName #>_ItemDeletedReceiver</spe:Name>
+							<spe:Type>ItemDeleted</spe:Type>
+							<spe:Assembly><#= ProjectAssemblyName #></spe:Assembly>
+							<spe:Class><#= ProjectNamespace #>.<#= ContentTypeEventClassName #></spe:Class>
+						</spe:Receiver>
+						<#
+					}
+					#>
+				  </spe:Receivers>
+			</XmlDocument>
+		</XmlDocuments>
+	</ContentType>
+</Elements><#
+
+} 
+
+#>

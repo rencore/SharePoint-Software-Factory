@@ -1,0 +1,7 @@
+﻿<#@ template language="C#" #>
+  <data name="<#= ResourceKeyPrefix #>_DisplayName">
+    <value><#= FieldTypeDisplayName #></value>
+  </data>
+  <data name="<#= ResourceKeyPrefix #>_Description">
+    <value><#= FieldTypeDescription #></value>
+  </data>  

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Check ListPermissions of current user</Title>
+      <Author>Matthias Einig</Author>
+      <Description>Checks if the current logged in user has the approriate permission on a list, 
+and redirects him to the Access Denied page if not. </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <References>
+        <Reference>
+          <Assembly>Microsoft.SharePoint.dll</Assembly>
+        </Reference>
+      </References>
+      <Imports>
+        <Import>
+          <Namespace>SharePoint = Microsoft.SharePoint</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>webname</ID>
+          <ToolTip>Name of the SPWeb</ToolTip>
+          <Default>WebName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>listname</ID>
+          <ToolTip>Name of the SPList in the SPWeb</ToolTip>
+          <Default>ListName</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Object Editable="true">
+          <ID>aSite</ID>
+          <ToolTip>SPSite</ToolTip>
+          <Default>site</Default>
+          <Function>
+          </Function>
+          <Type>SPSite</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>aWeb</ID>
+          <ToolTip>SPWeb</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+          <Type>SPWeb</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>aList</ID>
+          <ToolTip>SPList</ToolTip>
+          <Default>list</Default>
+          <Function>
+          </Function>
+          <Type>SPList</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+SPSite $aSite$ = SPControl.GetContextSite(Context);
+using (SPWeb $aWeb$ = $aSite$.OpenWeb("$webname$")) {
+    SPList $aList$ = web.Lists["$listname$"];
+    if (!$aList$.Permissions.DoesUserHavePermissions(SPRights.EditListItems)) {
+        Response.Redirect("/_layouts/" + SPUtility.AccessDeniedPage);
+    }
+}
+]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

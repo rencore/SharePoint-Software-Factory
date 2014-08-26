@@ -1,0 +1,26 @@
+﻿<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<Module Name="OSGMasterPages" Url="_catalogs/masterpage" Path="<#= MasterPageName #>" RootWebOnly="TRUE"> 
+    	<File Url="<#= MasterPageFileName #>" IgnoreIfAlreadyExists="TRUE" Type="GhostableInLibrary">
+    		<#
+    			if(AutoCreateResxFiles)
+    			{
+    				#>
+    				<Property Name="Title" Value="$Resources:<#= ResourceKeyPrefix #>_MasterPageTitle" /> 
+					<Property Name="MasterPageDescription" Value="$Resources:<#= ResourceKeyPrefix #>_MasterPageDescription" />
+					<#
+    			}
+    			else
+    			{
+    				#>
+    				<Property Name="Title" Value="<#= MasterPageTitle #>" /> 
+					<Property Name="MasterPageDescription" Value="<#= MasterPageDescription #>" />
+					<#
+    			}
+				#>			
+				<Property Name="ContentType" Value="$Resources:cmscore,contenttype_masterpage_name;" />
+				<Property Name="PublishingPreviewImage" Value="~SiteCollection/_catalogs/masterpage/Preview Images/<#= MasterPageNameImage #>, ~SiteCollection/_catalogs/masterpage/Preview Images/<#= MasterPageNameImage #>" />
+			</File> 			         
+    <File Url="<#= MasterPageNameImage #>" IgnoreIfAlreadyExists="TRUE" Name="Preview Images/<#= MasterPageNameImage #>" Type="GhostableInLibrary"></File>
+	</Module>    
+</Elements>

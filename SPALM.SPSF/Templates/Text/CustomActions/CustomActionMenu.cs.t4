@@ -1,0 +1,85 @@
+﻿<#@ template language="C#" #>
+<#
+if(CustomActionType == "ClassFile")
+{
+#>
+namespace <#= ProjectNamespace #>
+{
+	using System;
+	using System.Collections.Generic;
+	using System.Text;	
+	using System.Web.UI.WebControls;
+	using Microsoft.SharePoint;
+	using Microsoft.SharePoint.WebControls;
+
+	public class <#= CustomActionName #>: WebControl    
+	{	
+		protected override void OnLoad(EventArgs e)
+		{
+		   EnsureChildControls();
+		   base.OnLoad(e);
+		}
+	 
+		protected override void CreateChildControls()
+		{
+			/* use the following code to add child items to the menu */
+			
+			SubMenuTemplate menuSettings = new SubMenuTemplate();
+            menuSettings.Text = "<#= CustomActionTitle #>";
+            menuSettings.Description = "<#= CustomActionDescription #>";
+            menuSettings.ImageUrl = "/_layouts<#= VersionedFolderName #>/images/<#= SafeAppName #>/<#= CustomActionIconName #>";
+
+			MenuItemTemplate subItem1 = new MenuItemTemplate();
+            subItem1.Text = "Submenu1 <#= CustomActionTitle #>";
+            subItem1.Description = string.Format("Submenu1 for {0}", "<#= CustomActionTitle #>");
+            subItem1.ImageUrl = menuSettings.ImageUrl;
+            string url1 = string.Format("{0}/_layouts<#= VersionedFolderName #>/action.aspx", SPContext.Current.Web.Url);
+            subItem1.ClientOnClickNavigateUrl = url1;
+            menuSettings.Controls.Add(subItem1);
+            
+            MenuItemTemplate subItem2 = new MenuItemTemplate();
+            subItem2.Text = "Submenu2 <#= CustomActionTitle #>";
+            subItem2.Description = string.Format("Submenu2 for {0}", "<#= CustomActionTitle #>");
+            subItem2.ImageUrl = menuSettings.ImageUrl;
+            string url2 = string.Format("{0}/_layouts<#= VersionedFolderName #>/action.aspx", SPContext.Current.Web.Url);
+            subItem2.ClientOnClickNavigateUrl = url2;
+            menuSettings.Controls.Add(subItem2);
+            
+            this.Controls.Add(menuSettings);
+            
+			/*
+			e.g. use this code to all all lists in the web a subitems 
+            foreach (SPList list in SPContext.Current.Web.Lists)
+            {
+                if (!list.Hidden)
+                {
+                    MenuItemTemplate listItem = new MenuItemTemplate();
+                    listItem.Text = list.Title;
+                    listItem.Description = string.Format("Manage settings for {0}", list.Title);
+                    listItem.ImageUrl = list.ImageUrl;
+
+                    string url = string.Format("{0}/_layouts<#= VersionedFolderName #>/listedit.aspx?List={{{1}}}",
+                        SPContext.Current.Web.Url, list.ID.ToString());
+                    listItem.ClientOnClickNavigateUrl = url;
+
+                    listSettings.Controls.Add(listItem);
+                }
+            }
+
+            /*
+            or set the url for the menu dynamically
+			MenuItemTemplate menu = new MenuItemTemplate();
+			menu.Text = "Test...";
+			menu.ClientOnClickNavigateUrl = "/_layouts<#= VersionedFolderName #>/action.aspx";
+			Controls.Add(menu);
+			*/
+			
+			base.CreateChildControls();
+		}
+	}
+}
+<#
+} 
+#>
+
+

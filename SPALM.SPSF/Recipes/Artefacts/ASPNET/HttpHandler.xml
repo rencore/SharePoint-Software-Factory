@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="HttpHandler"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Http Handler</Caption>
+  <Description>Adds a http handler to the project and a feature to deploy the web.config modifications for the http handler</Description>
+  <HostData Priority="300">
+    <Icon File="Help/Icons/icon_HttpHandler.ico" />
+    <CommandBar Menu="SPSFProjectASPNET"/>
+    <CommandBar Menu="SPSFFolderASPNET"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="CustomizationReference"
+      BindingTypeTemplate="CustomizationReferenceTemplate"
+      TestType="BaseWebAppFeatureRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="true"
+	  NotSandboxSupported="true"
+      Category="ASPNET" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="DefaultHttpHandler" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="HttpHandlerClass">DefaultHttpHandler</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+
+  <Arguments>
+
+    <!-- set standard parameters -->
+    <Argument Name="AllowedScopes" Type="System.String">
+      <ValueProvider Type="Evaluator" Expression="WebApplication" />
+    </Argument>
+
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Argument Name="ResourceKeyPrefix" Required="true">
+      <!-- provides the unique key with removed special chars -->
+      <ValueProvider Stage="OnBeforeActions" RecipeArgument="HttpHandlerClass" Type="ConvertedStringProvider" />
+    </Argument>
+
+    <Argument Name="HttpHandlerClass">
+      <Converter Type="NamespaceStringConverter" />
+      <ValueProvider Type="VisualStudioCreateItemName" DefaultValue="HttpHandler1" />
+    </Argument>
+    <Argument Name="HttpHandlerPath">
+      <ValueProvider Type="Evaluator" Expression="*.html" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <Page Width="600" Height="400">
+          <Title>HttpHandler Settings</Title>
+          <Fields>
+            <Field ValueName="HttpHandlerClass" Label="Http Handler Name">
+              <Help>Enter the class name of the Http handler.</Help>
+            </Field>
+            <Field ValueName="HttpHandlerPath" Label="Http Handler Path">
+              <Help>Enter path for which urls the http handler should be called, e.g. */_vti_bin/_vti_aut/author.dll</Help>
+            </Field>
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action
+      Name="AddCode"
+      Type="AddTemplateToItemAction"
+      DeploymentType="CustomCode"
+      Open="true"
+      TemplateFileName="Text\HttpHandler\HttpHandler.cs.t4"
+      TargetFileName="$(HttpHandlerClass).cs">
+    </Action>
+
+    <Action
+      Name="AddFeatureActivation"
+      Type="AddFeatureReceiverCodeAction"        
+      AssemblyName="$(ProjectAssemblyName)"
+      Namespace="$(ProjectNamespace)"
+      ParentFeatureName="$(ParentFeatureName)"
+      TemplateFileName="Text\HttpHandler\FeatureReceiverCode.xml.t4">
+    </Action>
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  </Actions>
+
+</Recipe>

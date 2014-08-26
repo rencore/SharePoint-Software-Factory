@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="GoToSolutions"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Open Solution Management in Browser</Caption>
+  <Description>Displays the web page "Solution Management" in SharePoint Central Administration.</Description>
+  <HostData Priority="500">
+		<Icon File="Help/Icons/icon_Goto.ico" />
+	<CommandBar Menu="SPSFSolutionShortcuts"/>
+	<CommandBar Menu="SPSFProjectShortcuts"/>
+	<CommandBar Menu="SPSFSolutionFolderShortcuts"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="AnyElementReference"
+      BindingTypeTemplate="AnyElementReferenceTemplate"
+      Enabled="true"
+      ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="Shortcuts" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[This recipe provides a shortcut to the Solution Management in SharePoint, e.g. to check which solutions are deployed or undeployed.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Actions>
+    <Action Name="GoToSolutions" Type="GoToSolutions" />
+  </Actions>
+</Recipe>

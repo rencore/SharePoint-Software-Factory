@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="ManifestMakeStatic"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Remove TextTemplating Transformation</Caption>
+	<Description>Makes a .tt-file static to enable direct editing of the file.</Description>
+	<HostData Priority="300">
+		<Icon File="spsf.ico" />
+		<CommandBar Name="Item"/>
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="TTFileReference"
+		  Enabled="false"
+		  ExcludeFromTests="true"
+		  CreateVSTemplate="false"
+		  Category="Helpers" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[Recipe changes a .tt file to a static file. This is usefull e.g. for transforming manifest.tt to manifest.xml to enable editing of manifest.xml.]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+		<Argument Name="CurrentProject" Required="false" Type="EnvDTE.Project, EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+			<ValueProvider Type="FirstSelectedProject" />
+		</Argument>
+		<Argument Name="SelectedFile" Required="false" Type="EnvDTE.ProjectItem, EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+			<ValueProvider Type="CurrentItemProvider" />
+		</Argument>
+	</Arguments>
+	<Actions>
+		<Action Name="ManifestMakeStatic" Type="ManifestMakeStatic">
+			<Input Name="SelectedItem" RecipeArgument="SelectedFile" />
+			<Input Name="SelectedProject" RecipeArgument="CurrentProject" />
+		</Action>
+	</Actions>
+</Recipe>

@@ -1,0 +1,219 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	  <html xmlns="http://www.w3.org/1999/xhtml">
+	    <head>
+		    <link rel="stylesheet" type="text/css" href="Styles/branding.css"/>				
+		    		<title>SharePoint CmdLet with PipeBind</title>
+				<meta name="Description" content="Adds a SharePoint cmdlet which uses or returns objects from the pipe (e.g. Get-SPSiteTitle, Set-SPSiteTitle). The recipe creates the cmdlet class, the class for the piped object, the xml for the registration in SharePoint and a corresponding help file to store help information about the cmdlet." />
+		<style type="text/css">
+
+		.OH_TocResize
+		{	
+			top: 126px;
+		}
+
+		</style>
+	</head>	
+	<body class="primary-mtps-offline-document" 
+	 style="max-width: 1220px;" >		<table class="noSpace" style="width: 100%;"> 
+			<tr>
+			  <td colspan="2" style="background-color: #6685A2;">&nbsp;</td>
+			</tr>
+			<tr>
+			  <td>
+				<img src="./_img/header_left.jpg" height="66" style="margin-top: 10px; margin-bottom: 20px" />
+			  </td>
+			  <td align="right" valign="top" rowspan="2">
+				<img src="./_img/header_right.jpg" style="margin-top: 2px" height="72"/>
+			  </td>
+			</tr>			
+		</table>
+		<div class="OH_outerDiv">
+			<div style="WIDTH: 350px" id="LeftNav" class="OH_leftNav">
+				<div id="toc">
+					<div id="toc_parent">
+						<div class="OH_parentTocLinks">		
+							<div class="OH_link">				
+								<a title="SharePoint Software Factory" href="SPSF_ROOT.html">SharePoint Software Factory</a>
+							</div>
+									
+							<div class="OH_link">				
+								<a title="Recipe Index" href="SPSF_RECIPES_INDEX.html">Recipe Index</a>
+							</div>
+									
+							<div class="OH_link">				
+								<a title="SPSF Artefacts" href="SPSF_RECIPES_CATEGORY_ARTEFACTS.html">SPSF Artefacts</a>
+							</div>
+									
+							<div class="OH_link">				
+								<a title="PowerShell" href="SPSF_RECIPES_CATEGORY_POWERSHELL.html">PowerShell</a>
+							</div>
+							</div></div>					
+						<div id="toc_children">
+							<div class="OH_selfTocLinks">										<div class="OH_link">	
+											<a title="SharePoint CmdLet" href="SPSF_RECIPE_SPCMDLET.html">SharePoint CmdLet</a>
+										</div>
+
+										<div title="SharePoint CmdLet with PipeBind" class="OH_selectedChild">SharePoint CmdLet with PipeBind</div>										<div class="OH_link">	
+											<a title="PowerShell CmdLet" href="SPSF_RECIPE_POWERSHELLCMDLET.html">PowerShell CmdLet</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="PowerShell PSCmdLet" href="SPSF_RECIPE_POWERSHELLPSCMDLET.html">PowerShell PSCmdLet</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="PowerShell Script" href="SPSF_RECIPE_POWERSHELLSCRIPT.html">PowerShell Script</a>
+										</div>
+
+										</div></div><div id="toc_siblings"><div class="OH_siblingTocHeader">Related Links</DIV><div class="OH_siblingTocLinks"><a title="MSDN: Windows PowerShell in the SharePoint Management Shell" href="http://msdn.microsoft.com/en-us/library/ee536539.aspx">MSDN: Windows PowerShell in the SharePoint Management Shell</a><br /><a title="MSDN: Key Concepts for Writing Cmdlets for the SharePoint Management Shell" href="http://msdn.microsoft.com/en-us/library/ee534984.aspx">MSDN: Key Concepts for Writing Cmdlets for the SharePoint Management Shell</a><br /><a title="MSDN: Development Guidelines for SharePoint Foundation Cmdlets" href="http://msdn.microsoft.com/en-us/library/ee534968.aspx">MSDN: Development Guidelines for SharePoint Foundation Cmdlets</a><br /><a title="Gary Lapointe: Creating Custom SharePoint 2010 Cmdlets using Visual Studio 2010 " href="http://blog.falchionconsulting.com/index.php/2009/10/creating-custom-sharepoint-2010-cmdlets-using-visual-studio-2010/">Gary Lapointe: Creating Custom SharePoint 2010 Cmdlets using Visual Studio 2010 </a><br />							<br /></div></div></div></div><div style="LEFT: 279px" id="TocResize" class="OH_TocResize"></div>
+				<div class="OH_outerContent">
+				  
+		<div class="OH_topic">		 
+     
+		  <div id="mainHeader">
+			<table>
+			  <tbody>
+				<tr>
+				  <td>
+					<h1>SharePoint CmdLet with PipeBind</h1>
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+		<div id="mainSection">
+			<div id="mainBody">            
+				<div class="introduction"><p>Adds a SharePoint cmdlet which uses or returns objects from the pipe (e.g. Get-SPSiteTitle, Set-SPSiteTitle). The recipe creates the cmdlet class, the class for the piped object, the xml for the registration in SharePoint and a corresponding help file to store help information about the cmdlet.</p></div>
+				                      <DIV class="OH_CollapsibleAreaRegion">
+					        <DIV class="OH_regiontitle">Recipe Description</DIV>
+					        <DIV class="OH_RegionToggle"></DIV>
+				        </DIV>
+				        <DIV class="OH_clear"></DIV>
+				        <p>
+                        The custom cmdlet can be used in powershell scripts (.ps1) to handle objects e.g. SPList or SPSite within a pipe.<br />Use command "Get-Help Get-MyCustomList' to display a detailed help information.<br />Use command "Get-Command Get-MyCustomList' to display general information.
+				        </p>
+				        					<DIV class="OH_CollapsibleAreaRegion">
+						<DIV class="OH_regiontitle">Screens</DIV>
+						<DIV class="OH_RegionToggle"></DIV>
+					</DIV>
+					<DIV class="OH_clear"></DIV>
+					<p>				
+					<span class="spsfscreenshot"><span>
+							            <img class="screenshot" src="./Screenshots/SPCmdLetWithPipeBind/100_GetCommand.gif" />
+							            <br />
+						            </span><span>
+							            <img class="screenshot" src="./Screenshots/SPCmdLetWithPipeBind/200_GetHelp.gif" />
+							            <br />
+						            </span><span>
+							            <img class="screenshot" src="./Screenshots/SPCmdLetWithPipeBind/300_GetCommands.gif" />
+							            <br />
+						            </span></span>
+					</p>
+                    <div class="spsfclear"></div>           
+                           <DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">Arguments</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>
+				<p>
+				<div class="tableSection">
+                <table id="argumentTable" width="100%">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>							<tr>
+								<td class="name" colspan="2">General Settings</td>
+							</tr>                
+														<tr>
+								<td>Generated Command</td>
+								<td>Optional String. Displays the final command</td>
+							</tr>                
+														<tr>
+								<td>Verb</td>
+								<td>Required String. Select the verb e.g. "Get", "New", "Set", "Delete".</td>
+							</tr>                
+														<tr>
+								<td>Noun</td>
+								<td>Required String. Enter the operation or object type e.g. "SPSiteByName".</td>
+							</tr>                
+														<tr>
+								<td>Description</td>
+								<td>Required String. Enter the a short description of the cmdlet (used in help file).</td>
+							</tr>                
+														<tr>
+								<td class="name" colspan="2">Pipe Object Settings</td>
+							</tr>                
+														<tr>
+								<td>Object Type</td>
+								<td>Optional String. Enter the existing type of object that should be used for pipe binding (e.g. SPList, SPWeb).</td>
+							</tr>                
+							                </table>
+				</div>
+				</p>
+                           
+				<DIV class="OH_CollapsibleAreaRegion">
+					<DIV class="OH_regiontitle">References</DIV>
+					<DIV class="OH_RegionToggle"></DIV>
+				</DIV>
+				<DIV class="OH_clear"></DIV>
+				<p>
+				<ul>
+				<li>
+						<a href="http://msdn.microsoft.com/en-us/library/ee536539.aspx" target="_new">MSDN: Windows PowerShell in the SharePoint Management Shell</a>
+					</li>
+					<li>
+						<a href="http://msdn.microsoft.com/en-us/library/ee534984.aspx" target="_new">MSDN: Key Concepts for Writing Cmdlets for the SharePoint Management Shell</a>
+					</li>
+					<li>
+						<a href="http://msdn.microsoft.com/en-us/library/ee534968.aspx" target="_new">MSDN: Development Guidelines for SharePoint Foundation Cmdlets</a>
+					</li>
+					<li>
+						<a href="http://blog.falchionconsulting.com/index.php/2009/10/creating-custom-sharepoint-2010-cmdlets-using-visual-studio-2010/" target="_new">Gary Lapointe: Creating Custom SharePoint 2010 Cmdlets using Visual Studio 2010 </a>
+					</li>
+					                
+			   </ul></p>
+			              <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Authors</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+			<p>
+           <ul>
+           <li>Torsten Mandelkow</li>           </ul>
+           </p>
+           
+		   <DIV class="OH_CollapsibleAreaRegion">
+				<DIV class="OH_regiontitle">Version history</DIV>
+				<DIV class="OH_RegionToggle"></DIV>
+			</DIV>
+			<DIV class="OH_clear"></DIV>  
+		   <p>
+           <ul>
+           <li>1.0 Initial Recipe</li>           </ul>
+		   </p>
+
+
+
+     
+				</div>			
+			</div>
+		</div>
+	</div>
+			<br />
+		<table width="100%">
+		<tr>
+			<td>
+				<div class="OH_feedbacklink">
+						<b>Disclaimer:</b> The views and opinions expressed in this documentation and in SPSF are those of the <a href="SPSF_OVERVIEW_110_AUTHORS.html">authors</a> and do not necessarily reflect the opinions and recommendations of Microsoft or any member of Microsoft. All trademarks, service marks, collective marks, copyrights, registered names, and marks used or cited by this documentation are the property of their respective owners.<br />
+						SharePoint Software Factory, Version 4.1.3.2705, <a href="SPSF_OVERVIEW_800_LICENSE.html">GPLv2</a>, see <a href="http://spsf.codeplex.com">http://spsf.codeplex.com</a> for more information
+				</div>
+				<br />
+			</td>
+		</tr>
+		</table>
+		<br />
+			</body>
+</html>
+
+

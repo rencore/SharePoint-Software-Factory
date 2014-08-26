@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains standard arguments which are necessary in all recipes -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+  <Argument Name="ElementsCategory">
+    <ValueProvider Type="Evaluator" Expression="DelegateControls" />
+  </Argument>
+  <Argument Name="AllowedScopes" Type="System.String">
+		<ValueProvider Type="Evaluator" Expression="Web;Site;WebApplication;Farm" />
+	</Argument>
+	<Argument Name="DelegateControlName">
+    <Converter Type="NamespaceStringConverter" />
+    <ValueProvider Type="VisualStudioCreateItemName" DefaultValue="DelegateControl1" />
+  </Argument>
+  <Argument Name="DelegateControlSequence" Type="System.Int32">
+    <ValueProvider Type="Evaluator" Expression="50" />
+  </Argument>
+  <Argument Name="DelegateControlId">
+    <ValueProvider Type="Evaluator" Expression="AdditionalPageHead" />
+  </Argument>
+
+	<Argument Name="ResourceKeyPrefix" Required="true">
+		<!-- provides the unique key with removed special chars -->
+		<ValueProvider Stage="OnBeforeActions" RecipeArgument="DelegateControlName" Type="ConvertedStringProvider" />
+	</Argument>
+	
+</Arguments>

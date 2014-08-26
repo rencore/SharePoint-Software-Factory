@@ -1,0 +1,336 @@
+﻿<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= SilverlightApplicationFullName #>
+{
+  using System;
+  using System.Collections.Generic;
+  using System.ComponentModel;
+  using System.Linq;
+  using System.Net;
+  using System.Windows;
+  using System.Windows.Controls;
+  using System.Windows.Controls.Primitives; 
+  using System.Windows.Documents;
+  using System.Windows.Input;
+  using System.Windows.Media;
+  using System.Windows.Media.Animation;
+  using System.Windows.Shapes;
+  using Microsoft.SharePoint.Client;
+
+  public partial class MainPage : UserControl
+  {
+    private ClientContext ctx;
+    private Grid listGrid;
+
+    public MainPage()
+    {
+      InitializeComponent();
+
+      // Get SharePoint List after page loads
+      this.Loaded += MainPage_Loaded;
+    }
+
+    private void MainPage_Loaded(object sender, RoutedEventArgs e)
+    {
+      // Load client OM assemblies
+      LoadClientOM loadClientOM = new LoadClientOM(delegate { LoadData(); });
+      loadClientOM.Run();
+    }
+
+    private void LoadData()
+    {
+      // Get Client Context
+      ctx = ClientContext.Current;
+
+      // A client OM query must be performed to get the titles of the lists on the web.
+      // We also want to know if a list is hidden so that we don't display it in the picker.
+      ctx.Load(ctx.Web.Lists, l => l.Include(i => i.Title, i => i.Hidden));
+
+      // Since we don't need to perform additional queries to populate the list picker, an anonymous in-line
+      // callback can be used to handle the query results.
+      ctx.ExecuteQueryAsync(
+        (sender, args) =>
+        {
+          // Inline successs callback.
+          List<string> ListTitles = new List<string>();
+
+          // Only display the lists that aren't hidden.
+          foreach (List list in ctx.Web.Lists)
+          {
+            if (!list.Hidden) 
+            {
+              ListTitles.Add(list.Title);
+            }
+          }
+
+          // Sort the list for ease of access.
+          ListTitles.Sort();
+
+          // In order to modify the UI controls, we need to be on the Silverlight UI thread.
+          Dispatcher.BeginInvoke(() => 
+            {
+              // Populate the drop-down and set the selected index to 0.
+              // This will also fire the selection changed event.
+              ComboBox_ListPicker.ItemsSource = ListTitles;
+              ComboBox_ListPicker.SelectedIndex = 0;
+            });
+        },
+        (sender, args) =>
+        {
+          // Inline failure callback.
+          DisplayError(args.ErrorTypeName, args.Message);
+        });
+    }
+
+    private void ComboBox_ListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+      // When the user changes selection, we display the newly selected list.
+      DisplayList(ComboBox_ListPicker.SelectedItem.ToString());
+    }
+
+    /// <summary>
+    /// This is the helper method used to display the list.  Creates a BackgroundWorker with its own thread
+    /// so that it can perform mulitple SharePoint queries in succession.  The result will be a dynamically
+    /// generated Grid that contains a simple table of all the items in the specified list.
+    /// </summary>
+    /// <param name="listTitle">A string specifying the title of the list to display.</param>
+    private void DisplayList(string listTitle)
+    {
+      // Since we're going to need more than one query, so we'll use a worker thread.
+
+      BackgroundWorker worker = new BackgroundWorker();
+      worker.WorkerReportsProgress = false;
+      worker.WorkerSupportsCancellation = false;
+
+      worker.DoWork += (sedner, args) =>
+        {
+          // This code will execute on the worker thread.  This will allow it to easily make multiple client OM queries.
+
+          try
+          {
+            // Get the list we're displaying.
+            List list = ctx.Web.Lists.GetByTitle(listTitle);
+            
+            // Also get the collection of fields we will display.  We only want fields that are not hidden, computed,
+            // or page PageSeparators.  This will eliminate most of the built-in fields in SharePoint.
+            IEnumerable<Field> fieldCollection = ctx.LoadQuery(
+              list.Fields.Where(field => !field.Hidden
+                && field.FieldTypeKind != FieldType.Computed
+                && field.FieldTypeKind != FieldType.PageSeparator));
+
+            ctx.ExecuteQuery();
+
+            // Convert the enumerable collection of fields to a list so it is easier to work with.
+            List<Field> viewFields = fieldCollection.ToList();
+
+            // Begin constructing the list grid.
+
+            // To actually interact with the grid, we have to be on the Silverlight UI thread.
+            // Since this bit of code is running asynchronously on another thread, we need to be sure to
+            // keep that in mind.
+            Dispatcher.BeginInvoke(() =>
+              {
+                // Create a new Grid and add it to the content area.
+                listGrid = new Grid();
+                ScrollViewer_Content.Content = listGrid;
+
+                // Add a row for the headers.
+                RowDefinition headerRowDefinition = new RowDefinition();
+                headerRowDefinition.Height = GridLength.Auto;
+                listGrid.RowDefinitions.Add(headerRowDefinition);
+
+                // Add a column for each field, and add the header text block for each column.
+                for (int i = 0; i < viewFields.Count; i++)
+                {
+                  ColumnDefinition headerColumnDefinition = new ColumnDefinition();
+                  headerColumnDefinition.Width = GridLength.Auto;
+                  listGrid.ColumnDefinitions.Add(headerColumnDefinition);
+
+                  // Use a border to allow more styling options
+                  Border headerBorder = new Border();
+                  headerBorder.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xBD, 0xC4, 0xDE)); // LightSteelBlue
+                  headerBorder.Padding = new Thickness(5);
+
+                  // Set the text block properties, including the title of the field.
+                  TextBlock headerTextBlock = new TextBlock();
+                  headerTextBlock.Text = viewFields[i].Title;
+                  headerTextBlock.FontWeight = FontWeights.Bold;
+
+                  // Add the TextBlock to the Border, and add the Border to the Grid.
+                  headerBorder.Child = headerTextBlock;
+
+                  headerBorder.SetValue(Grid.RowProperty, 0);
+                  headerBorder.SetValue(Grid.ColumnProperty, i);
+                  listGrid.Children.Add(headerBorder);
+                }
+              });
+
+            // Now retrieve the list items so we can display them.
+
+            // This query will select all fields for all items.
+            CamlQuery listQuery = CamlQuery.CreateAllItemsQuery();
+
+            ListItemCollection listItems = list.GetItems(listQuery);
+            ctx.Load(listItems);
+
+            ctx.ExecuteQuery();
+
+            // To actually display the items, we need to move back to the UI thread.  Since we're using the same Dispatcher,
+            // this is guaranteed to run after the header code written above.
+            Dispatcher.BeginInvoke(() =>
+              {
+                // Add a row for each list item, and add the item data.
+                for (int i = 0; i < listItems.Count; i++)
+                {
+                  // Define a row in the Grid for the item
+                  RowDefinition itemRowDefinition = new RowDefinition();
+                  itemRowDefinition.Height = GridLength.Auto;
+                  listGrid.RowDefinitions.Add(itemRowDefinition);
+
+                  // Now add the item's values to the corresponding field column.
+                  for (int j = 0; j < viewFields.Count; j++)
+                  {
+                    // Use a Border to allow more styling options.  We'll also alternate row colors to make the talbe easier to read.
+                    Border itemValueBorder = new Border();
+                    itemValueBorder.BorderThickness = new Thickness(1);
+                    itemValueBorder.Background = i % 2 == 1 ? new SolidColorBrush(Color.FromArgb(0xFF, 0xF0, 0xF8, 0xFF)) // AliceBlue
+                      : new SolidColorBrush(Colors.White);
+                    itemValueBorder.Padding = new Thickness(5);
+                    
+                    // Create the text block.
+                    TextBlock itemValueTextBlock = new TextBlock();
+                    
+                    // Retrieve the value for the current column.
+                    try
+                    {
+                      // There are many possible cases for the values of the fields in the list.
+                      switch (viewFields[j].FieldTypeKind)
+                      {
+                        // Lookup fields have a unique data structure, so we need to cast it to get the value.
+                        case FieldType.Lookup:
+                          FieldLookupValue lookup = listItems[i][viewFields[j].InternalName] as FieldLookupValue;
+                          itemValueTextBlock.Text = lookup == null ? null : lookup.LookupValue;
+                          break;
+                        // Other Case Statements
+
+                        // User fields are simlar to lookup fields.
+                        case FieldType.User:
+                          FieldUserValue user = listItems[i][viewFields[j].InternalName] as FieldUserValue;
+                          itemValueTextBlock.Text = user == null ? null : user.LookupValue;
+                          break;
+
+                        // Hyperlinks are also stored in a unique data structure.
+                        case FieldType.URL:
+                          FieldUrlValue url = listItems[i][viewFields[j].InternalName] as FieldUrlValue;
+                          itemValueTextBlock.Text = url == null ? null : url.Description + " [" + url.Url + "]";
+                          break;
+
+                        // We want to translate DateTimes into local time, so it is a speical case.
+                        case FieldType.DateTime:
+                          object dateTime = listItems[i][viewFields[j].InternalName];
+                          itemValueTextBlock.Text = dateTime == null ? null : ((DateTime)dateTime).ToLocalTime().ToString();
+                          break;
+
+                        // Most other things will resolve with a simple ToString().
+                        default:
+                          object value = listItems[i][viewFields[j].InternalName];
+                          itemValueTextBlock.Text = value == null ? null : value.ToString();
+                          break;
+                      }
+                    }
+                    catch (PropertyOrFieldNotInitializedException)
+                    {
+                      // In rare cases, we won't actually have the value of the field and so we display a friendly error.
+                      itemValueTextBlock.Text = "Error Reading Property: " + viewFields[j].Title;
+                    }
+
+                    // Finally, add the contorls to the grid.  We offset the Grid row by one to account for the header row.
+                    itemValueBorder.Child = itemValueTextBlock;
+
+                    itemValueBorder.SetValue(Grid.RowProperty, i + 1);
+                    itemValueBorder.SetValue(Grid.ColumnProperty, j);
+                    listGrid.Children.Add(itemValueBorder);
+                  }
+                }
+              });
+          }
+          catch (Exception e)
+          {
+            // Background workers will fail silently if an unhandled exception occurs.  Instead, we want to catch
+            // and display that exception.
+            DisplayError("An error occued while displaying the list", e.Message + '\n' + e.StackTrace);
+          }
+        }; // End of the worker thread logic.
+
+      // Begins execution of the worker thread.
+      worker.RunWorkerAsync();
+    }
+
+    /// <summary>
+    /// Creates a popup dialog to display the error that occured.
+    /// </summary>
+    /// <param name="errorTitle">The title of the error.</param>
+    /// <param name="errorMessage">The text of the error.</param>
+    private void DisplayError(string errorTitle, string errorMessage)
+    {
+      // Create a simple popup dialog to display the error.
+
+      // We will use the dispatcher to run this code just in case we're not on the UI thread.
+      Dispatcher.BeginInvoke(() =>
+      {
+        // First create the text blocks for displaying the error title and message.
+        TextBlock errorTitleTextBlock = new TextBlock();
+        errorTitleTextBlock.Text = errorTitle;
+        errorTitleTextBlock.FontWeight = FontWeights.Bold;
+        
+        TextBlock errorMessageTextBlock = new TextBlock();
+        errorMessageTextBlock.Text = errorMessage;
+
+        // Next create a stack panel to hold these two text blocks.
+        StackPanel errorStackPanel = new StackPanel();
+        errorStackPanel.Orientation = Orientation.Vertical;
+        errorStackPanel.Children.Add(errorTitleTextBlock);
+        errorStackPanel.Children.Add(errorMessageTextBlock);
+
+        // Place the stack panel in a scrollable container (in case the error is really long).
+        ScrollViewer errorScrollViewer = new ScrollViewer();
+        errorScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+        errorScrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+        errorScrollViewer.Background = new SolidColorBrush(Colors.White);
+        errorScrollViewer.Width = LayoutRoot.ActualWidth * .8;
+        errorScrollViewer.Height = LayoutRoot.ActualHeight * .8;
+        errorScrollViewer.Content = errorStackPanel;
+
+        // Place the scroll viewer in a border for additional styling options.
+        Border Border_ErrorPopup = new Border();
+        Border_ErrorPopup.Background = new SolidColorBrush(Color.FromArgb(0x88, 0x44, 0x44, 0x44));
+        Border_ErrorPopup.Width = LayoutRoot.ActualWidth;
+        Border_ErrorPopup.Height = LayoutRoot.ActualHeight;
+        Border_ErrorPopup.VerticalAlignment = VerticalAlignment.Center;
+        Border_ErrorPopup.HorizontalAlignment = HorizontalAlignment.Center;
+        Border_ErrorPopup.Child = errorScrollViewer;
+        
+        // Finally, put all of the above into a popup and display it.
+        Popup Popup_Error = new Popup();
+        Popup_Error.Child = Border_ErrorPopup;
+
+        // We must be on the Silverlight UI thread to make changes to the UI.
+        Popup_Error.IsOpen = true;
+
+        // If the window is resized, we need to resize the popup too.
+        LayoutRoot.LayoutUpdated += (sender, args) =>
+          {
+            errorScrollViewer.Width = LayoutRoot.ActualWidth * .8;
+            errorScrollViewer.Height = LayoutRoot.ActualHeight * .8;
+
+            Border_ErrorPopup.Width = LayoutRoot.ActualWidth;
+            Border_ErrorPopup.Height = LayoutRoot.ActualHeight;
+          };
+      });
+    }
+  }
+}

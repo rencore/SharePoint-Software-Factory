@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+Name="VisualWebPart"
+xmlns="http://schemas.microsoft.com/pag/gax-core"
+Bound="false">
+  <DocumentationLinks>
+    <Link Url="http://www.dotnetmonster.com/Uwe/Forum.aspx/dotnet-security/2519/SecurityException-Request-failed-in-LoadControl" Caption="Issues with LoadControl" Kind="NextStep"/>
+  </DocumentationLinks>
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Visual Web Part</Caption>
+  <Description>Adds a smart part to the project</Description>
+  <HostData Priority="30">
+    <Icon File="Help/Icons/icon_VisualWebParts.ico" />
+    <CommandBar Menu="SPSFProjectWebParts"/>
+    <CommandBar Menu="SPSFFolderWebParts"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="ElementManifestReference"
+      BindingTypeTemplate="ElementManifestReferenceTemplate"
+      TestType="BaseSiteFeatureRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="true"
+	  NotSandboxSupported="true"
+      FeatureScopes="Web;Site"
+      Category="WebParts" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+        <spsf:Author>Matthias Einig</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.1 Updated Documentation</spsf:VersionHistoryEntry>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[Creates a new webpart based on the SmartPart project.
+The SharePoint web part which can host any ASP.NET web user control.]]>
+      </spsf:WebPageContent>
+      <spsf:Test>
+        <spsf:TestCases>
+          <spsf:TestCase Name="VisualWebPart" Type="SolutionTestCase">
+            <spsf:TestCaseArguments>
+              <spsf:TestCaseArgument Name="WebPartName">VisualWebPart</spsf:TestCaseArgument>
+            </spsf:TestCaseArguments>
+            <spsf:TestExpectedDeployResults>
+              <spsf:TestExpectedDeployResult Type="ManualCheck">A webpart 'VisualWebPart' is available in site http://demo2010a/</spsf:TestExpectedDeployResult>
+            </spsf:TestExpectedDeployResults>
+          </spsf:TestCase>
+        </spsf:TestCases>
+      </spsf:Test>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+        
+    <xi:include href="../../BaseArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="BaseWebPartsArguments.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Arguments/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Type="SPALM.SPSF.Library.CustomWizardPages.FeatureSelectionPage, SPALM.SPSF.Library" />
+        <xi:include href="BaseWebPartsInformationPage.include"  parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-wizards) xpointer(/p:Pages/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions CoordinatorServiceType="ConditionalCoordinator">
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../BaseFeatureActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="BaseWebPartsActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../../BaseCASPolicyActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <!-- Add ASCX control to CONTROLTEMPLATES -->
+    <Action
+      Name="AddASCXControl"
+      Type="AddTemplateToItemAction"
+      DeploymentType="TemplateFile"
+      DeploymentPath="CONTROLTEMPLATES\$(SolutionSubFolder)"
+      TemplateFileName="Text\WebPart\VisualWebPart\VisualWebPart.ascx.t4"
+      TargetFileName="$(WebPartUserControl).ascx">
+      <Input Name="ParentProjectFolder" ActionOutput="CreateElementsXml.CreatedElementFolder" />
+    </Action>
+
+    <!-- Add ASCX-Code -->
+    <Action
+      Name="AddASCXCSControl"
+      Type="AddTemplateToItemAction"
+      DeploymentType="CustomCode"
+      TemplateFileName="Text\WebPart\VisualWebPart\VisualWebPart.ascx.cs.t4"
+      TargetFileName="$(WebPartUserControl).ascx.cs">
+      <Input Name="ParentProjectItem" ActionOutput="AddASCXControl.CreatedProjectItem" />
+    </Action>
+
+    <!-- Add ASCX-Designer Code -->
+    <Action
+      Name="AddASCXCSDESIGNERControl"
+      Type="AddTemplateToItemAction"
+      DeploymentType="CustomCode"
+      TemplateFileName="Text\WebPart\VisualWebPart\VisualWebPart.ascx.designer.cs.t4"
+      TargetFileName="$(WebPartUserControl).ascx.designer.cs">
+      <Input Name="ParentProjectItem" ActionOutput="AddASCXCSControl.CreatedProjectItem" />
+    </Action>
+
+    <Action Name="EnableWAPTemplates" Type="EnableWAPTemplates" >
+      <Input Name="Project" RecipeArgument="CurrentProject" />
+    </Action>
+
+    <Action Name="OpenItemInDesigner" Type="OpenItemInDesigner">
+      <Input Name="Item" ActionOutput="AddASCXControl.CreatedProjectItem" />
+    </Action>
+
+  </Actions>
+</Recipe>

@@ -1,0 +1,10 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ThemeToActivate" #>
+<#@ property processor="PropertyProcessor" name="DefaultTheme" #>
+<#@ assembly name="System.dll" #>
+<?xml version="1.0" encoding="utf-8"?>
+<Properties>
+	<Property Key="DefaultTheme" Value="<#= DefaultTheme #>" />
+	<Property Key="ThemeToApply" Value="<#= ThemeToActivate #>" />
+</Properties>
+	

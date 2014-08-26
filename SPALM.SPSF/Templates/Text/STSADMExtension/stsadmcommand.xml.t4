@@ -1,0 +1,12 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ProjectAssemblyName" #>
+<#@ property processor="PropertyProcessor" name="STSADMExtensionNamespace" #>
+<#@ property processor="PropertyProcessor" name="STSADMCommandClass" #>
+<#@ property processor="PropertyProcessor" name="STSADMCommandName" #>
+<#@ assembly name="System.dll" #>
+<?xml version="1.0" encoding="utf-8"?>
+<commands>
+  <command
+	  name="<#= STSADMCommandName #>"
+	  class="<#= STSADMExtensionNamespace #>.<#= STSADMCommandClass #>, <#= ProjectAssemblyName #>" />
+</commands>

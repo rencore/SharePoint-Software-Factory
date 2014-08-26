@@ -1,0 +1,24 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="html" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly name="envdte" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ include file="../HelpFunctions.tt" #><# 
+
+
+
+GenerateHelp(true);
+
+//DeleteChildElementsOfParentOfTemplate();
+
+#><html>
+	<head>
+		<title>Copyright</title>
+	</head>
+	<body>Copyright 2008 - 2013 Torsten Mandelkow, Matthias Einig, Published under GNU License</body>
+</html>

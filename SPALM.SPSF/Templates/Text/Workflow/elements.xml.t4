@@ -1,0 +1,42 @@
+﻿<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <!--
+    ************************************************************************
+       Application: <#= AppName #>
+      Created date: <#= System.DateTime.Now.ToString("u") #>
+        Created by: <#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #>
+              Name: <#= WorkflowName #>
+       Description: <#= WorkflowDescription #>
+           History: Initial Version
+    ************************************************************************
+    -->
+	<Workflow
+     Name="<#= WorkflowName #>"
+	 <#
+		if(AutoCreateResxFiles)
+		{	#>
+			Title="$Resources:<#= ResourceFilename#>,<#= ResourceKeyPrefix #>_WorkflowTitle;"
+			Description="$Resources:<#= ResourceFilename#>,<#= ResourceKeyPrefix #>_WorkflowDescription;"
+			<#
+		}
+		else
+		{
+			#>
+			Title="<#= WorkflowTitle #>"
+			Description="<#= WorkflowDescription #>"
+			<#
+		}
+		#>
+     Id="<#= WorkflowId #>"
+     CodeBesideClass="<#= ProjectNamespace #>.<#= WorkflowName #>"
+     CodeBesideAssembly="<#= ProjectAssemblyName #>">
+    <Categories/>
+    <AssociationData>
+      <Dummy></Dummy>
+    </AssociationData>
+    <MetaData>
+      <AssociationCategories>Site</AssociationCategories>      
+      <StatusPageUrl>_layouts<#= VersionedFolderName #>/WrkStat.aspx</StatusPageUrl>
+    </MetaData>
+  </Workflow>
+</Elements>

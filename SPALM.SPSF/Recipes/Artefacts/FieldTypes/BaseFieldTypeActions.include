@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Actions CoordinatorServiceType="ConditionalCoordinator" xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+	<xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <Action
+		  Name="AddFieldXml"
+		  Type="AddSPDataTemplateAction"
+      SPDataName="$(FieldTypeTypeName)"
+      SPDataCategory="FieldTypes"
+      SPDataTemplate="Text\GenericSPData\SharePointProjectItem.spdata.t4"
+		  TargetFileName="fldtypes_$(FieldTypeUniqueName).xml"
+      DeploymentType="TemplateFile"
+      DeploymentPath="XML"
+		  Open="true">
+    <Input Name="TemplateFileName" RecipeArgument="TextTemplateFileFldTypes" />
+    <Output Name="CreatedProjectItem" />
+    <Output Name="CreatedProjectFolder" />
+  </Action> 
+	
+	<!-- generate Field.code -->
+	<Action
+		Name="AddCode"
+		Type="AddTemplateToItemAction"
+		Open="true"
+		TargetFileName="$(FieldTypeTypeName).cs"
+    TemplateFileName="Text\FieldTypes\$(RecipeName)\fieldcode.cs.t4" >
+		<Input Name="ParentProjectFolder" ActionOutput="AddFieldXml.CreatedProjectItem" />
+	</Action>
+  
+  <!-- generate Field.code -->
+	<Action
+		Name="AddControlCode"
+		Type="AddTemplateToItemAction"
+		Open="true"
+		TargetFileName="$(FieldTypeTypeName)Control.cs"
+    TemplateFileName="Text\FieldTypes\$(RecipeName)\fieldcontrolcode.cs.t4" >
+		<Input Name="ParentProjectFolder" ActionOutput="AddFieldXml.CreatedProjectItem" />
+	</Action>
+
+	<!-- add custom forms to Controltemplates-->
+	<Action
+	  Name="AddControlTemplate"
+	  Type="AddTemplateToItemAction"
+	  DeploymentType="TemplateFile"
+	  DeploymentPath="CONTROLTEMPLATES"
+	  TargetFileName="$(FieldTypeUniqueName).ascx">
+		<Input Name="TemplateFileName" RecipeArgument="TextTemplateFileWebControl" />
+    <Input Name="ParentProjectFolder" ActionOutput="AddFieldXml.CreatedProjectItem" />
+	</Action>
+
+	<!-- Resources -->
+	<Action
+	  Condition="$(AutoCreateResxFiles)"
+	  Name="AddResources"
+	  Type="AddTemlateToResourcesFileAction"
+	  TemplateFileName="Text\FieldTypes\Resources.resx.t4">
+	</Action>
+
+	<xi:include href="../../BaseFinalActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</Actions>

@@ -1,0 +1,59 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+	using System;
+	using System.Collections.Generic;
+	using System.Globalization;
+	using System.Management.Automation;
+	using Microsoft.SharePoint;
+	using Microsoft.SharePoint.PowerShell;
+
+    /// <summary>
+    /// Add comment
+    /// </summary>
+    public sealed class <#= SPCmdLetPipeObjectType #>PipeBind : SPCmdletPipeBind<<#= SPCmdLetPipeObjectType #>>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <#= SPCmdLetPipeObjectType #>PipeBind class
+        /// </summary>
+        /// <param name="instance">Existing object instance</param>
+        public <#= SPCmdLetPipeObjectType #>PipeBind(<#= SPCmdLetPipeObjectType #> instance)
+            : base(instance)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <#= SPCmdLetPipeObjectType #>PipeBind class
+        /// </summary>
+        /// <param name="value">Guid of the target object</param>
+        public <#= SPCmdLetPipeObjectType #>PipeBind(Guid value)
+        {
+            // TODO: Add code to create the object based on a guid for example
+        }       
+
+		/// <summary>
+        /// Add comment
+        /// </summary>
+        /// <returns>Returns an instance of type <#= SPCmdLetPipeObjectType #></returns>
+        public override <#= SPCmdLetPipeObjectType #> Read()
+        {
+            // TODO: convert the argument value passed into the constructor into the target type
+			return null;
+        }
+
+        /// <summary>
+        /// Add comment
+        /// </summary>
+        /// <param name="instance">Instance of type <#= SPCmdLetPipeObjectType #></param>
+        protected override void Discover(<#= SPCmdLetPipeObjectType #> instance)
+        {
+			// TODO: Add code handle the object given by the pipe
+        }        
+    }
+}

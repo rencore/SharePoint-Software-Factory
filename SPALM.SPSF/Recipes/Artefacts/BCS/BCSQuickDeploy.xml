@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="BCSQuickDeploy"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Quick Deploy BCS Model</Caption>
+  <Description>Deploys the BCS Model to the farm via powershell.</Description>
+  <HostData Priority="800">
+    <Icon File="Help/Icons/icon_BCS.ico" />
+    <CommandBar Name="Item"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="BCSModelReference"
+      BindingTypeTemplate="BCSModelReferenceTemplate"
+      TestType="BaseCustomizationRecipeRunner"
+      Enabled="true"
+      CreateVSTemplate="false"
+      Category="BCS" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>		
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+    
+    <Argument Name="CurrentItem" Type="EnvDTE.ProjectItem, EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <ValueProvider Type="SPALM.SPSF.Library.ValueProviders.FirstSelectedItem, SPALM.SPSF.Library" />
+    </Argument>
+    
+  </Arguments>
+  <Actions>
+
+    <xi:include href="../../BaseStartingActions.include" parse="xml" xpointer="xmlns(p=http://schemas.microsoft.com/pag/gax-core) xpointer(/p:Actions/*)" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <Action Name="DeployBCSModel" Type="DeployBCSModel">
+      <Input Name="BCSModelFile" RecipeArgument="CurrentItem" />
+    </Action>
+    
+  </Actions>
+</Recipe>

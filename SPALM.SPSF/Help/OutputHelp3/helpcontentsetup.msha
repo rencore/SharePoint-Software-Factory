@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>SharePoint Software Factory</title>
+  </head>
+  <body class="vendor-book">
+    <div class="details">
+      <span class="vendor">Torsten Mandelkow</span>
+      <span class="locale">en-us</span>
+      <span class="product">SharePoint Software Factory</span>
+      <span class="name">SharePoint Software Factory</span>
+    </div>
+    <div class="package-list">
+      <div class="package">
+        <span class="name">HelpFiles</span>
+        <a class="current-link" href="spsfhelp.mshc">spsfhelp.mshc</a>
+      </div>
+    </div>
+  </body>
+</html>

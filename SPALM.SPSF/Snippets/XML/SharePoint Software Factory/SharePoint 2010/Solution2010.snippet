@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Solution 2010</Title>
+      <Shortcut>solutionxml2010</Shortcut>
+      <Description>Top-level element for a solution manifest file.</Description>
+      <Author>Torsten Mandelkow</Author>
+      <HelpUrl>http://msdn.microsoft.com/en-us/library/ms412929%28office.12%29.aspx</HelpUrl>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>SolutionId</ID>
+          <ToolTip>Optional string. Contains the GUID for the solution.</ToolTip>
+          <Default>00000000-0000-0000-0000-000000000000</Default>
+        </Literal>
+        <Literal>
+          <ID>Title</ID>
+          <ToolTip>Optional string. Specifies the title of the solution.</ToolTip>
+          <Default>Solution1</Default>
+        </Literal>
+        <Literal>
+          <ID>Description</ID>
+          <ToolTip>Optional string. Specifies a description for the solution.</ToolTip>
+          <Default></Default>
+        </Literal>
+        <Literal>
+          <ID>DeploymentServerType</ID>
+          <ToolTip>Optional string. Determines whether the solution is deployed to a front-end Web server or to an application server. Possible values include: ApplicationServer, WebFrontEnd</ToolTip>
+          <Default>WebFrontEnd</Default>
+        </Literal>
+        <Literal>
+          <ID>ResetWebServer</ID>
+          <ToolTip>Optional Boolean. TRUE to specify that the Web server will be reset.</ToolTip>
+          <Default>FALSE</Default>
+        </Literal>
+        <Literal>
+          <ID>ResetWebServerModeOnUpgrade</ID>
+          <ToolTip>Optional string. Specifies the type of reset the Web server will perform on solution upgrade. The values are as follows: Recycle = Recycles the application pool; StartStop = Stops and starts the server</ToolTip>
+          <Default>Recycle</Default>
+        </Literal>
+        <Literal>
+          <ID>SharePointProductVersion</ID>
+          <ToolTip>Optional string. Specifies the version of Microsoft SharePoint Foundation.</ToolTip>
+          <Default>14</Default>
+        </Literal>                      
+      </Declarations>
+      <Code Language="XML">
+        <![CDATA[<Solution 
+          SolutionId="$SolutionId$" 
+          Title="$Title$"
+          Description="$Description$" 
+          DeploymentServerType="$DeploymentServerType$"
+          ResetWebServer="$ResetWebServer$" 
+          ResetWebServerModeOnUpgrade="$ResetWebServerModeOnUpgrade$" 
+          SharePointProductVersion="$SharePointProductVersion$">
+          </Solution>]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

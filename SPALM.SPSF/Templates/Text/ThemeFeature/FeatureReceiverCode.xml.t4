@@ -1,0 +1,30 @@
+﻿<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="ThemeJobClass" #>
+<#@ assembly name="System.dll" #>
+<FeatureReceiverCode>
+	<UsingStatements>
+		<UsingStatement>Microsoft.SharePoint.Administration</UsingStatement>
+	</UsingStatements>
+	<FeatureActivatedMethod>ActivateTimerJob_<#= ThemeJobClass #>(properties);</FeatureActivatedMethod>
+	<FeatureActivatedCode>
+/// &lt;summary&gt;
+/// Activates the timer job <#= ThemeJobClass #>
+/// &lt;/summary&gt;
+private void ActivateTimerJob_<#= ThemeJobClass #>(SPFeatureReceiverProperties properties)
+{
+	<#= ThemeJobClass #>.InstallThemes(properties.Definition);
+}
+	</FeatureActivatedCode>	
+	<FeatureDeactivatingMethod>DeactivateTimerJob_<#= ThemeJobClass #>(properties);</FeatureDeactivatingMethod>
+	<FeatureDeactivatingCode>
+	/// &lt;summary&gt;
+/// Activates the timer job <#= ThemeJobClass #>
+/// &lt;/summary&gt;
+private void DeactivateTimerJob_<#= ThemeJobClass #>(SPFeatureReceiverProperties properties)
+{
+	<#= ThemeJobClass #>.DeleteThemes(properties.Definition);
+}
+	</FeatureDeactivatingCode>
+</FeatureReceiverCode>
+
+		

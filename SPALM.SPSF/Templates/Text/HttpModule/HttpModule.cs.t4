@@ -1,0 +1,37 @@
+﻿<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;
+  using System.Collections.Generic;
+  using System.Text;
+  using System.Web;
+
+  /// <summary>
+  /// TODO: Add comment for <#= HttpModuleClass #>
+  /// </summary>
+  public class <#= HttpModuleClass #> : IHttpModule
+  {
+    #region IHttpModule Members
+
+    public void Init(HttpApplication context)
+    {
+      context.BeginRequest += new EventHandler(BeginRequest);
+    }
+
+    private void BeginRequest(object sender, EventArgs e)
+    {
+      HttpContext currentContext = HttpContext.Current;
+    }
+        
+    public void Dispose() 
+    {             
+    }
+
+    #endregion
+  }
+}

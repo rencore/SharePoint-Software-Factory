@@ -1,0 +1,31 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="html" hostspecific="true" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ include file="../HelpFunctions.tt" #><#
+
+SnippetLanguage snippetLanguage = SnippetLanguage.Deserialize(CallContext.GetData("SnippetLanguage") as byte[]);
+snippetLanguage.SetSPSFBase(Host);
+
+SPSFHelpElement helpItem = snippetLanguage;
+
+#><#@ include file="../Templates/Header.include" #>
+<UL><#
+
+foreach(SnippetCategory snippetCategory in snippetLanguage.GetSnippetCategories())
+{
+	#><LI><A HREF="<#= GetHelpLink(snippetCategory) #>"><#= snippetCategory.Name #></A></LI><#
+}
+
+foreach(SnippetClass snippet in snippetLanguage.GetSnippets())
+{
+	#><LI><p><#= snippet.Title #></p><p><#= snippet.InnerDescription #></p></LI><#
+}
+
+#></UL>     
+<#@ include file="../Templates/Footer.include" #>

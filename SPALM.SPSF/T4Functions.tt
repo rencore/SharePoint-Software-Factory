@@ -1,0 +1,2498 @@
+<#@ template language="C#" hostspecific="true" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly Name="envdte" #>
+<#@ assembly name="F:\TFS\SPSF\Dev\Source\Libraries\OpenGAX\MvP.Xml.dll" #>
+<#@ assembly name="F:\TFS\SPSF\Dev\Source\SPALM.SPSF\Binaries\SgmlReaderDll.dll" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml.Serialization" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ import namespace="System.CodeDom.Compiler" #>
+<#@ import namespace="Mvp.Xml.XInclude" #>
+<#@ import namespace="Sgml" #>
+<#+
+
+string HtmlEncode(string s)
+{
+	s = s.Replace("\"","&quot;");
+	return s;
+}
+
+[Serializable]
+public class SPSFBase : SPSFHelpElement
+{
+	private IServiceProvider hostServiceProvider = null;
+	private string hostTemplateFile = "";
+
+	public SPSFBase()
+	{
+	}
+
+	public SPSFBase(IServiceProvider _hostServiceProvider, string _hostTemplateFile)
+	{
+		hostServiceProvider = _hostServiceProvider;
+		hostTemplateFile = _hostTemplateFile;
+	}
+
+	public void SetHost(ITextTemplatingEngineHost _host)
+	{
+		hostServiceProvider = (IServiceProvider)_host;
+		hostTemplateFile = _host.TemplateFile;
+	}
+
+	internal string GetProjectRootPath()
+	{
+		EnvDTE.DTE dte = (EnvDTE.DTE)hostServiceProvider.GetService(typeof(EnvDTE.DTE));
+		EnvDTE.ProjectItem containingProjectItem = dte.Solution.FindProjectItem(hostTemplateFile);
+		Project project = containingProjectItem.ContainingProject;
+		string projectPath = project.Properties.Item("FullPath").Value.ToString();
+		return Path.GetDirectoryName(projectPath);
+	}
+
+	public string GetGuidancePackageVersion()
+	{
+		return GetGuidancePackagePropertry("Version");
+	}
+
+	public string GetGuidancePackageNamespace()
+	{
+		return GetGuidancePackagePropertry("Name");
+	}
+
+	public string GetGuidancePackageName()
+	{
+		return GetGuidancePackagePropertry("Caption");
+	}
+
+	public string GetGuidancePackageDescription()
+	{
+		return GetGuidancePackagePropertry("Description");
+	}
+
+	internal string GetAttribute(XmlNode fieldNode, string attribute)
+	{
+		if(fieldNode.Attributes[attribute] != null)
+		{
+			return fieldNode.Attributes[attribute].Value;
+		}
+		return "";
+	}
+
+	internal int GetAttributeInt(XmlNode fieldNode, string attribute)
+	{
+		string v = GetAttribute(fieldNode, attribute);
+		try
+		{
+			return Int32.Parse(v);
+		}
+		catch(Exception)
+		{
+		}
+	
+		return 0;
+	}
+
+	internal bool GetAttributeAsBool(XmlNode fieldNode, string attribute, bool defaultValue)
+	{
+		try
+		{
+			if(fieldNode.Attributes[attribute] != null)
+			{
+				return Boolean.Parse(fieldNode.Attributes[attribute].Value);
+			}
+		}
+		catch(Exception)
+		{
+		}
+		return defaultValue;
+	}
+
+	public XmlDocument ReadHtml(string path)
+	{
+		TextReader reader = new StreamReader(path);
+	
+		Sgml.SgmlReader sgmlReader = new Sgml.SgmlReader();
+		sgmlReader.DocType = "HTML";
+		sgmlReader.WhitespaceHandling = WhitespaceHandling.All;
+		sgmlReader.CaseFolding = Sgml.CaseFolding.ToLower;
+		sgmlReader.InputStream = reader;
+ 
+		// create document
+		XmlDocument doc = new XmlDocument();
+		doc.PreserveWhitespace = true;
+		doc.XmlResolver = null;
+		doc.Load(sgmlReader);
+    
+		reader.Close();
+		return doc;
+	}		
+
+	private string GetGuidancePackagePropertry(string property)
+	{
+		string result = "";
+	
+		EnvDTE.DTE dte = (EnvDTE.DTE)hostServiceProvider.GetService(typeof(EnvDTE.DTE));
+		EnvDTE.ProjectItem containingProjectItem = dte.Solution.FindProjectItem(hostTemplateFile);
+		Project project = containingProjectItem.ContainingProject;
+	
+		string assemblyName = project.Properties.Item("OutputFileName").Value.ToString();
+		if(assemblyName.EndsWith(".dll"))
+		{
+			assemblyName = assemblyName.Replace(".dll", "");
+		}
+	
+		string guidanceXmlFile = assemblyName + ".xml";
+		string projectPath = project.Properties.Item("FullPath").Value.ToString();
+		string projectDir = Path.GetDirectoryName(projectPath);
+	
+		string guidanceXml = Path.Combine(projectDir, guidanceXmlFile);
+		if(!File.Exists(guidanceXml))
+		{
+			//coll.Add(new CompilerError(guidanceXmlFile, 0, 0, "CS0001", "GetGuidancePackageName failed: File not found " + guidanceXml));	
+		}
+		else		
+		{
+	
+			XmlDocument guidanceDoc = new XmlDocument();
+			guidanceDoc.Load(guidanceXml);
+		
+			XmlNamespaceManager nsmgr = new XmlNamespaceManager(guidanceDoc.NameTable);
+			nsmgr.AddNamespace("ns", "http://schemas.microsoft.com/pag/gax-core");
+			nsmgr.AddNamespace("spsf", "http://spsf.codeplex.com");
+			nsmgr.AddNamespace("wiz", "http://schemas.microsoft.com/pag/gax-wizards");
+		
+			XmlNode rootNode = guidanceDoc.SelectSingleNode("/ns:GuidancePackage", nsmgr);
+			if(rootNode != null)
+			{
+				result = GetAttribute(rootNode, property);
+			}
+			else
+			{
+				//coll.Add(new CompilerError(guidanceXml, 0, 0, "CS0001", "GetGuidancePackageNamespace failed: Rootnode not found in " + guidanceXml));	
+			}	
+		}
+	
+		return result;	
+	}
+
+	public string GetSnippetsDirectory()
+	{
+		return Path.Combine(GetProjectRootPath(), "Snippets");
+	}
+
+	public string GetRecipeDirectory()
+	{
+		return Path.Combine(GetProjectRootPath(), "Recipes");
+	}
+
+	public string GetOverviewDirectory()
+	{
+		return Path.Combine(GetHelpDirectory(), "ContentOverview");
+	}
+
+	public string GetHelpDirectory()
+	{
+		return Path.Combine(GetProjectRootPath(), "Help");
+	}
+	
+
+	public string GetRecipeFileNameByName(string recipeName)
+	{
+		string recipeDirectory = Path.Combine(GetProjectRootPath(), "Recipes");
+		List<string> res = new List<string>();
+		foreach(string recipeFile in Directory.GetFiles(recipeDirectory, "*.xml", SearchOption.AllDirectories))
+		{	
+			try
+			{
+				XmlReader reader = new XIncludingReader(XmlReader.Create(recipeFile));
+				XmlDocument doc = new XmlDocument();			    
+				doc.Load(reader);
+			
+				XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
+				nsmgr.AddNamespace("ns", "http://schemas.microsoft.com/pag/gax-core");
+				nsmgr.AddNamespace("spsf", "http://spsf.codeplex.com");
+				nsmgr.AddNamespace("wiz", "http://schemas.microsoft.com/pag/gax-wizards");
+				
+				try		
+				{		
+					XmlNode spsfnode = doc.SelectSingleNode("/ns:Recipe", nsmgr);
+					if(spsfnode != null)
+					{
+						string foundRecipeName = GetAttribute(spsfnode, "Name");
+						
+						if(foundRecipeName == recipeName)
+						{
+							return recipeFile;
+						}
+					}
+				}
+				catch(Exception)
+				{
+				}
+			}
+			catch(Exception)
+			{
+			}
+		}
+
+		return "";
+	}
+
+	public override string Title
+	{
+		get
+		{
+			return GetGuidancePackageName();
+		}
+	}
+
+	public override string Description
+	{
+		get
+		{
+			return GetGuidancePackageDescription();
+		}
+	}
+
+	public override string WebPage
+	{
+		get
+		{
+			return "SPSF_ROOT";
+		}
+	}
+
+	public override List<SPSFHelpElement> GetChilds()
+	{
+		List<SPSFHelpElement> res = new  List<SPSFHelpElement>();
+		OverviewIndex overviewIndex = new OverviewIndex(this, 1);
+		res.Add(overviewIndex);				
+		RecipeIndex recipeIndex = new RecipeIndex(this, 2);
+		res.Add(recipeIndex);
+		SnippetIndex snippetIndex = new SnippetIndex(this, 3);
+		res.Add(snippetIndex);
+		return res;
+	}
+
+	public byte[] Serialize()
+	{
+		MemoryStream stream = new MemoryStream();
+		XmlSerializer serializer = new XmlSerializer(typeof(SPSFBase));
+		serializer.Serialize(stream, this);
+		return stream.ToArray();
+	}
+
+	public static SPSFBase Deserialize(byte[] xml)
+	{
+		MemoryStream stream = new MemoryStream(xml);
+		XmlSerializer serializer = new XmlSerializer(typeof(SPSFBase));
+		return serializer.Deserialize(stream) as SPSFBase;
+	}
+
+	public List<RecipeClass> GetAllRecipes()
+	{
+		List<RecipeClass> res = new List<RecipeClass>();
+		string recipeDirectory = Path.Combine(GetProjectRootPath(), "Recipes");	
+		foreach(string recipeFile in Directory.GetFiles(recipeDirectory, "*.xml", SearchOption.AllDirectories))
+		{
+			try
+			{
+				res.Add(new RecipeClass(recipeFile, "", this, 0));
+			}
+			catch(Exception)
+			{
+			}
+		}
+		return res;
+	}
+
+	public List<SnippetClass> GetAllSnippets()
+	{
+		int sort = 0;
+		List<SnippetClass> res = new List<SnippetClass>();
+		string recipeDirectory = Path.Combine(GetProjectRootPath(), "Snippets");	
+		foreach(string recipeFile in Directory.GetFiles(recipeDirectory, "*.snippet", SearchOption.AllDirectories))
+		{
+			XmlReader reader = new XIncludingReader(XmlReader.Create(recipeFile));
+			XmlDocument doc = new XmlDocument();			    
+			doc.Load(reader);
+	
+			string Name = Path.GetFileNameWithoutExtension(recipeFile);
+
+			XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
+			nsmgr.AddNamespace("ns", "http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet");
+			
+			foreach(XmlNode codeSnippetNode in doc.SelectNodes("/ns:CodeSnippets/ns:CodeSnippet", nsmgr))
+			{
+				SnippetClass snippet = new SnippetClass(codeSnippetNode, Name, this, sort, recipeFile);
+				res.Add(snippet);
+				sort++;
+			}
+		}
+		return res;
+	}
+}
+
+[Serializable]
+public class SPSFHelpElement
+{
+	public int Sorting = 0;
+
+	internal SPSFBase spsfBase = null;
+	public SPSFHelpElement(SPSFBase _spsfBase, int _sorting) 
+	{
+		spsfBase = _spsfBase;
+		Sorting = _sorting;
+	}
+
+	public SPSFHelpElement()
+	{
+	}
+
+	public void SetSPSFBase(IServiceProvider _hostServiceProvider, string _hostTemplateFile)
+	{
+		spsfBase = new SPSFBase(_hostServiceProvider, _hostTemplateFile);
+	}
+
+	public void SetSPSFBase(ITextTemplatingEngineHost _host)
+	{
+		spsfBase = new SPSFBase(_host as IServiceProvider, _host.TemplateFile);
+	}
+
+	public virtual SPSFHelpElement GetParent()
+	{
+		return null;
+	}
+
+	public virtual List<SPSFHelpElement> GetSiblings()
+	{
+		return new List<SPSFHelpElement>();
+	}
+
+	public virtual List<SPSFHelpElement> GetChilds()
+	{
+		return new List<SPSFHelpElement>();
+	}
+
+	public virtual List<ReferenceLink> GetReferenceLinks()
+	{
+		return new List<ReferenceLink>();
+	}	
+
+	public virtual string WebPage
+	{
+		get
+		{
+			return "";
+		}
+	}
+
+	public virtual string Title
+	{
+		get
+		{
+			return "";
+		}
+	}
+
+	public virtual string Description
+	{
+		get
+		{
+			return "";
+		}
+	}
+
+	public virtual string Sort
+	{
+		get
+		{
+			return Sorting.ToString();
+		}
+	}
+	
+}
+
+[Serializable]
+public class OverviewIndex : SPSFHelpElement
+{
+	public OverviewIndex()
+	{
+	}
+
+	public OverviewIndex(SPSFBase _spsfBase, int _sorting) : base(_spsfBase, _sorting)
+	{
+	}
+
+	public override string Title
+	{
+		get
+		{
+			return "Overview";
+		}
+	}
+
+	public override string Description
+	{
+		get
+		{
+			return "Describes the contents of SPSF";
+		}
+	}
+
+	public override string WebPage
+	{
+		get
+		{
+			return "SPSF_OVERVIEW_INDEX";
+		}
+	}
+
+	public override List<SPSFHelpElement> GetChilds()
+	{
+		//read all pages in Overview Directory
+		List<SPSFHelpElement> res = new List<SPSFHelpElement>();
+		int sort = 1;
+		foreach(string overviewPageFile in Directory.GetFiles(spsfBase.GetOverviewDirectory(), "*.html"))
+		{
+			OverviewPage overviewPage = new OverviewPage(overviewPageFile, spsfBase, sort);
+			res.Add(overviewPage);
+			sort++;
+		}		
+		return res;
+	}
+
+	public override SPSFHelpElement GetParent()
+	{
+		return spsfBase;
+	}
+
+	public byte[] Serialize()
+	{
+		MemoryStream stream = new MemoryStream();
+		XmlSerializer serializer = new XmlSerializer(typeof(OverviewIndex));
+		serializer.Serialize(stream, this);
+		return stream.ToArray();
+	}
+
+	public static OverviewIndex Deserialize(byte[] xml)
+	{
+		MemoryStream stream = new MemoryStream(xml);
+		XmlSerializer serializer = new XmlSerializer(typeof(OverviewIndex));
+		return serializer.Deserialize(stream) as OverviewIndex;
+	}
+}
+
+[Serializable]
+public class OverviewPage : SPSFHelpElement
+{
+	public string InnerTitle = "";
+	public string InnerDescription = "";
+	public string Filename = "";
+	public string Content = "";
+
+	public OverviewPage()
+	{
+	}
+
+	public OverviewPage(string htmlPage, SPSFBase _spsfBase, int _sorting) : base(_spsfBase, _sorting)
+	{
+		Filename = htmlPage;
+		XmlDocument xmldoc = spsfBase.ReadHtml(htmlPage);
+		try
+		{
+			InnerTitle = xmldoc.SelectSingleNode("/html/head/title").InnerText;
+			Content = xmldoc.SelectSingleNode("/html/body").InnerXml;
+		}
+		catch(Exception )
+		{
+		}
+	}
+
+	public override string Title
+	{
+		get
+		{
+			return InnerTitle;
+		}
+	}
+
+	public override string Description
+	{
+		get
+		{
+			return InnerDescription;
+		}
+	}
+
+	public override string WebPage
+	{
+		get
+		{
+			return "SPSF_OVERVIEW_" + Path.GetFileNameWithoutExtension(Filename).ToUpper();
+		}
+	}
+
+	public byte[] Serialize()
+	{
+		MemoryStream stream = new MemoryStream();
+		XmlSerializer serializer = new XmlSerializer(typeof(OverviewPage));
+		serializer.Serialize(stream, this);
+		return stream.ToArray();
+	}
+
+	public static OverviewPage Deserialize(byte[] xml)
+	{
+		MemoryStream stream = new MemoryStream(xml);
+		XmlSerializer serializer = new XmlSerializer(typeof(OverviewPage));
+		return serializer.Deserialize(stream) as OverviewPage;
+	}
+
+	public override SPSFHelpElement GetParent()
+	{
+		return new OverviewIndex(spsfBase, 1);
+	}
+
+	public override List<SPSFHelpElement> GetSiblings()
+	{
+		return GetParent().GetChilds();
+	}
+}
+
+[Serializable]
+public class SnippetCategory : SPSFHelpElement
+{
+	public string Name = "";
+	public string Dir = "";
+	public string Language = "";
+	public string ParentCategoryDirectory = "";
+
+	public SnippetCategory(string directory, string language, SPSFBase _spsfBase, int sort) : base(_spsfBase, sort)
+	{
+		Dir = directory;
+		Name = new DirectoryInfo(Dir).Name;
+		Language = language;
+	}
+
+	public SnippetCategory()
+	{
+	}
+
+	public byte[] Serialize()
+	{
+		MemoryStream stream = new MemoryStream();
+		XmlSerializer serializer = new XmlSerializer(typeof(SnippetCategory));
+		serializer.Serialize(stream, this);
+		return stream.ToArray();
+	}
+
+	public static SnippetCategory Deserialize(byte[] xml)
+	{
+		MemoryStream stream = new MemoryStream(xml);
+		XmlSerializer serializer = new XmlSerializer(typeof(SnippetCategory));
+		return serializer.Deserialize(stream) as SnippetCategory;
+	}
+
+	public List<SnippetCategory> GetSnippetCategories()
+	{
+		List<SnippetCategory> res = new List<SnippetCategory>();
+		//get all child directories in the language
+		int sort = 1;
+		foreach(string subdir in Directory.GetDirectories(Dir))
+		{
+			SnippetCategory category = new SnippetCategory(subdir, Language, spsfBase, sort);
+			res.Add(category);
+			sort++;
+		}
+		return res;
+	}
+
+	public List<SnippetClass> GetSnippets()
+	{
+		//returns all snippets in current language
+		List<SnippetClass> res = new List<SnippetClass>();
+		//get all child directories in the language
+		int sort = 1;
+		foreach(string snippetFilename in Directory.GetFiles(Dir, "*.snippet"))
+		{
+			XmlReader reader = new XIncludingReader(XmlReader.Create(snippetFilename));
+			XmlDocument doc = new XmlDocument();			    
+			doc.Load(reader);
+	
+			string Name = Path.GetFileNameWithoutExtension(snippetFilename);
+
+			XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
+			nsmgr.AddNamespace("ns", "http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet");
+			
+			foreach(XmlNode codeSnippetNode in doc.SelectNodes("/ns:CodeSnippets/ns:CodeSnippet", nsmgr))
+			{
+				SnippetClass snippet = new SnippetClass(codeSnippetNode, Language, spsfBase, sort, snippetFilename);
+				snippet.Category = this.Name;
+				res.Add(snippet);
+				sort++;
+			}
+
+		}		
+		return res;
+	}
+
+	public override List<SPSFHelpElement> GetChilds()
+	{
+		List<SPSFHelpElement> res = new List<SPSFHelpElement>();
+		foreach(SnippetClass snippet in GetSnippets())
+		{
+			//res.Add(snippet);
+		}
+		return res;
+	}
+
+	public override SPSFHelpElement GetParent()
+	{
+		//is the parent directoy the name of the guidance package???
+		DirectoryInfo dirinfo = new DirectoryInfo(this.Dir);
+		if((dirinfo.Parent != null) && (dirinfo.Parent.Name != spsfBase.GetGuidancePackageName()))
+		{  
+			return new SnippetCategory(dirinfo.Parent.FullName, Language, spsfBase, 1);
+		}
+		else
+		{
+			return new SnippetLanguage(this.Language, spsfBase, 1);
+		}		
+	}
+
+	public override List<SPSFHelpElement> GetSiblings()
+	{
+		return new List<SPSFHelpElement>();
+	}	
+
+	public override string Title
+	{
+		get
+		{
+			return Name;
+		}
+	}
+
+	public override string WebPage
+	{
+		get
+		{
+			return "SPSF_SNIPPETS_CATEGORY_" + Language.ToUpper() + "_" + Name.Replace(" ","").ToUpper();
+		}
+	}
+}
+
+[Serializable]
+public class SnippetClassDeclaration : SPSFHelpElement
+{
+	public string ID = "";
+	public string ToolTip = "";
+	public string Default = "";
+}
+
+[Serializable]
+public class SnippetClass : SPSFHelpElement
+{
+	public SnippetClass(XmlNode snippetNode, string language, SPSFBase _spsfBase, int _sorting, string filename) : base(_spsfBase, _sorting)
+	{
+		codeSnippetNode = snippetNode;
+		FileName = filename;
+		this.Language = language;
+		Initialize();
+	}
+
+	public SnippetClass()
+	{
+	}
+
+	public void Initialize()
+	{						
+		//Category = snippetCategory;
+		//Language = language;
+
+		XmlNamespaceManager nsmgr = new XmlNamespaceManager(codeSnippetNode.OwnerDocument.NameTable);
+		nsmgr.AddNamespace("ns", "http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet");
+
+		XmlNode titleNode = codeSnippetNode.SelectSingleNode("ns:Header/ns:Title", nsmgr);
+		if(titleNode != null)
+		{
+			InnerTitle = titleNode.InnerText;
+
+			Name = InnerTitle;
+			Name = Name.Replace(" ","");
+			Name = Name.Replace("_","");
+			Name = Name.Replace("-","");
+			Name = Name.Replace(".","");	
+		}
+				
+		XmlNode descNode = codeSnippetNode.SelectSingleNode("ns:Header/ns:Description", nsmgr);
+		if(descNode != null)
+		{
+			InnerDescription = descNode.InnerText;
+		}
+				
+		XmlNode HelpUrlNode = codeSnippetNode.SelectSingleNode("ns:Header/ns:HelpUrl", nsmgr);
+		if(HelpUrlNode != null)
+		{
+			HelpUrl = HelpUrlNode.InnerText;
+		}
+				
+		XmlNode AuthorNode = codeSnippetNode.SelectSingleNode("ns:Header/ns:Author", nsmgr);
+		if(AuthorNode != null)
+		{
+			Author = AuthorNode.InnerText;
+		}
+
+		foreach(XmlNode declarationsNode in codeSnippetNode.SelectNodes("ns:Snippet/ns:Declarations/ns:Literal", nsmgr))
+		{
+			SnippetClassDeclaration newDeclaration = new SnippetClassDeclaration();
+
+			XmlNode IDNode = declarationsNode.SelectSingleNode("ns:ID", nsmgr);
+			if(IDNode != null)
+			{
+				newDeclaration.ID = IDNode.InnerText;
+			}
+			XmlNode ToolTipNode = declarationsNode.SelectSingleNode("ns:ToolTip", nsmgr);
+			if(ToolTipNode != null)
+			{
+				newDeclaration.ToolTip = ToolTipNode.InnerText;
+			}
+			XmlNode DefaultNode = declarationsNode.SelectSingleNode("ns:Default", nsmgr);
+			if(DefaultNode != null)
+			{
+				newDeclaration.Default = DefaultNode.InnerText;
+			}
+				
+			Declarations.Add(newDeclaration);
+		}
+				
+		XmlNode codeNode = codeSnippetNode.SelectSingleNode("ns:Snippet/ns:Code", nsmgr);
+		if(codeNode != null)
+		{
+			Code = codeNode.InnerText;
+			Code = Code.Replace("<","&lt;");
+			Code = Code.Replace(">","&gt;");
+			Code = Code.Replace("\n","<br />");
+			Code = Code.Replace("\t","&#160;&#160;&#160;");
+			Code = Code.Replace("&nbsp;","&#160;");
+		}			
+	}
+	
+	public string Name = "";
+	public string Code = "";
+	public string InnerTitle = "";
+	public string FileName = "";
+	
+	public XmlNode codeSnippetNode = null;
+	public string Category = "";
+	
+	public string InnerDescription = "";
+	public string Author = "";
+	public string HelpUrl = "";	
+	public string Language = "";
+
+	public List<SnippetClassDeclaration> Declarations = new List<SnippetClassDeclaration>();
+
+	public byte[] Serialize()
+	{
+		MemoryStream stream = new MemoryStream();
+		XmlSerializer serializer = new XmlSerializer(typeof(SnippetClass));
+		serializer.Serialize(stream, this);
+		return stream.ToArray();
+	}
+
+	public static SnippetClass Deserialize(byte[] xml)
+	{
+		MemoryStream stream = new MemoryStream(xml);
+		XmlSerializer serializer = new XmlSerializer(typeof(SnippetClass));
+		return serializer.Deserialize(stream) as SnippetClass;
+	}
+	
+	public override string WebPage
+	{
+		get
+		{
+			return "SPSF_SNIPPETS_" + Name.ToUpper();
+		}		
+	}
+
+	public override string Title
+	{
+		get
+		{
+			return InnerTitle;
+		}				
+	}
+
+	public override string Description
+	{
+		get
+		{
+			return InnerDescription;
+		}				
+	}
+
+	public override List<ReferenceLink> GetReferenceLinks()
+	{
+		List<ReferenceLink> references = new List<ReferenceLink>();
+		if(!string.IsNullOrEmpty(this.HelpUrl))
+		{
+			references.Add(new ReferenceLink("More information about the snippet (Help Url)", this.HelpUrl));
+		}	
+		return references;
+	}	
+
+	public override SPSFHelpElement GetParent()
+	{
+		//is the parent directoy the name of the guidance package???
+		FileInfo fileinfo = new FileInfo(this.FileName);
+		if((fileinfo.Directory != null) && (fileinfo.Directory.Name != spsfBase.GetGuidancePackageName()))
+		{  
+			return new SnippetCategory(fileinfo.Directory.FullName, Language, spsfBase, 1);
+		}
+		else
+		{
+			return new SnippetLanguage(this.Language, spsfBase, 1);
+		}		
+	}
+
+	public override List<SPSFHelpElement> GetSiblings()
+	{
+		return GetParent().GetChilds();
+	}
+}
+
+[Serializable]
+public class SnippetIndex : SPSFHelpElement
+{
+	public SnippetIndex(SPSFBase _spsfBase, int _sorting) : base(_spsfBase, _sorting)
+	{
+	}
+
+	public SnippetIndex()
+	{
+	}
+
+	public byte[] Serialize()
+	{
+		MemoryStream stream = new MemoryStream();
+		XmlSerializer serializer = new XmlSerializer(typeof(SnippetIndex));
+		serializer.Serialize(stream, this);
+		return stream.ToArray();
+	}
+
+	public static SnippetIndex Deserialize(byte[] xml)
+	{
+		MemoryStream stream = new MemoryStream(xml);
+		XmlSerializer serializer = new XmlSerializer(typeof(SnippetIndex));
+		return serializer.Deserialize(stream) as SnippetIndex;
+	}
+
+	public List<SnippetLanguage> GetSnippetLanguages()
+	{
+		List<SnippetLanguage> res = new List<SnippetLanguage>();
+
+		string guidancePackageName = spsfBase.GetGuidancePackageName();
+		string snippetDirectory = spsfBase.GetSnippetsDirectory();
+	
+		int sort = 1;
+		foreach(string langDir in Directory.GetDirectories(snippetDirectory))
+		{
+			SnippetLanguage language = new SnippetLanguage(langDir, spsfBase, sort);
+			res.Add(language);
+			sort++;
+		}
+				
+		return res;
+	}
+
+	public override string Title
+	{
+		get
+		{
+			return "Snippet Index";
+		}
+	}
+
+	public override string Description
+	{
+		get
+		{
+			return "Provides a list of all snippets in the package.";
+		}
+	}
+
+	public override string WebPage
+	{
+		get
+		{
+			return "SPSF_SNIPPETS_INDEX";
+		}
+	}
+
+	public override SPSFHelpElement GetParent()
+	{
+		return spsfBase;
+	}
+
+	public override List<SPSFHelpElement> GetSiblings()
+	{
+		return GetParent().GetChilds();
+	}
+
+	public override List<SPSFHelpElement> GetChilds()
+	{
+		List<SPSFHelpElement> res = new List<SPSFHelpElement>();
+		foreach(SnippetLanguage lang in GetSnippetLanguages())
+		{
+			res.Add(lang);
+		}
+		return res;
+	}
+}
+
+[Serializable]
+public class SnippetLanguage : SPSFHelpElement
+{
+	public SnippetLanguage(string directory, SPSFBase _spsfBase, int _sorting) : base(_spsfBase, _sorting)
+	{
+		Dir = directory;
+		if(!Path.IsPathRooted(Dir))
+		{
+			//only language name is given,
+			Dir = Path.Combine(_spsfBase.GetSnippetsDirectory(), Dir);
+		}
+		
+		Name = new DirectoryInfo(Dir).Name;
+	}
+
+	public SnippetLanguage()
+	{
+	}
+
+	public string Name = "";
+	public string Dir = "";	
+	
+	public List<SnippetCategory> GetSnippetCategories()
+	{
+		List<SnippetCategory> res = new List<SnippetCategory>();
+		//get all child directories in the language
+		int sort = 1;
+		foreach(string subdir in Directory.GetDirectories(Path.Combine(Dir, spsfBase.GetGuidancePackageName())))
+		{
+			SnippetCategory category = new SnippetCategory(subdir, this.Name, spsfBase, sort);
+			res.Add(category);
+			sort++;
+		}
+		return res;
+	}
+
+	public List<SnippetClass> GetSnippets()
+	{
+		//returns all snippets in current language
+		List<SnippetClass> res = new List<SnippetClass>();
+		//get all child directories in the language
+		int sort = 1;
+		foreach(string snippetFilename in Directory.GetFiles(Path.Combine(Dir, spsfBase.GetGuidancePackageName()), "*.snippet"))
+		{
+			XmlReader reader = new XIncludingReader(XmlReader.Create(snippetFilename));
+			XmlDocument doc = new XmlDocument();			    
+			doc.Load(reader);
+	
+			string Name = Path.GetFileNameWithoutExtension(snippetFilename);
+
+			XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
+			nsmgr.AddNamespace("ns", "http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet");
+			
+			foreach(XmlNode codeSnippetNode in doc.SelectNodes("/ns:CodeSnippets/ns:CodeSnippet", nsmgr))
+			{
+				SnippetClass snippet = new SnippetClass(codeSnippetNode, Name, spsfBase, sort, snippetFilename);
+				res.Add(snippet);
+				sort++;
+			}		
+		}		
+		return res;
+	}
+
+	public byte[] Serialize()
+	{
+		MemoryStream stream = new MemoryStream();
+		XmlSerializer serializer = new XmlSerializer(typeof(SnippetLanguage));
+		serializer.Serialize(stream, this);
+		return stream.ToArray();
+	}
+
+	public static SnippetLanguage Deserialize(byte[] xml)
+	{
+		MemoryStream stream = new MemoryStream(xml);
+		XmlSerializer serializer = new XmlSerializer(typeof(SnippetLanguage));
+		return serializer.Deserialize(stream) as SnippetLanguage;
+	}
+
+	public override string Title
+	{
+		get
+		{
+			return Name;
+		}
+	}
+
+	public override string Description
+	{
+		get
+		{
+			return "";
+		}
+	}
+
+	public override string WebPage
+	{
+		get
+		{
+			return "SPSF_SNIPPETS_LANGUAGE_" + Name.ToUpper();
+		}
+	}
+
+	public override SPSFHelpElement GetParent()
+	{
+		return new SnippetIndex(spsfBase, 1);
+	}
+
+	public override List<SPSFHelpElement> GetSiblings()
+	{
+		return GetParent().GetChilds();
+	}
+
+	public override List<SPSFHelpElement> GetChilds()
+	{
+		List<SPSFHelpElement> res = new List<SPSFHelpElement>();
+		foreach(SnippetCategory snippetCat in GetSnippetCategories())
+		{
+			res.Add(snippetCat);
+		}
+		foreach(SnippetClass snippet in GetSnippets())
+		{
+			res.Add(snippet);
+		}
+		return res;
+	}
+}
+
+
+
+
+
+
+
+
+[Serializable]
+public class RecipeIndex : SPSFHelpElement
+{
+	public RecipeIndex(SPSFBase _spsfBase, int _sorting) : base(_spsfBase, _sorting)
+	{
+	}
+
+	public RecipeIndex()
+	{
+	}
+
+	public byte[] Serialize()
+	{
+		MemoryStream stream = new MemoryStream();
+		XmlSerializer serializer = new XmlSerializer(typeof(RecipeIndex));
+		serializer.Serialize(stream, this);
+		return stream.ToArray();
+	}
+
+	public static RecipeIndex Deserialize(byte[] xml)
+	{
+		MemoryStream stream = new MemoryStream(xml);
+		XmlSerializer serializer = new XmlSerializer(typeof(RecipeIndex));
+		return serializer.Deserialize(stream) as RecipeIndex;
+	}
+
+	public List<RecipeCategory> GetCategories()
+	{
+		List<RecipeCategory> res = new List<RecipeCategory>();
+		
+		string categoriesList = Path.Combine(spsfBase.GetProjectRootPath(), "RecipeCategories.xml");
+		if(File.Exists(categoriesList))
+		{
+			XmlDocument doc = new XmlDocument();
+			doc.Load(categoriesList);
+			
+			int sort = 1;
+			foreach(XmlNode categoryNode in doc.SelectNodes("/RecipeCategories/RecipeCategory"))
+			{
+				RecipeCategory recCategory = new RecipeCategory(categoryNode, spsfBase, sort);				
+				res.Add(recCategory);	
+				sort++;
+			}		
+		}
+				
+		return res;
+	}
+
+	public override string Title
+	{
+		get
+		{
+			return "Recipe Index";
+		}
+	}
+
+	public override string Description
+	{
+		get
+		{
+			return "Provides a list of all recipes in the package.";
+		}
+	}
+
+	public override string WebPage
+	{
+		get
+		{
+			return "SPSF_RECIPES_INDEX";
+		}
+	}
+
+	public override SPSFHelpElement GetParent()
+	{
+		return spsfBase;
+	}
+
+	public override List<SPSFHelpElement> GetSiblings()
+	{
+		return GetParent().GetChilds();
+	}
+
+	public override List<SPSFHelpElement> GetChilds()
+	{
+		List<SPSFHelpElement> res = new List<SPSFHelpElement>();
+		foreach(RecipeCategory category in GetCategories())
+		{
+			res.Add(category);
+		}
+		return res;
+	}
+}
+
+
+[Serializable]
+public class ReferenceLink
+{
+	public string Url = "";
+	public string Caption = "";
+
+	public ReferenceLink()
+	{
+	}
+
+	public ReferenceLink(string caption, string url)
+	{
+		Url = url;
+		Caption = caption;
+	}
+}
+
+[Serializable]
+public class RecipeArgument
+{
+	public string Name = "";
+	public string Type = "";
+	public string Help = "";
+	public bool ReadOnly = false;
+}
+
+[Serializable]
+public class RecipeCategory : SPSFHelpElement
+{
+	public string Name = "";
+	public string InnerTitle = "";
+	public string InnerDescription = "";
+	public string ParentCategoryName = "";
+
+	public RecipeCategory()
+	{
+	}
+
+	public RecipeCategory(string categoryName, SPSFBase spsfbase, int _sorting) : base(spsfbase, _sorting)
+	{
+		this.Name = categoryName;
+		XmlNode node = GetCategoryNode();
+		Initialize(node);
+	}
+
+	public RecipeCategory(XmlNode node, SPSFBase spsfbase, int _sorting) : base(spsfbase, _sorting)
+	{
+		Initialize(node);
+	}
+
+	private void Initialize(XmlNode node)
+	{
+		Name = node.Attributes["Name"].Value;
+		InnerTitle = node.Attributes["Title"].Value;
+		InnerDescription = node.Attributes["Description"].Value;
+
+		ParentCategoryName = GetNameOfParentNode(node);
+	}
+
+	public byte[] Serialize()
+	{
+		MemoryStream stream = new MemoryStream();
+		XmlSerializer serializer = new XmlSerializer(typeof(RecipeCategory));
+		serializer.Serialize(stream, this);
+		return stream.ToArray();
+	}
+
+	public static RecipeCategory Deserialize(byte[] xml)
+	{
+		MemoryStream stream = new MemoryStream(xml);
+		XmlSerializer serializer = new XmlSerializer(typeof(RecipeCategory));
+		return serializer.Deserialize(stream) as RecipeCategory;
+	}
+
+	private XmlNode GetCategoryNode()
+	{
+		string categoriesList = Path.Combine(spsfBase.GetProjectRootPath(), "RecipeCategories.xml");
+		if(File.Exists(categoriesList))
+		{
+			XmlDocument doc = new XmlDocument();
+			doc.Load(categoriesList);
+
+			XmlNode categoryNode = doc.SelectSingleNode("//RecipeCategory[@Name='" + Name + "']");
+			return categoryNode;
+		}
+		return null;
+	}
+
+	public List<RecipeCategory> GetChildCategories()
+	{
+		List<RecipeCategory> res = new List<RecipeCategory>();
+
+		XmlNode categoryNode = GetCategoryNode();
+		if(categoryNode != null)
+		{
+			int sort = 1;
+			foreach(XmlNode childNode in categoryNode.SelectNodes("RecipeCategories/RecipeCategory"))
+			{
+				RecipeCategory recCategory = new RecipeCategory(childNode, spsfBase, sort);				
+				res.Add(recCategory);	
+				sort++;
+			}				
+		}				
+
+		return res;
+	}
+
+	public string GetNameOfParentNode(XmlNode node)
+	{
+		XmlNode ParentNode = GetParentNode(node);
+		if(ParentNode != null)
+		{	if(ParentNode.Attributes["Name"] != null)
+			{	return ParentNode.Attributes["Name"].Value.ToString();
+			}
+		}
+		return "";
+	}
+
+	public XmlNode GetParentNode(XmlNode node)
+	{
+		//has the category a parent?
+		if(node.ParentNode != null)
+		{
+			if(node.ParentNode.ParentNode != null)
+			{
+				if(node.ParentNode.ParentNode.Name == "RecipeCategory")
+				{
+					return node.ParentNode.ParentNode;
+				}
+			}
+		}
+		return null;
+	}
+
+	public override SPSFHelpElement GetParent()
+	{
+		if(!string.IsNullOrEmpty(this.ParentCategoryName))
+		{	
+			//ok, have a parent, get the category node for this parent element from the RecipeCategories.xml
+			string categoriesList = Path.Combine(spsfBase.GetProjectRootPath(), "RecipeCategories.xml");
+			if(File.Exists(categoriesList))
+			{
+				XmlDocument doc = new XmlDocument();
+				doc.Load(categoriesList);
+		
+				XmlNode categoryNode = doc.SelectSingleNode("//RecipeCategory[@Name='" + ParentCategoryName + "']");
+				if(categoryNode != null)
+				{
+					return new RecipeCategory(categoryNode, spsfBase, 1);				
+				}		
+			}
+		}
+		return new RecipeIndex(spsfBase, 2);
+	}
+
+	public override List<SPSFHelpElement> GetSiblings()
+	{
+		return GetParent().GetChilds();
+	}
+
+	public override List<SPSFHelpElement> GetChilds()
+	{
+		List<SPSFHelpElement> res = new  List<SPSFHelpElement>();
+		foreach(RecipeCategory childCategory in GetChildCategories())
+		{
+			res.Add(childCategory);
+		}
+		foreach(RecipeClass childRecipe in GetRecipes())
+		{
+			if(!childRecipe.HideInHelpNavigation)
+			{
+				res.Add(childRecipe);
+			}
+		}
+		return res;
+	
+	}
+
+	public List<RecipeClass> GetRecipes()
+	{
+		List<RecipeClass> res = new List<RecipeClass>();
+		string searchPath = spsfBase.GetRecipeDirectory();
+		if(Directory.Exists(searchPath))
+		{
+			int sort = 1;
+			foreach(string recipeFile in Directory.GetFiles(searchPath, "*.xml", SearchOption.AllDirectories))
+			{
+				try
+				{
+					RecipeClass recipeClass = new RecipeClass(recipeFile, this.Name, spsfBase, sort);
+					if(recipeClass.Category.Equals(Name))
+					{
+            if(recipeClass.Enabled)
+						{
+						  if(!recipeClass.HideInHelpNavigation)
+						  {
+							  res.Add(recipeClass);
+							  sort++;
+						  }
+            }
+					}
+				}
+				catch(Exception ex)
+				{
+					throw new Exception("Failure in " + recipeFile + ": " + ex.Message);
+				}
+			}
+		}
+		res.Sort();
+		return res;
+	}
+
+	public string GetDirectoryOfCategory()
+	{
+		string path = this.Name;
+		object parent = GetParent();
+		while(parent is RecipeCategory)
+		{
+			path = (parent as RecipeCategory).Name + "\\" + path;
+			parent = (parent as RecipeCategory).GetParent();
+		}
+
+		return path;
+	}
+
+	public override string WebPage
+	{
+		get
+		{
+			return "SPSF_RECIPES_CATEGORY_" + Name.ToUpper();
+		}
+	}
+
+	public override string Title
+	{
+		get
+		{
+			return this.InnerTitle;
+		}
+	}
+
+	public override string Description
+	{
+		get
+		{
+			return this.InnerDescription;
+		}
+	}
+}
+
+[Serializable]
+public class WebPage
+{
+	public string Title = "";
+	public string Url = "";
+	public string Path = "";
+	public string Content = "";
+	public string AbsoluteUrl = "";
+}
+
+[Serializable]
+public class TestCase
+{
+	public string Name = "";
+	public string Type="";
+	public bool NotSandboxSupported = false;
+	public List<TestArgument> Arguments = new List<TestArgument>();
+	public List<TestExpectedCodeResult> ExpectedCodeResult = new List<TestExpectedCodeResult>();
+	public List<TestExpectedDeployResult> ExpectedDeployResult = new List<TestExpectedDeployResult>();
+}
+
+[Serializable]
+public class TestExpectedCodeResult
+{
+	public string Type = "";
+	public string Value = "";
+}
+
+[Serializable]
+public class TestExpectedDeployResult
+{
+	public string Type = "";
+	public string Value = "";
+}
+
+[Serializable]
+public class TestArgument
+{
+	public string Name = "";
+	public string Value = "";
+}
+
+[Serializable]
+public class ArgumentSection
+{
+	public string Title = "";	
+	public string Description = "";	
+	public List<RecipeArgument> Arguments = new List<RecipeArgument>();
+}
+
+[Serializable]
+public class RecipeClass : SPSFHelpElement, IComparable<RecipeClass>
+{
+	public RecipeClass()
+	{
+	}
+
+	public RecipeClass(string recipeName, SPSFBase spsfBase, int _sorting) : base(spsfBase, _sorting)
+	{
+		//find the xml file of the recipe with that name
+		string recipeFilename = spsfBase.GetRecipeFileNameByName(recipeName);
+		Initialize(recipeFilename);
+	}
+
+	public RecipeClass(string recipeFilename, string category, SPSFBase spsfBase, int _sorting) : base(spsfBase, _sorting)
+	{
+		this.Category = category;
+		Initialize(recipeFilename);
+	}
+
+	public void Initialize(string recipeFilename)
+	{
+		XmlReader reader = new XIncludingReader(XmlReader.Create(recipeFilename));
+			XmlDocument doc = new XmlDocument();			    
+			doc.Load(reader);
+			
+			XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
+			nsmgr.AddNamespace("ns", "http://schemas.microsoft.com/pag/gax-core");
+			nsmgr.AddNamespace("spsf", "http://spsf.codeplex.com");
+			nsmgr.AddNamespace("wiz", "http://schemas.microsoft.com/pag/gax-wizards");
+				
+		
+			XmlNode recipenode = doc.SelectSingleNode("/ns:Recipe", nsmgr);
+			if(recipenode != null)
+			{
+				Name = recipenode.Attributes["Name"].Value;
+			}
+			
+			XmlNode captionNode = doc.SelectSingleNode("/ns:Recipe/ns:Caption", nsmgr);
+			if(captionNode != null)
+			{
+				InnerTitle = captionNode.InnerText;			
+			}
+			
+			XmlNode hostDataNode = doc.SelectSingleNode("/ns:Recipe/ns:HostData", nsmgr);
+			if(hostDataNode != null)
+			{
+				Priority = spsfBase.GetAttributeInt(hostDataNode,"Priority");		
+			}	
+
+			XmlNode iconNode = doc.SelectSingleNode("/ns:Recipe/ns:HostData/ns:Icon", nsmgr);
+			if(iconNode != null)
+			{
+				Icon = iconNode.Attributes["File"].Value;	
+			}	
+			
+			XmlNode descriptionNode = doc.SelectSingleNode("/ns:Recipe/ns:Description", nsmgr);
+			if(descriptionNode != null)
+			{
+				InnerDescription = descriptionNode.InnerText;			
+			}
+			
+			foreach(XmlNode linkNode in doc.SelectNodes("/ns:Recipe/ns:DocumentationLinks/ns:Link", nsmgr))
+			{
+				ReferenceLink link = new ReferenceLink();
+				link.Url = linkNode.Attributes["Url"].Value;
+				link.Caption = linkNode.Attributes["Caption"].Value;
+				ReferenceLinks.Add(link);
+			}
+			
+			foreach(XmlNode sectionNode in doc.SelectNodes("/ns:Recipe/ns:GatheringServiceData/wiz:Wizard/wiz:Pages/wiz:Page", nsmgr))
+			{
+				ArgumentSection section = new ArgumentSection();
+				XmlNode titleNode = sectionNode.SelectSingleNode("wiz:Title", nsmgr);
+				if(titleNode != null)
+				{
+					section.Title = titleNode.InnerText;
+				}
+				
+				ArgumentSections.Add(section);
+
+				foreach(XmlNode fieldNode in sectionNode.SelectNodes("wiz:Fields/wiz:Field", nsmgr))
+				{
+					RecipeArgument field = new RecipeArgument();
+					field.Name = spsfBase.GetAttribute(fieldNode, "Label");
+					field.ReadOnly = spsfBase.GetAttributeAsBool(fieldNode, "ReadOnly", false);
+					XmlNode helpNode = fieldNode.SelectSingleNode("wiz:Help", nsmgr);
+					if(helpNode != null)
+					{
+						field.Help = helpNode.InnerText;
+					}
+					if(field.Name != "Branding")
+					{
+						section.Arguments.Add(field);
+					}				
+				}
+			}
+			
+			try		
+			{		
+				XmlNode spsfnode = doc.SelectSingleNode("/ns:Recipe/ns:HostData/spsf:MetaData", nsmgr);
+				if(spsfnode != null)
+				{
+					Category = spsfnode.Attributes["Category"].Value;
+					Visible = Boolean.Parse(spsfnode.Attributes["Visible"].Value);	
+					Enabled = Boolean.Parse(spsfnode.Attributes["Enabled"].Value);
+					HideInHelpNavigation = spsfBase.GetAttributeAsBool(spsfnode, "HideInHelpNavigation", false);
+					
+					CreateVSTemplate = spsfBase.GetAttributeAsBool(spsfnode, "CreateVSTemplate", false);	
+					BindingType = spsfBase.GetAttribute(spsfnode, "BindingType");	
+					BindingTypeTemplate = spsfBase.GetAttribute(spsfnode, "BindingTypeTemplate");	
+					TemplatePath = spsfBase.GetAttribute(spsfnode, "TemplatePath");
+					VSTemplateDefaultName = spsfBase.GetAttribute(spsfnode, "VSTemplateDefaultName");
+
+					FeatureScopes = spsfBase.GetAttribute(spsfnode, "FeatureScopes");					
+					SharePointVersions = spsfBase.GetAttribute(spsfnode, "SharePointVersions");
+					VSTemplate = spsfBase.GetAttribute(spsfnode, "VSTemplate");
+					XPath = spsfBase.GetAttribute(spsfnode, "XPath");
+					XPathNamespace = spsfBase.GetAttribute(spsfnode, "XPathNamespace");
+					NotSandboxSupported = spsfBase.GetAttributeAsBool(spsfnode, "NotSandboxSupported", false);
+
+					try
+					{
+						ExcludeFromTests = Boolean.Parse(spsfnode.Attributes["ExcludeFromTests"].Value);
+					}
+					catch {}
+					TestType = spsfBase.GetAttribute(spsfnode, "TestType");
+					
+					foreach(XmlNode authorNode in spsfnode.SelectNodes("spsf:Authors/spsf:Author", nsmgr))
+					{
+						AuthorList.Add(authorNode.InnerText);
+					}
+
+					foreach(XmlNode RelatedRecipeNode in spsfnode.SelectNodes("spsf:RelatedRecipes/spsf:RelatedRecipe", nsmgr))
+					{
+						RelatedRecipesList.Add(RelatedRecipeNode.InnerText);
+					}
+					
+					foreach(XmlNode versionNode in spsfnode.SelectNodes("spsf:VersionHistory/spsf:VersionHistoryEntry", nsmgr))
+					{
+						VersionHistoryList.Add(versionNode.InnerText);
+					}
+					
+					XmlNode webPageNode = spsfnode.SelectSingleNode("spsf:WebPageContent", nsmgr);
+					if(webPageNode != null)
+					{
+						WebPageContent = webPageNode.InnerText;
+
+						//replace html within the content
+						//we support <b>, <i>, all other tags are escaped
+						WebPageContent = WebPageContent.Replace("<", "&lt;");
+						WebPageContent = WebPageContent.Replace(">", "&gt;");					
+
+						//replace <b> back to html
+						WebPageContent = WebPageContent.Replace("&lt;b&gt;", "<b>");
+						WebPageContent = WebPageContent.Replace("&lt;/b&gt;", "</b>");
+						WebPageContent = WebPageContent.Replace("&lt;i&gt;", "<i>");
+						WebPageContent = WebPageContent.Replace("&lt;/i&gt;", "</i>");
+
+						WebPageContent = WebPageContent.Replace("&lt;ul&gt;", "<ul>");
+						WebPageContent = WebPageContent.Replace("&lt;/uli&gt;", "</ul>");
+						WebPageContent = WebPageContent.Replace("&lt;li&gt;", "<li>");
+						WebPageContent = WebPageContent.Replace("&lt;/li&gt;", "</li>");
+
+						WebPageContent = WebPageContent.Replace("\n", "<br />");
+						WebPageContent = WebPageContent.Replace("&nbsp;", "&#160;");
+						WebPageContent = WebPageContent.Replace("\t", "&#160;&#160;");
+					}
+					
+					XmlNode testNode = spsfnode.SelectSingleNode("spsf:Test", nsmgr);
+					if(testNode != null)
+					{
+						foreach(XmlNode testCaseNode in testNode.SelectNodes("spsf:TestCases/spsf:TestCase", nsmgr))
+						{
+							TestCase tcase = new TestCase();
+							tcase.Name = spsfBase.GetAttribute(testCaseNode, "Name");
+							tcase.Type = spsfBase.GetAttribute(testCaseNode, "Type");
+							tcase.NotSandboxSupported = spsfBase.GetAttributeAsBool(testCaseNode, "NotSandboxSupported", false);
+							
+							TestCases.Add(tcase);
+							
+							foreach(XmlNode testCaseArgumentNode in testCaseNode.SelectNodes("spsf:TestCaseArguments/spsf:TestCaseArgument", nsmgr))
+							{
+								TestArgument argument = new TestArgument();
+								argument.Name = spsfBase.GetAttribute(testCaseArgumentNode, "Name");
+								argument.Value= testCaseArgumentNode.InnerText;
+								tcase.Arguments.Add(argument);
+							}
+
+							foreach(XmlNode testCaseArgumentNode in testCaseNode.SelectNodes("spsf:TestExpectedCodeResults/spsf:TestExpectedCodeResult", nsmgr))
+							{
+								TestExpectedCodeResult coderesult = new TestExpectedCodeResult();
+								coderesult.Type = spsfBase.GetAttribute(testCaseArgumentNode, "Type");
+								coderesult.Value= testCaseArgumentNode.InnerText;
+								tcase.ExpectedCodeResult.Add(coderesult);
+							}
+
+							foreach(XmlNode testCaseArgumentNode in testCaseNode.SelectNodes("spsf:TestExpectedDeployResults/spsf:TestExpectedDeployResult", nsmgr))
+							{
+								TestExpectedDeployResult deployresult = new TestExpectedDeployResult();
+								deployresult.Type = spsfBase.GetAttribute(testCaseArgumentNode, "Type");
+								deployresult.Value= testCaseArgumentNode.InnerText;
+								tcase.ExpectedDeployResult.Add(deployresult);
+							}
+						}
+					}
+					
+				}
+			}
+			catch(Exception)
+			{
+				
+			}
+			
+			if(Enabled)
+			{
+				//validate the recipe
+				if(BindingType == "")
+				{
+					//coll.Add(new CompilerError(recipeFile, 0, 0, "CS0001", "Recipe " + rClass.Name + " has no BindingType"));
+				}
+				if(CreateVSTemplate == true)
+				{	if(Description == "")
+					{
+						//coll.Add(new CompilerError(recipeFile, 0, 0, "CS0001", "Recipe " + rClass.Name + " has no Description which can lead to problems with .vstemplate files (the name of the recipe will not be displayed correctly)"));
+					}
+				}
+			}
+	}
+
+	public string Name = "";
+	public string Category = "";
+	public string InnerTitle = "";
+	public string Icon = "";
+
+	public string InnerDescription = "";	
+	public int Priority = 0;
+	
+	public string Author = "";
+	public string VersionHistory = "";
+	
+	public string WebPageContent = "";
+	public string HtmlPath = "";
+	public string HtmlCategory = "";
+	
+	public bool Visible = false;
+	public bool Enabled = false;	
+	public bool HideInHelpNavigation = false;
+	public bool ExcludeFromTests = false;
+
+	public bool CreateVSTemplate = false;	
+	public bool NotSandboxSupported = false;
+	public string BindingType = "";	
+	public string BindingTypeTemplate = "";	
+	public string TemplatePath = "";	
+	public string VSTemplateDefaultName = "";
+	
+	public string FeatureScopes = "";	
+	public string SharePointVersions = "";
+	public string VSTemplate = "";
+	public string XPath = "";
+	public string XPathNamespace = "";
+	
+	public List<ReferenceLink> ReferenceLinks = new List<ReferenceLink>();
+	public List<ArgumentSection> ArgumentSections = new List<ArgumentSection>();
+	
+	public List<string> AuthorList = new List<string>();
+	public List<string> VersionHistoryList = new List<string>();
+	public List<string> RelatedRecipesList = new List<string>();	
+	
+	public string TestType = "";
+	public List<TestCase> TestCases = new List<TestCase>();
+	
+	public int CompareTo(RecipeClass other)
+    {
+        return Priority.CompareTo(other.Priority);
+    }
+		
+	public string GetPriorityString()
+	{
+		return this.Priority.ToString().PadLeft(4, '0');
+	}
+
+	public override string WebPage
+	{
+		get
+		{
+			return "SPSF_RECIPE_" + Name.ToUpper();
+		}
+	}
+
+	public override string Title
+	{
+		get
+		{
+			return InnerTitle;
+		}
+	}
+
+	public override string Description
+	{
+		get
+		{
+			return InnerDescription;
+		}
+	}
+
+	public override List<SPSFHelpElement> GetSiblings()
+	{
+		return GetParent().GetChilds();
+	}
+
+	public override SPSFHelpElement GetParent()
+	{
+		try
+		{
+			if(Category != "")
+			{
+				return new RecipeCategory(Category, spsfBase, 1);
+			}
+		}
+		catch(Exception)
+		{
+		}
+		return new RecipeIndex(spsfBase, 2);
+	}
+
+	public override List<ReferenceLink> GetReferenceLinks()
+	{
+		List<ReferenceLink> res = new List<ReferenceLink>();
+		int sort = 1;
+		foreach(string recipeName in RelatedRecipesList)
+		{
+			RecipeClass recipe = new RecipeClass(recipeName, spsfBase, sort);
+			res.Add(new ReferenceLink(recipe.Title, recipe.WebPage + ".html"));
+			sort++;
+		}
+		foreach(ReferenceLink link in ReferenceLinks)
+		{
+			res.Add(link);
+		}
+		return res;
+	}	
+}
+
+
+List<string> GetAllSnippets(string snippetDirectory)
+{
+	CompilerErrorCollection coll = new CompilerErrorCollection();
+	
+	List<string> res = new List<string>();
+	if(Directory.Exists(snippetDirectory))
+	{	foreach(string snippetFile in Directory.GetFiles(snippetDirectory, "*.snippet", SearchOption.AllDirectories))
+		{
+			res.Add(snippetFile);
+		}
+	}
+	else
+	{
+		coll.Add(new CompilerError(snippetDirectory, 0, 0, "CS0001", snippetDirectory + " not found"));
+	}
+	
+	Host.LogErrors(coll);
+	
+	return res;
+}
+	
+
+/*
+List<RecipeCategory> GetAllCategories()
+{
+	string rootDir = GetProjectRootPath();
+	List<RecipeCategory> res = new List<RecipeCategory>();
+	
+	string categoriesList = Path.Combine(rootDir, "RecipeCategories.xml");
+	if(File.Exists(categoriesList))
+	{
+		XmlDocument doc = new XmlDocument();
+		doc.Load(categoriesList);
+		
+		foreach(XmlNode categoryNode in doc.SelectNodes("/RecipeCategories/RecipeCategory"))
+		{
+			RecipeCategory recCategory = new RecipeCategory();
+			recCategory.Name = categoryNode.Attributes["Name"].Value;
+			recCategory.InnerTitle = categoryNode.Attributes["Title"].Value;
+			recCategory.InnerDescription = categoryNode.Attributes["Description"].Value;
+			res.Add(recCategory);
+
+			foreach(XmlNode categoryChildNode in categoryNode.SelectNodes("RecipeCategories/RecipeCategory"))
+			{
+				RecipeCategory subCategory = new RecipeCategory();
+				subCategory.Name = categoryChildNode.Attributes["Name"].Value;
+				subCategory.Title = categoryChildNode.Attributes["Title"].Value;
+				subCategory.Description = categoryChildNode.Attributes["Description"].Value;
+				subCategory.ParentCategoryName = recCategory.Name;
+				recCategory.childCategories.Add(subCategory);
+			}
+		}		
+	}
+	return res;
+}
+*/
+
+string GetGuidancePackageVersion()
+{
+	return GetGuidancePackagePropertry("Version");
+}
+
+string GetGuidancePackageNamespace()
+{
+	return GetGuidancePackagePropertry("Name");
+}
+
+string GetGuidancePackageName()
+{
+	return GetGuidancePackagePropertry("Caption");
+}
+
+string GetGuidancePackagePropertry(string property)
+{
+	string result = "";
+	
+	CompilerErrorCollection coll = new CompilerErrorCollection();
+	
+	IServiceProvider hostServiceProvider = (IServiceProvider)Host;
+	EnvDTE.DTE dte = (EnvDTE.DTE)hostServiceProvider.GetService(typeof(EnvDTE.DTE));
+	EnvDTE.ProjectItem containingProjectItem = dte.Solution.FindProjectItem(Host.TemplateFile);
+	Project project = containingProjectItem.ContainingProject;
+	
+	string assemblyName = project.Properties.Item("OutputFileName").Value.ToString();
+    if(assemblyName.EndsWith(".dll"))
+	{
+		assemblyName = assemblyName.Replace(".dll", "");
+	}
+	
+	string guidanceXmlFile = assemblyName + ".xml";
+	string projectPath = project.Properties.Item("FullPath").Value.ToString();
+	string projectDir = Path.GetDirectoryName(projectPath);
+	
+	string guidanceXml = Path.Combine(projectDir, guidanceXmlFile);
+	if(!File.Exists(guidanceXml))
+	{
+		coll.Add(new CompilerError(guidanceXmlFile, 0, 0, "CS0001", "GetGuidancePackageName failed: File not found " + guidanceXml));	
+	}
+	else		
+	{
+	
+		XmlDocument guidanceDoc = new XmlDocument();
+		guidanceDoc.Load(guidanceXml);
+		
+		XmlNamespaceManager nsmgr = new XmlNamespaceManager(guidanceDoc.NameTable);
+		nsmgr.AddNamespace("ns", "http://schemas.microsoft.com/pag/gax-core");
+		nsmgr.AddNamespace("spsf", "http://spsf.codeplex.com");
+		nsmgr.AddNamespace("wiz", "http://schemas.microsoft.com/pag/gax-wizards");
+		
+		XmlNode rootNode = guidanceDoc.SelectSingleNode("/ns:GuidancePackage", nsmgr);
+		if(rootNode != null)
+		{
+			result = GetAttribute(rootNode, property);
+		}
+		else
+		{
+			coll.Add(new CompilerError(guidanceXml, 0, 0, "CS0001", "GetGuidancePackageNamespace failed: Rootnode not found in " + guidanceXml));	
+		}	
+	}
+	
+	Host.LogErrors(coll);
+	return result;	
+}
+
+RecipeClass GetRecipeByName(string recipeName)
+{
+	/*
+	List<RecipeClass> recipeList = GetRecipeList();
+	foreach(RecipeClass rClass in recipeList)
+	{
+		if(rClass.Name == recipeName)
+		{
+			return rClass;
+		}
+	}
+	*/
+	return null;
+}
+
+RecipeCategory GetCategoryByName(string categoryName)
+{
+	/*
+	List<RecipeCategory> categoryList = GetAllCategories();
+	foreach(RecipeCategory rCategory in categoryList)
+	{
+		if(rCategory.Name == categoryName)
+		{
+			return rCategory;
+		}
+
+		foreach(RecipeCategory childCategory in rCategory.childCategories)
+		{
+			if(childCategory.Name == categoryName)
+			{
+				return childCategory;
+			}
+		}
+	}
+	*/
+	return null;
+}
+
+List<RecipeClass> GetRecipesByCategory(List<RecipeClass> recipeList, string category)
+{
+	List<RecipeClass> res = new List<RecipeClass>();
+	foreach(RecipeClass rClass in recipeList)
+	{
+		if(rClass.Category == category)
+		{
+			if(!rClass.HideInHelpNavigation)
+			{
+				res.Add(rClass);
+			}
+		}
+	}
+	return res;
+}
+
+List<RecipeClass> GetRecipesByCategory(string category)
+{
+	
+	//List<RecipeClass> recipeList = GetRecipeList();
+	List<RecipeClass> res = new List<RecipeClass>();
+	/*foreach(RecipeClass rClass in recipeList)
+	{
+		if(rClass.Category == category)
+		{
+			res.Add(rClass);
+		}
+	}
+	*/
+	return res;
+}
+
+string GetProjectRootPath()
+{
+	IServiceProvider hostServiceProvider = (IServiceProvider)Host;
+	EnvDTE.DTE dte = (EnvDTE.DTE)hostServiceProvider.GetService(typeof(EnvDTE.DTE));
+	EnvDTE.ProjectItem containingProjectItem = dte.Solution.FindProjectItem(Host.TemplateFile);
+	Project project = containingProjectItem.ContainingProject;
+	string projectPath = project.Properties.Item("FullPath").Value.ToString();
+	return Path.GetDirectoryName(projectPath);
+}
+
+List<string> GetAllRecipes()
+{
+	string recipeDirectory = Path.Combine(GetProjectRootPath(), "Recipes");
+	List<string> res = new List<string>();
+	foreach(string recipeFile in Directory.GetFiles(recipeDirectory, "*.xml", SearchOption.AllDirectories))
+	{
+	
+		try
+		{
+			bool enabled = true;
+		
+			XmlReader reader = new XIncludingReader(XmlReader.Create(recipeFile));
+			XmlDocument doc = new XmlDocument();			    
+			doc.Load(reader);
+			
+			XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
+			nsmgr.AddNamespace("ns", "http://schemas.microsoft.com/pag/gax-core");
+			nsmgr.AddNamespace("spsf", "http://spsf.codeplex.com");
+			nsmgr.AddNamespace("wiz", "http://schemas.microsoft.com/pag/gax-wizards");
+				
+			try		
+			{		
+				XmlNode spsfnode = doc.SelectSingleNode("/ns:Recipe/ns:HostData/spsf:MetaData", nsmgr);
+				if(spsfnode != null)
+				{
+					enabled = Boolean.Parse(spsfnode.Attributes["Enabled"].Value);
+				}
+			}
+			catch(Exception)
+			{
+			}
+						
+			if(enabled)
+			{						
+				res.Add(recipeFile);
+			}
+		}
+		catch(Exception ex)
+		{
+			CompilerErrorCollection coll = new CompilerErrorCollection();
+			coll.Add(new CompilerError(ex.Message, 0, 0, "CS0001", recipeFile + ex.Message));
+			Host.LogErrors(coll);
+		}
+
+	}
+	return res;
+}
+
+byte[] SerializeRecipeClass(RecipeClass rClass)
+{
+	MemoryStream stream = new MemoryStream();
+	XmlSerializer serializer = new XmlSerializer(typeof(RecipeClass));
+	serializer.Serialize(stream, rClass);
+	return stream.ToArray();
+}
+
+byte[] SerializeRecipeCategory(RecipeCategory rClass)
+{
+	MemoryStream stream = new MemoryStream();
+	XmlSerializer serializer = new XmlSerializer(typeof(RecipeCategory));
+	serializer.Serialize(stream, rClass);
+	return stream.ToArray();
+}
+
+
+RecipeClass DeserializeRecipeClass(byte[] xml)
+{
+
+	MemoryStream stream = new MemoryStream(xml);
+	XmlSerializer serializer = new XmlSerializer(typeof(RecipeClass));
+	return serializer.Deserialize(stream) as RecipeClass;
+}
+
+RecipeCategory DeserializeRecipeCategory(byte[] xml)
+{
+	MemoryStream stream = new MemoryStream(xml);
+	XmlSerializer serializer = new XmlSerializer(typeof(RecipeCategory));
+	return serializer.Deserialize(stream) as RecipeCategory;
+}
+
+internal string GetAttribute(XmlNode fieldNode, string attribute)
+{
+	if(fieldNode.Attributes[attribute] != null)
+	{
+		return fieldNode.Attributes[attribute].Value;
+	}
+	return "";
+}
+
+internal int GetAttributeInt(XmlNode fieldNode, string attribute)
+{
+	string v = GetAttribute(fieldNode, attribute);
+	try
+	{
+		return Int32.Parse(v);
+	}
+	catch(Exception)
+	{
+	}
+	
+	return 0;
+}
+
+internal bool GetAttributeAsBool(XmlNode fieldNode, string attribute, bool defaultValue)
+{
+	try
+	{
+		if(fieldNode.Attributes[attribute] != null)
+		{
+			return Boolean.Parse(fieldNode.Attributes[attribute].Value);
+		}
+	}
+	catch(Exception)
+	{
+	}
+	return defaultValue;
+}
+
+void SetAllProjectItemsToCopyToOutput(ProjectItem parentItem)
+{
+	foreach(ProjectItem childItem in parentItem.ProjectItems)
+	{
+		try
+		{
+			if(childItem.Name.EndsWith(".tt"))
+			{
+				//donothing
+			}
+			else if(childItem.Name.EndsWith(".t4"))
+			{
+				//donothing
+			}
+			else
+			{
+				childItem.Properties.Item("CopyToOutputDirectory").Value = 1;
+				childItem.Properties.Item("BuildAction").Value = 2;
+
+				try
+				{
+					childItem.Properties.Item("VsixContentItemObjectExtender.IncludeInVSIX").Value = true;
+				}
+				catch(Exception)
+				{
+				}
+			}
+		}
+		catch(Exception)
+		{
+		}	
+		
+		SetAllProjectItemsToCopyToOutput(childItem);
+	}
+}
+
+ProjectItem GetProjectItemByName(ProjectItems pitems, string name)
+{
+    foreach (ProjectItem pitem in pitems)
+    {
+        if (pitem.Name.ToUpper() == name.ToUpper())
+        {
+            return pitem;
+        }
+    }
+    return null;
+}
+
+List<WebPage> GetPagesInFolder(string foldername)
+{
+	List<WebPage> res = new List<WebPage>();
+	
+	string pagesDirectory = "";
+	if(foldername == "")
+	{
+		pagesDirectory = GetProjectRootPath();
+	}
+	else if(Path.IsPathRooted(foldername))
+	{
+		pagesDirectory = foldername;
+	}
+	else
+	{
+		pagesDirectory = Path.Combine(GetProjectRootPath(), "HTML\\" + foldername );
+	}
+	
+	foreach(string subdir in Directory.GetDirectories(pagesDirectory))
+	{
+		string subFile = Path.Combine(subdir, "index.html");
+		if(File.Exists(subFile))
+		{
+			WebPage webPage = GetWebPage(subFile);		
+			if(webPage != null)
+			{
+				res.Add(webPage);
+			}
+		}
+	}
+	
+	return res;
+}
+
+ProjectItem GetProjectItemByPath(ProjectItems pitems, string path)
+{
+	ProjectItem result = null;
+	
+
+	ProjectItems currentItems = pitems;
+	
+	char[] sep = new char[] {'/', '\\'};
+	string[] elements = path.Split(sep);
+	foreach(string element in elements)
+	{		
+		ProjectItem foundItem = GetProjectItemByName(currentItems, element);
+		if(foundItem == null)
+		{
+			return null;
+		}
+
+		if(foundItem != null)
+		{
+			result = foundItem;
+			currentItems = foundItem.ProjectItems;
+		}
+	}
+
+	return result;
+}
+
+private void GetFilesInFolder(Project project, List<string> allFiles, string folder)
+{
+	ProjectItem cssFiles = GetProjectItemByPath(project.ProjectItems, "HTML\\" + folder);
+	if(cssFiles != null)
+	{
+		GetFilesInProjectItem(cssFiles, allFiles);
+	}
+}
+
+private void GetFilesInProjectItem(ProjectItem item, List<string> allFiles)
+{
+	foreach(ProjectItem subitem in item.ProjectItems)
+	{
+		if(subitem.Kind == Constants.vsProjectItemKindPhysicalFile)
+		{
+			if(subitem.Name.EndsWith(".tt"))
+			{
+			}
+			else if(subitem.Name.EndsWith(".t4"))
+			{
+			}
+			else if(subitem.Name.EndsWith(".cs"))
+			{
+			}
+			else
+			{
+				allFiles.Add(subitem.Properties.Item("FullPath").Value.ToString());
+			}
+		}		
+		GetFilesInProjectItem(subitem, allFiles);
+	}
+}
+	
+public XmlDocument ReadHtml(string path)
+{
+	TextReader reader = new StreamReader(path);
+	
+    Sgml.SgmlReader sgmlReader = new Sgml.SgmlReader();
+    sgmlReader.DocType = "HTML";
+    sgmlReader.WhitespaceHandling = WhitespaceHandling.All;
+    sgmlReader.CaseFolding = Sgml.CaseFolding.ToLower;
+    sgmlReader.InputStream = reader;
+ 
+    // create document
+    XmlDocument doc = new XmlDocument();
+    doc.PreserveWhitespace = true;
+    doc.XmlResolver = null;
+    doc.Load(sgmlReader);
+    
+    reader.Close();
+    return doc;
+}		
+
+
+
+
+public List<WebPage> GetRootPages()
+{
+	string htmlSubDirectory = Path.Combine(GetProjectRootPath(), "HTML");
+	return GetPagesInFolder(htmlSubDirectory);
+}
+
+public List<WebPage> GetChildPages(WebPage parentPage)
+{
+	return GetPagesInFolder(Directory.GetParent(parentPage.Path).FullName);
+}
+
+public WebPage GetWebPage(string path)
+{
+	string htmlSubDirectory = Path.Combine(GetProjectRootPath(), "HTML");
+
+	XmlDocument doc = ReadHtml(path);
+	XmlNode headline = doc.SelectSingleNode("//title");
+	if(headline != null)
+	{
+		WebPage webPage = new WebPage();
+		webPage.Title = headline.InnerXml;
+		webPage.Url = Path.GetFileName(path);
+		webPage.Path = path;
+		webPage.AbsoluteUrl = path.Substring(htmlSubDirectory.Length+1);
+		webPage.AbsoluteUrl = webPage.AbsoluteUrl.Replace("\\","/");
+		
+		XmlNode contentNode = doc.SelectSingleNode("//div[@class='spsfcontent']");
+		if(contentNode != null)
+		{
+			webPage.Content = contentNode.InnerXml;
+		}
+		return webPage;
+	}
+	return null;
+}
+
+string OutputAsKeywordNodes(List<WebPage> pages)
+{
+	string res = "";
+	foreach(WebPage page in pages)
+	{	
+		res += "<Keyword Term=\"" + page.Title + "\">" + Environment.NewLine;
+		res += "<Jump Url=\"" + page.AbsoluteUrl + "\"/>" + Environment.NewLine;
+		res += "</Keyword>" + Environment.NewLine;
+	
+	
+		List<WebPage> childpages = GetChildPages(page);
+		if(childpages.Count > 0)
+		{
+			res += OutputAsKeywordNodes(childpages);
+		}			
+	}
+	return res;
+}
+
+string OutputAsHelpNodes(List<WebPage> pages)
+{
+	string res = "";
+	foreach(WebPage page in pages)
+	{	
+		List<WebPage> childpages = GetChildPages(page);
+		if(childpages.Count > 0)
+		{
+			res += "<HelpTOCNode Title=\"" + page.Title + "\" Url=\"" + page.AbsoluteUrl + "\">" + Environment.NewLine;
+			
+			res += OutputAsHelpNodes(childpages);
+			res += "<ToolData Name=\"MSTOCEXPST\" Value=\"Expanded\"/>" + Environment.NewLine;
+			
+			res += "</HelpTOCNode>" + Environment.NewLine;	
+		}
+		else
+		{
+			res += "<HelpTOCNode Title=\"" + page.Title + "\" Url=\"" + page.AbsoluteUrl + "\" />" + Environment.NewLine;
+		}
+			
+	}
+	return res;
+}
+
+
+string OutputAsDocumentation(List<WebPage> pages, string numberingPrefix, int level)
+{
+	string res = "";
+	int counter = 1;
+	foreach(WebPage page in pages)
+	{	
+		res += "<H" + level.ToString() + ">" + numberingPrefix + counter.ToString() + ". " + page.Title + "</H" + level.ToString() + ">" + Environment.NewLine;
+		
+		string content = page.Content;
+		content = content.Replace("/../../../Screenshots/","/Screenshots/");
+		content = content.Replace("/../../Screenshots/","/Screenshots/");
+		content = content.Replace("/../Screenshots/","/Screenshots/");
+		res += content + Environment.NewLine;
+		
+		
+		List<WebPage> childpages = GetChildPages(page);
+		if(childpages.Count > 0)
+		{
+			string newNumberPrefix = numberingPrefix + counter.ToString() + ".";
+			res += OutputAsDocumentation(childpages, newNumberPrefix, level + 1);
+		}
+		counter++;
+		
+		//pagebreak nach ebene 2 (Recipes)
+		if(level == 2)
+		{
+			res += "<h6>&nbsp;</h6>";
+		}
+	}
+	return res;
+}
+
+
+private void SetAllFilesToCopyAlways(ProjectItem startingProjectItem)
+{
+	CompilerErrorCollection coll = new CompilerErrorCollection();
+	
+	foreach(ProjectItem childItem in startingProjectItem.ProjectItems)
+	{
+		if(childItem.Kind == Constants.vsProjectItemKindPhysicalFile)
+		{
+			if(childItem.Name.EndsWith(".tt"))
+			{
+				childItem.Properties.Item("CopyToOutputDirectory").Value = 0;
+			}
+			else if(childItem.Name.EndsWith(".cs"))
+			{
+				childItem.Properties.Item("CopyToOutputDirectory").Value = 0;
+			}
+			else
+			{
+				childItem.Properties.Item("CopyToOutputDirectory").Value = 1;
+				childItem.Properties.Item("BuildAction").Value = 2;
+
+				try
+				{
+				childItem.Properties.Item("VsixContentItemObjectExtender.IncludeInVSIX").Value = true;
+				}
+				catch(Exception)
+				{
+				}
+
+				/*
+				string x = "";
+				for(int i = 0; i < childItem.Properties.Count; i++)
+				{
+					try
+					{
+						string name = childItem.Properties.Item(i).Name;
+						string value = "";
+						try
+						{
+							value = childItem.Properties.Item(i).Value.ToString();
+						}
+						catch (Exception)
+						{
+						}
+						x += name + "=" + value + ";";
+					}
+					catch (Exception)
+					{
+					}
+				}
+
+				coll.Add(new CompilerError(childItem.Properties.Item("FullPath").Value.ToString(), 0, 0, "CS0001", x));
+				*/
+				
+				if(childItem.Name.EndsWith("1.html"))
+				{
+					coll.Add(new CompilerError(childItem.Properties.Item("FullPath").Value.ToString(), 0, 0, "CS0001", "Item with wrong name " + childItem.Name));
+				}
+			}	
+		}
+		
+		SetAllFilesToCopyAlways(childItem);
+	}
+	
+	Host.LogErrors(coll);
+}
+
+#>

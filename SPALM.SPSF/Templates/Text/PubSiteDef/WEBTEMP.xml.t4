@@ -1,0 +1,38 @@
+﻿<#@ template language="C#" #><?xml version="1.0" encoding="utf-8" ?>
+<Templates xmlns:ows="Microsoft SharePoint">
+	<Template 
+		Name="<#= SiteDefinitionName #>" 
+		ID="<#= SiteDefinitionID #>">
+		<Configuration ID="0" 
+    <#
+    if(AutoCreateResxFiles)
+		{
+      #>
+			Title="$Resources:<#= ResourceFilename#>,<#= ResourceKeyPrefix #>_SiteDefinitionTitle;" 
+			Description="$Resources:<#= ResourceFilename#>,<#= ResourceKeyPrefix #>_SiteDefinitionDescription;"
+			DisplayCategory="$Resources:<#= ResourceFilename#>,<#= ResourceKeyPrefix #>_SiteDefinitionCategory;"
+			<#
+    }
+    else
+    {
+      #>
+			Title="<#= PubSiteDefTitle #>" 
+			Description="<#= PubSiteDefDescription #>"
+			DisplayCategory="<#= PubSiteDefDisplayCategory #>"
+			<#
+    }
+    #>
+    Hidden="<#= SiteDefinitionHidden #>"
+		ImageUrl="<#= SiteDefinitionImageFolder #>/<#= SiteDefinitionImage #>"
+		RootWebOnly="<#= SiteDefinitionRootWebOnly #>"			
+<# if(SiteDefinitionVisibilityFeatureDependency != null)
+{
+#>
+			VisibilityFeatureDependency="<#= SiteDefinitionVisibilityFeatureDependency.Value #>"
+<#
+}
+#>			FilterCategories="PublishingSiteTemplate"
+		/>  
+    </Template>
+</Templates>
+

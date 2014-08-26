@@ -1,0 +1,45 @@
+﻿<#@ template language="C#" #>
+<#
+string targetList = TargetListForSilverlightApp14;
+#>
+<?xml version="1.0" encoding="utf-8" ?>
+<webParts>
+  <webPart xmlns="http://schemas.microsoft.com/WebPart/v3">
+    <metaData>
+      <type name="Microsoft.SharePoint.WebPartPages.SilverlightWebPart, Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
+      <importErrorMessage>$Resources:core,ImportErrorMessage;</importErrorMessage>
+    </metaData>
+    <data>
+      <properties>
+	  <#
+		if(AutoCreateResxFiles && !ProjectIsSandboxedSolution)
+		{	
+#>
+        <property name="Title" type="string">$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_WebPartTitle;</property>
+        <property name="Description" type="string">$Resources:<#= ResourceFilename #>,<#= ResourceKeyPrefix #>_WebPartDescription;</property>
+<#
+		}
+		else
+		{
+#>
+        <property name="Title" type="string"><#= SilverlightWebPartTitle #></property>
+        <property name="Description" type="string"><#= SilverlightWebPartDescription #></property>
+<#
+		}
+#>
+        <property name="HelpUrl" type="string" />
+        <property name="AllowClose" type="bool">True</property>
+        <property name="ExportMode" type="exportmode">All</property>
+        <property name="Hidden" type="bool">False</property>
+        <property name="AllowEdit" type="bool">True</property>        
+        <property name="Height" type="unit">480px</property>
+        <property name="ChromeType" type="chrometype">None</property>
+        <property name="Width" type="unit">640px</property>        
+        <property name="ChromeState" type="chromestate">Normal</property>
+        <property name="TitleUrl" type="string" />
+        <property name="Url" type="string">~Site/<#= targetList #>/<#= SilverlightApplicationFullName #>.xap</property>
+        <property name="WindowlessMode" type="bool">True</property>
+      </properties>
+    </data>
+  </webPart>
+</webParts>

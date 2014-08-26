@@ -1,0 +1,158 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	  <html xmlns="http://www.w3.org/1999/xhtml">
+	    <head>
+		    <link rel="stylesheet" type="text/css" href="Styles/branding.css"/>				
+		    		<title>System Files</title>
+				<meta name="Description" content="" />
+		<style type="text/css">
+
+		.OH_TocResize
+		{	
+			top: 126px;
+		}
+
+		</style>
+	</head>	
+	<body class="primary-mtps-offline-document" 
+	 style="max-width: 1220px;" >		<table class="noSpace" style="width: 100%;"> 
+			<tr>
+			  <td colspan="2" style="background-color: #6685A2;">&nbsp;</td>
+			</tr>
+			<tr>
+			  <td>
+				<img src="./_img/header_left.jpg" height="66" style="margin-top: 10px; margin-bottom: 20px" />
+			  </td>
+			  <td align="right" valign="top" rowspan="2">
+				<img src="./_img/header_right.jpg" style="margin-top: 2px" height="72"/>
+			  </td>
+			</tr>			
+		</table>
+		<div class="OH_outerDiv">
+			<div style="WIDTH: 350px" id="LeftNav" class="OH_leftNav">
+				<div id="toc">
+					<div id="toc_parent">
+						<div class="OH_parentTocLinks">		
+							<div class="OH_link">				
+								<a title="SharePoint Software Factory" href="SPSF_ROOT.html">SharePoint Software Factory</a>
+							</div>
+									
+							<div class="OH_link">				
+								<a title="Overview" href="SPSF_OVERVIEW_INDEX.html">Overview</a>
+							</div>
+							</div></div>					
+						<div id="toc_children">
+							<div class="OH_selfTocLinks">										<div class="OH_link">	
+											<a title="About SPSF" href="SPSF_OVERVIEW_100_ABOUT.html">About SPSF</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Authors" href="SPSF_OVERVIEW_110_AUTHORS.html">Authors</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="System Requirements" href="SPSF_OVERVIEW_200_SYSTEMREQUIREMENTS.html">System Requirements</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="How to use the SPSF?" href="SPSF_OVERVIEW_500_HOWTOUSESPSF.html">How to use the SPSF?</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="How to update projects to the current version of SPSF?" href="SPSF_OVERVIEW_510_HOWTOUPGRADEPROJECTS.html">How to update projects to the current version of SPSF?</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="How to (re-)activate SPSF on existing projects?" href="SPSF_OVERVIEW_520_HOWTOACTIVATESPSF.html">How to (re-)activate SPSF on existing projects?</a>
+										</div>
+
+										<div title="System Files" class="OH_selectedChild">System Files</div>										<div class="OH_link">	
+											<a title="License" href="SPSF_OVERVIEW_800_LICENSE.html">License</a>
+										</div>
+
+																				<div class="OH_link">	
+											<a title="Release Notes" href="SPSF_OVERVIEW_810_RELEASENOTES.html">Release Notes</a>
+										</div>
+
+										</div></div><div id="toc_siblings"><div class="OH_siblingTocHeader">Related Links</DIV><div class="OH_siblingTocLinks">							<br /></div></div></div></div><div style="LEFT: 279px" id="TocResize" class="OH_TocResize"></div>
+				<div class="OH_outerContent">
+				  
+		<div class="OH_topic">		 
+     
+		  <div id="mainHeader">
+			<table>
+			  <tbody>
+				<tr>
+				  <td>
+					<h1>System Files</h1>
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+		<div id="mainSection">
+			<div id="mainBody">            
+				<div class="introduction"><p></p></div>
+				
+    <div class="introduction">SPSF contains several system files which play an important role during development and deployment.</div> 
+    <h2>Files used during development</h2>
+
+    <h3>SharePointConfiguration.xml</h3>
+    <div class="introduction">The file 'SharePointConfiguration.xml' is located in folder "Solution Items".
+          <br />
+    The file contains several standard SharePoint element like ContentTypes, Features, ListTemplates etc.
+          <br />
+    These elements are used during execution of a SPSF recipe within the dialogs to fill selection boxes and lists with these SharePoint artefacts. 
+          <br />
+    This file should not be changed and will be replaced automatically during an upgrade of SPSF.
+        </div>
+    <h2>Files used during build</h2>
+
+    <h3>SPSF.targets</h3>
+    <div class="introduction">The file 'SPSF.targets' is located in folder "Solution Items". 
+          <br />
+        The file is referenced by all projects in the VS solution to run task during the build of a project. This tasks includes 
+          <ul>
+              <li>Generation of web solution package file (.wsp)</li>
+              <li>Execution of code analysis tools</li>
+          </ul>
+    This file should not be changed and will be replaced automatically during an upgrade of SPSF.</div>
+    <h2>Files used during deployment</h2>
+    SPSF solutions in Visual Studio always contains a project with name "Deployment". This project is used for the deployment of the WSP packages to one or multiple SharePoint farms.<br />
+    <h4>How it works:</h4>
+    <ul>
+        <li>After building a SPSF solution in Visual Studio a folder is created in the directory "Deployment/Package" based on the build configuration (typically "Debug" or "Release"). This folder contains the final deployable package and is the output folder for the whole Visual Studio solution.</li>
+        <li>Building a SharePoint project which uses the SPSF.targets (see above). will create a WSP file in the output directory ("bin/Debug" or "bin/Release")</li>
+        <li>Building the "Deployment" project (which should depend on all SharePoint projects), it will collect all WSP files from the output folders of the same build configuration of all SharePoint projects, and also 3rd-party WSP files which you added to the "Deployment/Solutions" folder.</li>
+        <li>All WSP files are then copied together in the "Deployment/Package" folder</li>
+        <li>The environment configuration XML files in the "Deployment/Environments" folder define how and where the solutions should be deployed on each farm. These files are copied to the deployment package.</li>
+        <li>The project "Deployment" contains a folder "Batches" with several batch files (e.g. Deploy.bat) to start the deployment process later. During a build of project "Deployment" all contents of this folder are also copied to this final output folder.</li>
+        <li style="margin-top: 0px">Also the PowerShell scripts in the "Scripts" folder will be added to the package</li>
+    </ul>
+    <h4>Configuration of the deployment process:</h4>
+    The deployment process is defined in XML files. They describe the tasks and parameters which are used during the deployment of WSP files to SharePoint and which tasks must be executed before or after the deployment.
+        <p>
+            How to configure the deployment for multiple farms, re-use settings and set up deployment parameters is described in the project SPSD SharePoint Solution Deployer which you can find at <a href="http://spsd.codeplex.com" target="_blank">http://spsd.codeplex.com</a>
+    </p>
+
+
+				</div>			
+			</div>
+		</div>
+	</div>
+			<br />
+		<table width="100%">
+		<tr>
+			<td>
+				<div class="OH_feedbacklink">
+						<b>Disclaimer:</b> The views and opinions expressed in this documentation and in SPSF are those of the <a href="SPSF_OVERVIEW_110_AUTHORS.html">authors</a> and do not necessarily reflect the opinions and recommendations of Microsoft or any member of Microsoft. All trademarks, service marks, collective marks, copyrights, registered names, and marks used or cited by this documentation are the property of their respective owners.<br />
+						SharePoint Software Factory, Version 4.1.3.2705, <a href="SPSF_OVERVIEW_800_LICENSE.html">GPLv2</a>, see <a href="http://spsf.codeplex.com">http://spsf.codeplex.com</a> for more information
+				</div>
+				<br />
+			</td>
+		</tr>
+		</table>
+		<br />
+			</body>
+</html>
+

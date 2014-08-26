@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4F608D78-AE74-4AF8-B085-693CA8717758}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>$AppName$.MSBuildTasks.$MSBuildProjectName$</RootNamespace>
+    <AssemblyName>$AppName$.MSBuildTasks.$MSBuildProjectName$</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+		<DropLocation>$(SolutionDir)Deployment\Output\$(Configuration)</DropLocation>
+		<SPSDDropLocation>$(DropLocation)\$(BuildNumber)</SPSDDropLocation>
+		<SPSFBatchesFolder>Batches</SPSFBatchesFolder>
+	  <SPSFNoWSP>true</SPSFNoWSP>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+	<PropertyGroup>
+		<AfterBuildDependsOn>$(AfterBuildDependsOn);CreateSPSDPackage</AfterBuildDependsOn>
+	</PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Build.Engine" />
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Build.Utilities" />
+    <Reference Include="Microsoft.Office.Server, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="MSBuildTask.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+	<Target Name="CreateSPSDPackage">
+		<Message Text="Copy $(TargetName).dll to SharePoint Package..." Importance="high" />
+		<Message Text="Copy $(OutputPath)\$(TargetName).dll to $(SPSDDropLocation)MSBuild" Importance="high" />
+		<CreateItem Include="$(OutputPath)\**\*.dll">
+			<Output TaskParameter="Include" ItemName="Batches" />
+		</CreateItem>
+		<Copy SourceFiles="@(Batches)" DestinationFolder="$(SPSDDropLocation)MSBuild\%(RecursiveDir)" SkipUnchangedFiles="false" />
+	</Target>
+	<Target Name="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)" />
+	<Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn)" />
+</Project>

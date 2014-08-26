@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="CopyAppBinContent"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Copy Appbin Content</Caption>
+  <Description>Runs stsadm -o copyappbincontent.</Description>
+  <HostData Priority="200">
+    <Icon File="Help/Icons/icon_SharePoint.ico" />
+    <CommandBar Menu="SPSFProjectSPHelpers"/>
+    <CommandBar Menu="SPSFSolutionFolderSPHelpers"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="AnyElementReference"
+      BindingTypeTemplate="AnyElementReferenceTemplate"
+      Enabled="true"
+      ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="SPHelpers" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+	<Arguments>
+
+		<Argument Name="SPPath" Type="System.String" Required="true">
+			<ValueProvider Type="SPPathProvider"/>
+		</Argument>
+
+		<Argument Name="CommandPath" Type="System.String" Required="true">
+			<ValueProvider Stage="OnBeforeActions" Type="ConcatStringProvider" Prefix="&quot;" RecipeArgument="SPPath" Sufix="&quot; -o copyappbincontent" />
+		</Argument>
+
+	</Arguments>	
+	<Actions>
+		<Action Name="RunCommand" Type="RunCommand">
+			<Input Name="Command" RecipeArgument="CommandPath" />
+		</Action>
+	</Actions>
+</Recipe>

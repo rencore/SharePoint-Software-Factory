@@ -1,0 +1,40 @@
+<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<ListTemplate
+        Name="<#= ListTemplateName #>"        
+        <# if(AutoCreateResxFiles)
+		{
+			#>
+			DisplayName="$Resources:<#= ResourceKeyPrefix #>_ListTemplateDisplayName;"
+			Description="$Resources:<#= ResourceKeyPrefix #>_ListTemplateDescription;"
+			<#
+		}
+		else
+		{
+			#>
+			DisplayName="<#= ListTemplateDisplayName #>"
+			Description="<#= ListTemplateDescription #>"
+			<#
+		}
+		#>	
+        Type="<#= ListTemplateType #>"
+        BaseType="<# if(ListTemplateBaseType != null) {  #><#= ListTemplateBaseType #><# } #>"
+        Default="<#= ListTemplateDefault.ToString().ToUpper() #>"
+        OnQuickLaunch="<#= ListTemplateOnQuickLaunch.ToString().ToUpper() #>"
+        Category="<#= ListTemplateCategory #>"
+		DisableAttachments="<#= ListTemplateDisableAttachments.ToString().ToUpper() #>"
+		DisallowContentTypes="<#= ListTemplateDisallowContentTypes.ToString().ToUpper() #>"
+		VersioningEnabled="<#= ListTemplateVersioningEnabled.ToString().ToUpper() #>"
+		FolderCreation="<#= ListTemplateFolderCreation.ToString().ToUpper() #>"
+		EnableModeration="<#= ListTemplateEnableModeration.ToString() #>"
+        SecurityBits="<#= 
+        ListTemplateSecurityBitsRead[0] 
+        #><#= 
+        ListTemplateSecurityBitsEdit[0] 
+        #>"
+        Sequence="<#= ListTemplateSequence #>"
+        Image="<#= ListTemplateImage #>"
+        Hidden="<#= ListTemplateHidden.ToString().ToUpper() #>"
+		HiddenList="<#= ListTemplateHiddenList.ToString().ToUpper() #>"		
+        />
+</Elements>

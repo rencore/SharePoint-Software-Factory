@@ -1,0 +1,13 @@
+﻿<#@ template language="C#" #>
+<%@ Control Language="C#" Debug="true" %>
+<%@ Assembly Name="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register TagPrefix="SharePoint" Assembly="Microsoft.SharePoint, Version=<#= SharePointVersion #>.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" Namespace="Microsoft.SharePoint.WebControls" %>
+
+<SharePoint:RenderingTemplate ID="<#= FieldTypeRenderingTemplateId #>" runat="server">
+  <Template>
+    <asp:Label ID="ISBNPrefix" Text="ISBN" runat="server" />
+    &nbsp;
+    <asp:TextBox ID="TextField" runat="server"  />
+  </Template>
+</SharePoint:RenderingTemplate>
+

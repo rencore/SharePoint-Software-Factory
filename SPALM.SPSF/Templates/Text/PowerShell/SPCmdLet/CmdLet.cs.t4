@@ -1,0 +1,53 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>.PowerShell
+{
+	using System;
+	using System.Collections.Generic;
+	using System.Management.Automation;
+	using System.Text;
+	using Microsoft.SharePoint;
+	using Microsoft.SharePoint.Administration;
+	using Microsoft.SharePoint.PowerShell;
+	
+	/// <summary>
+    /// Add comment for class <#= SPCmdLetClassName #>
+    /// </summary>
+    [Cmdlet(VerbsCommon.Get, "<#= SPCmdLetClassName #>"),
+	SPCmdlet(RequireLocalFarmExist = true, RequireUserFarmAdmin = true)]
+    public class <#= SPCmdLetClassName #> : SPCmdlet
+    {
+		/* Add custom parameters which can be retrieved from the pipe 
+		[Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true)]
+		[ValidateNotNull]
+		public SPCustomObjectPipeBind Identity
+		{
+			get;
+			set;
+		}
+		*/
+
+		/* Add simple parameters which must be entered by the caller
+		[Parameter(Mandatory = true)]
+		[ValidateRange(1, 20)]
+		public int Precision
+		{
+			get;
+			set;
+		}
+		*/
+
+        /// <summary>
+        /// Add comment
+        /// </summary>
+		protected override void InternalProcessRecord()
+		{
+			// TODO: Add code for internal processing
+		}
+    }
+}

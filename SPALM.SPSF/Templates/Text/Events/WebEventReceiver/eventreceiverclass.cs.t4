@@ -1,0 +1,70 @@
+﻿<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= this.ProjectNamespace #>
+{
+  using System;
+  using System.Collections.Generic;
+  using System.Security.Permissions;
+  using System.Text;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.Security;
+
+  /// <summary>
+  /// TODO: Add comment for <#= EventReceiverName #>
+  /// </summary> 
+  public class <#= EventReceiverName #> : SPWebEventReceiver     
+  {  
+<#
+int methodcount = 0;
+foreach(NameValueItem eventclass in EventReceiverTypes)
+{
+  if(methodcount > 0)
+  {
+	//add empty line
+#>
+
+<#
+  }
+  if(eventclass.Value == "WebDeleting")
+  {
+#>
+    /// <summary>
+    /// TODO: Add comment for event <#= eventclass.Value #> in <#= EventReceiverName #> 
+    /// </summary>
+    /// <param name="properties">Contains list event properties</param>
+    [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+    public override void WebDeleting(SPWebEventProperties properties)
+    {
+      ////Add code for event <#= eventclass.Value #> in <#= EventReceiverName #>
+      
+      /*
+      properties.Cancel = true;
+      properties.ErrorMessage = "Deleting is not supported.";
+      */
+    }
+	
+<#
+  }
+  else
+  {
+#>
+    /// <summary>
+    /// TODO: Add comment for event <#= eventclass.Value #> in <#= EventReceiverName #> 
+    /// </summary>
+    /// <param name="properties">Contains list event properties</param>
+    [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+    public override void <#= eventclass.Value #>(SPWebEventProperties properties)
+    {
+      ////Add code for event <#= eventclass.Value #> in <#= EventReceiverName #>
+    }	
+<#
+  }
+  methodcount++;
+}
+#>
+  }
+}

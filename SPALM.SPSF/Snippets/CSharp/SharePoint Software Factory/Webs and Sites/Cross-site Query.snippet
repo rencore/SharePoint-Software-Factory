@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Cross-site Query</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Object Editable="true">
+          <ID>query</ID>
+          <ToolTip>SPSiteDataQuery</ToolTip>
+          <Default>query</Default>
+          <Function>
+          </Function>
+          <Type>SPSiteDataQuery</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>dt</ID>
+          <ToolTip>DataTable</ToolTip>
+          <Default>dt</Default>
+          <Function>
+          </Function>
+          <Type>DataTable</Type>
+        </Object>
+        <Object Editable="true">
+          <ID>web</ID>
+          <ToolTip>SPWeb</ToolTip>
+          <Default>web</Default>
+          <Function>
+          </Function>
+          <Type>SPWeb</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+//Represents a query that can be performed across multiple lists in multiple Web sites 
+         //in the same Web site collection.
+         SPSiteDataQuery $query$ = new SPSiteDataQuery();
+ 
+         //query all lists created from the contacts template.
+         $query$.Lists = "<Lists ServerTemplate=\"105\" />";
+ 
+         // Get the Title (Last Name) and FirstName fields.
+         $query$.ViewFields = "<FieldRef Name=\"Title\" />" +
+                            "<FieldRef Name=\"FirstName\" Nullable=\"TRUE\"/>";
+ 
+         // Set the sort order.
+         $query$.Query = "<OrderBy>" + 
+                           "<FieldRef Name=\"Title\" />" + 
+                         "</OrderBy>";
+ 
+         // Query all Web sites in this site collection.
+         $query$.Webs = "<Webs Scope=\"SiteCollection\" />";
+ 
+         DataTable $dt$ = $web$.GetSiteData($query$);
+      ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

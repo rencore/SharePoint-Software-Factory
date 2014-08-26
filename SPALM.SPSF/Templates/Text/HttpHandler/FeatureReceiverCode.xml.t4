@@ -1,0 +1,49 @@
+﻿<#@ template language="C#" #>
+<FeatureReceiverCode>
+  <UsingStatements>
+    <UsingStatement>Microsoft.SharePoint.Administration</UsingStatement>
+  </UsingStatements>
+  <FeatureActivatedMethod>ActivateHttpHandler_<#= HttpHandlerClass #>(properties);</FeatureActivatedMethod>
+  <FeatureActivatedCode><![CDATA[
+/// <summary>
+/// Registers the HTTP Handler in web.config
+/// </summary>
+/// <param name="properties">Properties of the feature</param>
+private void ActivateHttpHandler_<#= HttpHandlerClass #>(SPFeatureReceiverProperties properties)
+{
+  SPWebApplication webApp = properties.Feature.Parent as SPWebApplication;
+            
+  SPWebConfigModification mod = new SPWebConfigModification("add[@type='<#= ProjectNamespace #>.<#= HttpHandlerClass #>, <#= ProjectAssemblyName #>']", "configuration/system.web/httpHandlers");
+  mod.Owner = properties.Feature.DefinitionId.ToString();
+  mod.Sequence = 0;
+  mod.Type = SPWebConfigModification.SPWebConfigModificationType.EnsureChildNode;
+  mod.Value = @"<add verb=""*"" path=""<#= HttpHandlerPath #>"" type=""<#= ProjectNamespace #>.<#= HttpHandlerClass #>, <#= ProjectAssemblyName #>"" />";
+  webApp.WebConfigModifications.Add(mod);
+
+  webApp.Farm.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
+  webApp.Update();
+}]]>
+  </FeatureActivatedCode>  
+  <FeatureDeactivatingMethod>DeactivateHttpHandler_<#= HttpHandlerClass #>(properties);</FeatureDeactivatingMethod>
+  <FeatureDeactivatingCode><![CDATA[  
+/// <summary>
+/// Unregisters the HTTP Handler in web.config
+/// </summary>
+/// <param name="properties">Properties of the feature</param>
+private void DeactivateHttpHandler_<#= HttpHandlerClass #>(SPFeatureReceiverProperties properties)
+{
+  SPWebApplication webApp = properties.Feature.Parent as SPWebApplication;
+  foreach (SPWebConfigModification mod in webApp.WebConfigModifications)
+  {
+      if (mod.Owner == properties.Feature.DefinitionId.ToString())
+      {
+          webApp.WebConfigModifications.Remove(mod);
+          break;
+      }
+  }
+  webApp.Farm.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
+  webApp.Update();
+}]]></FeatureDeactivatingCode>
+</FeatureReceiverCode>
+
+    

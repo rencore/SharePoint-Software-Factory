@@ -1,0 +1,107 @@
+<#@ template language="C#" #>
+	<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+		<CustomAction
+		Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>"
+		Location="<#= CustomActionLocation #>"
+		Title="<#= RibbonActionTitle #>"	
+		<# 
+		if(CustomActionRegistrationId != null && CustomActionRegistrationId.ToString() != "None")
+		{
+			#>
+			RegistrationType="<#= CustomActionRegistrationType #>"
+			RegistrationId="<#= CustomActionRegistrationId.ToString() #>"
+			<#
+		}
+		#>	
+		<#
+		if(CustomActionRights.Length > 0)
+		{
+			#>
+			Rights="<#
+			bool showcomma = false;
+			foreach(NameValueItem right in CustomActionRights)
+			{		
+				if(showcomma)
+				{
+					#>,<#
+				}
+				showcomma = true;
+				#><#= right.Value #><#
+			}
+			#>" <#
+		}
+		if(CustomActionRequireSiteAdministrator)
+		{
+			#>
+			RequireSiteAdministrator="<#= CustomActionRequireSiteAdministrator #>"
+			<#
+		}
+		#>>
+		<CommandUIExtension>
+      <CommandUIDefinitions>
+        <CommandUIDefinition
+          Location="<#= RibbonCommandUIDefinitionLocation #>.Groups._children">
+          <Group
+            Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>"
+            Sequence="<#= RibbonActionSequence #>"
+            <#
+			if(AutoCreateResxFiles)
+			{
+				#>								
+				Title="$Resources:<#= ResourceKeyPrefix #>_Title;"
+				Description="$Resources:<#= ResourceKeyPrefix #>_Description;"
+				<#
+			}
+			else
+			{
+				#>
+				Title="<#= RibbonActionTitle #>"
+				Description="<#= RibbonActionDescription #>"
+				<#
+			}
+			#>
+            Command="<#= AppName #>.<#= RibbonActionName #>.GroupEnableCommand"
+            Template="Ribbon.Templates.Flexible2">
+            <Controls Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.Controls">
+              <Button
+                Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.ButtonHello"
+                Command="<#= AppName #>.<#= RibbonActionName #>.ButtonHelloCommand"
+                LabelText="Hello, World"
+				Image16by16="/_layouts<#= VersionedFolderName #>/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+				Image32by32="/_layouts<#= VersionedFolderName #>/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+                TemplateAlias="o2"
+                Sequence="15" />
+              <Button
+                Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.ButtonGoodbye"
+                Command="<#= AppName #>.<#= RibbonActionName #>.ButtonGoodbyeCommand"
+                LabelText="Good-bye, World"
+				Image16by16="/_layouts<#= VersionedFolderName #>/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+				Image32by32="/_layouts<#= VersionedFolderName #>/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+                TemplateAlias="o2"
+                Sequence="18" />
+            </Controls>
+          </Group>
+        </CommandUIDefinition>
+        <CommandUIDefinition
+          Location="<#= RibbonCommandUIDefinitionLocation #>.Scaling._children">
+          <MaxSize
+            Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>.Scaling.MaxSize"
+            Sequence="15"
+            GroupId="Ribbon.<#= AppName #>.<#= RibbonActionName #>"
+            Size="LargeLarge" />
+        </CommandUIDefinition>
+      </CommandUIDefinitions>
+      <CommandUIHandlers>
+        <CommandUIHandler
+          Command="<#= AppName #>.<#= RibbonActionName #>.GroupEnableCommand"
+          CommandAction="javascript:return true;" />
+        <CommandUIHandler
+          Command="<#= AppName #>.<#= RibbonActionName #>.ButtonHelloCommand"
+          CommandAction="javascript:alert('Hello, world!');" />
+        <CommandUIHandler
+          Command="<#= AppName #>.<#= RibbonActionName #>.ButtonGoodbyeCommand"
+          CommandAction="javascript:alert('Good-bye, world!');" />
+      </CommandUIHandlers>
+    </CommandUIExtension>
+  </CustomAction>
+</Elements>

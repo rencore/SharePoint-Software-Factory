@@ -1,0 +1,144 @@
+﻿<#@ template language="C#" #>
+<#
+if(ContentTypeEventItemAdding || 
+	ContentTypeEventItemAdded || 
+	ContentTypeEventItemUpdating || 
+	ContentTypeEventItemUpdated || 
+	ContentTypeEventItemDeleting || 
+	ContentTypeEventItemDeleted)
+{
+#>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;
+  using System.Collections.Generic;
+  using System.Security.Permissions;
+  using System.Text;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.Security;
+
+  /// <summary>
+  /// TODO: Add comment for <#= ContentTypeEventClassName #>
+  /// </summary> 
+  [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+  [SharePointPermission(SecurityAction.InheritanceDemand, ObjectModel = true)] 
+  public class <#= ContentTypeEventClassName #> : SPItemEventReceiver    
+  {
+<# if(ContentTypeEventItemAdding)
+{
+#>
+    /// <summary>
+    /// TODO: Add comment for event ItemAdding in <#= ContentTypeEventClassName #>
+    /// </summary>
+    /// <param name="properties">Contains event properties</param>
+    public override void ItemAdding(SPItemEventProperties properties)
+    {
+      /*
+      DisableEventFiring();
+      SPListItem oItem = properties.ListItem;
+      oItem["Body"] = "Body text maintained by the system.";
+      oItem.Update();
+      EnableEventFiring();
+      */
+    }
+<#
+}
+if(ContentTypeEventItemAdded)
+{
+#> 
+    /// <summary>
+    /// TODO: Add comment for event ItemAdded in <#= ContentTypeEventClassName #>
+    /// </summary>
+    /// <param name="properties">Contains event properties</param>
+    public override void ItemAdded(SPItemEventProperties properties)
+    {
+      /*
+      DisableEventFiring();
+      SPListItem oItem = properties.ListItem;
+      oItem["Body"] = "Body text maintained by the system.";
+      oItem.Update();
+      EnableEventFiring();
+      */
+    }
+<#
+}
+if(ContentTypeEventItemUpdating)
+{
+#>
+    /// <summary>
+    /// TODO: Add comment for event ItemUpdating in <#= ContentTypeEventClassName #>
+    /// </summary>
+    /// <param name="properties">Contains event properties</param>
+    public override void ItemUpdating(SPItemEventProperties properties)
+    {
+      /*
+      DisableEventFiring();
+      SPListItem oItem = properties.ListItem;
+      oItem["Body"] = "Body text maintained by the system.";
+      oItem.Update();
+      EnableEventFiring();
+      */
+    }
+<#
+}
+if(ContentTypeEventItemUpdated)
+{
+#>
+    /// <summary>
+    /// TODO: Add comment for event ItemUpdated in <#= ContentTypeEventClassName #>
+    /// </summary>
+    /// <param name="properties">Contains event properties</param>
+    public override void ItemUpdated(SPItemEventProperties properties)
+    {
+      /*
+      DisableEventFiring();
+      SPListItem oItem = properties.ListItem;
+      oItem["Body"] = "Body text maintained by the system.";
+      oItem.Update();
+      EnableEventFiring();
+      */
+    }
+<#
+}
+if(ContentTypeEventItemDeleting)
+{
+#>
+    /// <summary>
+    /// TODO: Add comment for event ItemDeleting in <#= ContentTypeEventClassName #>
+    /// </summary>
+    /// <param name="properties">Contains event properties</param>
+    public override void ItemDeleting(SPItemEventProperties properties)
+    {
+      /*
+      properties.Cancel = true;
+      properties.ErrorMessage = "Deleting is not supported.";
+      */
+    }
+<#
+}
+if(ContentTypeEventItemDeleted)
+{
+#>
+    /// <summary>
+    /// TODO: Add comment for event ItemDeleted in <#= ContentTypeEventClassName #>
+    /// </summary>
+    /// <param name="properties">Contains event properties</param>
+    public override void ItemDeleted(SPItemEventProperties properties)
+    {
+      /*
+      properties.Cancel = true;
+      properties.ErrorMessage = "Deleting is not supported.";
+      */
+    }
+<#
+}
+#>
+  }
+}<#
+}
+#>

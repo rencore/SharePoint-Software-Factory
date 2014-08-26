@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Spinner</Title>
+			<Author>Torsten Mandelkow</Author>
+			<Shortcut>ribbonspinner</Shortcut>
+			<HelpUrl>http://msdn.microsoft.com/en-us/library/ff458442.aspx</HelpUrl>
+			<Description>Adds a ribbon spinner.</Description>
+			<SnippetTypes>
+				<SnippetType>SurroundsWith</SnippetType>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>id</ID>
+					<ToolTip>Required. A string that identifies the control, such as "Ribbon.Library.Share.NewRibbonSpinner".</ToolTip>
+					<Default>AppName.Spinner</Default>
+				</Literal>
+				<Literal>
+					<ID>sequence</ID>
+					<ToolTip>Optional. An integer that specifies the order of placement among sibling XML nodes.</ToolTip>
+					<Default>10</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="XML">
+				<![CDATA[<Spinner
+                   Id="Ribbon.$id$"
+                   DefaultUnit="pixel"
+                   DefaultValue="10"                   
+                   AltUpArrow="Up"
+                   AltDownArrow="Down"
+                   AccelerationInterval="125"
+                   MultiplierInterval="2000"
+                   Command="Ribbon.$id$_CMD"                   
+                   TemplateAlias="o2"
+                   Sequence="$sequence$">
+                    <Unit
+                        Name="pixel"
+                        MinimumValue="1"
+                        MaximumValue="2000"
+                        DecimalDigits="0"
+                        Interval="5">
+                      <UnitAbbreviation Value="px" />
+                    </Unit>
+                    <Unit
+                        Name="percent"
+                        MinimumValue="1"
+                        MaximumValue="100"
+                        DecimalDigits="0"
+                        Interval="1">
+                      <UnitAbbreviation Value="%" />
+                    </Unit>
+                  </Spinner>]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

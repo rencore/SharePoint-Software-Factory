@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe Name="PowerShellProject"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.microsoft.com/pag/gax-core"
+    Bound="false">
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>PowerShell Snapin Project</Caption>
+	<HostData Priority="15000">
+		<Icon File="Help/Icons/icon_PowerShell.ico" />
+		<CommandBar Menu="SPSFSolutionProjects" />
+		<CommandBar Menu="SPSFSolutionFolderProjects" />
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="AddProjectReference"
+		  BindingTypeTemplate="AddProjectReferenceTemplate"
+		  TemplatePath="Projects\PowerShell\Root.vstemplate"
+		  Enabled="true"
+		  CreateVSTemplate="false"
+		  Category="Projects" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Arguments>
+		<Argument Name="AppName" Required="true">
+			<ValueProvider Type="ApplicationNameProvider" ConfigValue="AppName" />
+		</Argument>
+		<Argument Name="PowerShellProjectName" Required="true">
+			<Converter Type="NamespaceStringConverter" />
+			<ValueProvider Type="VisualStudioCreateProjectName" />
+		</Argument>
+
+		<Argument Name="PowerShellProjectTitle" Required="true">
+			<ValueProvider Type="Evaluator" Expression="$(PowerShellProjectName) Title" />
+		</Argument>
+		<Argument Name="PowerShellProjectDescription" Required="true">
+			<ValueProvider Type="Evaluator" Expression="$(PowerShellProjectName) Description" />
+		</Argument>
+
+		<Argument Name="SPSFBranding" >
+			<ValueProvider Type="BrandingImageProvider" Logo="\Branding\Logo.jpg" />
+		</Argument>
+		
+	</Arguments>
+
+	<GatheringServiceData>
+		<Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+			<Pages>
+				<Page Width="600" Height="400">
+					<Title>PowerShell Snapin Settings</Title>
+					<Fields>
+						<Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+						<Field ValueName="PowerShellProjectTitle" Label="Title">
+							<Help>Required String. Specifies the title of the snapin.</Help>
+						</Field>
+						<Field ValueName="PowerShellProjectDescription" Label="Description">
+							<Help>Required String. Specifies the description of the snapin.</Help>
+						</Field>						
+					</Fields>
+				</Page>
+			</Pages>
+		</Wizard>
+	</GatheringServiceData>
+
+	<Actions CoordinatorServiceType="ConditionalCoordinator">
+		<Action Name="MoveProjectToSolutionFolder"
+		  SolutionFolder="PowerShell"
+		  Type="MoveProjectToSolutionFolder" >
+			<Input Name="ProjectName" RecipeArgument="PowerShellProjectName" />
+		</Action>
+	</Actions>
+</Recipe>

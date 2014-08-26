@@ -1,0 +1,52 @@
+﻿<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Web;
+	using Microsoft.SharePoint;
+	using Microsoft.Office.Server;
+	using Microsoft.SharePoint.Utilities;
+	using Microsoft.SharePoint.WebControls;
+
+  /// <summary>
+  /// TODO: Add comment for <#= EventReceiverName #>
+  /// </summary>
+  public class <#= EventReceiverName #> : SPSecurityEventReceiver    
+  {
+<#
+int methodcount = 0;
+foreach(NameValueItem eventclass in EventReceiverTypes)
+{
+  if(methodcount > 0)
+  {
+	//add empty line
+#>
+
+<#
+  }
+#>
+    /// <summary>
+    /// TODO: Add comment for event <#= eventclass.Value #> in <#= EventReceiverName #> 
+    /// </summary>
+    /// <param name="properties">Contains security event properties</param>   
+    [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+    public override void <#= eventclass.Value #>(SPSecurityEventProperties properties)
+    {
+	  #>
+	  ////Add code for event <#= eventclass.Value #> in <#= EventReceiverName #> 
+    }
+<#
+	methodcount++;
+}
+#>
+  }
+}

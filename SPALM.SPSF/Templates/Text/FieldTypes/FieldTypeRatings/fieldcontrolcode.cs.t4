@@ -1,0 +1,75 @@
+﻿<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #> 
+{
+  using System;  
+  using System.Globalization;  
+  using System.Runtime.InteropServices;
+  using System.Text;
+  using System.Web.UI;
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.WebControls;
+
+  /// <summary>
+  /// Custom field type <#= FieldTypeTypeName #>
+  /// </summary>  
+  [Guid("<#= System.Guid.NewGuid().ToString() #>")]
+  public class <#= FieldTypeTypeName #>Control : BaseFieldControl 
+  {
+    protected DropDownList cbRate;
+        
+    protected override string DefaultTemplateName 
+    {
+      get 
+      {
+        return "<#= FieldTypeRenderingTemplateId #>";
+      }
+    }
+    
+    /// <summary>
+    /// Gets the TextBoxes from the Template
+    /// </summary>
+    protected override void CreateChildControls()
+    {
+      if (Field == null)
+      {
+        return;
+      }
+
+      base.CreateChildControls();
+
+      if (ControlMode == SPControlMode.Display)
+      {
+        return;
+      }
+
+      cbRate = (DropDownList)TemplateContainer.FindControl("cbRate");
+
+      if (cbRate == null)
+      {
+        throw new ArgumentException("Control not found " + DefaultTemplateName);
+      }
+    }
+
+    /// <summary>
+    /// Gets or Sets the RateValue
+    /// </summary>
+    public override object Value
+    {
+      get
+      {
+        EnsureChildControls();
+        return this.cbRate.SelectedValue;
+      }
+      set
+      {
+        EnsureChildControls();
+        cbRate.SelectedValue = (string)value;
+      }
+    }
+  }
+}

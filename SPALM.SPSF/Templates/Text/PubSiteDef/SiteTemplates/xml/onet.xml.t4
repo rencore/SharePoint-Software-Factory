@@ -1,0 +1,196 @@
+﻿<#@ template language="C#" #><?xml version="1.0" encoding="utf-8" ?>
+<Project Revision="3" 
+<#
+	if(AutoCreateResxFiles)
+	{
+		#> Title="$Resources:<#= ResourceFilename#>,<#= ResourceKeyPrefix #>_SiteDefinitionTitle" <#
+	}
+	else
+	{
+		#> Title="<#= PubSiteDefTitle #>" <#
+	}
+	#> ListDir="Lists" xmlns:ows="Microsoft SharePoint">
+    <NavBars>
+        <NavBar Name="SharePoint Top Navbar" ID="1002">
+        </NavBar>
+    </NavBars>
+    <ListTemplates>
+    </ListTemplates>
+    <DocumentTemplates>
+        <DocumentTemplate Path="STS" Name="" DisplayName="$Resources:core,doctemp_None;" Type="100" Default="FALSE" Description="$Resources:core,doctemp_None_Desc;" />
+
+        <DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_Word97;" Type="101" Default="TRUE" Description="$Resources:core,doctemp_Word97_Desc;">
+            <DocumentTemplateFiles>
+                <DocumentTemplateFile Name="doctemp\word\wdtmpl.doc" TargetName="Forms/template.doc" Default="TRUE"/>
+            </DocumentTemplateFiles>
+        </DocumentTemplate>
+        <DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_Excel97;" Type="103" Description="$Resources:core,doctemp_Excel97_Desc;">
+            <DocumentTemplateFiles>
+                <DocumentTemplateFile Name="doctemp\xl\xltmpl.xls" TargetName="Forms/template.xls" Default="TRUE"/>
+            </DocumentTemplateFiles>
+        </DocumentTemplate>
+        <DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_Powerpoint97;" Type="104" Description="$Resources:core,doctemp_Powerpoint97_Desc;">
+            <DocumentTemplateFiles>
+                <DocumentTemplateFile Name="doctemp\ppt\pptmpl.pot" TargetName="Forms/template.pot" Default="TRUE"/>
+            </DocumentTemplateFiles>
+        </DocumentTemplate>
+        <DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_Word;" Type="121" Default="TRUE" Description="$Resources:core,doctemp_Word_Desc;">
+            <DocumentTemplateFiles>
+                <DocumentTemplateFile Name="doctemp\word\wdtmpl.dotx" TargetName="Forms/template.dotx" Default="TRUE"/>
+            </DocumentTemplateFiles>
+        </DocumentTemplate>
+        <DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_Excel;" Type="122" Description="$Resources:core,doctemp_Excel_Desc;">
+            <DocumentTemplateFiles>
+                <DocumentTemplateFile Name="doctemp\xl\xltmpl.xlsx" TargetName="Forms/template.xlsx" Default="TRUE"/>
+            </DocumentTemplateFiles>
+        </DocumentTemplate>
+        <DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_Powerpoint;" Type="123" Description="$Resources:core,doctemp_Powerpoint_Desc;">
+            <DocumentTemplateFiles>
+                <DocumentTemplateFile Name="doctemp\ppt\pptmpl.pptx" TargetName="Forms/template.pptx" Default="TRUE"/>
+            </DocumentTemplateFiles>
+        </DocumentTemplate>
+        <DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_OneNote;" Type="111" Description="$Resources:core,doctemp_OneNote_Desc;">
+            <DocumentTemplateFiles>
+                <DocumentTemplateFile Name="doctemp\onenote\template.one" TargetName="Forms/template.one" Default="TRUE"/>
+            </DocumentTemplateFiles>
+        </DocumentTemplate>
+        <DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_FP;" Type="102" Description="$Resources:core,doctemp_FP_Desc;">
+            <DocumentTemplateFiles>
+                <DocumentTemplateFile Name="doctemp\fp\fptmpl.htm" TargetName="Forms/template.htm" Default="TRUE"/>
+            </DocumentTemplateFiles>
+        </DocumentTemplate>
+        <DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_BasicPage;" Type="105" Description="$Resources:core,doctemp_BasicPage_Desc;">
+            <DocumentTemplateFiles>
+                <DocumentTemplateFile Name="doctemp\blankpgs\_basicpage.htm" TargetName="Forms/_basicpage.htm" Default="TRUE"/>
+            </DocumentTemplateFiles>
+        </DocumentTemplate>
+        <DocumentTemplate Path="STS" DisplayName="$Resources:core,doctemp_WebPartPage;" Type="106" Description="$Resources:core,doctemp_WebPartPage_Desc;">
+            <DocumentTemplateFiles>
+                <DocumentTemplateFile Name="doctemp\smartpgs\_webpartpage.htm" TargetName="Forms/_webpartpage.htm" Default="TRUE"/>
+            </DocumentTemplateFiles>
+        </DocumentTemplate>
+        <DocumentTemplate XMLForm="TRUE" Path="STS" DisplayName="$Resources:core,doctemp_BlankForm;" Type="1000" Default="TRUE" Description="$Resources:core,doctemp_BlankForm_Desc;">
+            <DocumentTemplateFiles>
+                <DocumentTemplateFile Name="doctemp\xmlforms\blank\template.xml" TargetName="Forms/template.xml" Default="TRUE" />
+            </DocumentTemplateFiles>
+        </DocumentTemplate>             
+
+    </DocumentTemplates>
+    <Configurations>
+        <Configuration ID="-1" Name="NewWeb"/>
+        <Configuration ID="0" Name="BLANK">
+            <SiteFeatures>
+                <!-- Workflow Features -->
+
+                <!-- Workflow Expiration -->
+                <Feature ID="C85E5759-F323-4EFB-B548-443D2216EFB5" />
+
+                <!-- Workflow Review -->
+                <Feature ID="02464C6A-9D07-4F30-BA04-E9035CF54392" />
+
+                <!-- Workflow Signature -->
+                <Feature ID="6C09612B-46AF-4B2F-8DFC-59185C962A29" />
+
+                <!-- Workflow Translation -->
+                <Feature ID="C6561405-EA03-40A9-A57F-F25472942A22" />
+
+                <Feature ID="A392DA98-270B-4e85-9769-04C0FDE267AA">
+	                <!-- PublishingPrerequisites -->
+                </Feature>
+                <Feature ID="7C637B23-06C4-472d-9A9A-7C175762C5C4">
+	                <!-- ViewFormPagesLockDown -->
+                </Feature>
+              
+                <Feature ID="AEBC918D-B20F-4a11-A1DB-9ED84D79C87E">
+                    <!-- PublishingResources -->
+                    <Properties xmlns="http://schemas.microsoft.com/sharepoint/">
+                        <Property Key="AllowRss" Value="false"/>
+                        <Property Key="SimplePublishing" Value="false" />
+                    </Properties>
+                </Feature>
+              <!-- kann raus -->
+              <!-- Office SharePoint Server Publishing -->
+                <!-- <Feature ID="F6924D36-2FA8-4f0b-B16D-06B7250180FA">
+                </Feature>
+                -->
+
+              <!-- OWN SITE FEATURE !!! Aktiviert die PageLayouts-->
+              <Feature ID="<#= PubSiteSiteFeatureID #>">
+                <!-- Office SharePoint Server Publishing -->
+              </Feature>
+
+	            <!-- SearchCenter Url feature -->
+                <Feature ID="7AC8CC56-D28E-41f5-AD04-D95109EB987A" >
+                    <Properties xmlns="http://schemas.microsoft.com/sharepoint/">
+                        <Property Key="SearchCenterUrl" Value="~SiteCollection/Search/" />
+                    </Properties>
+                </Feature>
+
+            </SiteFeatures>
+            <WebFeatures>
+                <!-- Include the common WSSListTemplateFeatures used by CMS -->	
+                <Feature ID="00BFEA71-DE22-43B2-A848-C05709900100" > </Feature> 
+                <Feature ID="00BFEA71-E717-4E80-AA17-D0C71B360101" > </Feature> 
+                <Feature ID="00BFEA71-52D4-45B3-B544-B1C71B620109" > </Feature> 
+                <Feature ID="00BFEA71-A83E-497E-9BA0-7A5C597D0107" > </Feature> 
+                <Feature ID="00BFEA71-4EA5-48D4-A4AD-305CF7030140" > </Feature>
+                
+                <!-- Publishing Feature muss drin bleiben -->
+              <Feature ID="22A9EF51-737B-4ff2-9346-694633FE4416">
+                    <!-- Publishing -->
+                    <Properties xmlns="http://schemas.microsoft.com/sharepoint/">
+                        <Property Key="ChromeMasterUrl" Value="~SiteCollection/_catalogs/masterpage/<#= MasterPageFileName #>"/>
+                        <Property Key="WelcomePageUrl" Value="$Resources:cmscore,List_Pages_UrlName;/default.aspx"/>
+                        <Property Key="PagesListUrl" Value=""/>
+                        <!-- TODO: Change list of available web templates 
+                        <Property Key="AvailableWebTemplates" Value="*-STS#0;*-STS#1"/>
+						-->  
+						<!-- TODO: Change the list of available page layouts
+						<Property Key="AvailablePageLayouts" Value=""/>
+						-->
+                        <Property Key="AlternateCssUrl" Value="" />
+                        <Property Key="SimplePublishing" Value="false" />
+                    </Properties>
+                </Feature>
+
+              <!-- Per-Web Portal Navigation Properties muss drin bleiben -->
+                <Feature ID="541F5F57-C847-4e16-B59A-B31E90E6F9EA">
+                    <Properties xmlns="http://schemas.microsoft.com/sharepoint/">
+                        <Property Key="InheritGlobalNavigation" Value="true"/>
+                        <Property Key="IncludeSubSites" Value="true"/>
+                    </Properties>
+                </Feature>
+              
+                <!-- muss raus -->
+                <!-- Office SharePoint Server Publishing -->
+                <!--
+                <Feature ID="94C94CA6-B32F-4da9-A9E3-1F3D343D7ECB"></Feature>
+                -->
+              
+                <!-- OWN WEB FEATURE -->
+                <Feature ID="<#= PubSiteWebFeatureID #>"></Feature>
+            
+            </WebFeatures>
+            <Modules>
+				<!-- Help: List of modules refers to section <modules> -->
+                <Module Name="Images" />
+                <Module Name="Home" />
+            </Modules>
+        </Configuration>
+    </Configurations>
+    <Modules>
+        <Module Name="Home" Url="$Resources:cmscore,List_Pages_UrlName;" Path="">
+			<File Url="default.aspx" Type="GhostableInLibrary" Level="Draft" >
+				<Property Name="Title" Value="$Resources:cmscore,IPPT_HomeWelcomePage_Title;" />
+				<Property Name="PublishingPageLayout" Value="~SiteCollection/_catalogs/masterpage/<#= PageLayoutFileName #>, ~SiteCollection/_catalogs/masterpage/<#= PageLayoutFileName #>" />
+				<Property Name="ContentType" Value="$Resources:cmscore,contenttype_welcomepage_name;" />
+			</File>
+		</Module>
+        <Module Name="Images" Url="SiteCollectionImages" Path="" RootWebOnly="TRUE">
+            <!--
+            <File Url="home.gif" Type="GhostableInLibrary" />
+            <File Url="PR.gif" Type="GhostableInLibrary" />
+            -->
+        </Module>
+    </Modules>
+</Project>

@@ -1,0 +1,80 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>.PowerShell
+{
+	using System;
+	using System.Collections.Generic;
+	using System.Management.Automation;
+	using System.Text;
+	using Microsoft.SharePoint;
+	using Microsoft.SharePoint.Administration;
+	using Microsoft.SharePoint.PowerShell;
+
+	<#
+	string _SPCmdLetVerb = SPCmdLetVerb;
+	if((SPCmdLetVerb != "Get") && (SPCmdLetVerb != "Set") && (SPCmdLetVerb != "New") && (SPCmdLetVerb != "Remove"))
+	{
+		_SPCmdLetVerb = "Get";
+	}
+	#>
+	/// <summary>
+    /// Add comment for class <#= SPCmdLetClassName #>
+    /// </summary>
+    [Cmdlet(VerbsCommon.<#= _SPCmdLetVerb #>, "<#= SPCmdLetNoun #>"),
+    SPCmdlet(RequireLocalFarmExist = true, RequireUserFarmAdmin = true)]
+    public class <#= SPCmdLetClassName #> : SP<#= _SPCmdLetVerb #>CmdletBase<<#= SPCmdLetPipeObjectType #>>
+    {
+        /// <summary>
+        /// Gets or sets the <#= SPCmdLetPipeObjectType #> object
+        /// </summary>
+        [Parameter(Mandatory = false, ValueFromPipeline = true, Position = 0), Alias(new string[] { "Name" })]
+        public <#= SPCmdLetPipeObjectType #>PipeBind Identity
+        {
+            get;
+            set;
+        }
+
+        /* Add simple parameters which must be entered by the caller
+        [Parameter(Mandatory = true)]
+        [ValidateRange(1, 20)]
+        public int Precision
+        {
+            get;
+            set;
+        }
+        */
+
+        /// <summary>
+        /// Add comment
+        /// </summary>
+        protected override void InternalValidate()
+        {
+            if (this.Identity != null)
+            {
+                this.DataObject = this.Identity.Read();
+                if (this.DataObject == null)
+                {
+                    this.WriteError(new PSArgumentException("The element does not exist."), ErrorCategory.InvalidArgument, this.Identity);
+                    this.SkipProcessCurrentRecord();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Add comment
+        /// </summary>
+        /// <returns>Returns the objects from the get operation</returns>
+        protected override IEnumerable<<#= SPCmdLetPipeObjectType #>> RetrieveDataObjects()
+        {
+            List<<#= SPCmdLetPipeObjectType #>> list = new List<<#= SPCmdLetPipeObjectType #>>();
+
+            // TODO: Add code for retrieval of data here
+            return list;
+        }
+    }
+}

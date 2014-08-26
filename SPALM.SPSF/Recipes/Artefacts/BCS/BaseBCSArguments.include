@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains standard arguments which are necessary in all recipes -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+  <Argument Name="BCSModelName"  Required="true">
+    <Converter Type="NamespaceStringConverter" />
+    <ValueProvider Type="VisualStudioCreateItemName" DefaultValue="BCSModel1" />
+  </Argument>
+
+  <Argument Name="BCSModelDisplayName"  Required="true">
+    <ValueProvider Type="VisualStudioCreateItemName" DefaultValue="BCSModel1" />
+  </Argument>
+  <Argument Name="BCSModelIsCached" Type="System.Boolean">
+    <ValueProvider Type="Evaluator" Expression="false" />
+  </Argument>
+
+  <Argument Name="BCSEstimatedCount" Type="System.Int32">
+    <ValueProvider Type="Evaluator" Expression="10000" />
+  </Argument>
+  <Argument Name="BCSModelVersion" Required="true">
+    <ValueProvider Type="Evaluator" Expression="1.0.0.0" />
+  </Argument> 
+
+  <Argument Name="BCSPermissions" Required="true">
+    <ValueProvider Type="CurrentUserNameProvider" />
+    <!-- STS|SecurityTokenService|http://sharepoint.microsoft.com/claims/2009/08/isauthenticated|true|http://www.w3.org/2001/XMLSchema#string -->
+  </Argument>
+
+  
+</Arguments>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="DeactivateFeature"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Deactivate Feature</Caption>
+  <Description>Deactivates the selected feature in the selected site or web.</Description>
+  <HostData Priority="100">
+    <Icon File="Help/Icons/icon_SharePoint.ico" />
+    <CommandBar Menu="SPSFSolutionSPHelpers"/>
+    <CommandBar Menu="SPSFProjectSPHelpers"/>
+    <CommandBar Menu="SPSFSolutionFolderSPHelpers"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="AnyElementReference"
+      BindingTypeTemplate="AnyElementReferenceTemplate"
+      Enabled="true"
+      ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="SPHelpers" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[This recipe is helpfull if hidden features are deployed and a feature needs to be deactivated via stsadm -o activatefeature.]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Arguments>
+
+    <Argument Name="FeatureId" Type="System.String" Required="true" >
+      <Converter Type="AvailableSolutionFeatureConverter" />
+    </Argument>
+		<Argument Name="Url" Type="System.String" Required="true">
+			<ValueProvider Type="ApplicationConfigValueProvider" ConfigValue="DebuggingWebApp" DefaultValue="" />
+		</Argument>
+
+    <Argument Name="SPSFBranding" Required="false" />
+
+    <Argument Name="SPPath" Type="System.String" Required="true">
+      <ValueProvider Type="SPPathProvider"/>
+    </Argument>
+    <!--
+    <Argument Name="StsadmCommand" Type="System.String" Required="true">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="&quot;$(SPPath)&quot; -o activatefeature -id $(FeatureId) -url &quot;$(Url)&quot; -force" />
+    </Argument>
+    -->
+
+    <Argument Name="CommandPath" Type="System.String" Required="true">
+      <ValueProvider Stage="OnBeforeActions" Type="ConcatStringProvider" Prefix="&quot;" RecipeArgument="SPPath" Sufix="&quot; -o deactivatefeature " />
+    </Argument>
+    <Argument Name="CommandFeature" Type="System.String" Required="true">
+      <ValueProvider Stage="OnBeforeActions" Type="ConcatStringProvider" Prefix="-id &quot;" RecipeArgument="FeatureId"  Sufix="&quot;" />
+    </Argument>
+    <Argument Name="CommandUrl" Type="System.String" Required="true">
+      <ValueProvider Stage="OnBeforeActions" Type="ConcatStringProvider" Prefix="-url &quot;" RecipeArgument="Url" Sufix="&quot; -force" />
+    </Argument>
+
+    <Argument Name="StsadmCommand" Type="System.String" Required="true">
+      <ValueProvider Stage="OnBeforeActions" Type="Evaluator" Expression="$(CommandPath) $(CommandFeature) $(CommandUrl)" />
+    </Argument>
+
+  </Arguments>
+  <GatheringServiceData>
+    <Wizard xmlns="http://schemas.microsoft.com/pag/gax-wizards" SchemaVersion="1.0">
+      <Pages>
+        <Page Width="600" Height="400">
+          <Title>Command settings</Title>
+          <Fields>
+            <Field Label="Branding" ValueName="SPSFBranding" PanelType="SPALM.SPSF.Library.BrandingPanel, SPALM.SPSF.Library" />
+            <Field PanelType="SPALM.SPSF.Library.NameValueListViewPanel, SPALM.SPSF.Library" ValueName="FeatureId" Label="Feature Id" >
+              <Help>Select the feature to activate.</Help>
+            </Field>
+            <Field ValueName="Url" Label="Url" />
+          </Fields>
+        </Page>
+      </Pages>
+    </Wizard>
+  </GatheringServiceData>
+  <Actions>
+    <Action Name="RunCommand" Type="RunCommand">
+      <Input Name="Command" RecipeArgument="StsadmCommand" />
+    </Action>
+  </Actions>
+</Recipe>

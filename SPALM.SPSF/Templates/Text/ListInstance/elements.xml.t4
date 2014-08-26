@@ -1,0 +1,40 @@
+﻿<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<ListInstance
+		<# if(AutoCreateResxFiles)
+		{
+			#>
+			Title="$Resources:<#= ResourceKeyPrefix #>_Title;"
+			Description="$Resources:<#= ResourceKeyPrefix #>_Description;"
+			<#
+		}
+		else
+		{
+			#>
+			Title="<#= ListInstanceTitle #>"
+			Description="<#= ListInstanceDescription #>"
+			<#
+		}
+		#>		
+		<# if((ListInstanceFeatureId != null) && (ListInstanceFeatureId != ""))
+		{	
+		#>
+		FeatureId="<#= ListInstanceFeatureId #>"
+		<#
+		}
+		#>
+		Id="<#= ListInstanceId #>"
+		Url="<#= ListInstanceUrl #>"
+		OnQuickLaunch="<#= ListInstanceOnQuickLaunch.ToString().ToUpper() #>"
+		<# 
+		if(ListInstanceOnQuickLaunch)
+		{
+		#>
+		QuickLaunchUrl="<#= ListInstanceQuickLaunchUrl #>"
+		<#
+		}
+		#>
+		RootWebOnly="<#= ListInstanceRootWebOnly.ToString().ToUpper() #>"
+		TemplateType="<#= ListInstanceTemplateType.ToString() #>"
+	/>	
+</Elements>

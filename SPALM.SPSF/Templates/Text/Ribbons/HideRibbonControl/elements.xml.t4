@@ -1,0 +1,13 @@
+<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <CustomAction
+		Id="Ribbon.<#= AppName #>.<#= RibbonActionName #>"
+		Location="CommandUI.Ribbon">
+      <CommandUIExtension>
+        <CommandUIDefinitions>
+          <CommandUIDefinition
+            Location="<#= RibbonCommandUIDefinitionLocation #>" />
+        </CommandUIDefinitions>
+      </CommandUIExtension>
+  </CustomAction>
+</Elements>

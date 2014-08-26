@@ -1,0 +1,720 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{988BBCF4-D7ED-4010-8388-37E51F84C242}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SPALM.SPSF.Library</RootNamespace>
+    <AssemblyName>SPALM.SPSF.Library</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>mkey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="envdte, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>Binaries\envdte.dll</HintPath>
+    </Reference>
+    <Reference Include="envdte80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>Binaries\envdte80.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+    </Reference>
+    <Reference Include="Microsoft.Practices.Common">
+      <HintPath>..\Libraries\OpenGAX\Microsoft.Practices.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ComponentModel">
+      <HintPath>..\Libraries\OpenGAX\Microsoft.Practices.ComponentModel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.RecipeFramework">
+      <HintPath>..\Libraries\OpenGAX\Microsoft.Practices.RecipeFramework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.RecipeFramework.Common">
+      <HintPath>..\Libraries\OpenGAX\Microsoft.Practices.RecipeFramework.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.RecipeFramework.Library">
+      <HintPath>..\Libraries\OpenGAX\Microsoft.Practices.RecipeFramework.Library.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.RecipeFramework.VisualStudio">
+      <HintPath>..\Libraries\OpenGAX\Microsoft.Practices.RecipeFramework.VisualStudio.dll</HintPath>
+      <Private>False</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Practices.RecipeFramework.VisualStudio.Library">
+      <HintPath>..\Libraries\OpenGAX\Microsoft.Practices.RecipeFramework.VisualStudio.Library.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.WizardFramework">
+      <HintPath>..\Libraries\OpenGAX\Microsoft.Practices.WizardFramework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Binaries\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.SharePoint, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\Extensions\Microsoft\SharePoint\PublicAssemblies\Microsoft.VisualStudio.SharePoint.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Binaries\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
+    </Reference>
+    <!-- References for different target systems -->
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Binaries\Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Binaries\Microsoft.VisualStudio.Shell.Interop.9.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VSSDK\VisualStudioIntegration\Common\Assemblies\v4.0\Microsoft.VisualStudio.TextTemplating.11.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VSSDK\VisualStudioIntegration\Common\Assemblies\v4.0\Microsoft.VisualStudio.TextTemplating.Interfaces.11.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Binaries\Microsoft.VisualStudio.TextTemplating.Interfaces.10.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.VSHelp, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>C:\Program Files\Common Files\Microsoft Shared\MSEnv\PublicAssemblies\Microsoft.VisualStudio.VSHelp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WizardFramework">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\Microsoft.WizardFramework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+    </Reference>
+    <Reference Include="System.Design">
+    </Reference>
+    <Reference Include="System.DirectoryServices">
+    </Reference>
+    <Reference Include="System.Drawing">
+    </Reference>
+    <Reference Include="System.Management">
+    </Reference>
+    <Reference Include="System.ServiceProcess">
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+    </Reference>
+    <Reference Include="System.Data">
+    </Reference>
+    <Reference Include="System.Xml">
+    </Reference>
+    <Reference Include="VSLangProj, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>Binaries\VSLangProj.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Actions\AddContentToFeatureReceiver.cs" />
+    <Compile Include="Actions\AddFolderItemsToFolder.cs" />
+    <Compile Include="Actions\AddItemToFolder.cs" />
+    <Compile Include="Actions\AddItemToFolderFromStringAction.cs" />
+    <Compile Include="Actions\AddItemToProjectByName.cs" />
+    <Compile Include="Actions\AddItemToSolution.cs" />
+    <Compile Include="Actions\AddItemToSolutionFolder.cs" />
+    <Compile Include="Actions\AddKeyFileToSolution.cs" />
+    <Compile Include="Actions\AddLocalListDefinition.cs" />
+    <Compile Include="Actions\AddPropertiesToFeature.cs" />
+    <Compile Include="Actions\AttachToProcess.cs" />
+    <Compile Include="Actions\BuildProject.cs" />
+    <Compile Include="Actions\CheckOpenSourceControlExplorer.cs" />
+    <Compile Include="Actions\MakeProjectDependentOnOther.cs" />
+    <Compile Include="Actions\DeployBCSModel.cs" />
+    <Compile Include="Actions\New\ShowMessageBox.cs" />
+    <Compile Include="Actions\SetFeatureReceiver.cs" />
+    <Compile Include="Actions\New\AddFileToFeatureAction.cs" />
+    <Compile Include="Actions\RemoveItemFromSolutionFolder.cs" />
+    <Compile Include="Actions\Development\AttachToUserCodeHost.cs" />
+    <Compile Include="Actions\Helpers\GoToTraceLogsFolder.cs" />
+    <Compile Include="Actions\Migrations\AnalyzeSelectedProjects.cs" />
+    <Compile Include="Actions\Migrations\MigrateSelectedProjects.cs" />
+    <Compile Include="Actions\Migrations\RenameSolutionFolder.cs" />
+    <Compile Include="Actions\New\AddFeatureReceiverCodeAction.cs" />
+    <Compile Include="Actions\New\AddReferenceToProject.cs" />
+    <Compile Include="Actions\New\AddProjectOutputReference.cs" />
+    <Compile Include="Actions\New\AddSPDataAction.cs" />
+    <Compile Include="Actions\New\AddCASPolicyAction.cs" />
+    <Compile Include="Actions\New\AddSPDataTemplateAction.cs" />
+    <Compile Include="Actions\New\MoveProjectToSolutionFolder.cs" />
+    <Compile Include="Actions\ShowHelp.cs" />
+    <Compile Include="Actions\OpenItemInHive.cs" />
+    <Compile Include="Actions\DeleteDummyFile.cs" />
+    <Compile Include="Actions\Development\RestartOWSTimer.cs" />
+    <Compile Include="Actions\Development\StartNewInstance.cs" />
+    <Compile Include="Actions\Development\DeploySolution.cs" />
+    <Compile Include="Actions\Development\IISReset.cs" />
+    <Compile Include="Actions\Development\ProcessExec.cs" />
+    <Compile Include="Actions\Development\QuickDeploy.cs" />
+    <Compile Include="Actions\Development\QuickDeployGAC.cs" />
+    <Compile Include="Actions\Development\RecycleAppPools.cs" />
+    <Compile Include="Actions\Development\RedeploySolution.cs" />
+    <Compile Include="Actions\Development\SetPublishUrl.cs" />
+    <Compile Include="Actions\Development\UndeploySolution.cs" />
+    <Compile Include="Actions\Development\UpgradeSolution.cs" />
+    <Compile Include="Actions\EnableWAPTemplates.cs" />
+    <Compile Include="Actions\EnableWorkflowFoundation.cs" />
+    <Compile Include="Actions\ExcludeItemFromSCC.cs" />
+    <Compile Include="Actions\ExecuteMSBuildTarget.cs" />
+    <Compile Include="Actions\ExportContent.cs" />
+    <Compile Include="Actions\ExportListTemplate.cs" />
+    <Compile Include="Actions\ExtendedUnfoldTemplateAction.cs" />
+    <Compile Include="Actions\ExtendedUnfoldTemplateActionBase.cs" />
+    <Compile Include="Actions\GoToDebuggingWebApp.cs" />
+    <Compile Include="Actions\Helpers\CheckBrokenFields.cs" />
+    <Compile Include="Actions\Helpers\OpenWSP.cs" />
+    <Compile Include="Actions\Helpers\GoToTraceLogs.cs" />
+    <Compile Include="Actions\Helpers\DeleteFailedDeploymentJobs.cs" />
+    <Compile Include="Actions\Helpers\ExecAdmSvcJobs.cs" />
+    <Compile Include="Actions\Helpers\GoToCA.cs" />
+    <Compile Include="Actions\Helpers\GoToSolutions.cs" />
+    <Compile Include="Actions\ImportWSP.cs" />
+    <Compile Include="Actions\ImportWSPFromServer.cs" />
+    <Compile Include="Actions\LoadSharePointConfiguration.cs" />
+    <Compile Include="Actions\LogRecipeInfo.cs" />
+    <Compile Include="Actions\ManifestMakeStatic.cs" />
+    <Compile Include="Actions\New\BaseTemplateAction.cs" />
+    <Compile Include="Actions\New\AddFeatureAction.cs" />
+    <Compile Include="Actions\New\AddElementsDefinitionAction.cs" />
+    <Compile Include="Actions\New\AddTemplateToItemAction.cs" />
+    <Compile Include="Actions\New\AddTemlateToResourcesFileAction.cs" />
+    <Compile Include="Actions\New\AddFileToItemAction.cs" />
+    <Compile Include="Actions\New\BaseAction.cs" />
+    <Compile Include="Actions\New\BaseItemAction.cs" />
+    <Compile Include="Actions\New\AddXmlToItemAction.cs" />
+    <Compile Include="Actions\New\SetDeploymentTarget.cs" />
+    <Compile Include="Actions\New\SetSiteUrl.cs" />
+    <Compile Include="Actions\New\SPFileType.cs" />
+    <Compile Include="Actions\New\Helpers2.cs" />
+    <Compile Include="Actions\OpenItemInBrowser.cs" />
+    <Compile Include="Actions\OpenItemInDesigner.cs" />
+    <Compile Include="Actions\RunBatch.cs" />
+    <Compile Include="Actions\RunCommand.cs" />
+    <Compile Include="Actions\RunContentExport.cs" />
+    <Compile Include="Actions\Analyze\RunDisposeChecker.cs" />
+    <Compile Include="Actions\SaveApplicationConfiguration.cs" />
+    <Compile Include="Actions\SetProjectPropertyGroupValue.cs" />
+    <Compile Include="Actions\ShowHelpPageForRecipe.cs" />
+    <Compile Include="Actions\ShowLocalWebsite.cs" />
+    <Compile Include="Actions\ShowProperties.cs" />
+    <Compile Include="Actions\SolutionExplorerExpandProjects.cs" />
+    <Compile Include="Actions\WebServiceGenerateWSDL.cs" />
+    <Compile Include="BCS\BCSAssociation.cs" />
+    <Compile Include="BCS\BCSEntity.cs" />
+    <Compile Include="BCS\BCSField.cs" />
+    <Compile Include="BCS\BCSMethod.cs" />
+    <Compile Include="BCS\BCSModel.cs" />
+    <Compile Include="BCS\BCSTreeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BCS\BCSTreeControl.Designer.cs">
+      <DependentUpon>BCSTreeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AvailableAppPoolsConverter.cs" />
+    <Compile Include="Converters\AvailableSolutionFeatureConverter.cs" />
+    <Compile Include="Converters\AvailableWebApplicationsConverter.cs" />
+    <Compile Include="Converters\AvailableWorkerProcessesConverter.cs" />
+    <Compile Include="Converters\AvailableWSPSolutionsConverter.cs" />
+    <Compile Include="Converters\NamespaceStringConverter.cs" />
+    <Compile Include="Converters\StringCollectionConverter.cs" />
+    <Compile Include="Converters\SPCmdLetVerbConverter.cs" />
+    <Compile Include="Converters\EventReceiverSynchronizationConverter.cs" />
+    <Compile Include="Converters\EventReceiverScopeConverter.cs" />
+    <Compile Include="Converters\SilverlightVersionConverter.cs" />
+    <Compile Include="Converters\ElementManifestConverters\AvailableContentTypesConverter.cs" />
+    <Compile Include="Converters\CustomActionTypeConverter.cs" />
+    <Compile Include="Converters\CustomActionURLPrefixConverter.cs" />
+    <Compile Include="Converters\FeatureScopeConverter.cs" />
+    <Compile Include="Converters\FieldTypeBaseTypeConverter.cs" />
+    <Compile Include="Converters\InternalParametersConverter.cs" />
+    <Compile Include="Converters\ListTemplateConverters.cs" />
+    <Compile Include="Converters\ModuleUrlConverter.cs" />
+    <Compile Include="Converters\MSBuildTargetsConverter.cs" />
+    <Compile Include="Converters\RecipeParametersConverter.cs" />
+    <Compile Include="Converters\SharePointVersionConverter.cs" />
+    <Compile Include="Converters\SolutionDeploymentServerTypeConverter.cs" />
+    <Compile Include="Converters\SolutionDeploymentTargetConverter.cs" />
+    <Compile Include="Converters\SPExportConverters.cs" />
+    <Compile Include="Converters\VersionConverter.cs" />
+    <Compile Include="Coordinators\ConditionalCoordinator.cs" />
+    <Compile Include="CustomCode\AnalyzeProjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomCode\AnalyzeProjectForm.Designer.cs">
+      <DependentUpon>AnalyzeProjectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomCode\DeploymentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomCode\DeploymentForm.Designer.cs">
+      <DependentUpon>DeploymentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomCode\DeploymentHelpers.cs" />
+    <Compile Include="CustomCode\ErrorListProvider.cs" />
+    <Compile Include="CustomCode\Helpers.cs" />
+    <Compile Include="CustomCode\SharePointConfigurationHelper.cs" />
+    <Compile Include="CustomCode\WorkerObject.cs" />
+    <Compile Include="CustomCode\WSPExtractor.cs" />
+    <Compile Include="CustomWizardPages\ContentTypeImportPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\ContentTypeImportPage.designer.cs">
+      <DependentUpon>ContentTypeImportPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomWizardPages\AboutPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\AboutPage.designer.cs">
+      <DependentUpon>AboutPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomWizardPages\BCSImportPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\BCSImportPage.designer.cs">
+      <DependentUpon>BCSImportPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomWizardPages\BCSDesignPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\BCSDesignPage.designer.cs">
+      <DependentUpon>BCSDesignPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomWizardPages\BCSSingleEntityPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\BCSSingleEntityPage.designer.cs">
+      <DependentUpon>BCSSingleEntityPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomWizardPages\LINQImportPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\LINQImportPage.designer.cs">
+      <DependentUpon>LINQImportPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomWizardPages\SilverlightCheckPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\SilverlightCheckPage.designer.cs">
+      <DependentUpon>SilverlightCheckPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomWizardPages\WarningPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\WarningPage.designer.cs">
+      <DependentUpon>WarningPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomWizardPages\ListTemplateImportPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\ListTemplateImportPage.designer.cs">
+      <DependentUpon>ListTemplateImportPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomWizardPages\SiteColumnImportPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\SiteColumnImportPage.designer.cs">
+      <DependentUpon>SiteColumnImportPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomWizardPages\SPExportPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\SPExportPage.designer.cs">
+      <DependentUpon>SPExportPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomWizardPages\SPSFBaseWizardPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\FeatureSelectionPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\FeatureSelectionPage.designer.cs">
+      <DependentUpon>FeatureSelectionPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomWizardPages\SiteColumnPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\SiteColumnPage.designer.cs">
+      <DependentUpon>SiteColumnPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomWizardPages\SiteColumnWizard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomWizardPages\SiteColumnWizard.Designer.cs">
+      <DependentUpon>SiteColumnWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\BrandingPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editors\CheckBoxPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editors\ConditionPanelType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editors\BCSNodeHandler.cs" />
+    <Compile Include="Editors\ResourceIcons1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourceIcons.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\XmlInternalListTemplateNodeHandler.cs" />
+    <Compile Include="Editors\CustomActionUrlParameterEditor.cs" />
+    <Compile Include="Editors\CustomArrayEditor.cs" />
+    <Compile Include="Editors\CustomEditors.cs" />
+    <Compile Include="Editors\Editors.cs" />
+    <Compile Include="Editors\EventsEditors.cs" />
+    <Compile Include="Editors\FeatureNameEditor.cs" />
+    <Compile Include="Editors\FileChooser.cs" />
+    <Compile Include="Editors\ImageListProvider.cs" />
+    <Compile Include="Editors\LocalListTemplatesEditor.cs" />
+    <Compile Include="Editors\MSBuildTargetEditor.cs" />
+    <Compile Include="Editors\MultiFileChooser.cs" />
+    <Compile Include="Editors\NameValueItem.cs" />
+    <Compile Include="Editors\NameValueItemPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editors\SelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editors\SelectionForm.designer.cs">
+      <DependentUpon>SelectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\SelectLayoutFileEditor.cs" />
+    <Compile Include="Editors\SelectLayoutFileForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editors\SelectLayoutFileForm.Designer.cs">
+      <DependentUpon>SelectLayoutFileForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\XmlNodeHandler.cs" />
+    <Compile Include="Editors\XmlWebTemplateNodeHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="References\AddProjectReference.cs" />
+    <Compile Include="References\AddProjectReferenceTemplate.cs" />
+    <Compile Include="References\AnyElementReference.cs" />
+    <Compile Include="References\AnyElementReferenceTemplate.cs" />
+    <Compile Include="References\AnyFileReference.cs" />
+    <Compile Include="References\ApplicationDiagramReference.cs" />
+    <Compile Include="References\BaseTemplate\CustomizationProjectReferenceTemplate.cs" />
+    <Compile Include="References\BaseTemplate\ElementManifestReferenceTemplate.cs" />
+    <Compile Include="References\BaseTemplate\FeatureReferenceTemplate.cs" />
+    <Compile Include="References\BaseTemplate\SharePointVersionDependendReferenceTemplate.cs" />
+    <Compile Include="References\Base\FeatureReference.cs" />
+    <Compile Include="References\Base\XmlMergeReference.cs" />
+    <Compile Include="References\Base\CustomizationProjectReference.cs" />
+    <Compile Include="References\Base\SharePointVersionDependendReference.cs" />
+    <Compile Include="References\BatchFileReference.cs" />
+    <Compile Include="References\CABReference.cs" />
+    <Compile Include="References\ConfigurationReference.cs" />
+    <Compile Include="References\ConfigurationReferenceTemplate.cs" />
+    <Compile Include="References\ConfigureDeploymentReference.cs" />
+    <Compile Include="References\ContentReference.cs" />
+    <Compile Include="References\ContentReferenceTemplate.cs" />
+    <Compile Include="References\Base\ElementManifestReference.cs" />
+    <Compile Include="References\BCSModelReference.cs" />
+    <Compile Include="References\BCSModelReferenceTemplate.cs" />
+    <Compile Include="References\DeploymentReference.cs" />
+    <Compile Include="References\DeploymentReferenceTemplate.cs" />
+    <Compile Include="References\MSTarget.cs" />
+    <Compile Include="References\MSTargetsReference.cs" />
+    <Compile Include="References\SCCFileReference.cs" />
+    <Compile Include="References\SharePointConfigReference.cs" />
+    <Compile Include="References\SolutionHiveReference.cs" />
+    <Compile Include="References\SolutionDeploymentReference.cs" />
+    <Compile Include="References\SolutionFolderMSBuildReference.cs" />
+    <Compile Include="References\SolutionFolderMSBuildReferenceTemplate.cs" />
+    <Compile Include="References\SolutionFolderTestReference.cs" />
+    <Compile Include="References\SolutionFolderWebTestReference.cs" />
+    <Compile Include="References\SolutionFolderWSPReference.cs" />
+    <Compile Include="References\SolutionFolderWSPReferenceTemplate.cs" />
+    <Compile Include="References\TestReference.cs" />
+    <Compile Include="References\TestReferenceTemplate.cs" />
+    <Compile Include="References\TTFileReference.cs" />
+    <Compile Include="References\WebFileReference.cs" />
+    <Compile Include="References\WebServiceReference.cs" />
+    <Compile Include="References\WebServiceReferenceTemplate.cs" />
+    <Compile Include="SharePointBridge\SharePointBrigdeHelper.cs" />
+    <Compile Include="SPSFConstants.cs" />
+    <Compile Include="Types\VirtualExportObject.cs" />
+    <Compile Include="ValueProviders\ApplicationConfigValueProvider.cs" />
+    <Compile Include="ValueProviders\ApplicationConfigValueProviderEvaluated.cs" />
+    <Compile Include="ValueProviders\ApplicationNameProvider.cs" />
+    <Compile Include="ValueProviders\AssemblyProvider.cs" />
+    <Compile Include="ValueProviders\BooleanOppositeProvider.cs" />
+    <Compile Include="ValueProviders\BrandingImageProvider.cs" />
+    <Compile Include="ValueProviders\CompanyNameProvider.cs" />
+    <Compile Include="ValueProviders\ConcatStringProvider.cs" />
+    <Compile Include="ValueProviders\ContentTypeIDValueProvider.cs" />
+    <Compile Include="ValueProviders\ConvertedStringProvider.cs" />
+    <Compile Include="ValueProviders\ConvertedStringProviderUnderscore.cs" />
+    <Compile Include="ValueProviders\AssemblyShortNameProvider.cs" />
+    <Compile Include="ValueProviders\SolutionSubFolderNameProvider.cs" />
+    <Compile Include="ValueProviders\NameSeparatorProvider.cs" />
+    <Compile Include="ValueProviders\FeatureScopeProvider.cs" />
+    <Compile Include="ValueProviders\New\ApplicationPoolProvider.cs" />
+    <Compile Include="ValueProviders\New\CurrentUserNameProvider.cs" />
+    <Compile Include="ValueProviders\New\DebuggingWebAppForProjectProvider.cs" />
+    <Compile Include="ValueProviders\New\PathOfSelectedFolderProvider.cs" />
+    <Compile Include="ValueProviders\New\MachineNameProvider.cs" />
+    <Compile Include="ValueProviders\New\InstalledSilverlightVersionProvider.cs" />
+    <Compile Include="ValueProviders\New\SplitStringProvider.cs" />
+    <Compile Include="ValueProviders\PathProviders\TempFileProvider.cs" />
+    <Compile Include="ValueProviders\ProjectIsMissingProvider.cs" />
+    <Compile Include="ValueProviders\New\SerializedVersionProvider.cs" />
+    <Compile Include="ValueProviders\TargetFrameworkVersionProvider.cs" />
+    <Compile Include="ValueProviders\DefaultWebAppProvider.cs" />
+    <Compile Include="ValueProviders\IsSandboxedSolutionProvider.cs" />
+    <Compile Include="ValueProviders\New\CreateResxFilesProvider.cs" />
+    <Compile Include="ValueProviders\New\VisualStudioVersionProvider.cs" />
+    <Compile Include="ValueProviders\NameValueItemNameProvider.cs" />
+    <Compile Include="ValueProviders\New\DebuggingWebAppProvider.cs" />
+    <Compile Include="ValueProviders\New\ParentManifestFolderProvider.cs" />
+    <Compile Include="ValueProviders\New\ParentManifestFileProvider.cs" />
+    <Compile Include="ValueProviders\New\NameOfSelectedFolderProvider.cs" />
+    <Compile Include="ValueProviders\New\SafeProjectNameProvider.cs" />
+    <Compile Include="ValueProviders\New\ProjectPathProvider.cs" />
+    <Compile Include="ValueProviders\New\ProjectIdProvider.cs" />
+    <Compile Include="ValueProviders\SharePointVersionProvider.cs" />
+    <Compile Include="ValueProviders\CurrentItemProvider.cs" />
+    <Compile Include="ValueProviders\CurrentSelectedFeature.cs" />
+    <Compile Include="ValueProviders\CurrentSharePointVersionValueProvider.cs" />
+    <Compile Include="ValueProviders\DefaultCompanyNameProvider.cs" />
+    <Compile Include="ValueProviders\DefaultNamespaceProvider.cs" />
+    <Compile Include="ValueProviders\DefaultNameValueCollectionProvider.cs" />
+    <Compile Include="ValueProviders\DefaultNameValueItemProvider.cs" />
+    <Compile Include="ValueProviders\FilenameProvider.cs" />
+    <Compile Include="ValueProviders\FirstSelectedItem.cs" />
+    <Compile Include="ValueProviders\GuidValueProvider.cs" />
+    <Compile Include="ValueProviders\VersionedFolderNameProvider.cs" />
+    <Compile Include="ValueProviders\PathProviders\CommonProgramFilesPathProvider.cs" />
+    <Compile Include="ValueProviders\PathProviders\ProgramFilesPathProvider.cs" />
+    <Compile Include="ValueProviders\PathProviders\SPFolderProvider.cs" />
+    <Compile Include="ValueProviders\PathProviders\SPPathProvider.cs" />
+    <Compile Include="ValueProviders\ProcessIdValueProvider.cs" />
+    <Compile Include="ValueProviders\ProjectPropertyGroupValueProvider.cs" />
+    <Compile Include="ValueProviders\RecipeNameProvider.cs" />
+    <Compile Include="ValueProviders\ResourceFilenameProvider.cs" />
+    <Compile Include="ValueProviders\New\SafeApplicationNameProvider.cs" />
+    <Compile Include="ValueProviders\SolutionIdProvider.cs" />
+    <Compile Include="ValueProviders\SolutionKeyFilenameExistsProvider.cs" />
+    <Compile Include="ValueProviders\SolutionKeyFilenameProvider.cs" />
+    <Compile Include="ValueProviders\StaticStringProvider.cs" />
+    <Compile Include="ValueProviders\VisualStudioCreateItemName.cs" />
+    <Compile Include="ValueProviders\VisualStudioCreateItemParent.cs" />
+    <Compile Include="ValueProviders\VisualStudioCreateProjectName.cs" />
+    <Compile Include="ValueProviders\VisualStudioCreateSolutionDestinationDirectory.cs" />
+    <Compile Include="ValueProviders\VisualStudioCreateSolutionName.cs" />
+    <Compile Include="ValueProviders\VisualStudioCreateSolutionNamespace.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BCS\BCSTreeControl.resx">
+      <DependentUpon>BCSTreeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomCode\AnalyzeProjectForm.resx">
+      <DependentUpon>AnalyzeProjectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomCode\DeploymentForm.resx">
+      <DependentUpon>DeploymentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomWizardPages\ContentTypeImportPage.resx">
+      <DependentUpon>ContentTypeImportPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomWizardPages\AboutPage.resx">
+      <DependentUpon>AboutPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomWizardPages\BCSImportPage.resx">
+      <DependentUpon>BCSImportPage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomWizardPages\BCSDesignPage.resx">
+      <DependentUpon>BCSDesignPage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomWizardPages\BCSSingleEntityPage.resx">
+      <DependentUpon>BCSSingleEntityPage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomWizardPages\LINQImportPage.resx">
+      <DependentUpon>LINQImportPage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomWizardPages\SilverlightCheckPage.resx">
+      <DependentUpon>SilverlightCheckPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomWizardPages\WarningPage.resx">
+      <DependentUpon>WarningPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomWizardPages\ListTemplateImportPage.resx">
+      <DependentUpon>ListTemplateImportPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomWizardPages\SiteColumnImportPage.resx">
+      <DependentUpon>SiteColumnImportPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomWizardPages\SPExportPage.resx">
+      <DependentUpon>SPExportPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomWizardPages\FeatureSelectionPage.resx">
+      <DependentUpon>FeatureSelectionPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomWizardPages\SiteColumnPage.resx">
+      <DependentUpon>SiteColumnPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomWizardPages\SiteColumnWizard.resx">
+      <DependentUpon>SiteColumnWizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\ResourceIcons.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>ResourceIcons1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\SelectionForm.resx">
+      <DependentUpon>SelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\SelectLayoutFileForm.resx">
+      <DependentUpon>SelectLayoutFileForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons_Feature.ico" />
+    <None Include="Resources\spsf.ico" />
+    <None Include="Resources\SPSFBannerLogoSmall.png" />
+    <None Include="Resources\SPSFBannerLogo.png" />
+    <None Include="Resources\SPSFBannerTitle.png" />
+    <None Include="Resources\SPSFBanner.png" />
+    <Content Include="Resources\Feature.ico" />
+    <None Include="Resources\spcopid.png" />
+    <None Include="Resources\warning.png" />
+    <None Include="Resources\icons_contenttype.png" />
+    <None Include="mkey.snk" />
+    <None Include="Resources\icons_feature.png" />
+    <None Include="Resources\plus.png" />
+    <None Include="Resources\cross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SPALM.SPSF.SharePointBridge\SPALM.SPSF.SharePointBridge.csproj">
+      <Project>{bf7e5fc7-b6eb-4af8-9b02-61d32606aad9}</Project>
+      <Name>SPALM.SPSF.SharePointBridge</Name>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetPath)" "$(SolutionDir)\SPALM.SPSF\$(OutDir)" /Y</PostBuildEvent>
+  </PropertyGroup>
+</Project>

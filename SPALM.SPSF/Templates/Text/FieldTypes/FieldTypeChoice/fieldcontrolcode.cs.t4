@@ -1,0 +1,73 @@
+﻿<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>  
+{
+  using System;  
+  using System.Globalization;
+  using System.Runtime.InteropServices;
+  using System.Text;
+  using System.Web.UI;  
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.WebControls;
+  
+  /// <summary>
+  /// Custom field type <#= FieldTypeTypeName #>
+  /// </summary>
+  [Guid("<#= System.Guid.NewGuid().ToString() #>")]
+  public class <#= FieldTypeTypeName #>Control : BaseFieldControl 
+  {
+    protected RadioButtonList lstEmployeeStatus;
+    protected override string DefaultTemplateName 
+    {
+      get 
+      {
+        return "<#= FieldTypeRenderingTemplateId #>";
+      }
+    }
+
+    protected override void CreateChildControls() 
+    {
+      base.CreateChildControls();
+      
+      lstEmployeeStatus = (RadioButtonList)TemplateContainer.FindControl("lstEmployeeStatus");
+      if (lstEmployeeStatus != null) 
+      {
+        lstEmployeeStatus.Items.Clear();
+        lstEmployeeStatus.Items.Add("Full-time Employee");
+        lstEmployeeStatus.Items.Add("Part-time Employee");
+        
+        // check to see if contractors are allowed
+        bool allowContactors = (bool)this.Field.GetCustomProperty("AllowContractors");
+        if (allowContactors) 
+        {
+          lstEmployeeStatus.Items.Add("Contractor");
+        }
+        
+        // check to see if interns are allowed
+        bool allowInterns = (bool)this.Field.GetCustomProperty("AllowInterns");
+        if (allowInterns) 
+        {
+          lstEmployeeStatus.Items.Add("Intern");
+        }
+      }
+    }
+
+    public override object Value 
+    {
+      get 
+      {
+        this.EnsureChildControls();
+        return lstEmployeeStatus.SelectedValue;
+      }
+      set 
+      {
+        this.EnsureChildControls();
+        lstEmployeeStatus.Items.FindByValue(ItemFieldValue.ToString()).Selected = true;
+      }
+    }
+  }
+}

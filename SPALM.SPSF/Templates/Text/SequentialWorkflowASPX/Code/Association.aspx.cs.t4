@@ -1,0 +1,405 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="WorkflowNamespace" #>
+<#@ property processor="PropertyProcessor" name="WorkflowName" #>
+<#@ property processor="PropertyProcessor" name="ResourceFilename" #>
+<#@ assembly name="System.dll" #>
+using System;
+using System.IO;
+using System.Text;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Xml;
+using System.Xml.Serialization;
+using Microsoft.SharePoint;
+using Microsoft.SharePoint.Utilities;
+using Microsoft.SharePoint.WebControls;
+using Microsoft.SharePoint.Workflow;
+
+namespace <#= WorkflowNamespace #>
+{
+    /// <summary>
+    /// Type how describe the type of the assiciation to the workflow.
+    /// </summary>
+    internal enum AssociationTypeEnum
+    {
+        List,
+        ContentType,
+        ContentTypeOnList
+    }
+
+    /// <summary>
+    /// Assiciation Form to connect a workflow to a content type, or list.
+    /// </summary>
+    public class <#= WorkflowName #>Association : LayoutsPageBase
+    {
+        #region Protected fields
+        // controls
+        // Protected control definitions goes here
+
+        // form-level variables
+        protected string WorkflowAssociationName;
+        protected Guid WorkflowTemplateId;
+        protected SPWorkflowTemplate WorkflowTemplate;
+        protected Guid ListId;
+        protected SPList List;
+        protected SPContentTypeId CTypeId;
+        protected SPContentType CType;
+        protected SPWorkflowAssociation WorkflowAssociation;
+        protected Guid WorkflowAssociationId;
+        protected string QueryString;
+        protected string PageTitle;
+        protected string PageTitleInArea;
+        protected string PageDescription;
+
+        #endregion
+
+        #region Private fields
+        bool WorkflowAssociationExists;
+        bool UpdateContentTypesOnLists;
+        AssociationTypeEnum AssociationType;
+        bool NewTaskListRequired;
+        string NewTaskListName;
+        bool NewHistoryListRequired;
+        string NewHistoryListName;
+        SPList TaskList;
+        SPList HistoryList;
+        const string redirPage = "WrkSetng.aspx?{0}={1}";
+
+        #endregion
+
+        #region Protectged Event Methods
+        /// <summary>
+        /// Retrieve Parameters and Set Local Variables, Set also Page Title and Description
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnLoad(EventArgs e)
+        {
+            RetrieveParamSetVars();
+
+            string resxPostFix = WorkflowAssociationExists ? "_Upd" : "";
+
+            PageTitle = GetResourceString("PageTitle" + resxPostFix);
+            PageTitleInArea = string.Format(GetResourceString("PageTitleInArea" + resxPostFix), WorkflowAssociationName);
+            PageDescription = string.Format(GetResourceString("PageDescription" + resxPostFix), WorkflowAssociationName);
+        }
+
+        /// <summary>
+        /// Populate From Data to the front End
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnPreRender(EventArgs e)
+        {
+            if (WorkflowAssociationExists)
+                PopulateFormDataFromString(WorkflowAssociation.AssociationData);
+        }
+
+        /// <summary>
+        /// Cancel Event, redirect to the right page, without saving
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void Cancel_OnClick(object sender, EventArgs e)
+        {
+            UpdateOrCancel(false);
+        }
+
+        /// <summary>
+        /// Create the needed lists and create the worklfow assocation, redirect to the right page 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void Ok_OnClick(object sender, EventArgs e)
+        {
+            UpdateOrCancel(true);
+        }
+
+        #endregion
+
+        #region Private Helper Methods
+        /// <summary>
+        /// IF isUpdate is true then it create the assication, if false only redirect the right page
+        /// </summary>
+        /// <param name="isUpdate"></param>
+        private void UpdateOrCancel(bool isUpdate)
+        {
+            string RedirectUrl = default(string);
+
+            if (isUpdate)
+                CreateRequiredLists();
+
+            switch (AssociationType)
+            {
+                case AssociationTypeEnum.List:
+                    if (isUpdate)
+                        ModifyListAssociation();
+                    RedirectUrl = string.Format(redirPage, "List", ListId);
+                    break;
+
+                case AssociationTypeEnum.ContentType:
+                    if (isUpdate)
+                        ModifyContentTypeAssociation();
+                    RedirectUrl = string.Format(redirPage, "ctype", CTypeId);
+                    break;
+
+                case AssociationTypeEnum.ContentTypeOnList:
+                    if (isUpdate)
+                        ModifyContentTypeOnListAssociation();
+                    RedirectUrl = string.Format(redirPage, "List", ListId) + "&ctype=" + CTypeId;
+                    break;
+            }
+
+            SPUtility.Redirect(RedirectUrl, SPRedirectFlags.RelativeToLayoutsPage, HttpContext.Current);
+        }
+
+        /// <summary>
+        /// Update or Add a workflow assocation on a content type at a list
+        /// </summary>
+        private void ModifyContentTypeOnListAssociation()
+        {
+            if (WorkflowAssociationExists)
+            {
+                WorkflowAssociation = CType.WorkflowAssociations[WorkflowAssociationId];
+                UpdateAssociation(WorkflowAssociation, TaskList, HistoryList);
+                CType.UpdateWorkflowAssociation(WorkflowAssociation);
+            }
+            else
+            {
+                WorkflowAssociation =
+                    SPWorkflowAssociation.CreateListContentTypeAssociation(WorkflowTemplate,
+                                                                           WorkflowAssociationName,
+                                                                           TaskList,
+                                                                           HistoryList);
+
+
+                UpdateAssociation(WorkflowAssociation, TaskList, HistoryList);
+                CType.AddWorkflowAssociation(WorkflowAssociation);
+            }
+        }
+
+        /// <summary>
+        /// Modify a workflow asssocation on a content type
+        /// </summary>
+        private void ModifyContentTypeAssociation()
+        {
+            if (WorkflowAssociationExists)
+            {
+                WorkflowAssociation = CType.WorkflowAssociations[WorkflowAssociationId];
+                UpdateAssociation(WorkflowAssociation, TaskList, HistoryList);
+                CType.UpdateWorkflowAssociation(WorkflowAssociation);
+                if (UpdateContentTypesOnLists)
+                    CType.UpdateWorkflowAssociationsOnChildren(true, true, true);
+            }
+            else
+            {
+                WorkflowAssociation =
+                    SPWorkflowAssociation.CreateSiteContentTypeAssociation(WorkflowTemplate,
+                                                                           WorkflowAssociationName,
+                                                                           TaskList.Title,
+                                                                           HistoryList.Title);
+
+                UpdateAssociation(WorkflowAssociation, TaskList, HistoryList);
+                CType.AddWorkflowAssociation(WorkflowAssociation);
+                if (UpdateContentTypesOnLists)
+                    CType.UpdateWorkflowAssociationsOnChildren(true, true, true);
+            }
+        }
+
+        /// <summary>
+        /// Modify a workflow assocation on a List
+        /// </summary>
+        private void ModifyListAssociation()
+        {
+            if (WorkflowAssociationExists)
+            {
+                UpdateAssociation(WorkflowAssociation, TaskList, HistoryList);
+                List.UpdateWorkflowAssociation(WorkflowAssociation);
+            }
+            else
+            {
+                WorkflowAssociation =
+                    SPWorkflowAssociation.CreateListAssociation(WorkflowTemplate,
+                                                                WorkflowAssociationName,
+                                                                TaskList,
+                                                                HistoryList);
+
+                UpdateAssociation(WorkflowAssociation, TaskList, HistoryList);
+                List.AddWorkflowAssociation(WorkflowAssociation);
+            }
+        }
+
+        /// <summary>
+        /// Create Task List and History List if needed
+        /// </summary>
+        private void CreateRequiredLists()
+        {
+            if (NewTaskListRequired)
+            {
+                Guid TaskListId = Web.Lists.Add(NewTaskListName, 
+                    GetResourceString("WorkflowListName"), SPListTemplateType.Tasks);
+                
+                TaskList = Web.Lists[TaskListId];
+            }
+
+            if (NewHistoryListRequired)
+            {
+                Guid HistoryListId = Web.Lists.Add(NewHistoryListName, 
+                    GetResourceString("WorkflowHistoryListName"), SPListTemplateType.WorkflowHistory);
+                
+                HistoryList = Web.Lists[HistoryListId];
+            }
+        }
+        /// <summary>
+        /// Get the Resource String for this page
+        /// </summary>
+        /// <param name="resourceID">ID of the resource to get</param>
+        /// <returns>Localized string</returns>
+        protected string GetResourceString(string resourceID)
+        {
+            resourceID = string.Format("<#= WorkflowName #>Association_{0}", resourceID);
+            return HttpContext.GetGlobalResourceObject("<#= ResourceFilename #>", resourceID).ToString();
+        }
+
+        /// <summary>
+        /// Retrieve Parameters from the Request object and set variables
+        /// </summary>
+        private void RetrieveParamSetVars()
+        {
+            string paramWorkflowName = Request.Params["WorkflowName"];
+            string paramWorkflowDefinition = Request.Params["WorkflowDefinition"];
+            string paramList = Request.Params["List"];
+            string paramCType = Request.Params["ctype"];
+            string paramUpdateLists = Request.Params["UpdateLists"];
+            string paramTaskList = Request.Params["TaskList"];
+            string paramHistoryList = Request.Params["HistoryList"];
+            string paramAllowManual = Request.Params["AllowManual"];
+            string paramAutoStartCreate = Request.Params["AutoStartCreate"];
+            string paramAutoStartChange = Request.Params["AutoStartChange"];
+            string paramManualPermManageListRequired = Request.Params["ManualPermManageListRequired"];
+            string paramGuidAssoc = Request.Params["GuidAssoc"];
+
+            WorkflowAssociationName = paramWorkflowName;
+            WorkflowTemplateId = new Guid(paramWorkflowDefinition);
+            WorkflowTemplate = Web.WorkflowTemplates[WorkflowTemplateId];
+            if (!string.IsNullOrEmpty(paramGuidAssoc))
+            {
+                WorkflowAssociationExists = true;
+                WorkflowAssociationId = new Guid(paramGuidAssoc);
+            }
+
+            UpdateContentTypesOnLists = (paramUpdateLists == "TRUE");
+
+            if (!string.IsNullOrEmpty(paramList))
+            {
+                ListId = new Guid(paramList);
+                List = Web.Lists[ListId];
+            }
+
+            if (string.IsNullOrEmpty(paramCType))
+            {
+                AssociationType = AssociationTypeEnum.List;
+                if (WorkflowAssociationExists)
+                    WorkflowAssociation = List.WorkflowAssociations[WorkflowAssociationId];
+            }
+            else
+            {
+                if (List == null)
+                {
+                    AssociationType = AssociationTypeEnum.ContentType;
+                    CTypeId = new SPContentTypeId(paramCType);
+                    CType = Web.AvailableContentTypes[CTypeId];
+                    if (WorkflowAssociationExists)
+                        WorkflowAssociation = CType.WorkflowAssociations[WorkflowAssociationId];
+                }
+                else
+                {
+                    AssociationType = AssociationTypeEnum.ContentTypeOnList;
+                    CType = List.ContentTypes[new SPContentTypeId(paramCType)];
+                    if (WorkflowAssociationExists)
+                        WorkflowAssociation = CType.WorkflowAssociations[WorkflowAssociationId];
+                }
+            }
+
+            if (paramTaskList[0] == 'z')
+            {
+                NewTaskListRequired = true;
+                NewTaskListName = paramTaskList.Substring(1);
+            }
+            else
+            {
+                TaskList = AssociationType == AssociationTypeEnum.ContentType ? 
+                    Web.Lists[paramTaskList] : Web.Lists[new Guid(paramTaskList)];
+            }
+
+            if (paramHistoryList[0] == 'z')
+            {
+                NewHistoryListRequired = true;
+                NewHistoryListName = paramHistoryList.Substring(1);
+            }
+            else
+            {
+                HistoryList = AssociationType == AssociationTypeEnum.ContentType ?
+                    Web.Lists[paramHistoryList] : Web.Lists[new Guid(paramHistoryList)];
+            }
+        }
+
+        /// <summary>
+        /// Deserialize the string to the Data Object (PXXXWFData) of the Form and write 
+        /// the content to the form
+        /// </summary>
+        /// <param name="AssociationData"></param>
+        private void PopulateFormDataFromString(string AssociationData)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(<#= WorkflowName #>Data));
+            XmlTextReader reader = new XmlTextReader(new StringReader(AssociationData));
+            <#= WorkflowName #>Data FormData = (<#= WorkflowName #>Data)serializer.Deserialize(reader);
+
+            //Code to populate data to the form
+        }
+
+
+        /// <summary>
+        /// Read the Data from the form and write it to the Data Object (PXXXWFData) and serialize it to a string
+        /// </summary>
+        /// <returns></returns>
+        private string SerializeFormDataToString()
+        {
+            <#= WorkflowName #>Data FormData = new <#= WorkflowName #>Data();
+
+            //Code to read the data from the form and write them to the Data Object (PXXXWFData)
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(<#= WorkflowName #>Data));
+                serializer.Serialize(stream, FormData);
+                stream.Position = 0;
+                byte[] bytes = new byte[stream.Length];
+                stream.Read(bytes, 0, bytes.Length);
+                return Encoding.UTF8.GetString(bytes);
+            }
+        }
+
+        /// <summary>
+        /// Update the Asssisation of the Workflow and write the updated data back to the Workflow Assosation
+        /// </summary>
+        /// <param name="wfa">Workflow Assosation</param>
+        /// <param name="taskList">Task List, if changed also set it to the assosation</param>
+        /// <param name="historyList">History List, if changed also set it to the assosation</param>
+        private void UpdateAssociation(SPWorkflowAssociation wfa, SPList taskList, SPList historyList)
+        {
+            wfa.Name = WorkflowAssociationName;
+            wfa.AutoStartCreate = (Request.Params["AutoStartCreate"] == "ON");
+            wfa.AutoStartChange = (Request.Params["AutoStartChange"] == "ON");
+            wfa.AllowManual = (Request.Params["AllowManual"] == "ON");
+            wfa.AssociationData = SerializeFormDataToString();
+
+            if (wfa.TaskListTitle != taskList.Title)
+                wfa.SetTaskList(taskList);
+            if (wfa.HistoryListTitle != historyList.Title)
+                wfa.SetHistoryList(historyList);
+        }
+
+        #endregion
+    }
+}

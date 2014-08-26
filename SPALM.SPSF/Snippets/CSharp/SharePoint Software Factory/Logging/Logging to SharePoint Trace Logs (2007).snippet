@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Logging to SharePoint Trace Logs (2007)</Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>ErrorText</ID>
+          <ToolTip>ErrorText</ToolTip>
+          <Default>ErrorText</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[// You must add a reference to Microsoft.Office.Server.dll (MOSS only)
+            //This will always display the error level in the trace logs as High. 
+            Microsoft.Office.Server.Diagnostics.PortalLog.LogString("$ErrorText$");]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

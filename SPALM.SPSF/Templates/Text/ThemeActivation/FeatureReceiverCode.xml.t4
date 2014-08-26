@@ -1,0 +1,63 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<FeatureReceiverCode>
+	<FeatureActivatedMethod>ActivateTheme(properties);</FeatureActivatedMethod>
+	<FeatureActivatedCode><![CDATA[
+/// <summary>
+/// Activate the theme
+/// </summary>
+private void ActivateTheme(SPFeatureReceiverProperties properties)
+{
+  try
+  {
+    if(properties.Feature.Parent is SPWeb)
+    {
+        using (SPWeb web = properties.Feature.Parent as SPWeb)
+        {
+          if (properties.Feature.Properties["ThemeToApply"] != null)
+          {
+            string theme = properties.Feature.Properties["ThemeToApply"].Value;
+            if (!string.IsNullOrEmpty(theme))
+            {
+              web.ApplyTheme(theme);
+            }
+          }
+        }
+    }
+  }
+  catch(Exception)
+  {
+  }
+}]]>
+	</FeatureActivatedCode>	
+	<FeatureDeactivatingMethod>DeactivateTheme(properties);</FeatureDeactivatingMethod>
+	<FeatureDeactivatingCode><![CDATA[	
+/// <summary>
+/// Deactivate the theme
+/// </summary>
+private void DeactivateTheme(SPFeatureReceiverProperties properties)
+{
+  try
+  {
+    if(properties.Feature.Parent is SPWeb)
+    {
+      using (SPWeb web = properties.Feature.Parent as SPWeb)
+      {
+        if (properties.Feature.Properties["DefaultTheme"] != null)
+        {
+          string theme = properties.Feature.Properties["DefaultTheme"].Value;
+          if (!string.IsNullOrEmpty(theme))
+          {
+            web.ApplyTheme(theme);
+          }
+        }
+      }
+    }
+  }
+  catch(Exception)
+  {
+  }
+}]]></FeatureDeactivatingCode>
+</FeatureReceiverCode>
+
+		

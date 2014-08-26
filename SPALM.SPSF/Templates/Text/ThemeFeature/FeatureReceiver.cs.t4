@@ -1,0 +1,44 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="CopyrightCompanyName" #>
+<#@ property processor="PropertyProcessor" name="CopyrightFileName" #>
+<#@ property processor="PropertyProcessor" name="ThemeName" #>
+<#@ property processor="PropertyProcessor" name="FeatureReceiverNamespace" #>
+<#@ property processor="PropertyProcessor" name="FeatureReceiverClass" #>
+<#@ assembly name="System.dll" #>
+// <copyright file="<#= CopyrightFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= FeatureReceiverNamespace #>
+{
+  using System;
+  using System.Collections.Generic;
+  using System.IO;
+  using System.Text;
+  using System.Xml;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.Utilities;
+
+  public class <#= FeatureReceiverClass #> : SPFeatureReceiver
+  {
+    public override void FeatureActivated(SPFeatureReceiverProperties properties)
+    {
+      <#= FeatureReceiverClass #>Job.InstallThemes(properties.Definition);
+    }
+
+    public override void FeatureDeactivating(SPFeatureReceiverProperties properties)
+    {
+      <#= FeatureReceiverClass #>Job.DeleteThemes(properties.Definition);
+    }
+
+    public override void FeatureInstalled(SPFeatureReceiverProperties properties)
+    {
+      /* no op */
+    }
+    public override void FeatureUninstalling(SPFeatureReceiverProperties properties)
+    {
+      /* no op */
+    }
+  }
+}

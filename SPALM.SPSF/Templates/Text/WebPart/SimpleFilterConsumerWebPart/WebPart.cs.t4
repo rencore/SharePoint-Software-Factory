@@ -1,0 +1,93 @@
+<#@ template language="C#" #>
+// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #>
+{
+  using System;
+  using System.Collections;
+  using System.Collections.Generic;
+  using System.Collections.ObjectModel;
+  using System.ComponentModel;
+  using System.Security.Permissions;
+  using System.Text;
+  using System.Web;
+  using System.Web.UI;
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint.Security;
+  using Microsoft.SharePoint.Utilities;
+  using aspnetwebparts = System.Web.UI.WebControls.WebParts;
+  using wsswebparts = Microsoft.SharePoint.WebPartPages;
+
+  /// <summary>
+  /// TODO: Add comment for webpart <#= this.WebPartName #>
+  /// </summary>
+  [SharePointPermission(SecurityAction.LinkDemand, ObjectModel = true)]
+  [SharePointPermission(SecurityAction.InheritanceDemand, ObjectModel = true)]
+  public class <#= this.WebPartName #> : aspnetwebparts.WebPart
+  {
+    private List<wsswebparts.IFilterValues> providers = new List<wsswebparts.IFilterValues>();
+
+    protected override void CreateChildControls()
+    {
+      base.CreateChildControls();
+    }
+    
+    [aspnetwebparts.ConnectionConsumer("Simple Consumer", "IFilterValues", AllowsMultipleConnections = false)]
+    public void SetConnectionInterface(wsswebparts.IFilterValues provider)
+    {
+      this.providers.Add(provider);
+      if (provider != null)
+      {
+        List<wsswebparts.ConsumerParameter> l = new List<wsswebparts.ConsumerParameter>();
+        l.Add(new wsswebparts.ConsumerParameter("Value", wsswebparts.ConsumerParameterCapabilities.SupportsMultipleValues | wsswebparts.ConsumerParameterCapabilities.SupportsAllValue));
+        provider.SetConsumerParameters(new ReadOnlyCollection<wsswebparts.ConsumerParameter>(l));
+      }
+    }
+
+    protected override void RenderContents(HtmlTextWriter writer)
+    {
+      this.EnsureChildControls();
+      foreach (wsswebparts.IFilterValues provider in this.providers)
+      {
+        if (provider != null)
+        {
+          string prop = provider.ParameterName;
+          ReadOnlyCollection<string> values = provider.ParameterValues;
+
+          if (prop != null && values != null)
+          {
+            writer.Write("<div>" + SPEncode.HtmlEncode(prop) + ":</div>");
+            foreach (string v in values)
+            {
+              if (v == null)
+              {
+                writer.Write("<div>&nbsp;&nbsp;<i>&quot;(empty)&quot;/null</i></div>");
+              }
+              else if (v.Length == 0)
+              {
+                writer.Write("<div>&nbsp;&nbsp;<i>empty string</i></div>");
+              }
+              else
+              {
+                writer.Write("<div>&nbsp;&nbsp;" + v + "</div>");
+              }
+            }
+          }
+          else
+          {
+            writer.Write("<div>No filter specified (all).</div>");
+          }
+        }
+        else
+        {
+          writer.Write("<div>Not connected.</div>");
+        }
+
+        writer.Write("<hr>");
+      }
+    }
+  }
+}

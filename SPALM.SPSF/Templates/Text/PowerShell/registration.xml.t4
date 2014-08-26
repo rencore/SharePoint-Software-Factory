@@ -1,0 +1,13 @@
+﻿<#@ template language="C#" #><?xml version="1.0" encoding="utf-8" ?>
+<ps:Config xmlns:ps="urn:Microsoft.SharePoint.PowerShell"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="urn:Microsoft.SharePoint.PowerShell SPCmdletSchema.xsd">
+  <ps:Assembly Name="<#= ProjectAssemblyName #>">
+    <ps:Cmdlet>
+      <ps:VerbName><#= SPCmdLetVerb #>-<#= SPCmdLetNoun #></ps:VerbName>
+      <ps:ClassName><#= SPCmdLetFullClassName #></ps:ClassName>
+      <ps:HelpFile><#= SPCmdLetHelpFileName #></ps:HelpFile>
+    </ps:Cmdlet>
+  </ps:Assembly>
+</ps:Config>
+

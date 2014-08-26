@@ -1,0 +1,217 @@
+<#@ template language="C#" #>
+<#@ property processor="PropertyProcessor" name="WorkflowNamespace" #>
+<#@ property processor="PropertyProcessor" name="WorkflowName" #>
+<#@ property processor="PropertyProcessor" name="ResourceFilename" #>
+<#@ assembly name="System.dll" #>
+using System;
+using System.IO;
+using System.Text;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Xml;
+using System.Xml.Serialization;
+using Microsoft.SharePoint;
+using Microsoft.SharePoint.Utilities;
+using Microsoft.SharePoint.WebControls;
+using Microsoft.SharePoint.Workflow;
+
+namespace <#= WorkflowNamespace #>
+{
+    /// <summary>
+    /// Modification Form to start a new workflow 
+    /// </summary>
+    public class <#= WorkflowName #>ModificationForm : LayoutsPageBase
+    {
+        #region Protected fields
+        // controls
+        // Protected control definitions goes here
+
+        // form-level variables
+        protected SPList List;
+        protected SPListItem ListItem;
+        protected SPWorkflow WorkflowInstance;
+        protected Guid ModificationID;
+        protected SPWorkflowModification Modification;
+        protected string ContextData;
+        protected string ListItemName;
+        protected string ListItemUrl;
+        protected SPContentType CType;
+        protected SPWorkflowAssociation WorkflowAssociation;
+        protected SPWorkflowTemplate WorkflowTemplate;
+        protected string WorkflowAssociationName;
+
+        protected string PageTitle;
+        protected string PageTitleInArea;
+        protected string PageDescription;
+
+        #endregion
+
+        #region Protectged Event Methods
+        /// <summary>
+        /// Retrieve Parameters and Set Local Variables, Set also Page Title and Description
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnLoad(EventArgs e)
+        {
+            RetrieveParamSetVars();
+
+            PageTitle = GetResourceString("PageTitle");
+            PageTitleInArea = string.Format(GetResourceString("PageTitleInArea"), ListItemName);
+            PageDescription = string.Format(GetResourceString("PageDescription"), ListItemName);
+        }
+
+        /// <summary>
+        /// Populate From Data to the front End
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnPreRender(EventArgs e)
+        {
+            this.PopulateFormDataFromString(ContextData);
+        }
+
+        /// <summary>
+        /// Redirect to the Default view url of the current list.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void btnCancel_OnClick(object sender, EventArgs e)
+        {
+            SPUtility.Redirect(List.DefaultViewUrl,
+                               SPRedirectFlags.Default,
+                               HttpContext.Current);
+        }
+
+        /// <summary>
+        /// Modify the Worklfow after clicking the ok button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void btnOk_OnClick(object sender, EventArgs e)
+        {
+            try
+            {
+                ContextData = SerializeFormDataToString();
+
+                Web.Site.WorkflowManager.ModifyWorkflow(WorkflowInstance,
+                                                        Modification,
+                                                        ContextData);
+            }
+            catch (Exception ex)
+            {
+                SPException spEx = ex as SPException;
+
+                string errorString;
+
+                if (spEx != null && spEx.ErrorCode == -2130575205 /* SPErrorCode.TP_E_WORKFLOW_ALREADY_RUNNING */)
+                    errorString = SPResource.GetString(Strings.WorkflowFailedAlreadyRunningMessage);
+                else if (spEx != null && spEx.ErrorCode == -2130575339 /* SPErrorCode.TP_E_VERSIONCONFLICT */)
+                    errorString = SPResource.GetString(Strings.ListVersionMismatch);
+                else if (spEx != null && spEx.ErrorCode == -2130575338 /* SPErrorCode.TP_E_LISTITEMDELETED */)
+                    errorString = spEx.Message;
+                else
+                    errorString = SPResource.GetString(Strings.WorkflowFailedStartMessage);
+
+                SPUtility.Redirect("Error.aspx",
+                                   SPRedirectFlags.RelativeToLayoutsPage,
+                                   HttpContext.Current,
+                                   "ErrorText=" + SPHttpUtility.UrlKeyValueEncode(errorString));
+            }
+
+            SPUtility.Redirect(List.DefaultViewUrl,
+                              SPRedirectFlags.Default,
+                              HttpContext.Current);
+        }
+
+        #endregion
+
+        #region Private Helper Methods
+        /// <summary>
+        /// Get the Resource String for this page
+        /// </summary>
+        /// <param name="resourceID">ID of the resource to get</param>
+        /// <returns>Localized string</returns>
+        private static string GetResourceString(string resourceID)
+        {
+            resourceID = string.Format("<#= WorkflowName #>ModificationForm_{0}", resourceID);
+            return HttpContext.GetGlobalResourceObject("<#= ResourceFilename #>", resourceID).ToString();
+        }
+
+        /// <summary>
+        /// Retrieve the Parameters ans Set the local variables
+        /// </summary>
+        private void RetrieveParamSetVars()
+        {
+            string paramList = Request.Params["List"];
+            string paramID = Request.Params["ID"];
+            string paramWorkflowInstanceID = Request.Params["WorkflowInstanceID"];
+            string paramModificationID = Request.Params["ModificationID"];
+
+            List = Web.Lists[new Guid(paramList)];
+            ListItem = List.GetItemById(Convert.ToInt32(paramID));
+
+            WorkflowInstance = ListItem.Workflows[new Guid(paramWorkflowInstanceID)];
+            ModificationID = new Guid(paramModificationID);
+            Modification = WorkflowInstance.Modifications[ModificationID];
+            ContextData = Modification.ContextData;
+
+            WorkflowAssociation = List.WorkflowAssociations[WorkflowInstance.AssociationId];
+            if (WorkflowAssociation == null)
+            { 
+                SPContentTypeId CTypeID = (SPContentTypeId)ListItem["ContentTypeId"];
+                CType = List.ContentTypes[CTypeID];
+                WorkflowAssociation = CType.WorkflowAssociations[WorkflowInstance.AssociationId];
+            }
+
+            if (WorkflowAssociation == null)
+                throw new SPException("Error loading modification form: could not find workflow association");
+
+            WorkflowAssociationName = WorkflowAssociation.Name;
+            WorkflowTemplate = Web.WorkflowTemplates[WorkflowAssociation.BaseId];
+
+            if (ListItem.File == null)
+                ListItemUrl = Web.Url + ListItem.ParentList.Forms[PAGETYPE.PAGE_DISPLAYFORM].ServerRelativeUrl + "?ID=" + ListItem.ID.ToString();
+            else
+                ListItemUrl = Web.Url + "/" + ListItem.File.Url;
+
+            if (List.BaseType == SPBaseType.DocumentLibrary)
+            {
+                ListItemName = (string)ListItem["Name"];
+                int i = ListItemName.LastIndexOf('.');
+                if (i > 0)
+                    ListItemName = ListItemName.Substring(0, i);
+            }
+            else
+                ListItemName = (string)ListItem["Title"];
+        }
+
+        protected void PopulateFormDataFromString(string ContextData)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(<#= WorkflowName #>Data));
+            XmlTextReader reader = new XmlTextReader(new StringReader(ContextData));
+            <#= WorkflowName #>Data FormData = (<#= WorkflowName #>Data)serializer.Deserialize(reader);
+
+            //Code to populate data to the form
+        }
+
+        protected string SerializeFormDataToString()
+        {
+            <#= WorkflowName #>Data FormData = new <#= WorkflowName #>Data();
+
+            //Code to read the data from the form and write them to the Data Object (PXXXWFData)
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(<#= WorkflowName #>Data));
+                serializer.Serialize(stream, FormData);
+                stream.Position = 0;
+                byte[] bytes = new byte[stream.Length];
+                stream.Read(bytes, 0, bytes.Length);
+                return Encoding.UTF8.GetString(bytes);
+            }
+        }
+
+        #endregion
+    }
+}

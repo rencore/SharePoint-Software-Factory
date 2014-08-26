@@ -1,0 +1,96 @@
+<#@ template language="C#" #>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	<CustomAction 
+		<# 
+		if(CustomActionType == "ClassFile")
+		{
+			#>
+			ControlAssembly="<#= ProjectAssemblyName #>"
+			ControlClass="<#= ProjectNamespace #>.<#= CustomActionName #>"
+			<#
+		}
+		else if(CustomActionType == "WebControl")
+		{
+			#>
+			ControlSrc="~/_controltemplates<#= VersionedFolderName #>/<#= SolutionSubFolder #>/<#= CustomActionName #>.ascx"
+			<#
+		}
+		#>   
+		Id="<#= CustomActionLongID #>"
+		Location="<#= CustomActionLocation.Value #>"
+		GroupId="<#= CustomActionLocation.Name #>"
+		<#
+		if(AutoCreateResxFiles)
+		{
+			#>
+			Title="$Resources:<#= ResourceKeyPrefix #>_CustomActionTitle;"
+			Description="$Resources:<#= ResourceKeyPrefix #>_CustomActionDescription;"
+			<#
+		}
+		else
+		{
+			#>
+			Title="<#= CustomActionTitle #>"
+			Description="<#= CustomActionDescription #>"
+			<#
+		}
+		#>
+		<#
+		if(CustomActionAddIcon)
+		{
+			if(!ProjectIsSandboxedSolution)
+			{		
+				#>
+				ImageUrl="/_layouts<#= VersionedFolderName #>/images/<#= SafeAppName #>/<#= CustomActionIconName #>"
+				<#
+			}
+			else
+			{
+				#>
+				ImageUrl="/_layouts<#= VersionedFolderName #>/images/actionssettings.gif"
+				<#
+			}		
+		}
+		#>
+		<#
+		if(CustomActionRights.Length > 0)
+		{
+			#>
+			Rights="<#
+			bool showcomma = false;
+			foreach(NameValueItem right in CustomActionRights)
+			{		
+				if(showcomma)
+				{
+					#>,<#
+				}
+				showcomma = true;
+				#><#= right.Value #><#
+			}
+			#>" <#
+		}
+		#>
+		Sequence="<#= CustomActionSequence #>"
+		<# 
+		if(CustomActionRequireSiteAdministrator)
+		{
+			#>
+			RequireSiteAdministrator="<#= CustomActionRequireSiteAdministrator #>"
+			<#
+		}		
+		#>
+		>
+		<# if(CustomActionUrlAction != null)
+		{
+		#>
+		<UrlAction Url="<#= CustomActionUrlActionPrefix #><#= CustomActionUrlAction #><#
+		if(CustomActionUrlActionParameters != "")
+		{		
+			#><#= CustomActionUrlActionParameters.Replace("&","&amp;") #><#
+		}
+		#>"/>
+		<#
+		}
+		#>
+	</CustomAction>
+</Elements>  

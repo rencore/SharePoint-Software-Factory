@@ -1,0 +1,59 @@
+﻿<#@ template language="C#" #>// <copyright file="<#= GeneratedFileName #>" company="<#= CopyrightCompanyName #>">
+// Copyright <#= CopyrightCompanyName #>. All rights reserved.
+// </copyright>
+// <author><#= System.Environment.UserDomainName #>\\<#= System.Environment.UserName #></author>
+// <date><#= System.DateTime.Now.ToString("u") #></date>
+namespace <#= ProjectNamespace #> 
+{
+  using System;  
+  using System.Globalization;
+  using System.Runtime.InteropServices;
+  using System.Text;
+  using System.Text.RegularExpressions;
+  using System.Web.UI;  
+  using System.Web.UI.WebControls;
+  using Microsoft.SharePoint;
+  using Microsoft.SharePoint.WebControls;
+
+  /// <summary>
+  /// Custom field type <#= FieldTypeTypeName #>
+  /// DisplayName: <#= FieldTypeDisplayName #>
+  /// Description: <#= FieldTypeDescription #>
+  /// </summary>
+  public class <#= FieldTypeTypeName #> : SPFieldText 
+  {
+    public <#= FieldTypeTypeName #>(SPFieldCollection fields, string fieldName)
+      : base(fields, fieldName) 
+    { 
+    }
+
+    public <#= FieldTypeTypeName #>(SPFieldCollection fields, string typeName, string displayName)
+      : base(fields, typeName, displayName) 
+    { 
+    }
+
+    public override BaseFieldControl FieldRenderingControl
+    {
+      get
+      {
+        BaseFieldControl fieldControl = new <#= FieldTypeTypeName #>Control();
+        fieldControl.FieldName = this.InternalName;
+
+        return fieldControl;
+      }
+    }
+
+    public override string GetValidatedString(object value) 
+    {
+      string userInput = value.ToString();
+      string ssnRegularExpression = @"^\d{3}-\d{2}-\d{4}$";
+      
+      if ( (this.Required || !string.IsNullOrEmpty(userInput) ) &
+      (!Regex.IsMatch(userInput, ssnRegularExpression) ) )
+      {
+        throw new SPFieldValidationException("SSN must be form of 123-45-6789");
+      }
+      return base.GetValidatedString(value);
+    }
+  }  
+}

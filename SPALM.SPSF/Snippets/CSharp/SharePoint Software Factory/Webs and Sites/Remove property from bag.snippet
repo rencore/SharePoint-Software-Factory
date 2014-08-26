@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Remove a property from the property bag </Title>
+      <Author>Ayman El-Hattab http://ayman-elhattab.blogspot.com
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>http://SPCodeSnippets.codeplex.com</HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>Bag</ID>
+          <ToolTip>PropertyBag</ToolTip>
+          <Default>bag</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>PropertyName</ID>
+          <ToolTip>PropertyName</ToolTip>
+          <Default>PropertyName</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[//using Microsoft.SharePoint.Utilities;
+//http://SPCodeSnippets.CodePlex.com
+SPPropertyBag $Bag$ =  site.RootWeb.Properties;
+if ($Bag$.ContainsKey("$PropertyName$"))
+{
+    $Bag$["$PropertyName$"]=null;                            
+    $Bag$.Update();
+}
+// Don't forget to dispose ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

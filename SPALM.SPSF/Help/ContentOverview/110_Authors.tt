@@ -1,0 +1,36 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="html" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ include file="../../T4Functions.tt" #>
+
+<HTML>
+    <HEAD>
+        <TITLE>Authors</TITLE>
+    </HEAD>
+    <BODY>
+        <div style="margin-bottom: 15px;">
+            <img style="margin-top: 3px; margin-right: 10px; margin-bottom: 30px; float: left;" src="./_img/matt.png" />
+            <strong>Matthias Einig</strong>
+                <br>
+                Matthias works as team lead at Steria AB in Stockholm. He focuses on SharePoint solution architecture, development, application lifecycle management with Team Foundation Server and in general on improving the quality of custom SharePoint solutions.
+                <br>
+                Blog: <a href="http://www.matthiaseinig.de/">www.matthiaseinig.de</a>
+                <br>
+                Twitter: <a href="https://twitter.com/mattein">@mattein</a>
+        </div><br />
+		    
+        <div>
+            <img style="margin-top: 3px; margin-right: 10px; margin-bottom: 30px; float: left;" src="./_img/torsten.png" />
+            <strong>Torsten Mandelkow</strong>
+            <br>
+            Torsten works at Microsoft in Germany and has a passion for high quality SharePoint Code. Starting with
+            <a href="http://spsf.codeplex.com">SPSF SharePoint Software Factory</a> to make SharePoint development easier and more reusable he now focuses on automizing code quality analysis of SharePoint solutions.
+            <br>
+            Blog: <a href="http://blogs.msdn.com/b/torstenmandelkow/">blogs.msdn.com/b/torstenmandelkow/</a>
+            <br>
+             Twitter: <a href="https://twitter.com/tmandel">@tmandel</a>
+        </div>
+    </BODY>
+</HTML>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="AnalyzeProjects"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+	<xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<Caption>Analyze and Fix SPSF Project</Caption>
+	<Description>Analyzes the project for conflicts and allows to fix them.</Description>
+	<HostData Priority="110">
+		<Icon File="Help/Icons/icon_AnalyzeAndFix.ico" />
+		<CommandBar Menu="SPSFSolutionHelp"/>
+		<CommandBar Menu="SPSFProjectHelp"/>		
+		<spsf:MetaData
+		  Visible="true"
+		  BindingType="AnyElementReference"
+		  BindingTypeTemplate="AnyElementReferenceTemplate"
+		  Enabled="true"
+		  ExcludeFromTests="true"
+		  CreateVSTemplate="false"
+		  Category="Configuration" xmlns:spsf="http://spsf.codeplex.com">
+			<spsf:Authors>
+				<spsf:Author>Torsten Mandelkow</spsf:Author>
+			</spsf:Authors>
+			<spsf:VersionHistory>
+				<spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+			</spsf:VersionHistory>
+			<spsf:WebPageContent>
+				<![CDATA[Checks Visual Studio projects for possible problems. This could be:
+				- Output of .TT-Files like mainfest.tt should not be under source control. Otherwise these files cannot be generated during build
+				- Hidden files in folder SharePointRoot will be included into the wsp file without intention
+				]]>
+			</spsf:WebPageContent>
+		</spsf:MetaData>
+	</HostData>
+	<Actions>
+		<Action
+			Name="AnalyzeProject"
+			Type="AnalyzeSelectedProjects">
+		</Action>
+	</Actions>
+</Recipe>

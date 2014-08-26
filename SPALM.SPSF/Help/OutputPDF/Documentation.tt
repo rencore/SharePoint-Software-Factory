@@ -1,0 +1,257 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension="html" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml" #>
+<#@ include file="../HelpFunctions.tt" #>
+<HTML>
+<HEAD>
+<TITLE><#= GetGuidancePackageName() #></TITLE>
+<# 
+
+string htmlDirectory = Path.GetDirectoryName(Host.TemplateFile);
+string globalFilesDir = Path.Combine(htmlDirectory, "GlobalFiles");
+string recipeFilesDir = Path.Combine(htmlDirectory, "Recipes");
+string snippetsFilesDir = Path.Combine(htmlDirectory, "Snippets");
+
+#>
+<style>
+@media print
+{
+	h6
+	{
+		page-break-after:always
+	}
+}
+
+body, td
+{
+	font-size: 9pt;
+	font-family: "Segoe UI", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+}
+
+ul
+{
+	list-style-type: square;
+	margin: 5px 0px 0px 20px;
+}
+li
+{
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+a, a:link, a:hover, a:visited
+{
+    color: #1364c4;
+}
+
+
+h1
+{
+	font-size: 20pt;
+	margin: 16px 0px 16px 0px;
+	color: #707070;
+			font-family: "Segoe UI light", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+
+}
+
+h2
+{
+	font-size: 14pt;
+	margin: 10px 5px 10px 0px;
+	color: #333333;
+		font-family: "Segoe UI light", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+}
+
+h3
+{
+	font-size: 12pt;
+	margin: 15px 10px 10px 0px;
+	color: #333333;
+			font-family: "Segoe UI light", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+
+}
+
+h4
+{
+	font-size: 11pt;
+	margin: 20px 10px 10px 0px;
+			font-family: "Segoe UI light", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+
+}
+
+img
+{
+	border: 1px solid black;
+}
+
+td
+{
+	font-size: 9pt;
+	font-family: "Segoe UI", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+}
+
+#argumentTable
+{
+	border-collapse: collapse;
+	border: 1px solid #BBBBBB;
+	width: 100%;
+}
+
+#argumentTable th
+{
+	text-align: left;
+	background-color: #e5e5e5;
+	padding: 6px;
+	border-right: 1px solid #BBBBBB;
+	font-size: 10pt;
+}
+
+#argumentTable tr
+{
+	border-bottom: 1px solid #BBBBBB;
+}
+
+#argumentTable td
+{
+	text-align: left;
+	padding: 6px;
+	border-right: 1px solid #BBBBBB;
+	border-bottom: 1px solid #BBBBBB;
+	vertical-align: top;
+	background-color: white;
+	font-size: 9pt;
+}
+
+#argumentTable td.name
+{
+    font-weight: bold;
+}
+
+
+.OH_regiontitle
+{
+	font-weight: bold;
+	font-size: 10pt;
+}
+
+</style>
+</HEAD>
+<BODY>
+		<table class="noSpace" style="width: 100%;"> 
+			<tr>
+			  <td>
+				<img src="./_img/header_left.jpg" height="66" style="margin-top: 10px; margin-bottom: 20px; border: none;" />
+			  </td>
+			  <td align="right" valign="top" rowspan="2">
+				<img src="./_img/header_right.jpg" style="margin-top: 2px; border: none;" height="72"/>
+			  </td>
+			</tr>			
+		</table>
+<br />
+<br />
+<br />
+<br />
+<div align="center">
+	<H1>SPSF | SharePoint Software Factory</H1>
+	<h3>Documentation</h3>
+	<br />
+	<br />
+	<br />
+	Version: <#= GetGuidancePackageVersion() #><br />
+	Authors: Torsten Mandelkow, Matthias Einig<br />
+	<a href="http://spsf.codeplex.com">http://spsf.codeplex.com</a>
+</div>
+<br />
+<br />
+<br />
+<br />
+<h6>&nbsp;</h6>
+<#
+	//1. output overview
+	//GetOverViewPages
+	
+	SPSFBase spsfbase = new SPSFBase(Host as IServiceProvider, Host.TemplateFile);
+	
+	#><h1>1. Overview</h1><#
+
+	OverviewIndex overviewIndex = new OverviewIndex(spsfbase, 1);
+	foreach(OverviewPage page in overviewIndex.GetChilds())	
+	{
+		#>
+		<h2><#= GetNumbering(page) #> <#= page.Title #></h2>
+		<#= page.Content #>
+		<#
+	}
+	
+	#>
+	<h6>&nbsp;</h6>
+	<h1>2. Recipes</h1><#
+
+	RecipeIndex recipeIndex = new RecipeIndex(spsfbase, 2);
+	foreach(RecipeCategory category in recipeIndex.GetCategories())
+	{
+		#><h2><#= GetNumbering(category) #> <#= category.Title #></h2>
+		<#= category.Description #>
+		<#
+
+		foreach(RecipeCategory childCategory in category.GetChildCategories())
+		{
+			#><h3><#= GetNumbering(childCategory) #> <#= childCategory.Title #></h3>
+			<#= childCategory.Description #>
+			<#
+
+			foreach(RecipeClass recipeSubClass in childCategory.GetRecipes())
+			{
+				#><h4><#= GetNumbering(recipeSubClass) #> <#= recipeSubClass.Title #></h4>
+				<#= OutputRecipe(recipeSubClass, 5) #>
+				<#
+			}
+		}
+
+		foreach(RecipeClass recipeClass in category.GetRecipes())
+		{
+			#><h3><#= GetNumbering(recipeClass) #> <#= recipeClass.Title #></h3>
+			<#= OutputRecipe(recipeClass, 5) #>
+			<#
+		}
+	}		
+
+	#>
+	<h6>&nbsp;</h6>
+	<h1>3. Snippets</h1><#
+	
+	SnippetIndex snippetIndex = new SnippetIndex(spsfbase, 3);
+	foreach(SnippetLanguage language in snippetIndex.GetSnippetLanguages())
+	{
+		#>
+		<h2><#= GetNumbering(language) #> <#= language.Title #></h2>
+		<#
+
+		foreach(SnippetCategory snippetCategory in language.GetSnippetCategories())
+		{
+			#>
+			<h3><#= GetNumbering(snippetCategory) #> <#= snippetCategory.Title #></h3>
+			<#
+
+			foreach(SnippetClass snippetSubClass in snippetCategory.GetSnippets())
+			{
+				#>
+				<h4><#= GetNumbering(snippetSubClass) #> <#= snippetSubClass.Title #></h4>
+				<#= OutputSnippet(snippetSubClass, 5) #>
+				<#
+			}
+		}
+
+		foreach(SnippetClass snippetClass in language.GetSnippets())
+		{
+			#>
+			<h3><#= GetNumbering(snippetClass) #> <#= snippetClass.Title #></h3>
+			<#= OutputSnippet(snippetClass, 5) #>
+			<#
+		}
+	}	
+
+	#>
+</HTML>

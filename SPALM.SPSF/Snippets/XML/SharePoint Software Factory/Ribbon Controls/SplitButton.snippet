@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>SplitButton</Title>
+			<Author>Torsten Mandelkow</Author>
+			<Shortcut>splitbutton</Shortcut>
+			<Description>Adds a button that is used as both a button and a menu</Description>
+			<SnippetTypes>
+				<SnippetType>SurroundsWith</SnippetType>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>id</ID>
+					<ToolTip>Required. A string that identifies the control, such as "Ribbon.Library.Share.NewRibbonSplitButton".</ToolTip>
+					<Default>AppName.SplitButton</Default>
+				</Literal>
+				<Literal>
+					<ID>alt</ID>
+					<ToolTip>Optional. Alternative text for the button.</ToolTip>
+					<Default>SplitButton</Default>
+				</Literal>	
+				<Literal>
+					<ID>labeltext</ID>
+					<ToolTip>Optional. The text to label the control.</ToolTip>
+					<Default>SplitButton</Default>
+				</Literal>
+				<Literal>
+					<ID>tooltiptitle</ID>
+					<ToolTip>Optional. The text that appears as the title of the tooltip.</ToolTip>
+					<Default>Title</Default>
+				</Literal>
+				<Literal>
+					<ID>tooltipdescription</ID>
+					<ToolTip>Optional. The text that appears in the body of the tooltip.</ToolTip>
+					<Default>Description</Default>
+				</Literal>
+				<Literal>
+					<ID>sequence</ID>
+					<ToolTip>Optional. An integer that specifies the order of placement among sibling XML nodes.</ToolTip>
+					<Default>10</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="XML">
+				<![CDATA[<SplitButton
+                    Id="Ribbon.$id$"
+                    Sequence="$sequence$"
+                    Alt="$alt$"
+                    Command="Ribbon.$id$_CMD"
+                    CommandMenuOpen="Ribbon.$id$_MenuOpen_CMD"
+                    CommandMenuClose="Ribbon.$id$_MenuClose_CMD"
+					Image16by16="/_layouts/1033/images/formatmap16x16.png" Image16by16Top="-64" Image16by16Left="-192"
+					Image32by32="/_layouts/1033/images/formatmap32x32.png" Image32by32Top="0" Image32by32Left="-384"
+                    LabelText="$labeltext$"
+                    MenuAlt="Ribbon.$id$_Menu_ALT"
+                    TemplateAlias="o1">
+                    <Menu Id="Ribbon.$id$.Menu">
+                      <MenuSection
+                        Id="Ribbon.$id$.Menu.MenuSection"
+                        DisplayMode="Menu"
+                        Sequence="10">
+                        <Controls Id="Ribbon.$id$.Menu.MenuSection.Controls">
+                          <Button
+                            Id="Ribbon.$id$.Menu.MenuSection.Button1"
+                            Sequence="10"
+                            Alt="Ribbon.$id$.Menu.MenuSection.Button1_ALT"
+                            Command="Ribbon.$id$.Menu.MenuSection.Button1_CMD"
+                            LabelText="SplitButton1"/>
+                          <Button
+                            Id="Ribbon.$id$.Menu.MenuSection.Button2"
+                            Sequence="20"
+                            Alt="Ribbon.$id$.Menu.MenuSection.Button2_ALT"
+                            Command="Ribbon.$id$.Menu.MenuSection.Button2_CMD"
+                            LabelText="SplitButton2"/>
+                        </Controls>
+                      </MenuSection>
+                    </Menu>
+                  </SplitButton>]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

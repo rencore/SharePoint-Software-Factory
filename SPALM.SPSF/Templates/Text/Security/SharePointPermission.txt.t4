@@ -1,0 +1,25 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<PermissionSet class="NamedPermissionSet">	
+	<IPermission class="SharePointPermission" version="1" <#
+	if(PermissionIsUnrestricted)
+	{
+		#> Unrestricted="true" <#
+	}
+	else
+	{
+		if(SharePointImpersonate)
+		{
+			#> Impersonate="true" <#
+		}
+		if(SharePointObjectModel)
+		{
+			#> ObjectModel="true" <#
+		}
+		if(SharePointUnsafeSaveOnGet)
+		{
+			#> UnsafeSaveOnGet="true" <#
+		}
+	}
+	#> />
+</PermissionSet>

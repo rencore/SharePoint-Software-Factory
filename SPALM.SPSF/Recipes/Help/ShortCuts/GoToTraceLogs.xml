@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Recipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Name="GoToTraceLogs"
+  xmlns="http://schemas.microsoft.com/pag/gax-core"
+  Bound="false">
+  <xi:include href="../../../TypeAlias.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <Caption>Open Latest SharePoint Trace Log</Caption>
+  <Description>Opens the latest SharePoint Trace Log file e.g. to check deployment issues.</Description>
+  <HostData Priority="220">
+		<Icon File="Help/Icons/icon_Goto.ico" />
+	<CommandBar Menu="SPSFSolutionShortcuts"/>
+	<CommandBar Menu="SPSFProjectShortcuts"/>
+	<CommandBar Menu="SPSFSolutionFolderShortcuts"/>
+    <spsf:MetaData
+      Visible="true"
+      BindingType="AnyElementReference"
+      BindingTypeTemplate="AnyElementReferenceTemplate"
+      Enabled="true"
+      ExcludeFromTests="true"
+      CreateVSTemplate="false"
+      Category="Shortcuts" xmlns:spsf="http://spsf.codeplex.com">
+      <spsf:Authors>
+        <spsf:Author>Torsten Mandelkow</spsf:Author>
+      </spsf:Authors>
+      <spsf:VersionHistory>
+        <spsf:VersionHistoryEntry>1.0 Initial Recipe</spsf:VersionHistoryEntry>
+      </spsf:VersionHistory>
+      <spsf:WebPageContent>
+        <![CDATA[]]>
+      </spsf:WebPageContent>
+    </spsf:MetaData>
+  </HostData>
+  <Actions>
+    <Action Name="GoToTraceLogs" Type="GoToTraceLogs" />
+  </Actions>	
+</Recipe>

@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Contains standard arguments which are necessary in all recipes -->
+<Arguments xmlns="http://schemas.microsoft.com/pag/gax-core">
+
+  <Argument Name="RecipeName">
+    <ValueProvider Type="RecipeNameProvider" />
+  </Argument>
+  
+  <Argument Name="CurrentProject" Type="EnvDTE.Project, EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <ValueProvider Type="FirstSelectedProject" />
+  </Argument>
+	<Argument Name="CurrentProjectName">
+		<ValueProvider Type="Evaluator" Expression="$(CurrentProject.Name)" />
+	</Argument>
+
+	<Argument Name="CopyrightCompanyName">
+		<ValueProvider Type="CompanyNameProvider" />
+	</Argument>
+	<Argument Name="ProjectAssemblyName">
+    <ValueProvider Stage="OnBeforeActions" Type="AssemblyProvider" />
+  </Argument>
+  <Argument Name="ProjectAssemblyShortName">
+    <ValueProvider Stage="OnBeforeActions" Type="AssemblyShortNameProvider" />
+  </Argument>
+  <Argument Name="ProjectNamespace">
+    <ValueProvider Type="DefaultNamespaceProvider" />
+  </Argument>
+  <Argument Name="ProjectIsSandboxedSolution" Type="System.Boolean" Required="true">
+    <ValueProvider Type="IsSandboxedSolutionProvider"/>
+  </Argument>
+  <Argument Name="AppName" Required="true">
+    <ValueProvider Type="ApplicationNameProvider"/>
+  </Argument>
+  <Argument Name="SafeAppName" Required="true">
+    <ValueProvider Type="SafeApplicationNameProvider"/>
+  </Argument>
+  <Argument Name="AutoCreateResxFiles" Type="System.Boolean">
+    <ValueProvider Type="CreateResxFilesProvider" />
+  </Argument>
+  <Argument Name="DefaultWebApp" Type="System.String" Required="false" >
+    <ValueProvider Type="DefaultWebAppProvider" />
+  </Argument>
+  
+  <Argument Name="ResourceFilename" Required="true">
+    <ValueProvider Type="ResourceFilenameProvider"/>
+  </Argument>
+  <Argument Name="ResourceFilenameAppResources" Required="true">
+    <ValueProvider Type="Evaluator" Expression="$(ResourceFilename).AppResources" />
+  </Argument>
+
+	<Argument Name="SharePointVersion" Required="true">
+		<ValueProvider Type="CurrentSharePointVersionValueProvider" />
+	</Argument>
+
+  <Argument Name="VersionedFolderName">
+    <ValueProvider Type="VersionedFolderNameProvider" />
+  </Argument>
+
+  <Argument Name="SolutionSubFolder">
+    <ValueProvider Type="SolutionSubFolderNameProvider" />
+  </Argument>
+
+  <Argument Name="SPSFBranding" Required="false" />
+  
+  <Argument Name="VisualStudioTempItem" Type="System.String" Required="false">
+    <ValueProvider Type="VisualStudioCreateItemName" />
+  </Argument>
+  <Argument Name="VisualStudioSelectedItem" Type="EnvDTE.ProjectItem, EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Required="false">
+    <ValueProvider Type="FirstSelectedItem" />
+  </Argument>
+
+  <Argument Name="ProjectId" Type="System.String" Required="false">
+    <ValueProvider Type="ProjectIdProvider" />
+  </Argument>
+
+  <Argument Name="NameSeparator">
+    <ValueProvider Type="NameSeparatorProvider" />
+  </Argument>
+
+</Arguments>
