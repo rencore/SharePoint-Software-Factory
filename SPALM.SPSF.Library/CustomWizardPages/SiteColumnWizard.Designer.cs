@@ -469,7 +469,7 @@ namespace SPALM.SPSF.Library.CustomWizardPages
       this.comboBoxHyperlinkOrPicture.FormattingEnabled = true;
       this.comboBoxHyperlinkOrPicture.Items.AddRange(new object[] {
             "Hyperlink",
-            "Picture"});
+            "Image"});
       this.comboBoxHyperlinkOrPicture.Location = new System.Drawing.Point(220, 3);
       this.comboBoxHyperlinkOrPicture.Name = "comboBoxHyperlinkOrPicture";
       this.comboBoxHyperlinkOrPicture.Size = new System.Drawing.Size(290, 21);
