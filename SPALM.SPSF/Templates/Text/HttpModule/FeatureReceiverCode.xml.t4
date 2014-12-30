@@ -13,7 +13,7 @@ private void ActivateHttpModule_<#= HttpModuleClass #>(SPFeatureReceiverProperti
 {
   SPWebApplication webApp = properties.Feature.Parent as SPWebApplication;
             
-  SPWebConfigModification mod = new SPWebConfigModification("add[@type='<#= ProjectNamespace #>.<#= HttpModuleClass #>, <#= ProjectAssemblyName #>']",  "configuration/system.web/httpModules");
+  SPWebConfigModification mod = new SPWebConfigModification("add[@type='<#= ProjectNamespace #>.<#= HttpModuleClass #>, <#= ProjectAssemblyName #>']", "configuration/system.webServer/modules");
   mod.Owner = properties.Feature.DefinitionId.ToString();
   mod.Sequence = 0;
   mod.Type = SPWebConfigModification.SPWebConfigModificationType.EnsureChildNode;
